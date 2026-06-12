@@ -1,587 +1,616 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="Crea Nature"/>
-  <meta name="theme-color" content="#C8923E"/>
-  <title>Crea Nature</title>
-
-  <!-- App icon généré en canvas au démarrage -->
-  <link rel="apple-touch-icon" id="appIcon"/>
-
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-    :root {
-      --gold-a: #C8923E;
-      --gold-b: #8B5E1A;
-      --black:  #1C1C1E;
-      --grey1:  #8E8E93;
-      --grey2:  #C7C7CC;
-      --grey3:  #E5E5EA;
-      --grey4:  #F2F2F7;
-      --white:  #FFFFFF;
-      --safe-top: env(safe-area-inset-top, 44px);
-      --safe-bot: env(safe-area-inset-bottom, 34px);
-    }
-
-    html, body {
-      height: 100%;
-      overflow: hidden;
-      background: var(--grey4);
-      font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    #app {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      max-width: 430px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    /* ── STATUS BAR ── */
-    #statusBar {
-      height: calc(var(--safe-top) + 0px);
-      min-height: 44px;
-      background: var(--white);
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      padding: 0 20px 6px;
-      flex-shrink: 0;
-    }
-    .status-time { font-size: 15px; font-weight: 600; color: var(--black); }
-    .status-icons { display: flex; align-items: center; gap: 6px; }
-
-    /* ── NAV BAR ── */
-    #navBar {
-      background: var(--white);
-      border-bottom: 0.5px solid rgba(60,60,67,0.12);
-      padding: 10px 20px 14px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-shrink: 0;
-    }
-    .brand-text { display: flex; flex-direction: column; line-height: 1; }
-    .brand-crea {
-      font-size: 10px; font-weight: 500; letter-spacing: 0.22em;
-      color: var(--grey1); text-transform: uppercase; margin-bottom: 2px;
-    }
-    .brand-nature {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 26px; font-weight: 700; letter-spacing: 0.04em; color: var(--black);
-    }
-    .nav-badge {
-      margin-left: auto;
-      font-size: 11px; font-weight: 500; color: var(--grey1);
-      letter-spacing: 0.12em; text-transform: uppercase;
-    }
-
-    /* ── SCROLL CONTENT ── */
-    #content {
-      flex: 1;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      padding: 20px 16px;
-      padding-bottom: calc(var(--safe-bot) + 20px);
-    }
-
-    /* ── FIELD CARD ── */
-    .field-card {
-      background: var(--white);
-      border-radius: 16px;
-      padding: 16px 18px;
-      margin-bottom: 12px;
-      border: 1.5px solid transparent;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-      cursor: pointer;
-      transition: border-color 0.18s, box-shadow 0.18s;
-    }
-    .field-card.active {
-      border-color: var(--gold-a);
-      box-shadow: 0 0 0 3px rgba(200,146,62,0.15);
-    }
-    .field-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 10px;
-    }
-    .field-label {
-      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--grey1); margin-bottom: 2px;
-    }
-    .field-hint { font-size: 11px; color: var(--grey2); }
-    .field-sub {
-      background: rgba(200,146,62,0.1);
-      border-radius: 20px; padding: 4px 10px;
-      font-size: 12px; font-weight: 600; color: var(--gold-b);
-      white-space: nowrap;
-    }
-    .field-value-row { display: flex; align-items: baseline; gap: 6px; }
-    .field-value {
-      font-size: 38px; font-weight: 300; color: var(--black);
-      letter-spacing: -0.02em; line-height: 1;
-      font-variant-numeric: tabular-nums;
-      min-width: 10px;
-    }
-    .field-value.empty { color: var(--grey2); }
-    .field-unit { font-size: 16px; color: var(--grey1); font-weight: 400; }
-    .cursor {
-      display: inline-block; width: 2px; height: 34px;
-      background: var(--gold-a); border-radius: 2px; margin-left: 2px;
-      animation: blink 1s step-end infinite; vertical-align: middle;
-    }
-
-    /* ── TOTAL CARD ── */
-    #totalCard {
-      background: linear-gradient(135deg, var(--gold-a), var(--gold-b));
-      border-radius: 20px; padding: 24px 22px;
-      margin-top: 8px; margin-bottom: 14px;
-      box-shadow: 0 8px 32px rgba(200,146,62,0.35);
-    }
-    .total-label {
-      font-size: 11px; font-weight: 600;
-      color: rgba(255,255,255,0.7); letter-spacing: 0.18em;
-      text-transform: uppercase; margin-bottom: 8px;
-    }
-    .total-amount {
-      font-size: 48px; font-weight: 200; color: #fff;
-      letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
-      line-height: 1;
-    }
-    .total-breakdown {
-      margin-top: 16px; padding-top: 14px;
-      border-top: 1px solid rgba(255,255,255,0.25);
-    }
-    .breakdown-row {
-      display: flex; justify-content: space-between; margin-bottom: 5px;
-    }
-    .breakdown-key { font-size: 13px; color: rgba(255,255,255,0.72); }
-    .breakdown-val { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.92); }
-
-    /* ── RESET BUTTON ── */
-    #resetBtn {
-      width: 100%; height: 50px; border-radius: 14px;
-      background: var(--white); border: 1.5px solid var(--grey3);
-      font-size: 15px; font-weight: 500; color: var(--grey1);
-      cursor: pointer; letter-spacing: 0.02em;
-      font-family: -apple-system, sans-serif;
-    }
-
-    /* ── NUMPAD ── */
-    #numpad {
-      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 100%; max-width: 430px;
-      background: #D1D1D6;
-      border-top: 0.5px solid #AEAEB2;
-      padding: 10px 12px;
-      padding-bottom: calc(var(--safe-bot) + 8px);
-      display: none;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      z-index: 999;
-    }
-    #numpad.open { display: grid; }
-
-    .np-key {
-      height: 54px; border-radius: 12px;
-      background: var(--white);
-      border: none; font-size: 22px; font-weight: 300;
-      color: var(--black); cursor: pointer;
-      font-family: -apple-system, sans-serif;
-      box-shadow: 0 1px 0 rgba(0,0,0,0.25);
-      display: flex; align-items: center; justify-content: center;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
-    .np-key:active { filter: brightness(0.88); }
-    .np-key.np-del { background: #AEB0B4; font-size: 20px; }
-    .np-validate {
-      height: 54px; border-radius: 12px; grid-column: 1/-1;
-      background: linear-gradient(135deg, var(--gold-a), var(--gold-b));
-      border: none; font-size: 16px; font-weight: 600; color: #fff;
-      cursor: pointer; letter-spacing: 0.04em;
-      font-family: -apple-system, sans-serif;
-      box-shadow: 0 4px 12px rgba(200,146,62,0.4);
-    }
-    .np-validate:active { filter: brightness(0.9); }
-
-    /* ── HOME INDICATOR ── */
-    #homeBar {
-      position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%);
-      width: 134px; height: 5px;
-      background: var(--black); border-radius: 3px; opacity: 0.18;
-      pointer-events: none; z-index: 1000;
-    }
-
-    /* ── INSTALL BANNER ── */
-    #installBanner {
-      position: fixed; top: 0; left: 50%; transform: translateX(-50%);
-      width: 100%; max-width: 430px;
-      background: linear-gradient(135deg, var(--gold-a), var(--gold-b));
-      color: #fff; font-size: 13px; font-weight: 500;
-      padding: 12px 16px 10px;
-      padding-top: calc(var(--safe-top) + 10px);
-      text-align: center; z-index: 2000;
-      display: none; line-height: 1.5;
-    }
-    #installBanner.show { display: block; }
-    #closeBanner {
-      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-      background: none; border: none; color: #fff; font-size: 20px; cursor: pointer;
-      padding-top: calc(var(--safe-top) / 2);
-    }
-
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Crea Nature"/>
+<meta name="theme-color" content="#C8923E"/>
+<title>Crea Nature</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--ga:#C8923E;--gb:#8B5E1A;--k1:#1C1C1E;--k2:#8E8E93;--k3:#C7C7CC;--k4:#E5E5EA;--k5:#F2F2F7;--wh:#fff;--st:env(safe-area-inset-top,44px);--sb:env(safe-area-inset-bottom,34px)}
+html,body{height:100%;overflow:hidden;background:var(--k5);font-family:-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+#app{display:flex;flex-direction:column;height:100%;max-width:430px;margin:0 auto}
+#sb{height:calc(var(--st) + 0px);min-height:44px;background:var(--wh);display:flex;align-items:flex-end;justify-content:space-between;padding:0 18px 6px;flex-shrink:0}
+#nb{background:var(--wh);border-bottom:.5px solid rgba(60,60,67,.15);padding:8px 18px 10px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+#nb svg{flex-shrink:0}
+#navlbl{margin-left:auto;font-size:10px;font-weight:600;color:var(--k2);letter-spacing:.12em;text-transform:uppercase}
+#tabs{display:flex;background:var(--wh);border-bottom:.5px solid rgba(60,60,67,.12);flex-shrink:0}
+.tab{flex:1;padding:10px 0;font-size:13px;font-weight:500;color:var(--k2);text-align:center;cursor:pointer;border:none;background:none;border-bottom:2.5px solid transparent;font-family:-apple-system,sans-serif}
+.tab.on{color:var(--ga);border-bottom-color:var(--ga)}
+#scr{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 120px}
+.sc{display:none}.sc.on{display:block}
+.lbl{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--k2);margin:14px 0 7px 2px}
+.wc{background:var(--wh);border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+/* Prestation buttons */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
+.pbtn{padding:11px 8px;border-radius:12px;border:1.5px solid var(--k4);background:var(--wh);font-size:12px;font-weight:500;color:var(--k1);cursor:pointer;text-align:center;font-family:-apple-system,sans-serif;line-height:1.4}
+.pbtn .ic{font-size:17px;display:block;margin-bottom:3px}
+.pbtn.on{border-color:var(--ga);background:rgba(200,146,62,.09);color:var(--gb)}
+.pbtn-full{grid-column:1/-1}
+.autre-w{display:none;margin-bottom:6px}
+.autre-w.on{display:block}
+/* Intervenants */
+.igrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:6px}
+.ibtn{padding:10px 4px;border-radius:11px;border:1.5px solid var(--k4);background:var(--wh);font-size:14px;font-weight:600;color:var(--k1);cursor:pointer;font-family:-apple-system,sans-serif;text-align:center}
+.ibtn.on{border-color:var(--ga);background:rgba(200,146,62,.09);color:var(--gb)}
+/* Field tap */
+.fc{background:var(--wh);border-radius:12px;padding:12px 14px;margin-bottom:6px;border:1.5px solid transparent;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer}
+.fc.on{border-color:var(--ga);box-shadow:0 0 0 3px rgba(200,146,62,.11)}
+.fc-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--k2);margin-bottom:5px}
+.fc-row{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap}
+.fc-v{font-size:30px;font-weight:300;color:var(--k1);letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.fc-v.dim{color:var(--k3)}
+.fc-u{font-size:12px;color:var(--k2)}
+.fc-r{font-size:13px;font-weight:600;color:var(--gb)}
+.fc-cur{display:none;width:2px;height:26px;background:var(--ga);border-radius:2px;margin-left:2px;animation:bl 1s step-end infinite;vertical-align:middle}
+/* Desig card */
+.dc{background:var(--wh);border-radius:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
+.dc-h{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 0}
+.dc-t{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gb)}
+.dc-del{background:none;border:none;color:#FF3B30;font-size:20px;cursor:pointer;line-height:1;font-family:-apple-system,sans-serif;padding:0 2px}
+.dc-b{padding:10px 14px 13px}
+.ds{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--k2);margin:9px 0 5px}
+.ds:first-child{margin-top:0}
+.dtot{background:rgba(200,146,62,.08);border-radius:9px;padding:9px 13px;display:flex;justify-content:space-between;align-items:center;margin-top:9px}
+.dtot-l{font-size:12px;color:var(--k2)}
+.dtot-v{font-size:15px;font-weight:700;color:var(--gb)}
+/* Text input */
+.ti{width:100%;padding:10px 12px;border:1.5px solid var(--k4);border-radius:9px;font-size:15px;color:var(--k1);background:var(--k5);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none;display:block;margin-bottom:7px}
+.ti:focus{border-color:var(--ga);background:var(--wh)}
+.ti:last-child{margin-bottom:0}
+/* Add button */
+.addbtn{width:100%;height:46px;border-radius:12px;background:var(--wh);border:1.5px dashed var(--ga);font-size:14px;font-weight:600;color:var(--ga);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:10px;font-family:-apple-system,sans-serif}
+/* Photos */
+.phgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.ph-w{position:relative}
+.ph-img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px;border:1.5px solid var(--k4);display:block}
+.ph-del{position:absolute;top:-4px;right:-4px;width:20px;height:20px;border-radius:10px;background:#FF3B30;border:2px solid #fff;color:#fff;font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;font-family:-apple-system,sans-serif}
+.ph-add{width:100%;aspect-ratio:1;border-radius:9px;border:1.5px dashed var(--k3);background:var(--wh);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:var(--k2);font-size:10px;gap:3px;font-family:-apple-system,sans-serif}
+.ph-add .i{font-size:20px;color:var(--k3)}
+/* Totaux */
+.totc{background:var(--wh);border-radius:14px;overflow:hidden;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.tr{display:flex;justify-content:space-between;align-items:center;padding:11px 15px;border-bottom:.5px solid var(--k4)}
+.tr:last-child{border:none}
+.tk{font-size:14px;color:var(--k2)}
+.tv{font-size:14px;font-weight:600;color:var(--k1);font-variant-numeric:tabular-nums}
+.tr.ttc{background:linear-gradient(135deg,var(--ga),var(--gb))}
+.tr.ttc .tk{font-size:15px;font-weight:700;color:#fff}
+.tr.ttc .tv{font-size:18px;font-weight:700;color:#fff}
+/* Buttons */
+.bgold{width:100%;height:50px;border-radius:13px;background:linear-gradient(135deg,var(--ga),var(--gb));border:none;font-size:15px;font-weight:600;color:#fff;cursor:pointer;margin-bottom:9px;font-family:-apple-system,sans-serif}
+.bgrey{width:100%;height:46px;border-radius:13px;background:var(--wh);border:1.5px solid var(--k4);font-size:14px;font-weight:500;color:var(--k2);cursor:pointer;margin-bottom:9px;font-family:-apple-system,sans-serif}
+.bdark{width:100%;height:50px;border-radius:13px;background:linear-gradient(135deg,#555,#1a1a1a);border:none;font-size:15px;font-weight:600;color:#fff;cursor:pointer;margin-bottom:9px;font-family:-apple-system,sans-serif}
+/* Numpad */
+#np{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#D1D1D6;border-top:.5px solid #AEAEB2;padding:9px 11px;padding-bottom:calc(var(--sb) + 7px);display:none;grid-template-columns:repeat(3,1fr);gap:7px;z-index:999}
+#np.on{display:grid}
+.nk{height:52px;border-radius:11px;background:var(--wh);border:none;font-size:21px;font-weight:300;color:var(--k1);cursor:pointer;box-shadow:0 1px 0 rgba(0,0,0,.22);font-family:-apple-system,sans-serif;user-select:none}
+.nk.del{background:#AEB0B4}
+.nv{height:50px;border-radius:11px;grid-column:1/-1;background:linear-gradient(135deg,var(--ga),var(--gb));border:none;font-size:15px;font-weight:600;color:#fff;cursor:pointer;font-family:-apple-system,sans-serif}
+/* Home bar */
+#hbar{position:fixed;bottom:8px;left:50%;transform:translateX(-50%);width:130px;height:5px;background:var(--k1);border-radius:3px;opacity:.18;pointer-events:none;z-index:1000}
+/* Banner */
+#bnr{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:linear-gradient(135deg,var(--ga),var(--gb));color:#fff;font-size:13px;font-weight:500;padding:10px 40px;padding-top:calc(var(--st) + 8px);text-align:center;z-index:3000;display:none;line-height:1.5}
+#bnr.on{display:block}
+#bnr button{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:22px;cursor:pointer}
+/* Form */
+.flbl{display:block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--k2);margin-bottom:5px;margin-top:11px}
+.flbl:first-child{margin-top:0}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:0}}
+</style>
 </head>
 <body>
-
 <div id="app">
-  <!-- STATUS BAR -->
-  <div id="statusBar">
-    <span class="status-time" id="clockTime">9:41</span>
-    <div class="status-icons">
-      <svg width="17" height="12" viewBox="0 0 17 12">
-        <rect x="0" y="3" width="3" height="9" rx="1" fill="#1C1C1E"/>
-        <rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1C1C1E"/>
-        <rect x="9" y="0.5" width="3" height="11.5" rx="1" fill="#1C1C1E"/>
-        <rect x="13.5" y="0" width="3" height="12" rx="1" fill="#1C1C1E"/>
-      </svg>
-      <svg width="16" height="12" viewBox="0 0 24 18">
-        <path d="M12 4C16.4 4 20.4 5.8 23.3 8.7L21.9 10.1C19.4 7.5 15.9 6 12 6C8.1 6 4.6 7.5 2.1 10.1L0.7 8.7C3.6 5.8 7.6 4 12 4Z" fill="#1C1C1E"/>
-        <path d="M12 8C15.3 8 18.3 9.3 20.5 11.5L19.1 12.9C17.3 11.1 14.8 10 12 10C9.2 10 6.7 11.1 4.9 12.9L3.5 11.5C5.7 9.3 8.7 8 12 8Z" fill="#1C1C1E"/>
-        <circle cx="12" cy="16" r="2" fill="#1C1C1E"/>
-      </svg>
-      <div style="display:flex;align-items:center;gap:2px">
-        <div style="width:22px;height:11px;border-radius:3px;border:1.5px solid #1C1C1E;padding:1.5px;display:flex;align-items:center">
-          <div style="width:80%;height:100%;background:#1C1C1E;border-radius:1.5px"></div>
-        </div>
-      </div>
+
+<div id="sb">
+  <span style="font-size:15px;font-weight:600;color:#1C1C1E" id="clk">9:41</span>
+  <div style="display:flex;align-items:center;gap:5px">
+    <svg width="16" height="11" viewBox="0 0 17 12"><rect x="0" y="3" width="3" height="9" rx="1" fill="#1C1C1E"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1C1C1E"/><rect x="9" y=".5" width="3" height="11.5" rx="1" fill="#1C1C1E"/><rect x="13.5" y="0" width="3" height="12" rx="1" fill="#1C1C1E"/></svg>
+    <svg width="14" height="11" viewBox="0 0 24 18"><path d="M12 4C16.4 4 20.4 5.8 23.3 8.7L21.9 10.1C19.4 7.5 15.9 6 12 6C8.1 6 4.6 7.5 2.1 10.1L.7 8.7C3.6 5.8 7.6 4 12 4Z" fill="#1C1C1E"/><path d="M12 8C15.3 8 18.3 9.3 20.5 11.5L19.1 12.9C17.3 11.1 14.8 10 12 10C9.2 10 6.7 11.1 4.9 12.9L3.5 11.5C5.7 9.3 8.7 8 12 8Z" fill="#1C1C1E"/><circle cx="12" cy="16" r="2" fill="#1C1C1E"/></svg>
+    <div style="display:flex;align-items:center"><div style="width:21px;height:10px;border-radius:3px;border:1.5px solid #1C1C1E;padding:1.5px;display:flex;align-items:center"><div style="width:78%;height:100%;background:#1C1C1E;border-radius:1px"></div></div></div>
+  </div>
+</div>
+
+<div id="nb">
+  <svg width="120" height="40" viewBox="0 0 260 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="nlg" x1="0" y1="0" x2="52" y2="64" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C8923E"/><stop offset="100%" stop-color="#8B5E1A"/></linearGradient></defs>
+    <rect x="2" y="2" width="60" height="76" rx="30" stroke="url(#nlg)" stroke-width="2.5"/>
+    <line x1="32" y1="70" x2="32" y2="46" stroke="url(#nlg)" stroke-width="2.8" stroke-linecap="round"/>
+    <line x1="32" y1="46" x2="32" y2="18" stroke="url(#nlg)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M32 46 C27 38 17 33 10 22" stroke="url(#nlg)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <path d="M32 43 C27 36 21 33 16 28" stroke="url(#nlg)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <path d="M32 38 C29 31 24 29 19 24" stroke="url(#nlg)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M32 30 C29 25 24 23 19 18" stroke="url(#nlg)" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M32 46 C37 38 47 33 54 22" stroke="url(#nlg)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <path d="M32 43 C37 36 43 33 48 28" stroke="url(#nlg)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <path d="M32 38 C35 31 40 29 45 24" stroke="url(#nlg)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M32 30 C35 25 40 23 45 18" stroke="url(#nlg)" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M32 22 C30 18 26 16 22 12" stroke="url(#nlg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+    <path d="M32 22 C34 18 38 16 42 12" stroke="url(#nlg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+    <text x="76" y="28" font-family="Arial,sans-serif" font-size="13" font-weight="400" letter-spacing="3" fill="#8E8E93">CREA</text>
+    <text x="74" y="58" font-family="Georgia,serif" font-size="34" font-weight="700" letter-spacing="2" fill="#1C1C1E">NATURE</text>
+  </svg>
+  <span id="navlbl">Calculateur</span>
+</div>
+
+<div id="tabs">
+  <button class="tab on" id="tab-calc" onclick="goTab('calc')">🧮 Calcul</button>
+  <button class="tab" id="tab-devis" onclick="goTab('devis')">📄 Devis</button>
+</div>
+
+<div id="scr">
+
+<!-- CALCUL -->
+<div class="sc on" id="sc-calc">
+
+  <div class="lbl">Type de prestation</div>
+  <div class="pgrid">
+    <button class="pbtn" id="pb-haie" onclick="tP('haie')"><span class="ic">✂️</span>Taille de haie</button>
+    <button class="pbtn" id="pb-tonte" onclick="tP('tonte')"><span class="ic">🌿</span>Tonte</button>
+    <button class="pbtn" id="pb-elagage" onclick="tP('elagage')"><span class="ic">🌳</span>Élagage</button>
+    <button class="pbtn" id="pb-abattage" onclick="tP('abattage')"><span class="ic">🪓</span>Abattage</button>
+    <button class="pbtn pbtn-full" id="pb-autre" onclick="tAutre()"><span class="ic">✏️</span>Autre — saisie libre</button>
+  </div>
+  <div class="autre-w" id="autre-w">
+    <input class="ti" id="autre-txt" type="text" placeholder="Décris la prestation..." oninput="calc()"/>
+  </div>
+
+  <div class="lbl">Intervenants</div>
+  <div class="igrid">
+    <button class="ibtn" id="ib-1" onclick="setI(1)">1<br/><span style="font-size:9px;font-weight:400;color:#8E8E93">pers.</span></button>
+    <button class="ibtn" id="ib-2" onclick="setI(2)">2<br/><span style="font-size:9px;font-weight:400;color:#8E8E93">pers.</span></button>
+    <button class="ibtn" id="ib-3" onclick="setI(3)">3<br/><span style="font-size:9px;font-weight:400;color:#8E8E93">pers.</span></button>
+    <button class="ibtn" id="ib-4" onclick="setI(4)">4<br/><span style="font-size:9px;font-weight:400;color:#8E8E93">pers.</span></button>
+  </div>
+
+  <div class="lbl">Heures de travail</div>
+  <div class="fc" id="fc-h" onclick="openNP('h','fc-h')">
+    <div class="fc-lbl">Nombre d'heures</div>
+    <div class="fc-row">
+      <span class="fc-v dim" id="fv-h">0</span>
+      <span class="fc-u">h × 72 € =</span>
+      <span class="fc-r" id="fr-h">0,00 €</span>
+      <span class="fc-cur" id="cur-h"></span>
     </div>
   </div>
 
-  <!-- NAV BAR -->
-  <div id="navBar">
-    <svg width="44" height="54" viewBox="0 0 52 64" fill="none">
-      <defs>
-        <linearGradient id="lg" x1="0" y1="0" x2="52" y2="64" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#C8923E"/>
-          <stop offset="100%" stop-color="#8B5E1A"/>
-        </linearGradient>
-      </defs>
-      <rect x="2" y="2" width="48" height="60" rx="24" stroke="url(#lg)" stroke-width="2.2"/>
-      <line x1="26" y1="58" x2="26" y2="36" stroke="url(#lg)" stroke-width="2.4" stroke-linecap="round"/>
-      <line x1="26" y1="36" x2="26" y2="12" stroke="url(#lg)" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M26 36 C22 30 14 26 9 18" stroke="url(#lg)" stroke-width="1.9" stroke-linecap="round" fill="none"/>
-      <path d="M26 34 C22 28 17 26 13 22" stroke="url(#lg)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-      <path d="M26 30 C23 25 19 23 15 19" stroke="url(#lg)" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-      <path d="M26 24 C23 20 19 18 15 14" stroke="url(#lg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-      <path d="M26 36 C30 30 38 26 43 18" stroke="url(#lg)" stroke-width="1.9" stroke-linecap="round" fill="none"/>
-      <path d="M26 34 C30 28 35 26 39 22" stroke="url(#lg)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-      <path d="M26 30 C29 25 33 23 37 19" stroke="url(#lg)" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-      <path d="M26 24 C29 20 33 18 37 14" stroke="url(#lg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-      <path d="M26 18 C24 15 21 13 18 10" stroke="url(#lg)" stroke-width="1" stroke-linecap="round" fill="none"/>
-      <path d="M26 18 C28 15 31 13 34 10" stroke="url(#lg)" stroke-width="1" stroke-linecap="round" fill="none"/>
-    </svg>
-    <div class="brand-text">
-      <span class="brand-crea">Crea</span>
-      <span class="brand-nature">NATURE</span>
+  <div class="lbl">Achats &amp; fournitures</div>
+  <div class="fc" id="fc-s" onclick="openNP('s','fc-s')">
+    <div class="fc-lbl">Montant</div>
+    <div class="fc-row">
+      <span class="fc-v dim" id="fv-s">0</span>
+      <span class="fc-u">€</span>
+      <span class="fc-cur" id="cur-s"></span>
     </div>
-    <span class="nav-badge">Devis</span>
   </div>
 
-  <!-- SCROLLABLE CONTENT -->
-  <div id="content">
+  <div class="lbl">Désignation libre <span style="font-size:9px;font-weight:400;color:var(--k3)">(optionnel)</span></div>
+  <div class="wc" style="padding:11px">
+    <input class="ti" id="main-lbl" type="text" placeholder="Ex: nettoyage, évacuation déchets..." oninput="calc()"/>
+  </div>
 
-    <!-- FIELD: Heures -->
-    <div class="field-card" id="card-hours" onclick="activate('hours')">
-      <div class="field-top">
-        <div>
-          <div class="field-label">Heures de travail</div>
-          <div class="field-hint">Taux horaire : 72 €</div>
-        </div>
-        <div class="field-sub" id="sub-hours" style="display:none"></div>
-      </div>
-      <div class="field-value-row">
-        <span class="field-value empty" id="val-hours">0</span>
-        <span class="field-unit">h</span>
-        <span class="cursor" id="cur-hours" style="display:none"></span>
-      </div>
-    </div>
+  <div class="lbl">Photos <span style="font-size:9px;font-weight:400;color:var(--k3)">(optionnel)</span></div>
+  <div class="phgrid" id="ph-main"></div>
+  <input type="file" id="ph-main-inp" accept="image/*" multiple style="display:none" onchange="addPh('main',this)"/>
 
-    <!-- FIELD: Intervenants -->
-    <div class="field-card" id="card-workers" onclick="activate('workers')">
-      <div class="field-top">
-        <div>
-          <div class="field-label">Intervenants</div>
-          <div class="field-hint">Multiplicateur des heures</div>
-        </div>
-        <div class="field-sub" id="sub-workers" style="display:none"></div>
-      </div>
-      <div class="field-value-row">
-        <span class="field-value empty" id="val-workers">0</span>
-        <span class="field-unit">pers.</span>
-        <span class="cursor" id="cur-workers" style="display:none"></span>
-      </div>
-    </div>
+  <!-- LIGNES SUPP -->
+  <div id="dlist"></div>
+  <button class="addbtn" onclick="addD()">＋ &nbsp;Ajouter une ligne de prestation</button>
 
-    <!-- FIELD: Fournitures -->
-    <div class="field-card" id="card-supplies" onclick="activate('supplies')">
-      <div class="field-top">
-        <div>
-          <div class="field-label">Achats &amp; fournitures</div>
-          <div class="field-hint">Montant libre</div>
-        </div>
-        <div class="field-sub" id="sub-supplies" style="display:none"></div>
-      </div>
-      <div class="field-value-row">
-        <span class="field-value empty" id="val-supplies">0</span>
-        <span class="field-unit">€</span>
-        <span class="cursor" id="cur-supplies" style="display:none"></span>
-      </div>
-    </div>
+  <div class="lbl">Totaux</div>
+  <div class="totc">
+    <div class="tr"><span class="tk">Total HT</span><span class="tv" id="t-ht">0,00 €</span></div>
+    <div class="tr"><span class="tk">TVA (20 %)</span><span class="tv" id="t-tva">0,00 €</span></div>
+    <div class="tr ttc"><span class="tk">Total TTC</span><span class="tv" id="t-ttc">0,00 €</span></div>
+  </div>
+  <button class="bgold" onclick="goTab('devis')">📄 Créer le devis</button>
+  <button class="bgrey" onclick="resetAll()">Réinitialiser</button>
+</div>
 
-    <!-- TOTAL -->
-    <div id="totalCard">
-      <div class="total-label">Total estimation</div>
-      <div class="total-amount" id="totalAmount">0,00 €</div>
-      <div class="total-breakdown" id="breakdown" style="display:none">
-        <div class="breakdown-row">
-          <span class="breakdown-key">Main d'œuvre</span>
-          <span class="breakdown-val" id="bd-labour">0,00 €</span>
-        </div>
-        <div class="breakdown-row">
-          <span class="breakdown-key">Fournitures</span>
-          <span class="breakdown-val" id="bd-supplies">0,00 €</span>
-        </div>
-      </div>
-    </div>
+<!-- DEVIS -->
+<div class="sc" id="sc-devis">
+  <div class="lbl">Client</div>
+  <div class="wc">
+    <label class="flbl">Nom</label><input class="ti" id="c-nom" type="text" placeholder="Jean Dupont"/>
+    <label class="flbl">Adresse</label><input class="ti" id="c-adr" type="text" placeholder="12 rue des Fleurs, Paris"/>
+    <label class="flbl">Email client</label><input class="ti" id="c-email" type="email" placeholder="client@email.com"/>
+    <label class="flbl">Téléphone</label><input class="ti" id="c-tel" type="tel" placeholder="06 00 00 00 00"/>
+  </div>
+  <div class="lbl">Devis</div>
+  <div class="wc">
+    <label class="flbl">N° de devis</label><input class="ti" id="d-num" type="text"/>
+    <label class="flbl">Date</label><input class="ti" id="d-date" type="text"/>
+    <label class="flbl">Objet</label><input class="ti" id="d-objet" type="text" placeholder="Taille de haie, élagage..."/>
+  </div>
+  <div class="lbl">Récapitulatif</div>
+  <div class="totc">
+    <div class="tr"><span class="tk">Total HT</span><span class="tv" id="t-ht2">0,00 €</span></div>
+    <div class="tr"><span class="tk">TVA (20 %)</span><span class="tv" id="t-tva2">0,00 €</span></div>
+    <div class="tr ttc"><span class="tk">Total TTC</span><span class="tv" id="t-ttc2">0,00 €</span></div>
+  </div>
+  <button class="bgold" onclick="sendMail()">📧 Envoyer le devis</button>
+  <button class="bdark" onclick="viewPDF()">👁️ Visualiser le devis</button>
+  <button class="bgrey" onclick="goTab('calc')">← Modifier le calcul</button>
+</div>
 
-    <button id="resetBtn" onclick="resetAll()">Réinitialiser</button>
-  </div><!-- /content -->
-</div><!-- /app -->
+</div>
+</div>
 
 <!-- NUMPAD -->
-<div id="numpad">
-  <button class="np-key" onclick="npKey('7')">7</button>
-  <button class="np-key" onclick="npKey('8')">8</button>
-  <button class="np-key" onclick="npKey('9')">9</button>
-  <button class="np-key" onclick="npKey('4')">4</button>
-  <button class="np-key" onclick="npKey('5')">5</button>
-  <button class="np-key" onclick="npKey('6')">6</button>
-  <button class="np-key" onclick="npKey('1')">1</button>
-  <button class="np-key" onclick="npKey('2')">2</button>
-  <button class="np-key" onclick="npKey('3')">3</button>
-  <button class="np-key" onclick="npKey('.')">.</button>
-  <button class="np-key" onclick="npKey('0')">0</button>
-  <button class="np-key np-del" onclick="npKey('⌫')">⌫</button>
-  <button class="np-validate" onclick="closeNumpad()">Valider ✓</button>
+<div id="np">
+  <button class="nk" onclick="nk('7')">7</button><button class="nk" onclick="nk('8')">8</button><button class="nk" onclick="nk('9')">9</button>
+  <button class="nk" onclick="nk('4')">4</button><button class="nk" onclick="nk('5')">5</button><button class="nk" onclick="nk('6')">6</button>
+  <button class="nk" onclick="nk('1')">1</button><button class="nk" onclick="nk('2')">2</button><button class="nk" onclick="nk('3')">3</button>
+  <button class="nk" onclick="nk('.')">.</button><button class="nk" onclick="nk('0')">0</button><button class="nk del" onclick="nk('X')">⌫</button>
+  <button class="nv" onclick="closeNP()">Valider ✓</button>
 </div>
-
-<!-- HOME INDICATOR -->
-<div id="homeBar"></div>
-
-<!-- INSTALL BANNER (shown only in browser, not when added to home screen) -->
-<div id="installBanner">
-  <button id="closeBanner" onclick="document.getElementById('installBanner').style.display='none'">✕</button>
-  📲 Appuie sur <strong>Partager</strong> puis <strong>"Sur l'écran d'accueil"</strong> pour installer l'app
-</div>
+<div id="hbar"></div>
+<div id="bnr"><button onclick="this.parentElement.classList.remove('on')">✕</button>📲 Safari → Partager → <strong>"Sur l'écran d'accueil"</strong></div>
 
 <script>
-  /* ── STATE ── */
-  const state = { hours: "", workers: "", supplies: "" };
-  let activeField = null;
+// ── STATE
+var M = {prests:[],interv:0,h:'',s:'',autre:false,autreT:'',lbl:'',photos:[]};
+var DS = [], DC = 0;
+var AF = null, AFC = null;
+var NV = {};
 
-  /* ── CLOCK ── */
-  function updateClock() {
-    const now = new Date();
-    const h = now.getHours().toString().padStart(2,"0");
-    const m = now.getMinutes().toString().padStart(2,"0");
-    document.getElementById("clockTime").textContent = h + ":" + m;
+var PN = {haie:'Taille de haie',tonte:'Tonte',elagage:'Élagage',abattage:'Abattage'};
+
+// CLOCK
+function tick(){var n=new Date();document.getElementById('clk').textContent=('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2);}
+tick();setInterval(tick,15000);
+
+// FORMAT
+function euro(n){if(!isFinite(n)||isNaN(n))n=0;return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'\u00a0\u20ac';}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function gv(id){var e=document.getElementById(id);return e?e.value:'';}
+function sv(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+function el(id){return document.getElementById(id);}
+
+// TABS
+function goTab(t){
+  ['calc','devis'].forEach(function(x){
+    var sc=el('sc-'+x),tb=el('tab-'+x);
+    if(sc)sc.classList.toggle('on',x===t);
+    if(tb)tb.classList.toggle('on',x===t);
+  });
+  sv('navlbl',t==='calc'?'Calculateur':'Devis');
+  if(t==='devis')sync2();
+  closeNP();
+}
+
+// PRESTATIONS
+function tP(p){
+  var i=M.prests.indexOf(p);
+  if(i>=0)M.prests.splice(i,1);else M.prests.push(p);
+  ['haie','tonte','elagage','abattage'].forEach(function(x){
+    var b=el('pb-'+x);if(b)b.classList.toggle('on',M.prests.indexOf(x)>=0);
+  });
+  calc();
+}
+function tAutre(){
+  M.autre=!M.autre;
+  var b=el('pb-autre'),w=el('autre-w');
+  if(b)b.classList.toggle('on',M.autre);
+  if(w){w.classList.toggle('on',M.autre);if(M.autre){var i=el('autre-txt');if(i)setTimeout(function(){i.focus();},80);}}
+  calc();
+}
+
+// INTERVENANTS
+function setI(n){
+  M.interv=n;
+  [1,2,3,4].forEach(function(x){var b=el('ib-'+x);if(b)b.classList.toggle('on',x===n);});
+  calc();
+}
+
+// NUMPAD
+function openNP(fid,cid){
+  closeNP();
+  AF=fid;AFC=cid;
+  if(!NV[fid])NV[fid]='';
+  var np=el('np');if(np)np.classList.add('on');
+  var fc=el(cid);if(fc)fc.classList.add('on');
+  var cur=el('cur-'+fid);if(cur)cur.style.display='inline-block';
+  setTimeout(function(){var c=el(cid);if(c)c.scrollIntoView({behavior:'smooth',block:'center'});},80);
+}
+function closeNP(){
+  var np=el('np');if(np)np.classList.remove('on');
+  document.querySelectorAll('.fc').forEach(function(c){c.classList.remove('on');});
+  document.querySelectorAll('.fc-cur').forEach(function(c){c.style.display='none';});
+  AF=null;AFC=null;
+}
+function nk(k){
+  if(!AF)return;
+  var v=NV[AF]||'';
+  if(k==='X')v=v.slice(0,-1);
+  else if(k==='.'&&v.indexOf('.')>=0)return;
+  else{if(v.split('.')[0].length>=5&&k!=='.')return;v+=k;}
+  NV[AF]=v;
+  // sync to state
+  if(AF==='h'){M.h=v;var hv=el('fv-h');if(hv){hv.textContent=v||'0';hv.classList.toggle('dim',!v);}sv('fr-h',euro((parseFloat(v)||0)*72*(M.interv<1?1:M.interv)));}
+  if(AF==='s'){M.s=v;var sv2=el('fv-s');if(sv2){sv2.textContent=v||'0';sv2.classList.toggle('dim',!v);}}
+  // desig field
+  var p=AF.split('-');
+  if(p[0]==='d'&&p.length===3){
+    var did=parseInt(p[1]),f=p[2];
+    var d=DS.find(function(x){return x.id===did;});
+    if(d){
+      d[f]=v;
+      var ve=el('dv-'+did+'-'+f);if(ve){ve.textContent=v||'0';ve.classList.toggle('dim',!v);}
+      if(f==='h'){var dh=parseFloat(v)||0,dw=d.interv<1?1:d.interv;sv('dr-'+did,euro(dh*72*dw));}
+    }
   }
-  updateClock();
-  setInterval(updateClock, 10000);
+  calc();
+}
 
-  /* ── FORMAT ── */
-  function fmt(n) {
-    return n.toLocaleString("fr-FR", { minimumFractionDigits:2, maximumFractionDigits:2 }) + " €";
+// DESIGNATIONS
+function addD(){
+  closeNP();
+  DC++;
+  var id=DC;
+  DS.push({id:id,prests:[],interv:0,h:'',s:'',autre:false,autreT:'',lbl:'',photos:[]});
+  NV['d-'+id+'-h']='';NV['d-'+id+'-s']='';
+  renderDS();
+  setTimeout(function(){var e=el('dc-'+id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});},150);
+}
+function removeD(id){DS=DS.filter(function(d){return d.id!==id;});renderDS();calc();}
+
+function dTP(id,p){
+  var d=DS.find(function(x){return x.id===id;});if(!d)return;
+  var i=d.prests.indexOf(p);if(i>=0)d.prests.splice(i,1);else d.prests.push(p);
+  ['haie','tonte','elagage','abattage'].forEach(function(x){var b=el('dpb-'+id+'-'+x);if(b)b.classList.toggle('on',d.prests.indexOf(x)>=0);});
+  calc();
+}
+function dTA(id){
+  var d=DS.find(function(x){return x.id===id;});if(!d)return;
+  d.autre=!d.autre;
+  var b=el('dpb-'+id+'-autre'),w=el('daw-'+id);
+  if(b)b.classList.toggle('on',d.autre);
+  if(w){w.classList.toggle('on',d.autre);if(d.autre){var i=el('dat-'+id);if(i)setTimeout(function(){i.focus();},80);}}
+  calc();
+}
+function dSI(id,n){
+  var d=DS.find(function(x){return x.id===id;});if(!d)return;
+  d.interv=n;
+  [1,2,3,4].forEach(function(x){var b=el('dib-'+id+'-'+x);if(b)b.classList.toggle('on',x===n);});
+  var dh=parseFloat(d.h)||0,dw=n<1?1:n;sv('dr-'+id,euro(dh*72*dw));
+  calc();
+}
+function dUL(id,v){var d=DS.find(function(x){return x.id===id;});if(d){d.lbl=v;calc();}}
+function dUAT(id,v){var d=DS.find(function(x){return x.id===id;});if(d){d.autreT=v;calc();}}
+
+function renderDS(){
+  var list=el('dlist');if(!list)return;
+  list.innerHTML='';
+  DS.forEach(function(d,i){
+    var div=document.createElement('div');
+    div.className='dc';div.id='dc-'+d.id;
+    var pbtns=['haie','tonte','elagage','abattage'].map(function(x){
+      var icons={haie:'✂️',tonte:'🌿',elagage:'🌳',abattage:'🪓'};
+      return '<button class="pbtn'+(d.prests.indexOf(x)>=0?' on':'')+'" id="dpb-'+d.id+'-'+x+'" onclick="dTP('+d.id+',\''+x+'\')"><span class="ic">'+icons[x]+'</span>'+PN[x]+'</button>';
+    }).join('')+'<button class="pbtn pbtn-full'+(d.autre?' on':'')+'" id="dpb-'+d.id+'-autre" onclick="dTA('+d.id+')"><span class="ic">✏️</span>Autre — saisie libre</button>';
+    var ibtns=[1,2,3,4].map(function(n){return '<button class="ibtn'+(d.interv===n?' on':'')+'" id="dib-'+d.id+'-'+n+'" onclick="dSI('+d.id+','+n+')">'+n+'<br/><span style="font-size:9px;font-weight:400;color:#8E8E93">pers.</span></button>';}).join('');
+    var hv=NV['d-'+d.id+'-h']||'',sv2=NV['d-'+d.id+'-s']||'';
+    var dh=parseFloat(hv)||0,dw=d.interv<1?1:d.interv,ds2=parseFloat(sv2)||0;
+    div.innerHTML=
+      '<div class="dc-h"><span class="dc-t">Prestation '+(i+2)+'</span><button class="dc-del" onclick="removeD('+d.id+')">&#215;</button></div>'+
+      '<div class="dc-b">'+
+        '<div class="ds">Type de prestation</div><div class="pgrid">'+pbtns+'</div>'+
+        '<div class="autre-w'+(d.autre?' on':'')+'" id="daw-'+d.id+'"><input class="ti" id="dat-'+d.id+'" type="text" placeholder="Décris la prestation..." value="'+esc(d.autreT)+'" oninput="dUAT('+d.id+',this.value)"/></div>'+
+        '<div class="ds">Intervenants</div><div class="igrid">'+ibtns+'</div>'+
+        '<div class="ds">Heures de travail</div>'+
+        '<div class="fc" id="dfc-'+d.id+'-h" onclick="openNP(\'d-'+d.id+'-h\',\'dfc-'+d.id+'-h\')">'+
+          '<div class="fc-lbl">Nombre d\'heures</div>'+
+          '<div class="fc-row"><span class="fc-v'+(hv?'':' dim')+'" id="dv-'+d.id+'-h">'+(hv||'0')+'</span><span class="fc-u">h × 72 € =</span><span class="fc-r" id="dr-'+d.id+'">'+euro(dh*72*dw)+'</span><span class="fc-cur" id="cur-d-'+d.id+'-h"></span></div>'+
+        '</div>'+
+        '<div class="ds">Achats &amp; fournitures</div>'+
+        '<div class="fc" id="dfc-'+d.id+'-s" onclick="openNP(\'d-'+d.id+'-s\',\'dfc-'+d.id+'-s\')">'+
+          '<div class="fc-lbl">Montant</div>'+
+          '<div class="fc-row"><span class="fc-v'+(sv2?'':' dim')+'" id="dv-'+d.id+'-s">'+(sv2||'0')+'</span><span class="fc-u">€</span><span class="fc-cur" id="cur-d-'+d.id+'-s"></span></div>'+
+        '</div>'+
+        '<div class="ds">Désignation libre <span style="font-size:9px;font-weight:400;color:var(--k3)">(optionnel)</span></div>'+
+        '<input class="ti" type="text" placeholder="Précision..." value="'+esc(d.lbl)+'" oninput="dUL('+d.id+',this.value)"/>'+
+        '<div class="ds">Photos <span style="font-size:9px;font-weight:400;color:var(--k3)">(optionnel)</span></div>'+
+        '<div class="phgrid" id="ph-d-'+d.id+'"></div>'+
+        '<input type="file" id="ph-inp-'+d.id+'" accept="image/*" multiple style="display:none" onchange="addPh('+d.id+',this)"/>'+
+        '<div class="dtot"><span class="dtot-l">Sous-total HT</span><span class="dtot-v" id="dstot-'+d.id+'">'+euro(dh*72*dw+ds2)+'</span></div>'+
+      '</div>';
+    list.appendChild(div);
+    renderPh(d.id);
+  });
+  calc();
+}
+
+// PHOTOS
+function addPh(id,input){
+  var arr=id==='main'?M.photos:(DS.find(function(x){return x.id===id;})||{photos:[]}).photos;
+  Array.from(input.files||[]).slice(0,6-arr.length).forEach(function(f){
+    var r=new FileReader();
+    r.onload=function(e){arr.push({d:e.target.result});renderPh(id);};
+    r.readAsDataURL(f);
+  });
+  input.value='';
+}
+function removePh(id,i){
+  var arr=id==='main'?M.photos:(DS.find(function(x){return x.id===id;})||{photos:[]}).photos;
+  arr.splice(i,1);renderPh(id);
+}
+function renderPh(id){
+  var gid=id==='main'?'ph-main':'ph-d-'+id;
+  var inpid=id==='main'?'ph-main-inp':'ph-inp-'+id;
+  var arr=id==='main'?M.photos:(DS.find(function(x){return x.id===id;})||{photos:[]}).photos;
+  var g=el(gid);if(!g)return;
+  g.innerHTML='';
+  arr.forEach(function(p,i){
+    var w=document.createElement('div');w.className='ph-w';
+    w.innerHTML='<img class="ph-img" src="'+p.d+'"/><button class="ph-del" onclick="removePh('+(id==='main'?'\'main\'':id)+','+i+')">&#215;</button>';
+    g.appendChild(w);
+  });
+  if(arr.length<6){
+    var a=document.createElement('button');a.className='ph-add';
+    a.innerHTML='<span class="i">📷</span><span>Ajouter</span>';
+    a.onclick=function(){var inp=el(inpid);if(inp)inp.click();};
+    g.appendChild(a);
   }
+}
 
-  /* ── ACTIVATE FIELD ── */
-  function activate(id) {
-    ["hours","workers","supplies"].forEach(f => {
-      document.getElementById("card-"+f).classList.remove("active");
-      document.getElementById("cur-"+f).style.display = "none";
+// CALC
+function lineHT(h,w,s){return (parseFloat(h)||0)*72*(w<1?1:w)+(parseFloat(s)||0);}
+function calc(){
+  var mHT=lineHT(M.h,M.interv,M.s);
+  var dHT=0;
+  DS.forEach(function(d){
+    var ht=lineHT(d.h,d.interv,d.s);
+    dHT+=ht;
+    sv('dstot-'+d.id,euro(ht));
+    // update sub display
+    var dh=parseFloat(d.h)||0,dw=d.interv<1?1:d.interv;
+    sv('dr-'+d.id,euro(dh*72*dw));
+  });
+  var h=parseFloat(M.h)||0,w=M.interv<1?1:M.interv;
+  var ev=el('fv-h');if(ev){ev.textContent=M.h||'0';ev.classList.toggle('dim',!M.h);}
+  var sv3=el('fv-s');if(sv3){sv3.textContent=M.s||'0';sv3.classList.toggle('dim',!M.s);}
+  sv('fr-h',euro(h*72*w));
+  var ht=mHT+dHT,tva=ht*0.2,ttc=ht+tva;
+  sv('t-ht',euro(ht));sv('t-tva',euro(tva));sv('t-ttc',euro(ttc));
+  return {ht:ht,tva:tva,ttc:ttc};
+}
+function sync2(){var t=calc();sv('t-ht2',euro(t.ht));sv('t-tva2',euro(t.tva));sv('t-ttc2',euro(t.ttc));}
+
+function resetAll(){
+  M={prests:[],interv:0,h:'',s:'',autre:false,autreT:'',lbl:'',photos:[]};
+  DS=[];DC=0;NV={};
+  ['haie','tonte','elagage','abattage'].forEach(function(x){var b=el('pb-'+x);if(b)b.classList.remove('on');});
+  var pa=el('pb-autre'),aw=el('autre-w'),at=el('autre-txt'),ml=el('main-lbl');
+  if(pa)pa.classList.remove('on');if(aw)aw.classList.remove('on');if(at)at.value='';if(ml)ml.value='';
+  [1,2,3,4].forEach(function(x){var b=el('ib-'+x);if(b)b.classList.remove('on');});
+  renderDS();renderPh('main');closeNP();calc();
+}
+
+// BUILD ROWS
+function buildRows(){
+  var rows=[];
+  var h=parseFloat(M.h)||0,w=M.interv<1?1:M.interv,s=parseFloat(M.s)||0;
+  var mainLbl=gv('main-lbl');
+  if(h>0){
+    var pn=M.prests.map(function(p){return PN[p]||p;});
+    if(M.autre&&M.autreT)pn.push(M.autreT);
+    var lbl=(pn.length>0?pn.join(', '):'Main d\'oeuvre')+(mainLbl?' - '+mainLbl:'');
+    lbl+=' ('+h+'h'+(w>1?' × '+w+' pers.':'')+')';
+    rows.push({label:lbl,qty:String(w),pu:(h*72).toFixed(2),total:h*72*w});
+  }
+  if(s>0)rows.push({label:'Achats & fournitures'+(mainLbl&&!h?' - '+mainLbl:''),qty:'1',pu:s.toFixed(2),total:s});
+  DS.forEach(function(d,i){
+    var dh=parseFloat(d.h)||0,dw=d.interv<1?1:d.interv,ds2=parseFloat(d.s)||0;
+    if(dh>0){
+      var dpn=d.prests.map(function(p){return PN[p]||p;});
+      if(d.autre&&d.autreT)dpn.push(d.autreT);
+      var dlbl=(dpn.length>0?dpn.join(', '):'Prestation '+(i+2))+(d.lbl?' - '+d.lbl:'');
+      dlbl+=' ('+dh+'h'+(dw>1?' × '+dw+' pers.':'')+')';
+      rows.push({label:dlbl,qty:String(dw),pu:(dh*72).toFixed(2),total:dh*72*dw});
+    }
+    if(ds2>0)rows.push({label:'Achats & fournitures'+(d.lbl?' ('+d.lbl+')':''),qty:'1',pu:ds2.toFixed(2),total:ds2});
+  });
+  return rows;
+}
+
+// PDF LOGO SVG (inline, no base64)
+var LOGO_SVG='<svg xmlns="http://www.w3.org/2000/svg" width="180" height="62" viewBox="0 0 260 88"><defs><linearGradient id="plg" x1="0" y1="0" x2="52" y2="64" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C8923E"/><stop offset="100%" stop-color="#8B5E1A"/></linearGradient></defs><rect x="2" y="2" width="60" height="76" rx="30" stroke="url(#plg)" stroke-width="2.5"/><line x1="32" y1="70" x2="32" y2="46" stroke="url(#plg)" stroke-width="2.8" stroke-linecap="round"/><line x1="32" y1="46" x2="32" y2="18" stroke="url(#plg)" stroke-width="2" stroke-linecap="round"/><path d="M32 46 C27 38 17 33 10 22" stroke="url(#plg)" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M32 43 C27 36 21 33 16 28" stroke="url(#plg)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M32 38 C29 31 24 29 19 24" stroke="url(#plg)" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M32 30 C29 25 24 23 19 18" stroke="url(#plg)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M32 46 C37 38 47 33 54 22" stroke="url(#plg)" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M32 43 C37 36 43 33 48 28" stroke="url(#plg)" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M32 38 C35 31 40 29 45 24" stroke="url(#plg)" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M32 30 C35 25 40 23 45 18" stroke="url(#plg)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M32 22 C30 18 26 16 22 12" stroke="url(#plg)" stroke-width="1.1" stroke-linecap="round" fill="none"/><path d="M32 22 C34 18 38 16 42 12" stroke="url(#plg)" stroke-width="1.1" stroke-linecap="round" fill="none"/><text x="76" y="28" font-family="Arial,sans-serif" font-size="13" font-weight="400" letter-spacing="3" fill="#8E8E93">CREA</text><text x="74" y="58" font-family="Georgia,serif" font-size="34" font-weight="700" letter-spacing="2" fill="#1C1C1E">NATURE</text></svg>';
+
+// BUILD PDF HTML
+function buildPDF(){
+  var t=calc(),rows=buildRows();
+  var num=gv('d-num')||'001',date=gv('d-date')||'',objet=gv('d-objet')||'Prestation';
+  var nom=gv('c-nom'),adr=gv('c-adr'),email=gv('c-email'),tel=gv('c-tel');
+  // photos
+  var allPhotos=[];
+  if(M.photos.length>0)allPhotos.push({title:'Prestation principale',photos:M.photos});
+  DS.forEach(function(d,i){if(d.photos&&d.photos.length>0){var dpn=d.prests.map(function(p){return PN[p]||p;});if(d.autre&&d.autreT)dpn.push(d.autreT);allPhotos.push({title:dpn.join(', ')||'Prestation '+(i+2),photos:d.photos});}});
+  var photoHtml='';
+  if(allPhotos.length>0){
+    photoHtml='<div style="margin-top:22px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8B5E1A;margin-bottom:10px;border-bottom:1px solid #eee;padding-bottom:5px">Photos</div>';
+    allPhotos.forEach(function(g){
+      photoHtml+='<div style="margin-bottom:12px"><div style="font-size:10px;color:#888;margin-bottom:6px">'+esc(g.title)+'</div><div style="display:flex;flex-wrap:wrap;gap:6px">';
+      g.photos.forEach(function(p){photoHtml+='<img src="'+p.d+'" style="width:140px;height:105px;object-fit:cover;border-radius:5px;border:1px solid #eee"/>';});
+      photoHtml+='</div></div>';
     });
-    activeField = id;
-    document.getElementById("card-"+id).classList.add("active");
-    document.getElementById("cur-"+id).style.display = "inline-block";
-    document.getElementById("numpad").classList.add("open");
-    // scroll field into view
-    document.getElementById("card-"+id).scrollIntoView({ behavior:"smooth", block:"center" });
+    photoHtml+='</div>';
   }
+  var rowsH=rows.map(function(r,i){return '<tr style="background:'+(i%2===0?'#fff':'#FAF8F5')+'"><td style="padding:7px 10px">'+esc(r.label)+'</td><td style="padding:7px 10px;text-align:right">'+r.qty+'</td><td style="padding:7px 10px;text-align:right">'+r.pu+' €</td><td style="padding:7px 10px;text-align:right;font-weight:600">'+r.total.toFixed(2)+' €</td></tr>';}).join('');
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Devis '+esc(num)+'</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;color:#1C1C1E;font-size:13px;padding:28px 30px}@media print{@page{margin:12mm}body{padding:0}}</style></head><body>'+
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start">'+LOGO_SVG+'<div style="text-align:right"><div style="font-size:24px;font-weight:700;color:#8B5E1A">DEVIS</div><div style="font-size:11px;color:#888;margin-top:2px">N° '+esc(num)+'</div><div style="font-size:11px;color:#888">Date : '+esc(date)+'</div></div></div>'+
+    '<div style="height:2px;background:linear-gradient(90deg,#C8923E,#8B5E1A);margin:12px 0"></div>'+
+    '<div style="display:flex;justify-content:space-between;gap:16px;margin-bottom:16px">'+
+      '<div><div style="font-size:14px;font-weight:700;margin-bottom:3px">CREA NATURE</div><div style="font-size:11px;color:#666">creanature@ymail.com</div></div>'+
+      '<div style="background:#FAF8F5;border-radius:7px;padding:11px 14px;min-width:185px"><div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#888;margin-bottom:5px">Client</div>'+
+        (nom?'<div style="font-size:13px;font-weight:700;margin-bottom:3px">'+esc(nom)+'</div>':'')+
+        (adr?'<div style="font-size:11px;color:#666">'+esc(adr)+'</div>':'')+
+        (email?'<div style="font-size:11px;color:#666">'+esc(email)+'</div>':'')+
+        (tel?'<div style="font-size:11px;color:#666">'+esc(tel)+'</div>':'')+
+      '</div>'+
+    '</div>'+
+    (objet?'<div style="border-left:3px solid #C8923E;padding:7px 11px;background:#FFFBF5;margin-bottom:14px;font-size:12px"><strong>Objet :</strong> '+esc(objet)+'</div>':'')+
+    '<table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px"><thead><tr style="background:#C8923E"><th style="padding:7px 10px;text-align:left;color:#fff;font-size:11px">Désignation</th><th style="padding:7px 10px;text-align:right;color:#fff;font-size:11px">Qté</th><th style="padding:7px 10px;text-align:right;color:#fff;font-size:11px">PU HT</th><th style="padding:7px 10px;text-align:right;color:#fff;font-size:11px">Total HT</th></tr></thead><tbody>'+rowsH+'</tbody></table>'+
+    '<div style="display:flex;justify-content:flex-end;margin-bottom:16px"><div style="width:210px;border:1px solid #eee;border-radius:7px;overflow:hidden">'+
+      '<div style="display:flex;justify-content:space-between;padding:8px 13px;border-bottom:.5px solid #eee;font-size:13px"><span style="color:#666">Total HT</span><span>'+t.ht.toFixed(2)+' €</span></div>'+
+      '<div style="display:flex;justify-content:space-between;padding:8px 13px;border-bottom:.5px solid #eee;font-size:13px"><span style="color:#666">TVA (20 %)</span><span>'+t.tva.toFixed(2)+' €</span></div>'+
+      '<div style="display:flex;justify-content:space-between;padding:9px 13px;background:#C8923E"><span style="color:#fff;font-weight:700;font-size:14px">Total TTC</span><span style="color:#fff;font-weight:700;font-size:14px">'+t.ttc.toFixed(2)+' €</span></div>'+
+    '</div></div>'+
+    photoHtml+
+    '<div style="border-top:1px solid #eee;padding-top:10px;text-align:center;color:#888;font-size:10px;margin-top:16px">Crea Nature • creanature@ymail.com • Devis valable 30 jours • TVA 20 %</div>'+
+    '</body></html>';
+}
 
-  /* ── NUMPAD KEY ── */
-  function npKey(k) {
-    if (!activeField) return;
-    if (k === "⌫") {
-      state[activeField] = state[activeField].slice(0,-1);
-    } else if (k === "." && state[activeField].includes(".")) {
-      return;
-    } else {
-      // max 6 digits before decimal
-      const parts = state[activeField].split(".");
-      if (parts[0].length >= 6 && k !== ".") return;
-      state[activeField] += k;
-    }
-    render();
-  }
+// VIEW PDF
+function viewPDF(){
+  sync2();
+  var html=buildPDF();
+  // Crée un blob et l'ouvre dans un nouvel onglet — fonctionne sur Safari iOS
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;
+  a.target='_blank';
+  a.rel='noopener noreferrer';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},3000);
+}
 
-  /* ── CLOSE NUMPAD ── */
-  function closeNumpad() {
-    activeField = null;
-    ["hours","workers","supplies"].forEach(f => {
-      document.getElementById("card-"+f).classList.remove("active");
-      document.getElementById("cur-"+f).style.display = "none";
-    });
-    document.getElementById("numpad").classList.remove("open");
-  }
+// SEND MAIL — Gmail uniquement
+function sendMail(){
+  sync2();
+  var t=calc(),rows=buildRows();
+  var nom=gv('c-nom'),email=gv('c-email'),num=gv('d-num')||'001',objet=gv('d-objet')||'Prestation';
+  var lignes=rows.map(function(r){return '\u2022 '+r.label+' : '+r.total.toFixed(2)+' \u20ac HT';}).join('\n');
+  var body='Bonjour '+(nom||'')+',\n\nVeuillez trouver votre devis N\u00b0'+num+' pour : '+objet+'.\n\nD\u00e9tail :\n'+lignes+'\n\nTotal HT : '+t.ht.toFixed(2)+' \u20ac\nTVA (20%) : '+t.tva.toFixed(2)+' \u20ac\nTotal TTC : '+t.ttc.toFixed(2)+' \u20ac\n\nCordialement,\nCrea Nature\ncreanature@ymail.com';
+  var subj='Devis Crea Nature N\u00b0'+num+' \u2013 '+objet;
+  // Lien Gmail universel — fonctionne app + web
+  var to=email||'';
+  var gmailLink='https://mail.google.com/mail/?view=cm&fs=1'+
+    '&to='+encodeURIComponent(to)+
+    '&cc='+encodeURIComponent('creanature@ymail.com')+
+    '&su='+encodeURIComponent(subj)+
+    '&body='+encodeURIComponent(body);
+  window.open(gmailLink,'_blank');
+}
+function bs(c){return '';}
 
-  /* ── RESET ── */
-  function resetAll() {
-    state.hours = ""; state.workers = ""; state.supplies = "";
-    closeNumpad();
-    render();
-  }
-
-  /* ── RENDER ── */
-  function render() {
-    const hours    = parseFloat(state.hours)    || 0;
-    const workers  = parseFloat(state.workers)  || 0;
-    const supplies = parseFloat(state.supplies) || 0;
-
-    const hoursTotal   = hours * 72;
-    const labourTotal  = workers > 0 ? hoursTotal * workers : hoursTotal;
-    const grand        = labourTotal + supplies;
-
-    // Field values
-    ["hours","workers","supplies"].forEach(f => {
-      const el = document.getElementById("val-"+f);
-      el.textContent = state[f] || "0";
-      el.classList.toggle("empty", !state[f]);
-    });
-
-    // Subtitles
-    const subH = document.getElementById("sub-hours");
-    if (hours > 0) { subH.textContent = fmt(hoursTotal); subH.style.display = "block"; }
-    else subH.style.display = "none";
-
-    const subW = document.getElementById("sub-workers");
-    if (workers > 0 && hours > 0) { subW.textContent = fmt(labourTotal); subW.style.display = "block"; }
-    else subW.style.display = "none";
-
-    const subS = document.getElementById("sub-supplies");
-    if (supplies > 0) { subS.textContent = fmt(supplies); subS.style.display = "block"; }
-    else subS.style.display = "none";
-
-    // Total
-    document.getElementById("totalAmount").textContent = fmt(grand);
-
-    // Breakdown
-    const bd = document.getElementById("breakdown");
-    if (hours > 0 || supplies > 0) {
-      bd.style.display = "block";
-      document.getElementById("bd-labour").textContent   = fmt(labourTotal);
-      document.getElementById("bd-supplies").textContent = fmt(supplies);
-    } else {
-      bd.style.display = "none";
-    }
-  }
-
-  /* ── INSTALL BANNER ── */
-  // Show only if not in standalone (home screen) mode
-  const isStandalone = window.navigator.standalone === true
-    || window.matchMedia("(display-mode: standalone)").matches;
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  if (isIOS && !isStandalone) {
-    document.getElementById("installBanner").classList.add("show");
-  }
-
-  /* ── GENERATE APP ICON via Canvas ── */
-  function generateIcon() {
-    const c = document.createElement("canvas");
-    c.width = 180; c.height = 180;
-    const ctx = c.getContext("2d");
-
-    // Rounded rect background
-    const r = 36;
-    ctx.beginPath();
-    ctx.moveTo(r,0); ctx.lineTo(180-r,0);
-    ctx.quadraticCurveTo(180,0,180,r);
-    ctx.lineTo(180,180-r); ctx.quadraticCurveTo(180,180,180-r,180);
-    ctx.lineTo(r,180); ctx.quadraticCurveTo(0,180,0,180-r);
-    ctx.lineTo(0,r); ctx.quadraticCurveTo(0,0,r,0);
-    ctx.closePath();
-    ctx.fillStyle = "#FAF8F5"; ctx.fill();
-
-    // Gold gradient for tree
-    const grad = ctx.createLinearGradient(0,0,180,180);
-    grad.addColorStop(0,"#C8923E"); grad.addColorStop(1,"#8B5E1A");
-    ctx.strokeStyle = grad; ctx.lineCap = "round";
-
-    const cx=90, cy=90, scl=2.2;
-    function line(x1,y1,x2,y2,w){
-      ctx.lineWidth=w*scl; ctx.beginPath();
-      ctx.moveTo(cx+(x1-26)*scl, cy+(y1-32)*scl);
-      ctx.lineTo(cx+(x2-26)*scl, cy+(y2-32)*scl);
-      ctx.stroke();
-    }
-    function curve(pts,w){
-      ctx.lineWidth=w*scl; ctx.beginPath();
-      ctx.moveTo(cx+(pts[0]-26)*scl, cy+(pts[1]-32)*scl);
-      ctx.bezierCurveTo(
-        cx+(pts[2]-26)*scl, cy+(pts[3]-32)*scl,
-        cx+(pts[4]-26)*scl, cy+(pts[5]-32)*scl,
-        cx+(pts[6]-26)*scl, cy+(pts[7]-32)*scl
-      );
-      ctx.stroke();
-    }
-
-    // Oval
-    ctx.strokeStyle = grad; ctx.lineWidth = 2.2*scl;
-    ctx.beginPath();
-    ctx.ellipse(cx, cy+2, 24*scl, 30*scl, 0, 0, Math.PI*2);
-    ctx.stroke();
-
-    // Trunk
-    line(26,58,26,36,2.4);
-    line(26,36,26,12,1.8);
-    // Branches
-    ctx.strokeStyle = grad;
-    [[26,36,22,30,14,26,9,18,1.9],[26,34,22,28,17,26,13,22,1.5],
-     [26,30,23,25,19,23,15,19,1.3],[26,24,23,20,19,18,15,14,1.1],
-     [26,36,30,30,38,26,43,18,1.9],[26,34,30,28,35,26,39,22,1.5],
-     [26,30,29,25,33,23,37,19,1.3],[26,24,29,20,33,18,37,14,1.1]
-    ].forEach(p => curve(p.slice(0,8), p[8]));
-
-    const dataUrl = c.toDataURL("image/png");
-    const link = document.getElementById("appIcon");
-    link.href = dataUrl;
-  }
-  generateIcon();
-
-  render();
+// INIT
+function init(){
+  var n=new Date();
+  var dd=('0'+n.getDate()).slice(-2),mm=('0'+(n.getMonth()+1)).slice(-2),yyyy=n.getFullYear();
+  var di=el('d-date');if(di)di.value=dd+'/'+mm+'/'+yyyy;
+  var ni=el('d-num');if(ni)ni.value=yyyy+'-'+mm+'-001';
+  var sa=window.navigator.standalone===true||window.matchMedia('(display-mode:standalone)').matches;
+  var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(ios&&!sa){var b=el('bnr');if(b)b.classList.add('on');}
+  renderPh('main');calc();
+}
+init();
 </script>
 </body>
 </html>
