@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Crea Nature"/>
+  <meta name="theme-color" content="#C8923E"/>
+  <title>Crea Nature</title>
+
+  <!-- App icon généré en canvas au démarrage -->
+  <link rel="apple-touch-icon" id="appIcon"/>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    :root {
+      --gold-a: #C8923E;
+      --gold-b: #8B5E1A;
+      --black:  #1C1C1E;
+      --grey1:  #8E8E93;
+      --grey2:  #C7C7CC;
+      --grey3:  #E5E5EA;
+      --grey4:  #F2F2F7;
+      --white:  #FFFFFF;
+      --safe-top: env(safe-area-inset-top, 44px);
+      --safe-bot: env(safe-area-inset-bottom, 34px);
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--grey4);
+      font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* ── STATUS BAR ── */
+    #statusBar {
+      height: calc(var(--safe-top) + 0px);
+      min-height: 44px;
+      background: var(--white);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 20px 6px;
+      flex-shrink: 0;
+    }
+    .status-time { font-size: 15px; font-weight: 600; color: var(--black); }
+    .status-icons { display: flex; align-items: center; gap: 6px; }
+
+    /* ── NAV BAR ── */
+    #navBar {
+      background: var(--white);
+      border-bottom: 0.5px solid rgba(60,60,67,0.12);
+      padding: 10px 20px 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .brand-text { display: flex; flex-direction: column; line-height: 1; }
+    .brand-crea {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.22em;
+      color: var(--grey1); text-transform: uppercase; margin-bottom: 2px;
+    }
+    .brand-nature {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 26px; font-weight: 700; letter-spacing: 0.04em; color: var(--black);
+    }
+    .nav-badge {
+      margin-left: auto;
+      font-size: 11px; font-weight: 500; color: var(--grey1);
+      letter-spacing: 0.12em; text-transform: uppercase;
+    }
+
+    /* ── SCROLL CONTENT ── */
+    #content {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 20px 16px;
+      padding-bottom: calc(var(--safe-bot) + 20px);
+    }
+
+    /* ── FIELD CARD ── */
+    .field-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      border: 1.5px solid transparent;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      cursor: pointer;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .field-card.active {
+      border-color: var(--gold-a);
+      box-shadow: 0 0 0 3px rgba(200,146,62,0.15);
+    }
+    .field-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .field-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--grey1); margin-bottom: 2px;
+    }
+    .field-hint { font-size: 11px; color: var(--grey2); }
+    .field-sub {
+      background: rgba(200,146,62,0.1);
+      border-radius: 20px; padding: 4px 10px;
+      font-size: 12px; font-weight: 600; color: var(--gold-b);
+      white-space: nowrap;
+    }
+    .field-value-row { display: flex; align-items: baseline; gap: 6px; }
+    .field-value {
+      font-size: 38px; font-weight: 300; color: var(--black);
+      letter-spacing: -0.02em; line-height: 1;
+      font-variant-numeric: tabular-nums;
+      min-width: 10px;
+    }
+    .field-value.empty { color: var(--grey2); }
+    .field-unit { font-size: 16px; color: var(--grey1); font-weight: 400; }
+    .cursor {
+      display: inline-block; width: 2px; height: 34px;
+      background: var(--gold-a); border-radius: 2px; margin-left: 2px;
+      animation: blink 1s step-end infinite; vertical-align: middle;
+    }
+
+    /* ── TOTAL CARD ── */
+    #totalCard {
+      background: linear-gradient(135deg, var(--gold-a), var(--gold-b));
+      border-radius: 20px; padding: 24px 22px;
+      margin-top: 8px; margin-bottom: 14px;
+      box-shadow: 0 8px 32px rgba(200,146,62,0.35);
+    }
+    .total-label {
+      font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,0.7); letter-spacing: 0.18em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .total-amount {
+      font-size: 48px; font-weight: 200; color: #fff;
+      letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .total-breakdown {
+      margin-top: 16px; padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.25);
+    }
+    .breakdown-row {
+      display: flex; justify-content: space-between; margin-bottom: 5px;
+    }
+    .breakdown-key { font-size: 13px; color: rgba(255,255,255,0.72); }
+    .breakdown-val { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.92); }
+
+    /* ── RESET BUTTON ── */
+    #resetBtn {
+      width: 100%; height: 50px; border-radius: 14px;
+      background: var(--white); border: 1.5px solid var(--grey3);
+      font-size: 15px; font-weight: 500; color: var(--grey1);
+      cursor: pointer; letter-spacing: 0.02em;
+      font-family: -apple-system, sans-serif;
+    }
+
+    /* ── NUMPAD ── */
+    #numpad {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 430px;
+      background: #D1D1D6;
+      border-top: 0.5px solid #AEAEB2;
+      padding: 10px 12px;
+      padding-bottom: calc(var(--safe-bot) + 8px);
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      z-index: 999;
+    }
+    #numpad.open { display: grid; }
+
+    .np-key {
+      height: 54px; border-radius: 12px;
+      background: var(--white);
+      border: none; font-size: 22px; font-weight: 300;
+      color: var(--black); cursor: pointer;
+      font-family: -apple-system, sans-serif;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.25);
+      display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .np-key:active { filter: brightness(0.88); }
+    .np-key.np-del { background: #AEB0B4; font-size: 20px; }
+    .np-validate {
+      height: 54px; border-radius: 12px; grid-column: 1/-1;
+      background: linear-gradient(135deg, var(--gold-a), var(--gold-b));
+      border: none; font-size: 16px; font-weight: 600; color: #fff;
+      cursor: pointer; letter-spacing: 0.04em;
+      font-family: -apple-system, sans-serif;
+      box-shadow: 0 4px 12px rgba(200,146,62,0.4);
+    }
+    .np-validate:active { filter: brightness(0.9); }
+
+    /* ── HOME INDICATOR ── */
+    #homeBar {
+      position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%);
+      width: 134px; height: 5px;
+      background: var(--black); border-radius: 3px; opacity: 0.18;
+      pointer-events: none; z-index: 1000;
+    }
+
+    /* ── INSTALL BANNER ── */
+    #installBanner {
+      position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 430px;
+      background: linear-gradient(135deg, var(--gold-a), var(--gold-b));
+      color: #fff; font-size: 13px; font-weight: 500;
+      padding: 12px 16px 10px;
+      padding-top: calc(var(--safe-top) + 10px);
+      text-align: center; z-index: 2000;
+      display: none; line-height: 1.5;
+    }
+    #installBanner.show { display: block; }
+    #closeBanner {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: #fff; font-size: 20px; cursor: pointer;
+      padding-top: calc(var(--safe-top) / 2);
+    }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <!-- STATUS BAR -->
+  <div id="statusBar">
+    <span class="status-time" id="clockTime">9:41</span>
+    <div class="status-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12">
+        <rect x="0" y="3" width="3" height="9" rx="1" fill="#1C1C1E"/>
+        <rect x="4.5" y="2" width="3" height="10" rx="1" fill="#1C1C1E"/>
+        <rect x="9" y="0.5" width="3" height="11.5" rx="1" fill="#1C1C1E"/>
+        <rect x="13.5" y="0" width="3" height="12" rx="1" fill="#1C1C1E"/>
+      </svg>
+      <svg width="16" height="12" viewBox="0 0 24 18">
+        <path d="M12 4C16.4 4 20.4 5.8 23.3 8.7L21.9 10.1C19.4 7.5 15.9 6 12 6C8.1 6 4.6 7.5 2.1 10.1L0.7 8.7C3.6 5.8 7.6 4 12 4Z" fill="#1C1C1E"/>
+        <path d="M12 8C15.3 8 18.3 9.3 20.5 11.5L19.1 12.9C17.3 11.1 14.8 10 12 10C9.2 10 6.7 11.1 4.9 12.9L3.5 11.5C5.7 9.3 8.7 8 12 8Z" fill="#1C1C1E"/>
+        <circle cx="12" cy="16" r="2" fill="#1C1C1E"/>
+      </svg>
+      <div style="display:flex;align-items:center;gap:2px">
+        <div style="width:22px;height:11px;border-radius:3px;border:1.5px solid #1C1C1E;padding:1.5px;display:flex;align-items:center">
+          <div style="width:80%;height:100%;background:#1C1C1E;border-radius:1.5px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV BAR -->
+  <div id="navBar">
+    <svg width="44" height="54" viewBox="0 0 52 64" fill="none">
+      <defs>
+        <linearGradient id="lg" x1="0" y1="0" x2="52" y2="64" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#C8923E"/>
+          <stop offset="100%" stop-color="#8B5E1A"/>
+        </linearGradient>
+      </defs>
+      <rect x="2" y="2" width="48" height="60" rx="24" stroke="url(#lg)" stroke-width="2.2"/>
+      <line x1="26" y1="58" x2="26" y2="36" stroke="url(#lg)" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="26" y1="36" x2="26" y2="12" stroke="url(#lg)" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M26 36 C22 30 14 26 9 18" stroke="url(#lg)" stroke-width="1.9" stroke-linecap="round" fill="none"/>
+      <path d="M26 34 C22 28 17 26 13 22" stroke="url(#lg)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <path d="M26 30 C23 25 19 23 15 19" stroke="url(#lg)" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+      <path d="M26 24 C23 20 19 18 15 14" stroke="url(#lg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <path d="M26 36 C30 30 38 26 43 18" stroke="url(#lg)" stroke-width="1.9" stroke-linecap="round" fill="none"/>
+      <path d="M26 34 C30 28 35 26 39 22" stroke="url(#lg)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <path d="M26 30 C29 25 33 23 37 19" stroke="url(#lg)" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+      <path d="M26 24 C29 20 33 18 37 14" stroke="url(#lg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <path d="M26 18 C24 15 21 13 18 10" stroke="url(#lg)" stroke-width="1" stroke-linecap="round" fill="none"/>
+      <path d="M26 18 C28 15 31 13 34 10" stroke="url(#lg)" stroke-width="1" stroke-linecap="round" fill="none"/>
+    </svg>
+    <div class="brand-text">
+      <span class="brand-crea">Crea</span>
+      <span class="brand-nature">NATURE</span>
+    </div>
+    <span class="nav-badge">Devis</span>
+  </div>
+
+  <!-- SCROLLABLE CONTENT -->
+  <div id="content">
+
+    <!-- FIELD: Heures -->
+    <div class="field-card" id="card-hours" onclick="activate('hours')">
+      <div class="field-top">
+        <div>
+          <div class="field-label">Heures de travail</div>
+          <div class="field-hint">Taux horaire : 72 €</div>
+        </div>
+        <div class="field-sub" id="sub-hours" style="display:none"></div>
+      </div>
+      <div class="field-value-row">
+        <span class="field-value empty" id="val-hours">0</span>
+        <span class="field-unit">h</span>
+        <span class="cursor" id="cur-hours" style="display:none"></span>
+      </div>
+    </div>
+
+    <!-- FIELD: Intervenants -->
+    <div class="field-card" id="card-workers" onclick="activate('workers')">
+      <div class="field-top">
+        <div>
+          <div class="field-label">Intervenants</div>
+          <div class="field-hint">Multiplicateur des heures</div>
+        </div>
+        <div class="field-sub" id="sub-workers" style="display:none"></div>
+      </div>
+      <div class="field-value-row">
+        <span class="field-value empty" id="val-workers">0</span>
+        <span class="field-unit">pers.</span>
+        <span class="cursor" id="cur-workers" style="display:none"></span>
+      </div>
+    </div>
+
+    <!-- FIELD: Fournitures -->
+    <div class="field-card" id="card-supplies" onclick="activate('supplies')">
+      <div class="field-top">
+        <div>
+          <div class="field-label">Achats &amp; fournitures</div>
+          <div class="field-hint">Montant libre</div>
+        </div>
+        <div class="field-sub" id="sub-supplies" style="display:none"></div>
+      </div>
+      <div class="field-value-row">
+        <span class="field-value empty" id="val-supplies">0</span>
+        <span class="field-unit">€</span>
+        <span class="cursor" id="cur-supplies" style="display:none"></span>
+      </div>
+    </div>
+
+    <!-- TOTAL -->
+    <div id="totalCard">
+      <div class="total-label">Total estimation</div>
+      <div class="total-amount" id="totalAmount">0,00 €</div>
+      <div class="total-breakdown" id="breakdown" style="display:none">
+        <div class="breakdown-row">
+          <span class="breakdown-key">Main d'œuvre</span>
+          <span class="breakdown-val" id="bd-labour">0,00 €</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-key">Fournitures</span>
+          <span class="breakdown-val" id="bd-supplies">0,00 €</span>
+        </div>
+      </div>
+    </div>
+
+    <button id="resetBtn" onclick="resetAll()">Réinitialiser</button>
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<!-- NUMPAD -->
+<div id="numpad">
+  <button class="np-key" onclick="npKey('7')">7</button>
+  <button class="np-key" onclick="npKey('8')">8</button>
+  <button class="np-key" onclick="npKey('9')">9</button>
+  <button class="np-key" onclick="npKey('4')">4</button>
+  <button class="np-key" onclick="npKey('5')">5</button>
+  <button class="np-key" onclick="npKey('6')">6</button>
+  <button class="np-key" onclick="npKey('1')">1</button>
+  <button class="np-key" onclick="npKey('2')">2</button>
+  <button class="np-key" onclick="npKey('3')">3</button>
+  <button class="np-key" onclick="npKey('.')">.</button>
+  <button class="np-key" onclick="npKey('0')">0</button>
+  <button class="np-key np-del" onclick="npKey('⌫')">⌫</button>
+  <button class="np-validate" onclick="closeNumpad()">Valider ✓</button>
+</div>
+
+<!-- HOME INDICATOR -->
+<div id="homeBar"></div>
+
+<!-- INSTALL BANNER (shown only in browser, not when added to home screen) -->
+<div id="installBanner">
+  <button id="closeBanner" onclick="document.getElementById('installBanner').style.display='none'">✕</button>
+  📲 Appuie sur <strong>Partager</strong> puis <strong>"Sur l'écran d'accueil"</strong> pour installer l'app
+</div>
+
+<script>
+  /* ── STATE ── */
+  const state = { hours: "", workers: "", supplies: "" };
+  let activeField = null;
+
+  /* ── CLOCK ── */
+  function updateClock() {
+    const now = new Date();
+    const h = now.getHours().toString().padStart(2,"0");
+    const m = now.getMinutes().toString().padStart(2,"0");
+    document.getElementById("clockTime").textContent = h + ":" + m;
+  }
+  updateClock();
+  setInterval(updateClock, 10000);
+
+  /* ── FORMAT ── */
+  function fmt(n) {
+    return n.toLocaleString("fr-FR", { minimumFractionDigits:2, maximumFractionDigits:2 }) + " €";
+  }
+
+  /* ── ACTIVATE FIELD ── */
+  function activate(id) {
+    ["hours","workers","supplies"].forEach(f => {
+      document.getElementById("card-"+f).classList.remove("active");
+      document.getElementById("cur-"+f).style.display = "none";
+    });
+    activeField = id;
+    document.getElementById("card-"+id).classList.add("active");
+    document.getElementById("cur-"+id).style.display = "inline-block";
+    document.getElementById("numpad").classList.add("open");
+    // scroll field into view
+    document.getElementById("card-"+id).scrollIntoView({ behavior:"smooth", block:"center" });
+  }
+
+  /* ── NUMPAD KEY ── */
+  function npKey(k) {
+    if (!activeField) return;
+    if (k === "⌫") {
+      state[activeField] = state[activeField].slice(0,-1);
+    } else if (k === "." && state[activeField].includes(".")) {
+      return;
+    } else {
+      // max 6 digits before decimal
+      const parts = state[activeField].split(".");
+      if (parts[0].length >= 6 && k !== ".") return;
+      state[activeField] += k;
+    }
+    render();
+  }
+
+  /* ── CLOSE NUMPAD ── */
+  function closeNumpad() {
+    activeField = null;
+    ["hours","workers","supplies"].forEach(f => {
+      document.getElementById("card-"+f).classList.remove("active");
+      document.getElementById("cur-"+f).style.display = "none";
+    });
+    document.getElementById("numpad").classList.remove("open");
+  }
+
+  /* ── RESET ── */
+  function resetAll() {
+    state.hours = ""; state.workers = ""; state.supplies = "";
+    closeNumpad();
+    render();
+  }
+
+  /* ── RENDER ── */
+  function render() {
+    const hours    = parseFloat(state.hours)    || 0;
+    const workers  = parseFloat(state.workers)  || 0;
+    const supplies = parseFloat(state.supplies) || 0;
+
+    const hoursTotal   = hours * 72;
+    const labourTotal  = workers > 0 ? hoursTotal * workers : hoursTotal;
+    const grand        = labourTotal + supplies;
+
+    // Field values
+    ["hours","workers","supplies"].forEach(f => {
+      const el = document.getElementById("val-"+f);
+      el.textContent = state[f] || "0";
+      el.classList.toggle("empty", !state[f]);
+    });
+
+    // Subtitles
+    const subH = document.getElementById("sub-hours");
+    if (hours > 0) { subH.textContent = fmt(hoursTotal); subH.style.display = "block"; }
+    else subH.style.display = "none";
+
+    const subW = document.getElementById("sub-workers");
+    if (workers > 0 && hours > 0) { subW.textContent = fmt(labourTotal); subW.style.display = "block"; }
+    else subW.style.display = "none";
+
+    const subS = document.getElementById("sub-supplies");
+    if (supplies > 0) { subS.textContent = fmt(supplies); subS.style.display = "block"; }
+    else subS.style.display = "none";
+
+    // Total
+    document.getElementById("totalAmount").textContent = fmt(grand);
+
+    // Breakdown
+    const bd = document.getElementById("breakdown");
+    if (hours > 0 || supplies > 0) {
+      bd.style.display = "block";
+      document.getElementById("bd-labour").textContent   = fmt(labourTotal);
+      document.getElementById("bd-supplies").textContent = fmt(supplies);
+    } else {
+      bd.style.display = "none";
+    }
+  }
+
+  /* ── INSTALL BANNER ── */
+  // Show only if not in standalone (home screen) mode
+  const isStandalone = window.navigator.standalone === true
+    || window.matchMedia("(display-mode: standalone)").matches;
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (isIOS && !isStandalone) {
+    document.getElementById("installBanner").classList.add("show");
+  }
+
+  /* ── GENERATE APP ICON via Canvas ── */
+  function generateIcon() {
+    const c = document.createElement("canvas");
+    c.width = 180; c.height = 180;
+    const ctx = c.getContext("2d");
+
+    // Rounded rect background
+    const r = 36;
+    ctx.beginPath();
+    ctx.moveTo(r,0); ctx.lineTo(180-r,0);
+    ctx.quadraticCurveTo(180,0,180,r);
+    ctx.lineTo(180,180-r); ctx.quadraticCurveTo(180,180,180-r,180);
+    ctx.lineTo(r,180); ctx.quadraticCurveTo(0,180,0,180-r);
+    ctx.lineTo(0,r); ctx.quadraticCurveTo(0,0,r,0);
+    ctx.closePath();
+    ctx.fillStyle = "#FAF8F5"; ctx.fill();
+
+    // Gold gradient for tree
+    const grad = ctx.createLinearGradient(0,0,180,180);
+    grad.addColorStop(0,"#C8923E"); grad.addColorStop(1,"#8B5E1A");
+    ctx.strokeStyle = grad; ctx.lineCap = "round";
+
+    const cx=90, cy=90, scl=2.2;
+    function line(x1,y1,x2,y2,w){
+      ctx.lineWidth=w*scl; ctx.beginPath();
+      ctx.moveTo(cx+(x1-26)*scl, cy+(y1-32)*scl);
+      ctx.lineTo(cx+(x2-26)*scl, cy+(y2-32)*scl);
+      ctx.stroke();
+    }
+    function curve(pts,w){
+      ctx.lineWidth=w*scl; ctx.beginPath();
+      ctx.moveTo(cx+(pts[0]-26)*scl, cy+(pts[1]-32)*scl);
+      ctx.bezierCurveTo(
+        cx+(pts[2]-26)*scl, cy+(pts[3]-32)*scl,
+        cx+(pts[4]-26)*scl, cy+(pts[5]-32)*scl,
+        cx+(pts[6]-26)*scl, cy+(pts[7]-32)*scl
+      );
+      ctx.stroke();
+    }
+
+    // Oval
+    ctx.strokeStyle = grad; ctx.lineWidth = 2.2*scl;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy+2, 24*scl, 30*scl, 0, 0, Math.PI*2);
+    ctx.stroke();
+
+    // Trunk
+    line(26,58,26,36,2.4);
+    line(26,36,26,12,1.8);
+    // Branches
+    ctx.strokeStyle = grad;
+    [[26,36,22,30,14,26,9,18,1.9],[26,34,22,28,17,26,13,22,1.5],
+     [26,30,23,25,19,23,15,19,1.3],[26,24,23,20,19,18,15,14,1.1],
+     [26,36,30,30,38,26,43,18,1.9],[26,34,30,28,35,26,39,22,1.5],
+     [26,30,29,25,33,23,37,19,1.3],[26,24,29,20,33,18,37,14,1.1]
+    ].forEach(p => curve(p.slice(0,8), p[8]));
+
+    const dataUrl = c.toDataURL("image/png");
+    const link = document.getElementById("appIcon");
+    link.href = dataUrl;
+  }
+  generateIcon();
+
+  render();
+</script>
+</body>
+</html>
