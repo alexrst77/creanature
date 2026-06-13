@@ -209,8 +209,7 @@ html,body{height:100%;overflow:hidden;background:var(--gris3);font-family:-apple
     <input class="input-texte" id="d-num" type="text"/>
     <label class="label-form">Date</label>
     <input class="input-texte" id="d-date" type="text"/>
-    <label class="label-form">Objet</label>
-    <input class="input-texte" id="d-objet" type="text" placeholder="Taille de haie, elagage..."/>
+
   </div>
   <div class="titre-section">Recapitulatif</div>
   <div class="bloc-totaux">
@@ -876,7 +875,6 @@ function construireDevis() {
   var rangees = construireRangees();
   var num = lireChamp("d-num") || "001";
   var date = lireChamp("d-date") || "";
-  var objet = lireChamp("d-objet") || "";
   var nom = lireChamp("c-nom");
   var adresse = lireChamp("c-adresse");
   var email = lireChamp("c-email");
@@ -950,7 +948,7 @@ function construireDevis() {
   if (tel) html += "<div style='font-size:11px;color:#666'>" + echapper(tel) + "</div>";
   html += "</div></div>";
 
-  if (objet) html += "<div style='border-left:3px solid #C8923E;padding:7px 12px;background:#FFFBF5;margin-bottom:14px;font-size:12px'><strong>Objet :</strong> " + echapper(objet) + "</div>";
+
 
   html += "<table style='width:100%;border-collapse:collapse;margin-bottom:16px'>";
   html += "<thead><tr style='background:#C8923E'><th style='padding:8px 12px;text-align:left;color:#fff;font-size:11px;font-weight:600'>Designation</th><th style='padding:8px 12px;text-align:right;color:#fff;font-size:11px;font-weight:600'>Montant HT</th></tr></thead>";
@@ -1019,13 +1017,11 @@ function envoyerDevis() {
   var nom = lireChamp("c-nom");
   var email = lireChamp("c-email");
   var num = lireChamp("d-num") || "001";
-  var objet = lireChamp("d-objet") || "Prestation";
-
   var corps = "Bonjour " + (nom || "") + ",\n\n";
   corps += "Veuillez trouver ci-joint votre devis.\n\n";
   corps += "Cordialement,\nCrea Nature\ncreanature@ymail.com";
 
-  var sujet = "Devis Crea Nature N" + num + " - " + objet;
+  var sujet = "Devis Crea Nature N" + num;
 
   window.location.href = "mailto:" + encodeURIComponent(email) +
     "?cc=" + encodeURIComponent("creanature@ymail.com") +
