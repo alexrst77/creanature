@@ -842,33 +842,29 @@ function construireRangees() {
   var s = parseFloat(etat.fournitures) || 0;
   var designation = lireChamp("main-designation");
 
-  if (h > 0) {
+  // Prestation principale : heures + fournitures = une seule ligne
+  var totalPrincipal = h * 72 * w + s;
+  if (totalPrincipal > 0) {
     var pn = etat.prests.map(function(p) { return nomPrests[p] || p; });
     if (etat.autre && etat.autreTexte) pn.push(etat.autreTexte);
     var lbl = pn.length > 0 ? pn.join(", ") : "Prestation";
     if (designation) lbl = lbl + " - " + designation;
-    rangees.push({label: lbl, total: h * 72 * w});
-  }
-  if (s > 0) {
-    var lbl2 = "Achats et fournitures";
-    if (designation && !h) lbl2 = lbl2 + " - " + designation;
-    rangees.push({label: lbl2, total: s});
+    rangees.push({label: lbl, total: totalPrincipal});
   }
 
+  // Lignes supplementaires : idem, tout regroupe
   for (var i = 0; i < lignes.length; i++) {
     var lg = lignes[i];
     var lh = parseFloat(lg.heures) || 0;
     var lw = lg.interv < 1 ? 1 : lg.interv;
     var ls = parseFloat(lg.fournitures) || 0;
-    if (lh > 0) {
+    var totalLigne = lh * 72 * lw + ls;
+    if (totalLigne > 0) {
       var lpn = lg.prests.map(function(p) { return nomPrests[p] || p; });
       if (lg.autre && lg.autreTexte) lpn.push(lg.autreTexte);
       var llbl = lpn.length > 0 ? lpn.join(", ") : ("Prestation " + (i + 2));
       if (lg.designation) llbl = llbl + " - " + lg.designation;
-      rangees.push({label: llbl, total: lh * 72 * lw});
-    }
-    if (ls > 0) {
-      rangees.push({label: "Achats et fournitures" + (lg.designation ? " (" + lg.designation + ")" : ""), total: ls});
+      rangees.push({label: llbl, total: totalLigne});
     }
   }
   return rangees;
@@ -1020,23 +1016,13 @@ function visualiserDevis() {
 
 function envoyerDevis() {
   syncTotaux2();
-  var t = calculer();
-  var rangees = construireRangees();
   var nom = lireChamp("c-nom");
   var email = lireChamp("c-email");
   var num = lireChamp("d-num") || "001";
   var objet = lireChamp("d-objet") || "Prestation";
 
-  var lignesTxt = rangees.map(function(r) {
-    return "- " + r.label + " : " + r.total.toFixed(2) + " EUR HT";
-  }).join("\n");
-
   var corps = "Bonjour " + (nom || "") + ",\n\n";
-  corps += "Veuillez trouver ci-joint votre devis N" + num + ".\n\n";
-  corps += "Detail :\n" + lignesTxt + "\n\n";
-  corps += "Total HT : " + t.ht.toFixed(2) + " EUR\n";
-  corps += "TVA (20%) : " + t.tva.toFixed(2) + " EUR\n";
-  corps += "Total TTC : " + t.ttc.toFixed(2) + " EUR\n\n";
+  corps += "Veuillez trouver ci-joint votre devis.\n\n";
   corps += "Cordialement,\nCrea Nature\ncreanature@ymail.com";
 
   var sujet = "Devis Crea Nature N" + num + " - " + objet;
