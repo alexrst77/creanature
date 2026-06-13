@@ -313,6 +313,9 @@ function allerVers(ecran) {
   trouverEl("titre-page").textContent = ecran === "calc" ? "Calculateur" : "Devis";
   if (ecran === "devis") syncTotaux2();
   fermerPave();
+  // Retour en haut de page
+  var contenu = trouverEl("contenu");
+  if (contenu) contenu.scrollTop = 0;
 }
 
 // === PRESTATIONS ===
@@ -910,7 +913,7 @@ function construireDevis() {
       photosHTML += "<div style='font-size:9px;color:#888;margin-bottom:4px'>" + echapper(groupesPhotos[g].titre) + "</div>";
       photosHTML += "<div style='display:flex;flex-wrap:wrap;gap:5px'>";
       for (var p = 0; p < groupesPhotos[g].arr.length; p++) {
-        photosHTML += "<img src='" + groupesPhotos[g].arr[p] + "' style='width:130px;height:98px;object-fit:cover;border-radius:5px;border:1px solid #eee'/>";
+        photosHTML += '<img src="' + groupesPhotos[g].arr[p] + '" style="width:130px;height:98px;object-fit:cover;border-radius:5px;border:1px solid #eee"/>';
       }
       photosHTML += "</div></div>";
     }
@@ -923,13 +926,14 @@ function construireDevis() {
   html += "<title>Devis " + echapper(num) + "</title>";
   html += "<style>*{box-sizing:border-box;margin:0;padding:0}";
   html += "body{font-family:Arial,Helvetica,sans-serif;color:#1C1C1E;font-size:13px;padding:28px 30px}";
-  html += "@media print{@page{size:A4;margin:12mm}body{padding:0}.no-print{display:none}}";
+  html += "@media print{@page{size:A4;margin:12mm}body{padding:0}.no-print{display:none!important}*[style*='position:fixed']{display:none!important}}";
   html += "</style></head><body>";
 
-  html += "<div class='no-print' style='background:#C8923E;color:#fff;padding:10px 16px;border-radius:8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center'>";
-  html += "<span style='font-size:13px;font-weight:600'>Appuie sur Imprimer pour enregistrer en PDF</span>";
-  html += "<button onclick='window.print()' style='background:#fff;color:#8B5E1A;border:none;padding:8px 16px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer'>Imprimer / PDF</button>";
+  html += "<div style='position:fixed;bottom:0;left:0;right:0;background:#C8923E;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;z-index:999;box-shadow:0 -2px 12px rgba(0,0,0,.2)'>";
+  html += "<span style='font-size:13px;font-weight:600'>Enregistrer en PDF</span>";
+  html += "<button onclick='window.print()' style='background:#fff;color:#8B5E1A;border:none;padding:9px 18px;border-radius:20px;font-weight:700;font-size:13px;cursor:pointer'>Imprimer / PDF</button>";
   html += "</div>";
+  html += "<div style='height:60px'></div>";
 
   html += "<div style='display:flex;justify-content:space-between;align-items:flex-start'>" + logoSVG;
   html += "<div style='text-align:right'><div style='font-size:24px;font-weight:700;color:#8B5E1A'>DEVIS</div>";
