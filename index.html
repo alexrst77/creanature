@@ -109,9 +109,54 @@ body.dark .touche{background:#2C2C2E;color:#fff}
 body.dark .touche.eff{background:#48484A}
 body.dark #pave{background:#000;border-color:#3A3A3C}
 
-/* ECRAN CONNEXION */
+/* ECRANS PLEIN */
+.ecran-plein{position:fixed;inset:0;z-index:99999;background:#1C1C1E;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;font-family:-apple-system,sans-serif}
+.ecran-plein.cache{display:none!important}
+/* ACCUEIL */
+#ecran-accueil{padding:0;justify-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.acc-header{width:100%;background:linear-gradient(160deg,#1C1C1E 60%,#2C1A0A);padding:30px 20px 24px;padding-top:calc(env(safe-area-inset-top,44px)+16px);flex-shrink:0}
+.acc-bienvenue{font-size:13px;color:#8E8E93;margin-bottom:4px}
+.acc-nom{font-size:26px;font-weight:700;color:#fff}
+.acc-logo-row{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.acc-logo-txt{display:flex;flex-direction:column;line-height:1}
+.acc-crea{font-size:10px;color:#8E8E93;letter-spacing:.2em;text-transform:uppercase}
+.acc-nature{font-family:Georgia,serif;font-size:20px;font-weight:700;color:#fff;letter-spacing:.04em}
+.acc-stat-row{display:flex;gap:10px}
+.acc-stat{flex:1;background:rgba(255,255,255,.06);border-radius:12px;padding:12px;text-align:center}
+.acc-stat-val{font-size:22px;font-weight:700;color:var(--or);font-variant-numeric:tabular-nums}
+.acc-stat-lbl{font-size:10px;color:#8E8E93;margin-top:2px;text-transform:uppercase;letter-spacing:.08em}
+.acc-body{width:100%;padding:16px 16px calc(env(safe-area-inset-bottom,34px)+20px)}
+.acc-section{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:16px 0 8px 2px}
+.acc-section:first-child{margin-top:0}
+.acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+.acc-btn{border-radius:16px;padding:18px 14px;border:none;cursor:pointer;font-family:-apple-system,sans-serif;display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;transition:opacity .15s}
+.acc-btn:active{opacity:.8}
+.acc-btn .acc-ico{font-size:26px;line-height:1}
+.acc-btn .acc-lbl{font-size:14px;font-weight:600;line-height:1.2}
+.acc-btn .acc-desc{font-size:11px;opacity:.7;line-height:1.3}
+.acc-btn-gold{background:linear-gradient(135deg,#C8923E,#8B5E1A);color:#fff}
+.acc-btn-dark{background:#2C2C2E;color:#fff}
+.acc-btn-green{background:#1C3A2A;color:#4CD964}
+.acc-btn-blue{background:#1A2B3A;color:#64B5F6}
+.acc-btn-purple{background:#2A1A3A;color:#C77DFF}
+.acc-btn-full{grid-column:1/-1}
+.acc-devis-list{background:#2C2C2E;border-radius:14px;overflow:hidden;margin-bottom:4px}
+.acc-devis-item{padding:13px 15px;border-bottom:.5px solid #3A3A3C;display:flex;justify-content:space-between;align-items:center}
+.acc-devis-item:last-child{border:none}
+.acc-user-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;width:100%}
+.acc-avatar{width:38px;height:38px;border-radius:19px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:700;cursor:pointer}
+/* USERS LIST */
+.user-card{width:100%;max-width:320px;background:#2C2C2E;border-radius:16px;padding:16px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;border:1.5px solid transparent;transition:all .15s}
+.user-card:active{border-color:var(--or);background:#3A2A1A}
+.user-avatar{width:50px;height:50px;border-radius:25px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;font-weight:700;flex-shrink:0}
+.user-nom{font-size:17px;font-weight:600;color:#fff}
+.user-role{font-size:12px;color:#8E8E93;margin-top:2px}
+/* USERS SCREEN */
+#ecran-users .ep-logo{margin-bottom:20px}
+.ep-titre{font-size:24px;font-weight:700;color:#fff;margin-bottom:4px;text-align:center}
+.ep-sous{font-size:14px;color:#8E8E93;margin-bottom:28px;text-align:center}
 #ecran-login{position:fixed;inset:0;z-index:99999;background:#1C1C1E;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 30px;font-family:-apple-system,sans-serif}
-#ecran-login.cache{display:none}
+#ecran-login.cache{display:none!important}
 .login-logo{margin-bottom:30px}
 .login-titre{font-size:26px;font-weight:700;color:#fff;margin-bottom:8px;text-align:center}
 .login-sous{font-size:14px;color:#8E8E93;margin-bottom:40px;text-align:center}
@@ -131,25 +176,35 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 </style>
 </head>
 <body>
-<!-- ECRAN CONNEXION -->
-<div id="ecran-login">
-  <div class="login-logo">
-    <svg width="80" height="80" viewBox="0 0 260 88" fill="none">
-      <defs><linearGradient id="llg" x1="0" y1="0" x2="52" y2="64" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C8923E"/><stop offset="100%" stop-color="#8B5E1A"/></linearGradient></defs>
-      <rect x="2" y="2" width="60" height="76" rx="30" stroke="url(#llg)" stroke-width="2.5"/>
-      <line x1="32" y1="70" x2="32" y2="46" stroke="url(#llg)" stroke-width="2.8" stroke-linecap="round"/>
-      <line x1="32" y1="46" x2="32" y2="18" stroke="url(#llg)" stroke-width="2" stroke-linecap="round"/>
-      <path d="M32 46 C27 38 17 33 10 22" stroke="url(#llg)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-      <path d="M32 43 C27 36 21 33 16 28" stroke="url(#llg)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-      <path d="M32 38 C29 31 24 29 19 24" stroke="url(#llg)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-      <path d="M32 46 C37 38 47 33 54 22" stroke="url(#llg)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-      <path d="M32 43 C37 36 43 33 48 28" stroke="url(#llg)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-      <path d="M32 38 C35 31 40 29 45 24" stroke="url(#llg)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-      <path d="M32 22 C30 18 26 16 22 12" stroke="url(#llg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-      <path d="M32 22 C34 18 38 16 42 12" stroke="url(#llg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+<!-- ECRAN CHOIX UTILISATEUR -->
+<div id="ecran-users" class="ecran-plein">
+  <div class="ep-logo">
+    <svg width="70" height="70" viewBox="0 0 60 76" fill="none">
+      <defs><linearGradient id="ulg" x1="0" y1="0" x2="60" y2="76" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C8923E"/><stop offset="100%" stop-color="#8B5E1A"/></linearGradient></defs>
+      <rect x="2" y="2" width="56" height="72" rx="28" stroke="url(#ulg)" stroke-width="2.5"/>
+      <line x1="30" y1="66" x2="30" y2="44" stroke="url(#ulg)" stroke-width="2.8" stroke-linecap="round"/>
+      <line x1="30" y1="44" x2="30" y2="16" stroke="url(#ulg)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M30 44 C25 36 15 31 8 20" stroke="url(#ulg)" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M30 41 C25 34 19 31 14 26" stroke="url(#ulg)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      <path d="M30 44 C35 36 45 31 52 20" stroke="url(#ulg)" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M30 41 C35 34 41 31 46 26" stroke="url(#ulg)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      <path d="M30 20 C28 16 24 14 20 10" stroke="url(#ulg)" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <path d="M30 20 C32 16 36 14 40 10" stroke="url(#ulg)" stroke-width="1.2" stroke-linecap="round" fill="none"/>
     </svg>
   </div>
-  <div class="login-titre">Crea Nature</div>
+  <div class="ep-titre">Crea Nature</div>
+  <div class="ep-sous">Qui es-tu ?</div>
+  <div id="liste-users"></div>
+  <div style="margin-top:20px;font-size:11px;color:#48484A;text-align:center" id="login-info"></div>
+</div>
+
+<!-- ECRAN PIN -->
+<div id="ecran-login" class="ecran-plein cache">
+  <button id="btn-retour-users" style="position:absolute;top:calc(env(safe-area-inset-top,44px)+10px);left:16px;background:none;border:none;color:#C8923E;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif">← Retour</button>
+  <div class="login-logo" style="margin-top:20px">
+    <div id="avatar-login" style="width:70px;height:70px;border-radius:35px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:700;font-family:-apple-system,sans-serif">?</div>
+  </div>
+  <div class="login-titre" id="nom-login">Utilisateur</div>
   <div class="login-sous">Entrez votre code PIN</div>
   <div class="pin-display" id="pin-display">
     <div class="pin-dot" id="pd0"></div>
@@ -170,9 +225,11 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
     <button class="pin-btn eff" onclick="pinEff()">&#x232B;</button>
     <button class="pin-btn zero" onclick="pinTouche('0')">0</button>
   </div>
-  <button class="pin-faceid" id="btn-faceid" onclick="connexionFaceID()" style="display:none">&#x1F972; Face ID</button>
   <div class="login-erreur" id="login-erreur"></div>
-  <div style="margin-top:30px;font-size:11px;color:#48484A;text-align:center" id="login-info"></div>
+</div>
+
+<!-- ECRAN ACCUEIL -->
+<div id="ecran-accueil" class="ecran-plein cache">
 </div>
 
 <button id="btn-dark" onclick="toggleDark()" title="Mode sombre">&#x1F31B;</button>
@@ -191,7 +248,10 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 <div id="navbar">
   <img src="data:image/png;base64,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" alt="Crea Nature" style="height:40px;object-fit:contain"/>
   <span id="titre-page">Calculateur</span>
-  <button id="btn-stats" onclick="afficherStats()" style="background:none;border:none;font-size:20px;cursor:pointer;padding:4px;line-height:1">&#x1F4CA;</button>
+  <div style="display:flex;gap:4px;align-items:center">
+    <button id="btn-stats" onclick="afficherStats()" style="background:none;border:none;font-size:20px;cursor:pointer;padding:4px;line-height:1">&#x1F4CA;</button><button onclick="retourAccueil()" style="background:none;border:none;font-size:20px;cursor:pointer;padding:4px;line-height:1">&#x1F3E0;</button>
+    <button onclick="retourAccueil()" style="background:none;border:none;font-size:20px;cursor:pointer;padding:4px;line-height:1">&#x1F3E0;</button>
+  </div>
 </div>
 
 <div id="onglets">
@@ -328,18 +388,72 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 
 <script>
 
-// === PIN & AUTH ===
-var PIN_CORRECT = "1234"; // PIN par defaut - a changer
+// === UTILISATEURS & AUTH ===
+var utilisateurActuel = null;
 var pinSaisi = "";
 var estConnecte = false;
+var USERS_DEFAUT = [
+  {id:"alex", nom:"Alexandre", initiale:"A", pin:"0407", role:"Gerant"},
+  {id:"guil", nom:"Guillaume",  initiale:"G", pin:"3010", role:"Collaborateur"}
+];
+
+function chargerUtilisateurs(cb) {
+  db.collection("config").doc("users").get().then(function(doc) {
+    var users = doc.exists && doc.data().liste ? doc.data().liste : USERS_DEFAUT;
+    cb(users);
+  }).catch(function() { cb(USERS_DEFAUT); });
+}
+
+function sauverUtilisateurs(users) {
+  db.collection("config").doc("users").set({liste: users}).catch(function(){});
+}
+
+function afficherChoixUsers() {
+  ["ecran-users","ecran-login","ecran-accueil"].forEach(function(id) {
+    var e = document.getElementById(id);
+    if (e) e.classList.remove("cache");
+    if (id !== "ecran-users") e && e.classList.add("cache");
+  });
+  document.getElementById("app").style.display = "none";
+  chargerUtilisateurs(function(users) {
+    var liste = document.getElementById("liste-users");
+    if (!liste) return;
+    liste.innerHTML = "";
+    users.forEach(function(u) {
+      var card = document.createElement("div");
+      card.className = "user-card";
+      card.innerHTML =
+        "<div class='user-avatar'>" + echapper(u.initiale) + "</div>" +
+        "<div><div class='user-nom'>" + echapper(u.nom) + "</div>" +
+        "<div class='user-role'>" + echapper(u.role) + "</div></div>" +
+        "<div style='margin-left:auto;color:#636366;font-size:20px'>&#x203A;</div>";
+      (function(user) { card.onclick = function() { selectionnerUser(user); }; })(u);
+      liste.appendChild(card);
+    });
+    majInfoStats();
+  });
+}
+
+function selectionnerUser(user) {
+  utilisateurActuel = user;
+  pinSaisi = "";
+  majPinDisplay();
+  var eu = document.getElementById("ecran-users");
+  var el = document.getElementById("ecran-login");
+  if (eu) eu.classList.add("cache");
+  if (el) el.classList.remove("cache");
+  var av = document.getElementById("avatar-login");
+  var nm = document.getElementById("nom-login");
+  if (av) av.textContent = user.initiale;
+  if (nm) nm.textContent = user.nom;
+  document.getElementById("login-erreur").textContent = "";
+}
 
 function pinTouche(c) {
   if (pinSaisi.length >= 4) return;
   pinSaisi += c;
   majPinDisplay();
-  if (pinSaisi.length === 4) {
-    setTimeout(verifierPin, 100);
-  }
+  if (pinSaisi.length === 4) setTimeout(verifierPin, 100);
 }
 
 function pinEff() {
@@ -356,80 +470,190 @@ function majPinDisplay() {
 }
 
 function verifierPin() {
-  // Charger le PIN depuis Firebase
-  db.collection("config").doc("auth").get().then(function(doc) {
-    var pin = doc.exists ? (doc.data().pin || PIN_CORRECT) : PIN_CORRECT;
-    if (pinSaisi === pin) {
-      deconnecter(false);
-      ouvrirApp();
-    } else {
-      document.getElementById("login-erreur").textContent = "Code incorrect";
-      pinSaisi = "";
-      majPinDisplay();
-    }
-  }).catch(function() {
-    // Si Firebase indisponible, utiliser PIN local
-    var pinLocal = localStorage.getItem("cn_pin") || PIN_CORRECT;
-    if (pinSaisi === pinLocal) {
-      ouvrirApp();
-    } else {
-      document.getElementById("login-erreur").textContent = "Code incorrect";
-      pinSaisi = "";
-      majPinDisplay();
-    }
-  });
+  if (!utilisateurActuel) return;
+  if (pinSaisi === utilisateurActuel.pin) {
+    estConnecte = true;
+    localStorage.setItem("cn_user", utilisateurActuel.id);
+    localStorage.setItem("cn_connecte", "1");
+    document.getElementById("ecran-login").classList.add("cache");
+    ouvrirAccueil();
+  } else {
+    document.getElementById("login-erreur").textContent = "Code incorrect";
+    pinSaisi = "";
+    majPinDisplay();
+  }
 }
 
-function ouvrirApp() {
+function ouvrirAccueil() {
   estConnecte = true;
-  localStorage.setItem("cn_connecte", "1");
-  var ecran = document.getElementById("ecran-login");
-  if (ecran) ecran.classList.add("cache");
-  // Charger les infos persistantes
-  majInfoStats();
+  document.getElementById("app").style.display = "none";
+  var ea = document.getElementById("ecran-accueil");
+  if (ea) { ea.classList.remove("cache"); construireAccueil(); }
 }
 
-function deconnecter(afficher) {
-  if (afficher === undefined) afficher = true;
+function ouvrirApp() { ouvrirAccueil(); }
+
+function lancerCalculateur() {
+  document.getElementById("ecran-accueil").classList.add("cache");
+  document.getElementById("app").style.display = "flex";
+  allerVers("calc");
+}
+
+function retourAccueil() {
+  document.getElementById("app").style.display = "none";
+  var ea = document.getElementById("ecran-accueil");
+  if (ea) { ea.classList.remove("cache"); construireAccueil(); }
+}
+
+function deconnecter() {
   estConnecte = false;
+  utilisateurActuel = null;
   localStorage.removeItem("cn_connecte");
-  pinSaisi = "";
-  majPinDisplay();
-  if (afficher) {
-    var ecran = document.getElementById("ecran-login");
-    if (ecran) ecran.classList.remove("cache");
-  }
+  localStorage.removeItem("cn_user");
+  afficherChoixUsers();
 }
 
-// Face ID / Touch ID via WebAuthn
-function connexionFaceID() {
-  if (!window.PublicKeyCredential) {
-    alert("Face ID non disponible sur cet appareil");
-    return;
-  }
-  // Utiliser les credentials stockes
-  var credId = localStorage.getItem("cn_cred_id");
-  if (!credId) {
-    alert("Aucun Face ID enregistre. Connectez-vous avec le PIN d'abord, puis configurez Face ID dans les reglages.");
-    return;
-  }
-  var challenge = new Uint8Array(32);
-  window.crypto.getRandomValues(challenge);
-  navigator.credentials.get({
-    publicKey: {
-      challenge: challenge,
-      allowCredentials: [{
-        type: "public-key",
-        id: Uint8Array.from(atob(credId), function(c) { return c.charCodeAt(0); })
-      }],
-      userVerification: "required",
-      timeout: 30000
-    }
-  }).then(function() {
-    ouvrirApp();
-  }).catch(function(e) {
-    document.getElementById("login-erreur").textContent = "Face ID echoue";
+function connexionFaceID() {}
+
+function construireAccueil() {
+  var ea = document.getElementById("ecran-accueil");
+  if (!ea) return;
+  var user = utilisateurActuel || {nom: "Equipe", initiale: "C"};
+  var moisNoms = ["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre"];
+  var moisNom = moisNoms[new Date().getMonth()];
+
+  ea.innerHTML =
+    "<div class='acc-header' style='width:100%;flex-shrink:0'>" +
+      "<div class='acc-user-bar'>" +
+        "<div><div class='acc-bienvenue'>Bonjour,</div><div class='acc-nom'>" + echapper(user.nom) + "</div></div>" +
+        "<div style='display:flex;gap:10px;align-items:center'>" +
+          "<button onclick='toggleDark()' style='background:none;border:none;font-size:22px;cursor:pointer'>&#x1F31B;</button>" +
+          "<div class='acc-avatar' onclick='deconnecter()' title='Deconnexion'>" + echapper(user.initiale) + "</div>" +
+        "</div>" +
+      "</div>" +
+      "<div class='acc-logo-row'>" +
+        "<svg width='32' height='40' viewBox='0 0 60 76' fill='none'><defs><linearGradient id='alg' x1='0' y1='0' x2='60' y2='76' gradientUnits='userSpaceOnUse'><stop offset='0%' stop-color='#C8923E'/><stop offset='100%' stop-color='#8B5E1A'/></linearGradient></defs><rect x='2' y='2' width='56' height='72' rx='28' stroke='url(#alg)' stroke-width='2.5'/><line x1='30' y1='66' x2='30' y2='44' stroke='url(#alg)' stroke-width='2.8' stroke-linecap='round'/><line x1='30' y1='44' x2='30' y2='16' stroke='url(#alg)' stroke-width='2' stroke-linecap='round'/><path d='M30 44 C25 36 15 31 8 20' stroke='url(#alg)' stroke-width='2' stroke-linecap='round' fill='none'/><path d='M30 44 C35 36 45 31 52 20' stroke='url(#alg)' stroke-width='2' stroke-linecap='round' fill='none'/><path d='M30 20 C28 16 24 14 20 10' stroke='url(#alg)' stroke-width='1.2' stroke-linecap='round' fill='none'/><path d='M30 20 C32 16 36 14 40 10' stroke='url(#alg)' stroke-width='1.2' stroke-linecap='round' fill='none'/></svg>" +
+        "<div class='acc-logo-txt'><span class='acc-crea'>Crea</span><span class='acc-nature'>NATURE</span></div>" +
+      "</div>" +
+      "<div class='acc-stat-row'>" +
+        "<div class='acc-stat'><div class='acc-stat-val' id='acc-nb-clients'>-</div><div class='acc-stat-lbl'>Clients</div></div>" +
+        "<div class='acc-stat'><div class='acc-stat-val' id='acc-nb-devis'>-</div><div class='acc-stat-lbl'>Devis</div></div>" +
+        "<div class='acc-stat'><div class='acc-stat-val' id='acc-ca'>-</div><div class='acc-stat-lbl'>CA " + moisNom + "</div></div>" +
+      "</div>" +
+    "</div>" +
+    "<div class='acc-body'>" +
+      "<div class='acc-section'>Actions rapides</div>" +
+      "<div class='acc-grid'>" +
+        "<button class='acc-btn acc-btn-gold' onclick='lancerCalculateur()'><span class='acc-ico'>&#x1F9EE;</span><span class='acc-lbl'>Nouveau devis</span><span class='acc-desc'>Calculer et generer</span></button>" +
+        "<button class='acc-btn acc-btn-dark' onclick='ouvrirPanneauClients()'><span class='acc-ico'>&#x1F465;</span><span class='acc-lbl'>Mes clients</span><span class='acc-desc'>Base de donnees</span></button>" +
+        "<button class='acc-btn acc-btn-green' onclick='afficherStats()'><span class='acc-ico'>&#x1F4CA;</span><span class='acc-lbl'>Historique</span><span class='acc-desc'>Devis et CA</span></button>" +
+        "<button class='acc-btn acc-btn-blue' onclick='ouvrirReglages()'><span class='acc-ico'>&#x2699;&#xFE0F;</span><span class='acc-lbl'>Reglages</span><span class='acc-desc'>PIN, profils</span></button>" +
+      "</div>" +
+      "<div class='acc-section'>Derniers devis</div>" +
+      "<div class='acc-devis-list' id='acc-derniers-devis'><div style='padding:20px;text-align:center;color:#636366;font-size:13px'>Chargement...</div></div>" +
+    "</div>";
+
+  var now2 = new Date();
+  db.collection("clients").get().then(function(s) {
+    var el2 = document.getElementById("acc-nb-clients");
+    if (el2) el2.textContent = s.size;
+  }).catch(function(){});
+
+  db.collection("devis").orderBy("timestamp","desc").limit(20).get().then(function(s) {
+    var caMois = 0;
+    var html = "";
+    var count = 0;
+    s.forEach(function(doc) {
+      var d = doc.data();
+      var ts = new Date(d.timestamp || 0);
+      if (ts.getMonth() === now2.getMonth() && ts.getFullYear() === now2.getFullYear()) caMois += d.totalTTC || 0;
+      if (count < 5) {
+        html += "<div class='acc-devis-item'>" +
+          "<div><div style='font-size:14px;font-weight:600;color:#fff'>" + echapper(d.client || "") + "</div>" +
+          "<div style='font-size:11px;color:#636366;margin-top:2px'>N" + echapper(d.num || "") + " - " + echapper(d.date || "") + (d.auteur ? " - " + echapper(d.auteur) : "") + "</div></div>" +
+          "<div style='font-size:13px;font-weight:600;color:#C8923E'>" + (d.totalTTC || 0).toFixed(0) + " EUR</div>" +
+        "</div>";
+        count++;
+      }
+    });
+    var nbEl = document.getElementById("acc-nb-devis");
+    if (nbEl) nbEl.textContent = s.size;
+    var caEl = document.getElementById("acc-ca");
+    if (caEl) caEl.textContent = caMois > 999 ? (Math.round(caMois / 100) / 10) + "k" : Math.round(caMois) + "";
+    var ddEl = document.getElementById("acc-derniers-devis");
+    if (ddEl) ddEl.innerHTML = html || "<div style='padding:20px;text-align:center;color:#636366;font-size:13px'>Aucun devis</div>";
+  }).catch(function() {
+    var ddEl2 = document.getElementById("acc-derniers-devis");
+    if (ddEl2) ddEl2.innerHTML = "<div style='padding:20px;text-align:center;color:#636366;font-size:13px'>Aucune donnee</div>";
   });
+}
+
+function ouvrirReglages() {
+  var panneau = document.createElement("div");
+  panneau.style.cssText = "position:fixed;inset:0;z-index:9000;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif;overflow-y:auto";
+  var barre = document.createElement("div");
+  barre.style.cssText = "background:#2C2C2E;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px)+8px)";
+  barre.innerHTML = "<span style='font-size:17px;font-weight:700;color:#fff'>Reglages</span>";
+  var bf = document.createElement("button");
+  bf.style.cssText = "background:#3A3A3C;border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  bf.textContent = "Fermer";
+  bf.onclick = function() { panneau.remove(); };
+  barre.appendChild(bf);
+  var corps = document.createElement("div");
+  corps.style.cssText = "padding:16px";
+
+  // Changer PIN
+  var sec1 = document.createElement("div");
+  sec1.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:0 0 8px 2px";
+  sec1.textContent = "Changer mon PIN - " + ((utilisateurActuel || {}).nom || "");
+  corps.appendChild(sec1);
+
+  var cartePin = document.createElement("div");
+  cartePin.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:16px";
+  cartePin.innerHTML =
+    "<input id='rg-pin-a' type='password' inputmode='numeric' maxlength='4' placeholder='PIN actuel' style='width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:8px;outline:none;-webkit-appearance:none;display:block'/>" +
+    "<input id='rg-pin-n' type='password' inputmode='numeric' maxlength='4' placeholder='Nouveau PIN' style='width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:8px;outline:none;-webkit-appearance:none;display:block'/>" +
+    "<input id='rg-pin-c' type='password' inputmode='numeric' maxlength='4' placeholder='Confirmer PIN' style='width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:10px;outline:none;-webkit-appearance:none;display:block'/>" +
+    "<button id='rg-btn-pin' style='width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;font-size:14px;font-weight:600;color:#fff;cursor:pointer;font-family:-apple-system,sans-serif'>Changer le PIN</button>" +
+    "<div id='rg-msg' style='text-align:center;font-size:12px;margin-top:8px;min-height:16px'></div>";
+  corps.appendChild(cartePin);
+
+  cartePin.querySelector("#rg-btn-pin").onclick = function() {
+    var a = cartePin.querySelector("#rg-pin-a").value;
+    var n2 = cartePin.querySelector("#rg-pin-n").value;
+    var c2 = cartePin.querySelector("#rg-pin-c").value;
+    var msg = cartePin.querySelector("#rg-msg");
+    if (!utilisateurActuel) return;
+    if (a !== utilisateurActuel.pin) { msg.style.color="#FF3B30"; msg.textContent="PIN actuel incorrect"; return; }
+    if (n2.length !== 4 || isNaN(Number(n2))) { msg.style.color="#FF3B30"; msg.textContent="4 chiffres requis"; return; }
+    if (n2 !== c2) { msg.style.color="#FF3B30"; msg.textContent="Les PIN ne correspondent pas"; return; }
+    chargerUtilisateurs(function(users) {
+      var u = users.find(function(x) { return x.id === utilisateurActuel.id; });
+      if (u) { u.pin = n2; utilisateurActuel.pin = n2; sauverUtilisateurs(users); }
+      msg.style.color="#34C759"; msg.textContent="PIN change !";
+    });
+  };
+
+  // Equipe
+  var sec2 = document.createElement("div");
+  sec2.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:0 0 8px 2px";
+  sec2.textContent = "Equipe";
+  corps.appendChild(sec2);
+  chargerUtilisateurs(function(users) {
+    users.forEach(function(u) {
+      var cu = document.createElement("div");
+      cu.style.cssText = "background:#2C2C2E;border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px";
+      cu.innerHTML =
+        "<div style='width:40px;height:40px;border-radius:20px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:700;flex-shrink:0'>" + echapper(u.initiale) + "</div>" +
+        "<div><div style='font-size:15px;font-weight:600;color:#fff'>" + echapper(u.nom) + "</div>" +
+        "<div style='font-size:12px;color:#8E8E93'>" + echapper(u.role) + "</div></div>";
+      corps.appendChild(cu);
+    });
+  });
+
+  panneau.appendChild(barre);
+  panneau.appendChild(corps);
+  document.body.appendChild(panneau);
 }
 
 // === MODE SOMBRE ===
@@ -444,17 +668,19 @@ function toggleDark() {
 }
 
 // === HISTORIQUE DEVIS ===
-function sauverDevisDansHistorique(numDevis, nomClient) {
+function sauverDevisDansHistorique(numDevis, nomClient, auteur) {
   var n = new Date();
   var date = ("0"+n.getDate()).slice(-2)+"/"+("0"+(n.getMonth()+1)).slice(-2)+"/"+n.getFullYear();
   var t = calculer();
+  var auteur = utilisateurActuel ? utilisateurActuel.nom : "";
   var data = {
     num: numDevis,
     client: nomClient || "Sans nom",
     date: date,
     totalHT: parseFloat(t.ht.toFixed(2)),
     totalTTC: parseFloat(t.ttc.toFixed(2)),
-    timestamp: n.getTime()
+    timestamp: n.getTime(),
+    auteur: auteur
   };
   db.collection("devis").add(data).catch(function(e) {
     console.log("Erreur historique:", e);
@@ -1307,7 +1533,7 @@ function visualiserDevis() {
   }
   // Sauver dans historique
   var nomClient = lireChamp("c-nom") || "Sans nom";
-  sauverDevisDansHistorique(numDevis, nomClient);
+  sauverDevisDansHistorique(numDevis, nomClient, utilisateurActuel ? utilisateurActuel.nom : "");
   var html = construireDevis();
   var ancien = document.getElementById("overlay-devis");
   if (ancien) ancien.remove();
@@ -1698,24 +1924,26 @@ function init() {
     if (btnD) btnD.textContent = "☀️";
   }
 
-  // Connexion : verifier si session active
+  // Demarrage : afficher choix utilisateur
+  document.getElementById("app").style.display = "none";
+
+  // Verifier si session active avec utilisateur connu
   var sessionActive = localStorage.getItem("cn_connecte") === "1";
-  if (sessionActive) {
-    // Deja connecte - ouvrir directement
-    var ecran = document.getElementById("ecran-login");
-    if (ecran) ecran.classList.add("cache");
-    estConnecte = true;
-    majInfoStats();
+  var userId = localStorage.getItem("cn_user");
+
+  if (sessionActive && userId) {
+    // Recharger l'utilisateur depuis Firebase et ouvrir directement
+    chargerUtilisateurs(function(users) {
+      var u = users.find(function(x){ return x.id === userId; });
+      if (u) {
+        utilisateurActuel = u;
+        ouvrirAccueil();
+      } else {
+        afficherChoixUsers();
+      }
+    });
   } else {
-    // Afficher login et charger les stats pour rassurer
-    majInfoStats();
-    // Face ID disponible ?
-    if (window.PublicKeyCredential && localStorage.getItem("cn_cred_id")) {
-      var btnFid = document.getElementById("btn-faceid");
-      if (btnFid) btnFid.style.display = "block";
-      // Tenter Face ID automatiquement
-      connexionFaceID();
-    }
+    afficherChoixUsers();
   }
 
   afficherPhotos("main");
