@@ -910,7 +910,7 @@ function construireDevis() {
   html += "<title>Devis " + echapper(num) + "</title>";
   html += "<style>*{box-sizing:border-box;margin:0;padding:0}";
   html += "body{font-family:Arial,Helvetica,sans-serif;color:#1C1C1E;font-size:13px;padding:28px 30px}";
-  html += "@page{size:A4;margin:0}@media print{body{padding:15mm}}";
+  html += "@page{size:A4;margin:10mm 10mm 0 10mm}@media print{body{padding:0}html{-webkit-print-color-adjust:exact;print-color-adjust:exact}}";
   html += "</style></head><body>";
 
 
