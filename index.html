@@ -84,6 +84,14 @@ html,body{height:100%;overflow:hidden;background:var(--gris3);font-family:-apple
 #barre-install.visible{display:block}
 #btn-fermer-install{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:22px;cursor:pointer}
 @keyframes clin{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes ripple{0%{transform:scale(0);opacity:.6}100%{transform:scale(4);opacity:0}}
+.btn-prest,.btn-interv,.ibtn,.bgold,.bdark,.btn-gris,.btn-tirete,.acc-btn,.touche,.touche-ok,.nk,.nv,.btn-or,.user-card{position:relative;overflow:hidden}
+.ripple-el{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);animation:ripple .5s linear;pointer-events:none;transform:scale(0)}
+.btn-prest,.btn-interv,.ibtn{transition:transform .1s,box-shadow .1s}
+.btn-prest:active,.btn-interv:active,.ibtn:active{transform:scale(.96)}
+.touche:active,.nk:active{transform:scale(.93);transition:transform .08s}
+.acc-btn:active{transform:scale(.97);transition:transform .1s}
+.bgold:active,.btn-or:active,.nv:active,.touche-ok:active{opacity:.88;transform:scale(.98);transition:all .08s}
 
 /* MODE SOMBRE */
 body.dark{background:#1C1C1E}
@@ -110,7 +118,7 @@ body.dark .touche.eff{background:#48484A}
 body.dark #pave{background:#000;border-color:#3A3A3C}
 
 /* ECRANS PLEIN */
-.ecran-plein{position:fixed;inset:0;z-index:99999;background:#1C1C1E;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;font-family:-apple-system,sans-serif}
+.ecran-plein{position:fixed;inset:0;z-index:9999;background:#1C1C1E;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;font-family:-apple-system,sans-serif}
 .ecran-plein.cache{display:none!important}
 /* ACCUEIL */
 #ecran-accueil{padding:0;justify-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -200,7 +208,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 
 <!-- ECRAN PIN -->
 <div id="ecran-login" class="ecran-plein cache">
-  <button id="btn-retour-users" style="position:absolute;top:calc(env(safe-area-inset-top,44px)+10px);left:16px;background:none;border:none;color:#C8923E;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif">← Retour</button>
+  <button id="btn-retour-users" style="position:absolute;top:calc(env(safe-area-inset-top,44px)+8px);left:16px;background:rgba(200,146,62,.15);border:none;color:#C8923E;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;padding:8px 14px;border-radius:20px">← Retour</button>
   <div class="login-logo" style="margin-top:20px">
     <div id="avatar-login" style="width:70px;height:70px;border-radius:35px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:700;font-family:-apple-system,sans-serif">?</div>
   </div>
@@ -225,6 +233,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
     <button class="pin-btn eff" onclick="pinEff()">&#x232B;</button>
     <button class="pin-btn zero" onclick="pinTouche('0')">0</button>
   </div>
+  <button class="pin-faceid" id="btn-faceid" onclick="connexionFaceID()" style="display:none;margin-top:18px;background:none;border:none;color:#C8923E;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif">Face ID</button>
   <div class="login-erreur" id="login-erreur"></div>
 </div>
 
@@ -394,7 +403,7 @@ var pinSaisi = "";
 var estConnecte = false;
 var USERS_DEFAUT = [
   {id:"alex", nom:"Alexandre", initiale:"A", pin:"0407", role:"Gerant"},
-  {id:"guil", nom:"Guillaume",  initiale:"G", pin:"3010", role:"Collaborateur"}
+  {id:"guil", nom:"Guillaume",  initiale:"G", pin:"3010", role:"Gerant"}
 ];
 
 function chargerUtilisateurs(cb) {
@@ -447,6 +456,18 @@ function selectionnerUser(user) {
   if (av) av.textContent = user.initiale;
   if (nm) nm.textContent = user.nom;
   document.getElementById("login-erreur").textContent = "";
+  // Tenter Face ID automatiquement si credential existant
+  var credKey = "cn_cred_" + user.id;
+  if (window.PublicKeyCredential && localStorage.getItem(credKey)) {
+    setTimeout(connexionFaceID, 400);
+  }
+  // Afficher bouton Face ID
+  var btnFid = document.getElementById("btn-faceid");
+  if (btnFid) {
+    var credKey2 = "cn_cred_" + user.id;
+    btnFid.style.display = "block";
+    btnFid.textContent = localStorage.getItem(credKey2) ? "Face ID" : "Configurer Face ID";
+  }
 }
 
 function pinTouche(c) {
@@ -513,7 +534,55 @@ function deconnecter() {
   afficherChoixUsers();
 }
 
-function connexionFaceID() {}
+function connexionFaceID() {
+  // Face ID via WebAuthn - uniquement si un utilisateur est selectionne
+  if (!utilisateurActuel) return;
+  if (!window.PublicKeyCredential) return;
+  var credKey = "cn_cred_" + utilisateurActuel.id;
+  var credId = localStorage.getItem(credKey);
+  if (!credId) {
+    // Enregistrer un credential Face ID pour cet utilisateur
+    var userId = new TextEncoder().encode(utilisateurActuel.id);
+    var challenge = new Uint8Array(32);
+    window.crypto.getRandomValues(challenge);
+    navigator.credentials.create({
+      publicKey: {
+        challenge: challenge,
+        rp: {name: "Crea Nature"},
+        user: {id: userId, name: utilisateurActuel.id, displayName: utilisateurActuel.nom},
+        pubKeyCredParams: [{type: "public-key", alg: -7}],
+        authenticatorSelection: {userVerification: "required"},
+        timeout: 30000
+      }
+    }).then(function(cred) {
+      var id = btoa(String.fromCharCode.apply(null, new Uint8Array(cred.rawId)));
+      localStorage.setItem(credKey, id);
+      afficherToast("Face ID configure !");
+    }).catch(function() {});
+    return;
+  }
+  // Authentifier
+  var challenge2 = new Uint8Array(32);
+  window.crypto.getRandomValues(challenge2);
+  navigator.credentials.get({
+    publicKey: {
+      challenge: challenge2,
+      allowCredentials: [{type: "public-key", id: Uint8Array.from(atob(credId), function(c){return c.charCodeAt(0);})}],
+      userVerification: "required",
+      timeout: 30000
+    }
+  }).then(function() {
+    verifierPinDirect();
+  }).catch(function() {});
+}
+
+function verifierPinDirect() {
+  estConnecte = true;
+  localStorage.setItem("cn_user", utilisateurActuel.id);
+  localStorage.setItem("cn_connecte", "1");
+  document.getElementById("ecran-login").classList.add("cache");
+  ouvrirAccueil();
+}
 
 function construireAccueil() {
   var ea = document.getElementById("ecran-accueil");
@@ -590,7 +659,7 @@ function construireAccueil() {
 
 function ouvrirReglages() {
   var panneau = document.createElement("div");
-  panneau.style.cssText = "position:fixed;inset:0;z-index:9000;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif;overflow-y:auto";
+  panneau.style.cssText = "position:fixed;inset:0;z-index:99998;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif;overflow-y:auto";
   var barre = document.createElement("div");
   barre.style.cssText = "background:#2C2C2E;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px)+8px)";
   barre.innerHTML = "<span style='font-size:17px;font-weight:700;color:#fff'>Reglages</span>";
@@ -708,7 +777,7 @@ function afficherStats() {
     snap.forEach(function(doc) { devis.push(doc.data()); });
 
     var panneau = document.createElement("div");
-    panneau.style.cssText = "position:fixed;inset:0;z-index:8000;background:var(--gris3);display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+    panneau.style.cssText = "position:fixed;inset:0;z-index:99998;background:#F2F2F7;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
 
     var barre = document.createElement("div");
     barre.style.cssText = "background:linear-gradient(135deg,#C8923E,#8B5E1A);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px) + 6px)";
@@ -1678,7 +1747,7 @@ function ouvrirPanneauClients() {
   // Afficher panneau avec chargement
   var panneau = document.createElement("div");
   panneau.id = "panneau-clients";
-  panneau.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9000;display:flex;align-items:flex-end;justify-content:center";
+  panneau.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99998;display:flex;align-items:flex-end;justify-content:center";
   panneau.innerHTML = "<div style='background:#F2F2F7;width:100%;max-width:430px;border-radius:22px 22px 0 0;padding:30px;text-align:center;font-family:-apple-system,sans-serif;color:#8E8E93;font-size:14px'>Chargement...</div>";
   document.body.appendChild(panneau);
   panneau.onclick = function(e) { if (e.target === panneau) panneau.remove(); };
@@ -1695,7 +1764,7 @@ function _afficherPanneauClients(clients) {
 
   var panneau = document.createElement("div");
   panneau.id = "panneau-clients";
-  panneau.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9000;display:flex;align-items:flex-end;justify-content:center";
+  panneau.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99998;display:flex;align-items:flex-end;justify-content:center";
 
   var feuille = document.createElement("div");
   feuille.style.cssText = "background:#F2F2F7;width:100%;max-width:430px;border-radius:22px 22px 0 0;padding:0 0 40px;font-family:-apple-system,sans-serif;max-height:80vh;display:flex;flex-direction:column";
@@ -1948,6 +2017,31 @@ function init() {
 
   afficherPhotos("main");
   calculer();
+
+  // Scroll champ au dessus du clavier iOS
+  document.addEventListener("focusin", function(e) {
+    var el = e.target;
+    if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+      setTimeout(function() {
+        el.scrollIntoView({behavior: "smooth", block: "center"});
+      }, 350);
+    }
+  });
+
+  // Effet ripple sur tous les boutons
+  document.addEventListener("click", function(e) {
+    var btn = e.target.closest("button, .user-card, .acc-btn");
+    if (!btn) return;
+    var r = document.createElement("span");
+    r.className = "ripple-el";
+    var rect = btn.getBoundingClientRect();
+    var size = Math.max(rect.width, rect.height);
+    r.style.width = r.style.height = size + "px";
+    r.style.left = (e.clientX - rect.left - size/2) + "px";
+    r.style.top = (e.clientY - rect.top - size/2) + "px";
+    btn.appendChild(r);
+    setTimeout(function() { if (r.parentNode) r.parentNode.removeChild(r); }, 600);
+  });
 }
 
 window.addEventListener("load", init);
