@@ -207,7 +207,6 @@ html,body{height:100%;overflow:hidden;background:var(--gris3);font-family:-apple
     <div class="ligne-total"><span class="total-label">TVA (20%)</span><span class="total-valeur" id="total-tva2">0,00 EUR</span></div>
     <div class="ligne-total ttc"><span class="total-label">Total TTC</span><span class="total-valeur" id="total-ttc2">0,00 EUR</span></div>
   </div>
-  <button class="btn-or" id="btn-envoyer">Envoyer le devis</button>
   <button class="btn-sombre" id="btn-visualiser">Visualiser le devis</button>
   <button class="btn-gris" id="btn-retour">Modifier le calcul</button>
 </div>
@@ -303,18 +302,7 @@ function allerVers(ecran) {
   trouverEl("titre-page").textContent = ecran === "calc" ? "Calculateur" : "Devis";
   if (ecran === "devis") {
     syncTotaux2();
-    // Sauver le numero de devis dans Firebase
-    var numInput = trouverEl("d-num");
-    if (numInput) {
-      var valActuelle = numInput.value;
-      var parties = valActuelle.split("-");
-      var numVal = parseInt(parties[parties.length - 1]) || 0;
-      var anneeVal = parties[0] || "";
-      var moisVal = parties[1] || "";
-      db.collection("config").doc("devis").set({
-        num: numVal, annee: anneeVal, mois: moisVal
-      }).catch(function(e) { console.log("Erreur save num:", e); });
-    }
+    // Numero sauve au moment de la visualisation
   }
   fermerPave();
   // Retour en haut de page
@@ -989,6 +977,18 @@ function construireDevis() {
 
 function visualiserDevis() {
   syncTotaux2();
+  // Incrementer et sauver le numero dans Firebase
+  var numInput = trouverEl("d-num");
+  if (numInput && numInput.value) {
+    var parties = numInput.value.split("-");
+    var numVal = parseInt(parties[parties.length - 1]) || 0;
+    var anneeVal = parties[0] || "";
+    var moisVal = parties[1] || "";
+    // Incrementer pour le prochain devis
+    db.collection("config").doc("devis").set({
+      num: numVal, annee: anneeVal, mois: moisVal
+    }).catch(function(e) { console.log("Erreur save num:", e); });
+  }
   var html = construireDevis();
   var ancien = document.getElementById("overlay-devis");
   if (ancien) ancien.remove();
@@ -1309,8 +1309,6 @@ function init() {
   if (btnReset) btnReset.onclick = reinitialiser;
   var btnDevis = trouverEl("btn-vers-devis");
   if (btnDevis) btnDevis.onclick = function() { allerVers("devis"); };
-  var btnEnvoyer = trouverEl("btn-envoyer");
-  if (btnEnvoyer) btnEnvoyer.onclick = envoyerDevis;
   var btnVisu = trouverEl("btn-visualiser");
   if (btnVisu) btnVisu.onclick = visualiserDevis;
   var btnRetour = trouverEl("btn-retour");
