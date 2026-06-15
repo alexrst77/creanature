@@ -85,7 +85,38 @@ html,body{height:100%;overflow:hidden;background:var(--gris3);font-family:-apple
 #btn-fermer-install{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:22px;cursor:pointer}
 @keyframes clin{0%,100%{opacity:1}50%{opacity:0}}
 @keyframes ripple{0%{transform:scale(0);opacity:.6}100%{transform:scale(4);opacity:0}}
-.btn-prest,.btn-interv,.ibtn,.bgold,.bdark,.btn-gris,.btn-tirete,.acc-btn,.touche,.touche-ok,.nk,.nv,.btn-or,.user-card{position:relative;overflow:hidden}
+/* MEMO */
+#memo-panel{position:fixed;inset:0;z-index:99998;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif}
+.memo-header{background:#2A1A3A;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px)+8px)}
+.memo-titre{font-size:17px;font-weight:700;color:#C77DFF}
+.memo-liste{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px 14px 10px}
+.memo-filtres{display:flex;gap:8px;padding:8px 14px;flex-shrink:0;background:#1C1C1E;border-bottom:.5px solid #2C2C2E}
+.memo-filtre{padding:6px 14px;border-radius:20px;border:1.5px solid #3A3A3C;background:none;color:#8E8E93;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap}
+.memo-filtre.on{border-color:#C77DFF;background:rgba(199,125,255,.12);color:#C77DFF}
+.memo-note{background:#2C2C2E;border-radius:13px;padding:13px 14px;margin-bottom:8px;position:relative}
+.memo-note.urgent{border-left:3px solid #FF3B30;background:#2C1A1A}
+.memo-note.tache{border-left:3px solid #34C759;background:#1A2C1A}
+.memo-note-texte{font-size:14px;color:#fff;line-height:1.5;margin-bottom:6px;word-break:break-word}
+.memo-note-texte.barre{text-decoration:line-through;color:#636366}
+.memo-meta{display:flex;align-items:center;gap:8px}
+.memo-auteur{font-size:11px;font-weight:600;color:#C77DFF}
+.memo-date{font-size:11px;color:#636366}
+.memo-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.06em}
+.memo-badge.urgent{background:rgba(255,59,48,.2);color:#FF3B30}
+.memo-badge.tache{background:rgba(52,199,89,.2);color:#34C759}
+.memo-actions{display:flex;gap:6px;margin-top:8px}
+.memo-action-btn{padding:5px 12px;border-radius:20px;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif}
+.memo-saisie{flex-shrink:0;background:#2C2C2E;border-top:.5px solid #3A3A3C;padding:10px 14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+10px)}
+.memo-type-row{display:flex;gap:6px;margin-bottom:8px}
+.memo-type-btn{flex:1;height:32px;border-radius:8px;border:1.5px solid #3A3A3C;background:none;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;color:#8E8E93}
+.memo-type-btn.on{background:rgba(199,125,255,.15);border-color:#C77DFF;color:#C77DFF}
+.memo-type-btn.tache.on{background:rgba(52,199,89,.15);border-color:#34C759;color:#34C759}
+.memo-type-btn.urgent.on{background:rgba(255,59,48,.15);border-color:#FF3B30;color:#FF3B30}
+.memo-input-row{display:flex;gap:8px;align-items:flex-end}
+.memo-input{flex:1;padding:10px 13px;border:1.5px solid #3A3A3C;border-radius:10px;background:#3A3A3C;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;resize:none;min-height:40px;max-height:100px}
+.memo-input:focus{border-color:#C77DFF}
+.memo-send{width:44px;height:44px;border-radius:22px;background:linear-gradient(135deg,#C77DFF,#8B5E1A);border:none;font-size:20px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.memo-vide{text-align:center;color:#636366;font-size:14px;padding:40px 20px}
 .ripple-el{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);animation:ripple .5s linear;pointer-events:none;transform:scale(0)}
 .btn-prest,.btn-interv,.ibtn{transition:transform .1s,box-shadow .1s}
 .btn-prest:active,.btn-interv:active,.ibtn:active{transform:scale(.96)}
@@ -208,7 +239,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 
 <!-- ECRAN PIN -->
 <div id="ecran-login" class="ecran-plein cache">
-  <button id="btn-retour-users" style="position:absolute;top:calc(env(safe-area-inset-top,44px)+8px);left:16px;background:rgba(200,146,62,.15);border:none;color:#C8923E;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;padding:8px 14px;border-radius:20px">← Retour</button>
+  <button onclick="afficherChoixUsers()" style="position:absolute;top:calc(env(safe-area-inset-top,44px)+8px);left:16px;background:rgba(200,146,62,.15);border:none;color:#C8923E;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;padding:8px 14px;border-radius:20px;z-index:10">← Retour</button>
   <div class="login-logo" style="margin-top:20px">
     <div id="avatar-login" style="width:70px;height:70px;border-radius:35px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:700;font-family:-apple-system,sans-serif">?</div>
   </div>
@@ -241,7 +272,6 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 <div id="ecran-accueil" class="ecran-plein cache">
 </div>
 
-<button id="btn-dark" onclick="toggleDark()" title="Mode sombre">&#x1F31B;</button>
 
 <div id="app">
 
@@ -456,17 +486,16 @@ function selectionnerUser(user) {
   if (av) av.textContent = user.initiale;
   if (nm) nm.textContent = user.nom;
   document.getElementById("login-erreur").textContent = "";
-  // Tenter Face ID automatiquement si credential existant
+  // Face ID : afficher le bouton et tenter auto si deja configure
   var credKey = "cn_cred_" + user.id;
-  if (window.PublicKeyCredential && localStorage.getItem(credKey)) {
-    setTimeout(connexionFaceID, 400);
-  }
-  // Afficher bouton Face ID
   var btnFid = document.getElementById("btn-faceid");
   if (btnFid) {
-    var credKey2 = "cn_cred_" + user.id;
     btnFid.style.display = "block";
-    btnFid.textContent = localStorage.getItem(credKey2) ? "Face ID" : "Configurer Face ID";
+    btnFid.textContent = localStorage.getItem(credKey) ? "&#x1F972; Face ID" : "Configurer Face ID";
+    btnFid.innerHTML = localStorage.getItem(credKey) ? "&#x1F972; Face ID" : "Configurer Face ID";
+  }
+  if (window.PublicKeyCredential && localStorage.getItem(credKey)) {
+    setTimeout(connexionFaceID, 500);
   }
 }
 
@@ -515,6 +544,7 @@ function ouvrirAccueil() {
 function ouvrirApp() { ouvrirAccueil(); }
 
 function lancerCalculateur() {
+  fermerMemo();
   document.getElementById("ecran-accueil").classList.add("cache");
   document.getElementById("app").style.display = "flex";
   allerVers("calc");
@@ -535,45 +565,58 @@ function deconnecter() {
 }
 
 function connexionFaceID() {
-  // Face ID via WebAuthn - uniquement si un utilisateur est selectionne
   if (!utilisateurActuel) return;
-  if (!window.PublicKeyCredential) return;
-  var credKey = "cn_cred_" + utilisateurActuel.id;
-  var credId = localStorage.getItem(credKey);
-  if (!credId) {
-    // Enregistrer un credential Face ID pour cet utilisateur
-    var userId = new TextEncoder().encode(utilisateurActuel.id);
-    var challenge = new Uint8Array(32);
-    window.crypto.getRandomValues(challenge);
-    navigator.credentials.create({
-      publicKey: {
-        challenge: challenge,
-        rp: {name: "Crea Nature"},
-        user: {id: userId, name: utilisateurActuel.id, displayName: utilisateurActuel.nom},
-        pubKeyCredParams: [{type: "public-key", alg: -7}],
-        authenticatorSelection: {userVerification: "required"},
-        timeout: 30000
+  // Utiliser l'API biometrie simple du navigateur
+  if (window.PublicKeyCredential && PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) {
+    PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(function(dispo) {
+      if (!dispo) { afficherToast("Face ID non disponible"); return; }
+      var challenge = new Uint8Array(32);
+      window.crypto.getRandomValues(challenge);
+      // Essayer d'authentifier avec un credential existant
+      var credKey = "cn_cred_" + utilisateurActuel.id;
+      var credIdStr = localStorage.getItem(credKey);
+      if (credIdStr) {
+        // Authentification Face ID
+        navigator.credentials.get({
+          publicKey: {
+            challenge: challenge,
+            allowCredentials: [{
+              type: "public-key",
+              id: Uint8Array.from(atob(credIdStr), function(c){return c.charCodeAt(0);})
+            }],
+            userVerification: "required",
+            timeout: 30000
+          }
+        }).then(function() {
+          verifierPinDirect();
+        }).catch(function(e) {
+          document.getElementById("login-erreur").textContent = "Face ID annule";
+        });
+      } else {
+        // Premier enregistrement Face ID
+        var uid = new TextEncoder().encode(utilisateurActuel.id + Date.now());
+        navigator.credentials.create({
+          publicKey: {
+            challenge: challenge,
+            rp: {name: "Crea Nature", id: location.hostname},
+            user: {id: uid, name: utilisateurActuel.id, displayName: utilisateurActuel.nom},
+            pubKeyCredParams: [{type: "public-key", alg: -7}, {type: "public-key", alg: -257}],
+            authenticatorSelection: {authenticatorAttachment: "platform", userVerification: "required"},
+            timeout: 30000
+          }
+        }).then(function(cred) {
+          var idArr = new Uint8Array(cred.rawId);
+          var idStr = btoa(String.fromCharCode.apply(null, idArr));
+          localStorage.setItem("cn_cred_" + utilisateurActuel.id, idStr);
+          afficherToast("Face ID configure ! Reconnecte-toi.");
+        }).catch(function() {
+          afficherToast("Echec configuration Face ID");
+        });
       }
-    }).then(function(cred) {
-      var id = btoa(String.fromCharCode.apply(null, new Uint8Array(cred.rawId)));
-      localStorage.setItem(credKey, id);
-      afficherToast("Face ID configure !");
-    }).catch(function() {});
-    return;
+    });
+  } else {
+    afficherToast("Face ID non supporte");
   }
-  // Authentifier
-  var challenge2 = new Uint8Array(32);
-  window.crypto.getRandomValues(challenge2);
-  navigator.credentials.get({
-    publicKey: {
-      challenge: challenge2,
-      allowCredentials: [{type: "public-key", id: Uint8Array.from(atob(credId), function(c){return c.charCodeAt(0);})}],
-      userVerification: "required",
-      timeout: 30000
-    }
-  }).then(function() {
-    verifierPinDirect();
-  }).catch(function() {});
 }
 
 function verifierPinDirect() {
@@ -617,6 +660,7 @@ function construireAccueil() {
         "<button class='acc-btn acc-btn-dark' onclick='ouvrirPanneauClients()'><span class='acc-ico'>&#x1F465;</span><span class='acc-lbl'>Mes clients</span><span class='acc-desc'>Base de donnees</span></button>" +
         "<button class='acc-btn acc-btn-green' onclick='afficherStats()'><span class='acc-ico'>&#x1F4CA;</span><span class='acc-lbl'>Historique</span><span class='acc-desc'>Devis et CA</span></button>" +
         "<button class='acc-btn acc-btn-blue' onclick='ouvrirReglages()'><span class='acc-ico'>&#x2699;&#xFE0F;</span><span class='acc-lbl'>Reglages</span><span class='acc-desc'>PIN, profils</span></button>" +
+        "<button class='acc-btn acc-btn-full' style='background:linear-gradient(135deg,#2A1A3A,#3D1F5A);color:#C77DFF;grid-column:1/-1' onclick='ouvrirMemo()'><span class='acc-ico'>&#x1F4DD;</span><span class='acc-lbl'>Memo partage</span><span class='acc-desc'>Notes et taches avec Guillaume</span></button>" +
       "</div>" +
       "<div class='acc-section'>Derniers devis</div>" +
       "<div class='acc-devis-list' id='acc-derniers-devis'><div style='padding:20px;text-align:center;color:#636366;font-size:13px'>Chargement...</div></div>" +
@@ -846,6 +890,149 @@ function voirHistoriqueClient(nomClient) {
   }).catch(function(e) {
     alert("Erreur : " + e.message);
   });
+}
+
+// === MEMO PARTAGE ===
+var memoFiltre = "tout";
+var memoListener = null;
+var memoTypeActuel = "note";
+
+function ouvrirMemo() {
+  if (document.getElementById("memo-panel")) return;
+  var panel = document.createElement("div");
+  panel.id = "memo-panel";
+  panel.innerHTML =
+    "<div class='memo-header'>" +
+      "<span class='memo-titre'>&#x1F4DD; Memo partage</span>" +
+      "<button onclick='fermerMemo()' style='background:rgba(199,125,255,.2);border:none;color:#C77DFF;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>" +
+    "</div>" +
+    "<div class='memo-filtres'>" +
+      "<button class='memo-filtre on' id='mf-tout' onclick='setMemoFiltre("tout")'>Tout</button>" +
+      "<button class='memo-filtre' id='mf-tache' onclick='setMemoFiltre("tache")'>&#x2705; Taches</button>" +
+      "<button class='memo-filtre' id='mf-urgent' onclick='setMemoFiltre("urgent")'>&#x1F534; Urgent</button>" +
+      "<button class='memo-filtre' id='mf-note' onclick='setMemoFiltre("note")'>&#x1F4CB; Notes</button>" +
+    "</div>" +
+    "<div class='memo-liste' id='memo-liste'><div class='memo-vide'>Chargement...</div></div>" +
+    "<div class='memo-saisie'>" +
+      "<div class='memo-type-row'>" +
+        "<button class='memo-type-btn on' id='mbt-note' onclick='setMemoType("note")'>&#x1F4CB; Note</button>" +
+        "<button class='memo-type-btn tache' id='mbt-tache' onclick='setMemoType("tache")'>&#x2705; Tache</button>" +
+        "<button class='memo-type-btn urgent' id='mbt-urgent' onclick='setMemoType("urgent")'>&#x1F534; Urgent</button>" +
+      "</div>" +
+      "<div class='memo-input-row'>" +
+        "<textarea class='memo-input' id='memo-input' placeholder='Ecrire une note...' rows='1' oninput='autoResize(this)'></textarea>" +
+        "<button class='memo-send' onclick='envoyerMemo()'>&#x27A4;</button>" +
+      "</div>" +
+    "</div>";
+  document.body.appendChild(panel);
+  demarrerEcouteMemo();
+}
+
+function fermerMemo() {
+  if (memoListener) { memoListener(); memoListener = null; }
+  var p = document.getElementById("memo-panel");
+  if (p) p.remove();
+}
+
+function setMemoFiltre(f) {
+  memoFiltre = f;
+  ["tout","tache","urgent","note"].forEach(function(x) {
+    var b = document.getElementById("mf-"+x);
+    if (b) b.classList.toggle("on", x === f);
+  });
+  demarrerEcouteMemo();
+}
+
+function setMemoType(t) {
+  memoTypeActuel = t;
+  ["note","tache","urgent"].forEach(function(x) {
+    var b = document.getElementById("mbt-"+x);
+    if (b) b.classList.toggle("on", x === t);
+  });
+  var inp = document.getElementById("memo-input");
+  if (inp) {
+    var ph = {note:"Ecrire une note...", tache:"Ajouter une tache...", urgent:"Note urgente..."};
+    inp.placeholder = ph[t] || "Ecrire...";
+    inp.focus();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight, 100) + "px";
+}
+
+function demarrerEcouteMemo() {
+  if (memoListener) { memoListener(); memoListener = null; }
+  var query = db.collection("memos").orderBy("timestamp","desc").limit(50);
+  if (memoFiltre !== "tout") query = query.where("type","==",memoFiltre);
+  memoListener = query.onSnapshot(function(snap) {
+    var notes = [];
+    snap.forEach(function(doc) { notes.push(Object.assign({id:doc.id}, doc.data())); });
+    afficherMemos(notes);
+  }, function(e) {
+    var liste = document.getElementById("memo-liste");
+    if (liste) liste.innerHTML = "<div class='memo-vide'>Erreur de connexion</div>";
+  });
+}
+
+function afficherMemos(notes) {
+  var liste = document.getElementById("memo-liste");
+  if (!liste) return;
+  if (notes.length === 0) {
+    liste.innerHTML = "<div class='memo-vide'>Aucune note pour le moment.<br/>Ecris la premiere !</div>";
+    return;
+  }
+  liste.innerHTML = "";
+  notes.forEach(function(n) {
+    var div = document.createElement("div");
+    div.className = "memo-note" + (n.type === "urgent" ? " urgent" : n.type === "tache" ? " tache" : "");
+    var badgeHtml = n.type === "urgent" ? "<span class='memo-badge urgent'>Urgent</span>" :
+                    n.type === "tache"  ? "<span class='memo-badge tache'>Tache</span>" : "";
+    var texteClass = (n.type === "tache" && n.fait) ? "memo-note-texte barre" : "memo-note-texte";
+    var d = new Date(n.timestamp || 0);
+    var dateStr = ("0"+d.getDate()).slice(-2)+"/"+("0"+(d.getMonth()+1)).slice(-2)+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2);
+    div.innerHTML =
+      "<div class='"+texteClass+"'>"+echapper(n.texte||"")+"</div>" +
+      "<div class='memo-meta'>"+
+        "<span class='memo-auteur'>"+echapper(n.auteur||"")+"</span>"+
+        "<span class='memo-date'>"+dateStr+"</span>"+
+        badgeHtml+
+      "</div>" +
+      "<div class='memo-actions'>" +
+        (n.type === "tache" ? "<button class='memo-action-btn' style='background:"+(n.fait?"rgba(100,100,100,.2)":"rgba(52,199,89,.2)")+" ;color:"+(n.fait?"#636366":"#34C759")+"' onclick='toggleFaitMemo(""+n.id+"","+(!n.fait)+")'>"+(n.fait?"Rouvrir":"Fait !")+"</button>" : "") +
+        "<button class='memo-action-btn' style='background:rgba(255,59,48,.15);color:#FF3B30' onclick='supprimerMemo(""+n.id+"")'>Supprimer</button>" +
+      "</div>";
+    liste.appendChild(div);
+  });
+}
+
+function envoyerMemo() {
+  var inp = document.getElementById("memo-input");
+  if (!inp) return;
+  var texte = inp.value.trim();
+  if (!texte) return;
+  var auteur = utilisateurActuel ? utilisateurActuel.nom : "Equipe";
+  db.collection("memos").add({
+    texte: texte,
+    type: memoTypeActuel,
+    auteur: auteur,
+    timestamp: Date.now(),
+    fait: false
+  }).then(function() {
+    inp.value = "";
+    inp.style.height = "auto";
+  }).catch(function(e) {
+    afficherToast("Erreur : " + e.message);
+  });
+}
+
+function supprimerMemo(id) {
+  db.collection("memos").doc(id).delete().catch(function(){});
+}
+
+function toggleFaitMemo(id, fait) {
+  db.collection("memos").doc(id).update({fait: fait}).catch(function(){});
 }
 
 // === ETAT ===
@@ -1985,12 +2172,20 @@ function init() {
     if (bi) bi.classList.add("visible");
   }
 
-  // Mode sombre
-  if (localStorage.getItem("cn_dark") === "1") {
-    modeSombre = true;
-    document.body.classList.add("dark");
-    var btnD = document.getElementById("btn-dark");
-    if (btnD) btnD.textContent = "☀️";
+  // Mode sombre : suivre le systeme par defaut
+  var preferDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  var savedDark = localStorage.getItem("cn_dark");
+  // Si pas de preference sauvee, utiliser le mode systeme
+  modeSombre = savedDark !== null ? savedDark === "1" : preferDark;
+  if (modeSombre) document.body.classList.add("dark");
+  // Ecouter les changements systeme
+  if (window.matchMedia) {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
+      if (localStorage.getItem("cn_dark") === null) {
+        modeSombre = e.matches;
+        document.body.classList.toggle("dark", modeSombre);
+      }
+    });
   }
 
   // Demarrage : afficher choix utilisateur
@@ -2030,15 +2225,20 @@ function init() {
 
   // Effet ripple sur tous les boutons
   document.addEventListener("click", function(e) {
-    var btn = e.target.closest("button, .user-card, .acc-btn");
+    var btn = e.target.closest("button, .user-card");
     if (!btn) return;
+    // Supprimer les anciens ripples
+    var old = btn.querySelectorAll(".ripple-el");
+    for (var i = 0; i < old.length; i++) old[i].remove();
     var r = document.createElement("span");
     r.className = "ripple-el";
     var rect = btn.getBoundingClientRect();
-    var size = Math.max(rect.width, rect.height);
-    r.style.width = r.style.height = size + "px";
-    r.style.left = (e.clientX - rect.left - size/2) + "px";
-    r.style.top = (e.clientY - rect.top - size/2) + "px";
+    var size = Math.max(rect.width, rect.height) * 2;
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    r.style.cssText = "position:absolute;border-radius:50%;background:rgba(255,255,255,.3);animation:ripple .5s linear forwards;pointer-events:none;width:"+size+"px;height:"+size+"px;left:"+(x-size/2)+"px;top:"+(y-size/2)+"px;transform:scale(0)";
+    btn.style.position = btn.style.position || "relative";
+    btn.style.overflow = "hidden";
     btn.appendChild(r);
     setTimeout(function() { if (r.parentNode) r.parentNode.removeChild(r); }, 600);
   });
