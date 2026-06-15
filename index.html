@@ -425,7 +425,23 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
   Safari > Partager > Sur l'ecran d'accueil
 </div>
 
-<script>
+<script>// Utilitaires de base (définis en premier)
+function echapper(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+
+
+
+// === FIREBASE ===
+var firebaseConfig = {
+  apiKey: "AIzaSyBLPt84Nqv1NKygLIx5XNSecGESN0Y2oU0",
+  authDomain: "creanature-c2ba0.firebaseapp.com",
+  projectId: "creanature-c2ba0",
+  storageBucket: "creanature-c2ba0.firebasestorage.app",
+  messagingSenderId: "602609501333",
+  appId: "1:602609501333:web:ffda7c8e38ad21d8b4c79c"
+};
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+
 
 // === UTILISATEURS & AUTH ===
 var utilisateurActuel = null;
@@ -1066,7 +1082,6 @@ function euros(n) {
   return n.toLocaleString("fr-FR", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " EUR";
 }
 
-function echapper(s) {
   return String(s || "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -1853,17 +1868,7 @@ function envoyerDevis() {
 }
 
 // === INIT ===
-// === FIREBASE ===
-var firebaseConfig = {
-  apiKey: "AIzaSyBLPt84Nqv1NKygLIx5XNSecGESN0Y2oU0",
-  authDomain: "creanature-c2ba0.firebaseapp.com",
-  projectId: "creanature-c2ba0",
-  storageBucket: "creanature-c2ba0.firebasestorage.app",
-  messagingSenderId: "602609501333",
-  appId: "1:602609501333:web:ffda7c8e38ad21d8b4c79c"
-};
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-var db = firebase.firestore();
+
 
 // === CLIENTS ===
 var cacheClients = [];
