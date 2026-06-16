@@ -84,67 +84,6 @@ html,body{height:100%;overflow:hidden;background:var(--gris3);font-family:-apple
 #barre-install.visible{display:block}
 #btn-fermer-install{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:22px;cursor:pointer}
 @keyframes clin{0%,100%{opacity:1}50%{opacity:0}}
-@keyframes ripple{0%{transform:scale(0);opacity:.6}100%{transform:scale(4);opacity:0}}
-/* BON INTERVENTION */
-#bi-panel{position:fixed;inset:0;z-index:99998;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif}
-.bi-header{background:#0D3D1A;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px)+8px)}
-.bi-titre{font-size:17px;font-weight:700;color:#4CD964}
-.bi-body{flex:1;overflow-y:auto;padding:16px}
-.bi-section{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:16px 0 8px 2px}
-.bi-section:first-child{margin-top:0}
-.bi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
-.bi-btn{padding:16px 10px;border-radius:13px;border:1.5px solid #3A3A3C;background:#2C2C2E;font-size:13px;font-weight:500;color:#fff;cursor:pointer;text-align:center;font-family:-apple-system,sans-serif;line-height:1.5;transition:all .15s}
-.bi-btn .bi-ico{font-size:22px;display:block;margin-bottom:4px}
-.bi-btn.on{border-color:#4CD964;background:rgba(76,217,100,.12);color:#4CD964}
-.bi-note{width:100%;padding:12px 14px;border:1.5px solid #3A3A3C;border-radius:11px;background:#2C2C2E;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;resize:none;min-height:80px;-webkit-appearance:none;display:block}
-.bi-note:focus{border-color:#4CD964}
-.bi-client-item{background:#2C2C2E;border-radius:12px;padding:14px 15px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border:1.5px solid transparent}
-.bi-client-item:active{border-color:#4CD964}
-.bi-client-nom{font-size:15px;font-weight:600;color:#fff}
-.bi-client-info{font-size:12px;color:#8E8E93;margin-top:2px}
-.bi-search{width:100%;padding:11px 14px;border:1.5px solid #3A3A3C;border-radius:11px;background:#2C2C2E;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;margin-bottom:10px;-webkit-appearance:none}
-.bi-search:focus{border-color:#4CD964}
-.bi-footer{flex-shrink:0;padding:12px 16px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+10px);background:#1C1C1E;border-top:.5px solid #2C2C2E}
-.bi-btn-suivant{width:100%;height:52px;border-radius:14px;background:linear-gradient(135deg,#34C759,#1A7A30);border:none;font-size:16px;font-weight:600;color:#fff;cursor:pointer;font-family:-apple-system,sans-serif}
-.bi-btn-suivant:disabled{background:#2C2C2E;color:#636366}
-/* MEMO */
-#memo-panel{position:fixed;inset:0;z-index:99998;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif}
-.memo-header{background:#2A1A3A;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px)+8px)}
-.memo-titre{font-size:17px;font-weight:700;color:#C77DFF}
-.memo-liste{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px 14px 10px}
-.memo-filtres{display:flex;gap:8px;padding:8px 14px;flex-shrink:0;background:#1C1C1E;border-bottom:.5px solid #2C2C2E}
-.memo-filtre{padding:6px 14px;border-radius:20px;border:1.5px solid #3A3A3C;background:none;color:#8E8E93;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap}
-.memo-filtre.on{border-color:#C77DFF;background:rgba(199,125,255,.12);color:#C77DFF}
-.memo-note{background:#2C2C2E;border-radius:13px;padding:13px 14px;margin-bottom:8px;position:relative}
-.memo-note.urgent{border-left:3px solid #FF3B30;background:#2C1A1A}
-.memo-note.tache{border-left:3px solid #34C759;background:#1A2C1A}
-.memo-note-texte{font-size:14px;color:#fff;line-height:1.5;margin-bottom:6px;word-break:break-word}
-.memo-note-texte.barre{text-decoration:line-through;color:#636366}
-.memo-meta{display:flex;align-items:center;gap:8px}
-.memo-auteur{font-size:11px;font-weight:600;color:#C77DFF}
-.memo-date{font-size:11px;color:#636366}
-.memo-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.06em}
-.memo-badge.urgent{background:rgba(255,59,48,.2);color:#FF3B30}
-.memo-badge.tache{background:rgba(52,199,89,.2);color:#34C759}
-.memo-actions{display:flex;gap:6px;margin-top:8px}
-.memo-action-btn{padding:5px 12px;border-radius:20px;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif}
-.memo-saisie{flex-shrink:0;background:#2C2C2E;border-top:.5px solid #3A3A3C;padding:10px 14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+10px)}
-.memo-type-row{display:flex;gap:6px;margin-bottom:8px}
-.memo-type-btn{flex:1;height:32px;border-radius:8px;border:1.5px solid #3A3A3C;background:none;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;color:#8E8E93}
-.memo-type-btn.on{background:rgba(199,125,255,.15);border-color:#C77DFF;color:#C77DFF}
-.memo-type-btn.tache.on{background:rgba(52,199,89,.15);border-color:#34C759;color:#34C759}
-.memo-type-btn.urgent.on{background:rgba(255,59,48,.15);border-color:#FF3B30;color:#FF3B30}
-.memo-input-row{display:flex;gap:8px;align-items:flex-end}
-.memo-input{flex:1;padding:10px 13px;border:1.5px solid #3A3A3C;border-radius:10px;background:#3A3A3C;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;resize:none;min-height:40px;max-height:100px}
-.memo-input:focus{border-color:#C77DFF}
-.memo-send{width:44px;height:44px;border-radius:22px;background:linear-gradient(135deg,#C77DFF,#8B5E1A);border:none;font-size:20px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-.memo-vide{text-align:center;color:#636366;font-size:14px;padding:40px 20px}
-.ripple-el{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);animation:ripple .5s linear;pointer-events:none;transform:scale(0)}
-.btn-prest,.btn-interv,.ibtn{transition:transform .1s,box-shadow .1s}
-.btn-prest:active,.btn-interv:active,.ibtn:active{transform:scale(.96)}
-.touche:active,.nk:active{transform:scale(.93);transition:transform .08s}
-.acc-btn:active{transform:scale(.97);transition:transform .1s}
-.bgold:active,.btn-or:active,.nv:active,.touche-ok:active{opacity:.88;transform:scale(.98);transition:all .08s}
 
 /* MODE SOMBRE */
 body.dark{background:#1C1C1E}
@@ -171,7 +110,7 @@ body.dark .touche.eff{background:#48484A}
 body.dark #pave{background:#000;border-color:#3A3A3C}
 
 /* ECRANS PLEIN */
-.ecran-plein{position:fixed;inset:0;z-index:9999;background:#1C1C1E;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;font-family:-apple-system,sans-serif}
+.ecran-plein{position:fixed;inset:0;z-index:99999;background:#1C1C1E;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;font-family:-apple-system,sans-serif}
 .ecran-plein.cache{display:none!important}
 /* ACCUEIL */
 #ecran-accueil{padding:0;justify-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -261,7 +200,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 
 <!-- ECRAN PIN -->
 <div id="ecran-login" class="ecran-plein cache">
-  <button onclick="afficherChoixUsers()" style="position:absolute;top:calc(env(safe-area-inset-top,44px)+8px);left:16px;background:rgba(200,146,62,.15);border:none;color:#C8923E;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;padding:8px 14px;border-radius:20px;z-index:10">← Retour</button>
+  <button id="btn-retour-users" style="position:absolute;top:calc(env(safe-area-inset-top,44px)+10px);left:16px;background:none;border:none;color:#C8923E;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif">← Retour</button>
   <div class="login-logo" style="margin-top:20px">
     <div id="avatar-login" style="width:70px;height:70px;border-radius:35px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:700;font-family:-apple-system,sans-serif">?</div>
   </div>
@@ -286,7 +225,6 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
     <button class="pin-btn eff" onclick="pinEff()">&#x232B;</button>
     <button class="pin-btn zero" onclick="pinTouche('0')">0</button>
   </div>
-  <button class="pin-faceid" id="btn-faceid" onclick="connexionFaceID()" style="display:none;margin-top:18px;background:none;border:none;color:#C8923E;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif">Face ID</button>
   <div class="login-erreur" id="login-erreur"></div>
 </div>
 
@@ -294,6 +232,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 <div id="ecran-accueil" class="ecran-plein cache">
 </div>
 
+<button id="btn-dark" onclick="toggleDark()" title="Mode sombre">&#x1F31B;</button>
 
 <div id="app">
 
@@ -447,23 +386,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
   Safari > Partager > Sur l'ecran d'accueil
 </div>
 
-<script>// Utilitaires de base (définis en premier)
-function echapper(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
-
-
-
-// === FIREBASE ===
-var firebaseConfig = {
-  apiKey: "AIzaSyBLPt84Nqv1NKygLIx5XNSecGESN0Y2oU0",
-  authDomain: "creanature-c2ba0.firebaseapp.com",
-  projectId: "creanature-c2ba0",
-  storageBucket: "creanature-c2ba0.firebasestorage.app",
-  messagingSenderId: "602609501333",
-  appId: "1:602609501333:web:ffda7c8e38ad21d8b4c79c"
-};
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-var db = firebase.firestore();
-
+<script>
 
 // === UTILISATEURS & AUTH ===
 var utilisateurActuel = null;
@@ -471,7 +394,7 @@ var pinSaisi = "";
 var estConnecte = false;
 var USERS_DEFAUT = [
   {id:"alex", nom:"Alexandre", initiale:"A", pin:"0407", role:"Gerant"},
-  {id:"guil", nom:"Guillaume",  initiale:"G", pin:"3010", role:"Gerant"}
+  {id:"guil", nom:"Guillaume",  initiale:"G", pin:"3010", role:"Collaborateur"}
 ];
 
 function chargerUtilisateurs(cb) {
@@ -524,17 +447,6 @@ function selectionnerUser(user) {
   if (av) av.textContent = user.initiale;
   if (nm) nm.textContent = user.nom;
   document.getElementById("login-erreur").textContent = "";
-  // Face ID : afficher le bouton et tenter auto si deja configure
-  var credKey = "cn_cred_" + user.id;
-  var btnFid = document.getElementById("btn-faceid");
-  if (btnFid) {
-    btnFid.style.display = "block";
-    btnFid.textContent = localStorage.getItem(credKey) ? "&#x1F972; Face ID" : "Configurer Face ID";
-    btnFid.innerHTML = localStorage.getItem(credKey) ? "&#x1F972; Face ID" : "Configurer Face ID";
-  }
-  if (window.PublicKeyCredential && localStorage.getItem(credKey)) {
-    setTimeout(connexionFaceID, 500);
-  }
 }
 
 function pinTouche(c) {
@@ -582,7 +494,6 @@ function ouvrirAccueil() {
 function ouvrirApp() { ouvrirAccueil(); }
 
 function lancerCalculateur() {
-  fermerMemo();
   document.getElementById("ecran-accueil").classList.add("cache");
   document.getElementById("app").style.display = "flex";
   allerVers("calc");
@@ -602,68 +513,7 @@ function deconnecter() {
   afficherChoixUsers();
 }
 
-function connexionFaceID() {
-  if (!utilisateurActuel) return;
-  // Utiliser l'API biometrie simple du navigateur
-  if (window.PublicKeyCredential && PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) {
-    PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(function(dispo) {
-      if (!dispo) { afficherToast("Face ID non disponible"); return; }
-      var challenge = new Uint8Array(32);
-      window.crypto.getRandomValues(challenge);
-      // Essayer d'authentifier avec un credential existant
-      var credKey = "cn_cred_" + utilisateurActuel.id;
-      var credIdStr = localStorage.getItem(credKey);
-      if (credIdStr) {
-        // Authentification Face ID
-        navigator.credentials.get({
-          publicKey: {
-            challenge: challenge,
-            allowCredentials: [{
-              type: "public-key",
-              id: Uint8Array.from(atob(credIdStr), function(c){return c.charCodeAt(0);})
-            }],
-            userVerification: "required",
-            timeout: 30000
-          }
-        }).then(function() {
-          verifierPinDirect();
-        }).catch(function(e) {
-          document.getElementById("login-erreur").textContent = "Face ID annule";
-        });
-      } else {
-        // Premier enregistrement Face ID
-        var uid = new TextEncoder().encode(utilisateurActuel.id + Date.now());
-        navigator.credentials.create({
-          publicKey: {
-            challenge: challenge,
-            rp: {name: "Crea Nature", id: location.hostname},
-            user: {id: uid, name: utilisateurActuel.id, displayName: utilisateurActuel.nom},
-            pubKeyCredParams: [{type: "public-key", alg: -7}, {type: "public-key", alg: -257}],
-            authenticatorSelection: {authenticatorAttachment: "platform", userVerification: "required"},
-            timeout: 30000
-          }
-        }).then(function(cred) {
-          var idArr = new Uint8Array(cred.rawId);
-          var idStr = btoa(String.fromCharCode.apply(null, idArr));
-          localStorage.setItem("cn_cred_" + utilisateurActuel.id, idStr);
-          afficherToast("Face ID configure ! Reconnecte-toi.");
-        }).catch(function() {
-          afficherToast("Echec configuration Face ID");
-        });
-      }
-    });
-  } else {
-    afficherToast("Face ID non supporte");
-  }
-}
-
-function verifierPinDirect() {
-  estConnecte = true;
-  localStorage.setItem("cn_user", utilisateurActuel.id);
-  localStorage.setItem("cn_connecte", "1");
-  document.getElementById("ecran-login").classList.add("cache");
-  ouvrirAccueil();
-}
+function connexionFaceID() {}
 
 function construireAccueil() {
   var ea = document.getElementById("ecran-accueil");
@@ -698,8 +548,6 @@ function construireAccueil() {
         "<button class='acc-btn acc-btn-dark' onclick='ouvrirPanneauClients()'><span class='acc-ico'>&#x1F465;</span><span class='acc-lbl'>Mes clients</span><span class='acc-desc'>Base de donnees</span></button>" +
         "<button class='acc-btn acc-btn-green' onclick='afficherStats()'><span class='acc-ico'>&#x1F4CA;</span><span class='acc-lbl'>Historique</span><span class='acc-desc'>Devis et CA</span></button>" +
         "<button class='acc-btn acc-btn-blue' onclick='ouvrirReglages()'><span class='acc-ico'>&#x2699;&#xFE0F;</span><span class='acc-lbl'>Reglages</span><span class='acc-desc'>PIN, profils</span></button>" +
-        "<button class='acc-btn acc-btn-full' style='background:linear-gradient(135deg,#2A1A3A,#3D1F5A);color:#C77DFF;grid-column:1/-1' onclick='ouvrirMemo()'><span class='acc-ico'>&#x1F4DD;</span><span class='acc-lbl'>Memo partage</span><span class='acc-desc'>Notes et taches avec Guillaume</span></button>" +
-        "<button class='acc-btn acc-btn-full' style='background:linear-gradient(135deg,#1A2A1A,#0D3D1A);color:#4CD964;grid-column:1/-1' onclick='ouvrirBonIntervention()'><span class='acc-ico'>&#x1F4CB;</span><span class='acc-lbl'>Bon d'intervention</span><span class='acc-desc'>Generer et envoyer par mail</span></button>" +
       "</div>" +
       "<div class='acc-section'>Derniers devis</div>" +
       "<div class='acc-devis-list' id='acc-derniers-devis'><div style='padding:20px;text-align:center;color:#636366;font-size:13px'>Chargement...</div></div>" +
@@ -742,7 +590,7 @@ function construireAccueil() {
 
 function ouvrirReglages() {
   var panneau = document.createElement("div");
-  panneau.style.cssText = "position:fixed;inset:0;z-index:99998;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif;overflow-y:auto";
+  panneau.style.cssText = "position:fixed;inset:0;z-index:9000;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif;overflow-y:auto";
   var barre = document.createElement("div");
   barre.style.cssText = "background:#2C2C2E;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px)+8px)";
   barre.innerHTML = "<span style='font-size:17px;font-weight:700;color:#fff'>Reglages</span>";
@@ -860,7 +708,7 @@ function afficherStats() {
     snap.forEach(function(doc) { devis.push(doc.data()); });
 
     var panneau = document.createElement("div");
-    panneau.style.cssText = "position:fixed;inset:0;z-index:99998;background:#F2F2F7;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+    panneau.style.cssText = "position:fixed;inset:0;z-index:8000;background:var(--gris3);display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
 
     var barre = document.createElement("div");
     barre.style.cssText = "background:linear-gradient(135deg,#C8923E,#8B5E1A);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px) + 6px)";
@@ -931,378 +779,6 @@ function voirHistoriqueClient(nomClient) {
   });
 }
 
-// === MEMO PARTAGE ===
-var memoFiltre = "tout";
-var memoListener = null;
-var memoTypeActuel = "note";
-
-function ouvrirMemo() {
-  if (document.getElementById("memo-panel")) return;
-  var panel = document.createElement("div");
-  panel.id = "memo-panel";
-  panel.innerHTML =
-    "<div class='memo-header'>" +
-      "<span class='memo-titre'>&#x1F4DD; Memo partage</span>" +
-      "<button onclick='fermerMemo()' style='background:rgba(199,125,255,.2);border:none;color:#C77DFF;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>" +
-    "</div>" +
-    "<div class='memo-filtres'>" +
-      "<button class='memo-filtre on' id='mf-tout' onclick='setMemoFiltre("tout")'>Tout</button>" +
-      "<button class='memo-filtre' id='mf-tache' onclick='setMemoFiltre("tache")'>&#x2705; Taches</button>" +
-      "<button class='memo-filtre' id='mf-urgent' onclick='setMemoFiltre("urgent")'>&#x1F534; Urgent</button>" +
-      "<button class='memo-filtre' id='mf-note' onclick='setMemoFiltre("note")'>&#x1F4CB; Notes</button>" +
-    "</div>" +
-    "<div class='memo-liste' id='memo-liste'><div class='memo-vide'>Chargement...</div></div>" +
-    "<div class='memo-saisie'>" +
-      "<div class='memo-type-row'>" +
-        "<button class='memo-type-btn on' id='mbt-note' onclick='setMemoType("note")'>&#x1F4CB; Note</button>" +
-        "<button class='memo-type-btn tache' id='mbt-tache' onclick='setMemoType("tache")'>&#x2705; Tache</button>" +
-        "<button class='memo-type-btn urgent' id='mbt-urgent' onclick='setMemoType("urgent")'>&#x1F534; Urgent</button>" +
-      "</div>" +
-      "<div class='memo-input-row'>" +
-        "<textarea class='memo-input' id='memo-input' placeholder='Ecrire une note...' rows='1' oninput='autoResize(this)'></textarea>" +
-        "<button class='memo-send' onclick='envoyerMemo()'>&#x27A4;</button>" +
-      "</div>" +
-    "</div>";
-  document.body.appendChild(panel);
-  demarrerEcouteMemo();
-}
-
-function fermerMemo() {
-  if (memoListener) { memoListener(); memoListener = null; }
-  var p = document.getElementById("memo-panel");
-  if (p) p.remove();
-}
-
-function setMemoFiltre(f) {
-  memoFiltre = f;
-  ["tout","tache","urgent","note"].forEach(function(x) {
-    var b = document.getElementById("mf-"+x);
-    if (b) b.classList.toggle("on", x === f);
-  });
-  demarrerEcouteMemo();
-}
-
-function setMemoType(t) {
-  memoTypeActuel = t;
-  ["note","tache","urgent"].forEach(function(x) {
-    var b = document.getElementById("mbt-"+x);
-    if (b) b.classList.toggle("on", x === t);
-  });
-  var inp = document.getElementById("memo-input");
-  if (inp) {
-    var ph = {note:"Ecrire une note...", tache:"Ajouter une tache...", urgent:"Note urgente..."};
-    inp.placeholder = ph[t] || "Ecrire...";
-    inp.focus();
-  }
-}
-
-function autoResize(el) {
-  el.style.height = "auto";
-  el.style.height = Math.min(el.scrollHeight, 100) + "px";
-}
-
-function demarrerEcouteMemo() {
-  if (memoListener) { memoListener(); memoListener = null; }
-  var query = db.collection("memos").orderBy("timestamp","desc").limit(50);
-  if (memoFiltre !== "tout") query = query.where("type","==",memoFiltre);
-  memoListener = query.onSnapshot(function(snap) {
-    var notes = [];
-    snap.forEach(function(doc) { notes.push(Object.assign({id:doc.id}, doc.data())); });
-    afficherMemos(notes);
-  }, function(e) {
-    var liste = document.getElementById("memo-liste");
-    if (liste) liste.innerHTML = "<div class='memo-vide'>Erreur de connexion</div>";
-  });
-}
-
-function afficherMemos(notes) {
-  var liste = document.getElementById("memo-liste");
-  if (!liste) return;
-  if (notes.length === 0) {
-    liste.innerHTML = "<div class='memo-vide'>Aucune note pour le moment.<br/>Ecris la premiere !</div>";
-    return;
-  }
-  liste.innerHTML = "";
-  notes.forEach(function(n) {
-    var div = document.createElement("div");
-    div.className = "memo-note" + (n.type === "urgent" ? " urgent" : n.type === "tache" ? " tache" : "");
-    var badgeHtml = n.type === "urgent" ? "<span class='memo-badge urgent'>Urgent</span>" :
-                    n.type === "tache"  ? "<span class='memo-badge tache'>Tache</span>" : "";
-    var texteClass = (n.type === "tache" && n.fait) ? "memo-note-texte barre" : "memo-note-texte";
-    var d = new Date(n.timestamp || 0);
-    var dateStr = ("0"+d.getDate()).slice(-2)+"/"+("0"+(d.getMonth()+1)).slice(-2)+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2);
-    div.innerHTML =
-      "<div class='"+texteClass+"'>"+echapper(n.texte||"")+"</div>" +
-      "<div class='memo-meta'>"+
-        "<span class='memo-auteur'>"+echapper(n.auteur||"")+"</span>"+
-        "<span class='memo-date'>"+dateStr+"</span>"+
-        badgeHtml+
-      "</div>" +
-      "<div class='memo-actions'>" +
-        (n.type === "tache" ? "<button class='memo-action-btn' style='background:"+(n.fait?"rgba(100,100,100,.2)":"rgba(52,199,89,.2)")+" ;color:"+(n.fait?"#636366":"#34C759")+"' onclick='toggleFaitMemo(""+n.id+"","+(!n.fait)+")'>"+(n.fait?"Rouvrir":"Fait !")+"</button>" : "") +
-        "<button class='memo-action-btn' style='background:rgba(255,59,48,.15);color:#FF3B30' onclick='supprimerMemo(""+n.id+"")'>Supprimer</button>" +
-      "</div>";
-    liste.appendChild(div);
-  });
-}
-
-function envoyerMemo() {
-  var inp = document.getElementById("memo-input");
-  if (!inp) return;
-  var texte = inp.value.trim();
-  if (!texte) return;
-  var auteur = utilisateurActuel ? utilisateurActuel.nom : "Equipe";
-  db.collection("memos").add({
-    texte: texte,
-    type: memoTypeActuel,
-    auteur: auteur,
-    timestamp: Date.now(),
-    fait: false
-  }).then(function() {
-    inp.value = "";
-    inp.style.height = "auto";
-  }).catch(function(e) {
-    afficherToast("Erreur : " + e.message);
-  });
-}
-
-function supprimerMemo(id) {
-  db.collection("memos").doc(id).delete().catch(function(){});
-}
-
-function toggleFaitMemo(id, fait) {
-  db.collection("memos").doc(id).update({fait: fait}).catch(function(){});
-}
-
-// === BON D'INTERVENTION ===
-var biPrestations = [];
-var biNote = "";
-var biEtape = 1; // 1=prestations, 2=clients
-
-var BI_PRESTS = [
-  {id:"taille",    label:"Taille de haie",       ico:"✂️"},
-  {id:"tonte",     label:"Tonte",                 ico:"🌿"},
-  {id:"feuilles",  label:"Ramassage des feuilles",ico:"🍂"},
-  {id:"fauchage",  label:"Fauchage",              ico:"🌾"}
-];
-
-function ouvrirBonIntervention() {
-  biPrestations = [];
-  biNote = "";
-  biEtape = 1;
-  if (document.getElementById("bi-panel")) return;
-  _construireBiEtape1();
-}
-
-function fermerBI() {
-  var p = document.getElementById("bi-panel");
-  if (p) p.remove();
-  biPrestations = [];
-  biNote = "";
-  biEtape = 1;
-}
-
-function _construireBiEtape1() {
-  var ancien = document.getElementById("bi-panel");
-  if (ancien) ancien.remove();
-
-  var panel = document.createElement("div");
-  panel.id = "bi-panel";
-
-  var header = document.createElement("div");
-  header.className = "bi-header";
-  header.innerHTML = "<span class='bi-titre'>&#x1F4CB; Bon d'intervention</span>";
-  var btnF = document.createElement("button");
-  btnF.style.cssText = "background:rgba(76,217,100,.2);border:none;color:#4CD964;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
-  btnF.textContent = "Fermer";
-  btnF.onclick = fermerBI;
-  header.appendChild(btnF);
-
-  var body = document.createElement("div");
-  body.className = "bi-body";
-
-  // Section prestations
-  var s1 = document.createElement("div");
-  s1.className = "bi-section";
-  s1.textContent = "Prestations réalisées";
-  body.appendChild(s1);
-
-  var grid = document.createElement("div");
-  grid.className = "bi-grid";
-  BI_PRESTS.forEach(function(p) {
-    var btn = document.createElement("button");
-    btn.className = "bi-btn" + (biPrestations.indexOf(p.id) >= 0 ? " on" : "");
-    btn.id = "bibtn-" + p.id;
-    btn.innerHTML = "<span class='bi-ico'>" + p.ico + "</span>" + p.label;
-    btn.onclick = function() {
-      var idx = biPrestations.indexOf(p.id);
-      if (idx >= 0) biPrestations.splice(idx, 1);
-      else biPrestations.push(p.id);
-      btn.classList.toggle("on", biPrestations.indexOf(p.id) >= 0);
-      majBtnSuivant();
-    };
-    grid.appendChild(btn);
-  });
-  body.appendChild(grid);
-
-  // Note libre
-  var s2 = document.createElement("div");
-  s2.className = "bi-section";
-  s2.textContent = "Note complémentaire (optionnel)";
-  body.appendChild(s2);
-
-  var note = document.createElement("textarea");
-  note.className = "bi-note";
-  note.placeholder = "Ex: taille de la haie en limite de propriété, évacuation des déchets verts...";
-  note.value = biNote;
-  note.oninput = function() { biNote = this.value; };
-  body.appendChild(note);
-
-  // Footer
-  var footer = document.createElement("div");
-  footer.className = "bi-footer";
-  var btnSuiv = document.createElement("button");
-  btnSuiv.className = "bi-btn-suivant";
-  btnSuiv.id = "bi-btn-suivant";
-  btnSuiv.textContent = "Choisir le client →";
-  btnSuiv.disabled = true;
-  btnSuiv.onclick = function() { _construireBiEtape2(); };
-  footer.appendChild(btnSuiv);
-
-  panel.appendChild(header);
-  panel.appendChild(body);
-  panel.appendChild(footer);
-  document.body.appendChild(panel);
-
-  function majBtnSuivant() {
-    var b = document.getElementById("bi-btn-suivant");
-    if (b) b.disabled = biPrestations.length === 0;
-  }
-}
-
-function _construireBiEtape2() {
-  var panel = document.getElementById("bi-panel");
-  if (!panel) return;
-  panel.innerHTML = "";
-
-  var header = document.createElement("div");
-  header.className = "bi-header";
-  header.innerHTML = "<button onclick='_construireBiEtape1()' style='background:rgba(76,217,100,.2);border:none;color:#4CD964;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>← Retour</button><span class='bi-titre'>Choisir le client</span><button onclick='fermerBI()' style='background:rgba(255,255,255,.08);border:none;color:#8E8E93;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>";
-
-  var body = document.createElement("div");
-  body.className = "bi-body";
-
-  // Recherche
-  var search = document.createElement("input");
-  search.className = "bi-search";
-  search.type = "text";
-  search.placeholder = "Rechercher un client...";
-
-  var listeDiv = document.createElement("div");
-  listeDiv.id = "bi-clients-liste";
-  listeDiv.innerHTML = "<div style='text-align:center;color:#636366;padding:30px;font-size:14px'>Chargement...</div>";
-
-  search.oninput = function() { _filtrerClients(this.value); };
-
-  body.appendChild(search);
-  body.appendChild(listeDiv);
-  panel.appendChild(header);
-  panel.appendChild(body);
-
-  // Charger les clients
-  chargerClientsDepuisFirebase(function(clients) {
-    window._biClients = clients;
-    _filtrerClients("");
-    search.focus();
-  });
-}
-
-function _filtrerClients(filtre) {
-  var clients = window._biClients || [];
-  var liste = document.getElementById("bi-clients-liste");
-  if (!liste) return;
-
-  var filtered = filtre
-    ? clients.filter(function(c) { return c.nom.toLowerCase().indexOf(filtre.toLowerCase()) >= 0; })
-    : clients;
-
-  if (filtered.length === 0) {
-    liste.innerHTML = "<div style='text-align:center;color:#636366;padding:30px;font-size:14px'>Aucun client trouvé</div>";
-    return;
-  }
-
-  liste.innerHTML = "";
-  filtered.forEach(function(c) {
-    var item = document.createElement("div");
-    item.className = "bi-client-item";
-    item.innerHTML =
-      "<div>" +
-        "<div class='bi-client-nom'>" + echapper(c.nom) + "</div>" +
-        (c.adresse ? "<div class='bi-client-info'>" + echapper(c.adresse) + "</div>" : "") +
-      "</div>" +
-      "<span style='color:#4CD964;font-size:20px'>&#x203A;</span>";
-    (function(client) {
-      item.onclick = function() { _genererMailBI(client); };
-    })(c);
-    liste.appendChild(item);
-  });
-}
-
-function _genererMailBI(client) {
-  // Construire la liste des prestations
-  var labelsPrests = biPrestations.map(function(id) {
-    var p = BI_PRESTS.find(function(x) { return x.id === id; });
-    return p ? p.ico + " " + p.label : id;
-  });
-
-  var d = new Date();
-  var jour = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"][d.getDay()];
-  var mois = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"][d.getMonth()];
-  var dateStr = jour + " " + d.getDate() + " " + mois + " " + d.getFullYear();
-  var auteur = utilisateurActuel ? utilisateurActuel.nom : "Notre équipe";
-
-  var listePrestationsTexte = labelsPrests.map(function(l) { return "   • " + l; }).join("
-");
-
-  var corps =
-    "Bonjour " + (client.prenom || client.nom.split(" ")[0] || client.nom) + ",
-
-" +
-    "Nous vous confirmons notre intervention réalisée ce " + dateStr + " à votre domicile.
-
-" +
-    "Prestations effectuées :
-" +
-    listePrestationsTexte + "
-" +
-    (biNote ? "
-Remarques : " + biNote + "
-" : "") +
-    "
-Nos équipes sont intervenues dans les meilleures conditions. " +
-    "Nous restons disponibles pour toute question ou nouvelle intervention.\n\n" +
-
-" +
-    "Cordialement,
-" +
-    auteur + "
-" +
-    "Crea Nature
-" +
-    "creanature@ymail.com";
-
-  var sujet = "Bon d'intervention – " + dateStr + " – " + client.nom;
-
-  window.location.href = "mailto:" + encodeURIComponent(client.email || "") +
-    "?cc=" + encodeURIComponent("creanature@ymail.com") +
-    "&subject=" + encodeURIComponent(sujet) +
-    "&body=" + encodeURIComponent(corps);
-
-  // Petit feedback
-  afficherToast("Mail préparé pour " + client.nom);
-  setTimeout(fermerBI, 800);
-}
-
 // === ETAT ===
 var etat = {
   prests: [],
@@ -1334,6 +810,7 @@ function euros(n) {
   return n.toLocaleString("fr-FR", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " EUR";
 }
 
+function echapper(s) {
   return String(s || "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -2120,7 +1597,17 @@ function envoyerDevis() {
 }
 
 // === INIT ===
-
+// === FIREBASE ===
+var firebaseConfig = {
+  apiKey: "AIzaSyBLPt84Nqv1NKygLIx5XNSecGESN0Y2oU0",
+  authDomain: "creanature-c2ba0.firebaseapp.com",
+  projectId: "creanature-c2ba0",
+  storageBucket: "creanature-c2ba0.firebasestorage.app",
+  messagingSenderId: "602609501333",
+  appId: "1:602609501333:web:ffda7c8e38ad21d8b4c79c"
+};
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
 
 // === CLIENTS ===
 var cacheClients = [];
@@ -2191,7 +1678,7 @@ function ouvrirPanneauClients() {
   // Afficher panneau avec chargement
   var panneau = document.createElement("div");
   panneau.id = "panneau-clients";
-  panneau.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99998;display:flex;align-items:flex-end;justify-content:center";
+  panneau.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9000;display:flex;align-items:flex-end;justify-content:center";
   panneau.innerHTML = "<div style='background:#F2F2F7;width:100%;max-width:430px;border-radius:22px 22px 0 0;padding:30px;text-align:center;font-family:-apple-system,sans-serif;color:#8E8E93;font-size:14px'>Chargement...</div>";
   document.body.appendChild(panneau);
   panneau.onclick = function(e) { if (e.target === panneau) panneau.remove(); };
@@ -2208,7 +1695,7 @@ function _afficherPanneauClients(clients) {
 
   var panneau = document.createElement("div");
   panneau.id = "panneau-clients";
-  panneau.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99998;display:flex;align-items:flex-end;justify-content:center";
+  panneau.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9000;display:flex;align-items:flex-end;justify-content:center";
 
   var feuille = document.createElement("div");
   feuille.style.cssText = "background:#F2F2F7;width:100%;max-width:430px;border-radius:22px 22px 0 0;padding:0 0 40px;font-family:-apple-system,sans-serif;max-height:80vh;display:flex;flex-direction:column";
@@ -2429,20 +1916,12 @@ function init() {
     if (bi) bi.classList.add("visible");
   }
 
-  // Mode sombre : suivre le systeme par defaut
-  var preferDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-  var savedDark = localStorage.getItem("cn_dark");
-  // Si pas de preference sauvee, utiliser le mode systeme
-  modeSombre = savedDark !== null ? savedDark === "1" : preferDark;
-  if (modeSombre) document.body.classList.add("dark");
-  // Ecouter les changements systeme
-  if (window.matchMedia) {
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
-      if (localStorage.getItem("cn_dark") === null) {
-        modeSombre = e.matches;
-        document.body.classList.toggle("dark", modeSombre);
-      }
-    });
+  // Mode sombre
+  if (localStorage.getItem("cn_dark") === "1") {
+    modeSombre = true;
+    document.body.classList.add("dark");
+    var btnD = document.getElementById("btn-dark");
+    if (btnD) btnD.textContent = "☀️";
   }
 
   // Demarrage : afficher choix utilisateur
@@ -2469,36 +1948,6 @@ function init() {
 
   afficherPhotos("main");
   calculer();
-
-  // Scroll champ au dessus du clavier iOS
-  document.addEventListener("focusin", function(e) {
-    var el = e.target;
-    if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
-      setTimeout(function() {
-        el.scrollIntoView({behavior: "smooth", block: "center"});
-      }, 350);
-    }
-  });
-
-  // Effet ripple sur tous les boutons
-  document.addEventListener("click", function(e) {
-    var btn = e.target.closest("button, .user-card");
-    if (!btn) return;
-    // Supprimer les anciens ripples
-    var old = btn.querySelectorAll(".ripple-el");
-    for (var i = 0; i < old.length; i++) old[i].remove();
-    var r = document.createElement("span");
-    r.className = "ripple-el";
-    var rect = btn.getBoundingClientRect();
-    var size = Math.max(rect.width, rect.height) * 2;
-    var x = e.clientX - rect.left;
-    var y = e.clientY - rect.top;
-    r.style.cssText = "position:absolute;border-radius:50%;background:rgba(255,255,255,.3);animation:ripple .5s linear forwards;pointer-events:none;width:"+size+"px;height:"+size+"px;left:"+(x-size/2)+"px;top:"+(y-size/2)+"px;transform:scale(0)";
-    btn.style.position = btn.style.position || "relative";
-    btn.style.overflow = "hidden";
-    btn.appendChild(r);
-    setTimeout(function() { if (r.parentNode) r.parentNode.removeChild(r); }, 600);
-  });
 }
 
 window.addEventListener("load", init);
