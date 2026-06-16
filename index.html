@@ -216,7 +216,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 
 <!-- ECRAN PIN -->
 <div id="ecran-login" class="ecran-plein cache">
-  <button id="btn-retour-users" style="position:absolute;top:calc(env(safe-area-inset-top,44px)+10px);left:16px;background:none;border:none;color:#C8923E;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif">← Retour</button>
+  <button id="btn-retour-users" style="position:absolute;top:calc(env(safe-area-inset-top,44px)+10px);left:16px;background:none;border:none;color:#C8923E;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;z-index:100000">← Retour</button>
   <div class="login-logo" style="margin-top:20px">
     <div id="avatar-login" style="width:70px;height:70px;border-radius:35px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:700;font-family:-apple-system,sans-serif">?</div>
   </div>
@@ -286,8 +286,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
     <button class="btn-prest" id="bp-tonte">&#x1F33F; Tonte</button>
     <button class="btn-prest" id="bp-elagage">&#x1F333; Elagage</button>
     <button class="btn-prest" id="bp-abattage">&#x1FA93; Abattage</button>
-    <button class="btn-prest plein" id="bp-evac">&#x267B;&#xFE0F; Evacuation dechets verts</button>
-    <button class="btn-prest plein" id="bp-compost">&#x1F331; Mise en plateforme de compostage</button>
+    <button class="btn-prest plein" id="bp-evac">&#x267B;&#xFE0F; Evacuation / Compostage</button>
     <button class="btn-prest plein" id="bp-autre">&#x270F; Autre - saisie libre</button>
   </div>
   <div class="zone-autre" id="zone-autre-main">
@@ -378,6 +377,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
   </div>
   <button class="btn-sombre" id="btn-visualiser">Visualiser le devis</button>
   <button class="btn-gris" id="btn-retour">Modifier le calcul</button>
+  <button class="btn-gris" id="btn-nouveau-devis" style="background:rgba(255,59,48,.08);border:1.5px solid #FF3B30;color:#FF3B30;margin-top:4px">&#x1F504; Nouveau devis</button>
 </div>
 
 </div>
@@ -412,7 +412,7 @@ var pinSaisi = "";
 var estConnecte = false;
 var USERS_DEFAUT = [
   {id:"alex", nom:"Alexandre", initiale:"A", pin:"0407", role:"Gerant"},
-  {id:"guil", nom:"Guillaume",  initiale:"G", pin:"3010", role:"Collaborateur"}
+  {id:"guil", nom:"Guillaume",  initiale:"G", pin:"3010", role:"Gerant"}
 ];
 
 function chargerUtilisateurs(cb) {
@@ -900,8 +900,7 @@ var nomPrests = {
   "tonte": "Tonte",
   "elagage": "Elagage",
   "abattage": "Abattage",
-  "evac": "Evacuation dechets verts",
-  "compost": "Mise en plateforme de compostage"
+  "evac": "Evacuation / Compostage"
 };
 
 function togglePrest(p) {
@@ -911,7 +910,7 @@ function togglePrest(p) {
   } else {
     etat.prests.push(p);
   }
-  var liste = ["haie", "tonte", "elagage", "abattage", "evac", "compost"];
+  var liste = ["haie", "tonte", "elagage", "abattage", "evac"];
   for (var i = 0; i < liste.length; i++) {
     var b = trouverEl("bp-" + liste[i]);
     if (b) b.classList.toggle("actif", etat.prests.indexOf(liste[i]) >= 0);
@@ -1054,12 +1053,25 @@ function mettreAJourAffichage(champId, v) {
 function ajouterPhotos(cle, input) {
   var arr = cle === "main" ? etat.photos : (lignes.find(function(l) { return l.id === cle; }) || {photos: []}).photos;
   var fichiers = Array.from(input.files || []);
-  var dispo = 6 - arr.length;
+  var dispo = 4 - arr.length;
   fichiers.slice(0, dispo).forEach(function(f) {
     var r = new FileReader();
     r.onload = function(e) {
-      arr.push(e.target.result);
-      afficherPhotos(cle);
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement("canvas");
+        var MAX = 800;
+        var w = img.width, h = img.height;
+        if (w > MAX || h > MAX) {
+          if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+          else { w = Math.round(w * MAX / h); h = MAX; }
+        }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+        arr.push(canvas.toDataURL("image/jpeg", 0.6));
+        afficherPhotos(cle);
+      };
+      img.src = e.target.result;
     };
     r.readAsDataURL(f);
   });
@@ -1095,7 +1107,7 @@ function afficherPhotos(cle) {
     wrap.appendChild(btn);
     grille.appendChild(wrap);
   }
-  if (arr.length < 6) {
+  if (arr.length < 4) {
     var ajout = document.createElement("button");
     ajout.className = "btn-ajout-photo";
     ajout.innerHTML = "&#x1F4F7;<br/>Ajouter";
@@ -1391,7 +1403,7 @@ function reinitialiser() {
   lignes = [];
   compteurLigne = 0;
   valeurs = {};
-  var plist = ["haie", "tonte", "elagage", "abattage", "evac", "compost"];
+  var plist = ["haie", "tonte", "elagage", "abattage", "evac"];
   for (var i = 0; i < plist.length; i++) {
     var b = trouverEl("bp-" + plist[i]);
     if (b) b.classList.remove("actif");
@@ -1963,7 +1975,6 @@ var BI_PRESTS=[
   {id:"feuilles",label:"Ramassage feuilles"},
   {id:"fauchage",label:"Fauchage"},
   {id:"evac",label:"Evacuation dechets verts"},
-  {id:"compost",label:"Mise en plateforme de compostage"}
 ];
 function ouvrirPanneauBI() {
   biPrestsSelec=[]; biClientSelec=null;
@@ -1971,7 +1982,7 @@ function ouvrirPanneauBI() {
   var pn=document.createElement("div"); pn.id="panneau-bi";
   pn.style.cssText="position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif;overflow-y:auto";
   var grille=BI_PRESTS.map(function(p){
-    var pl=p.id==="evac"||p.id==="compost"?" plein":"";
+    var pl=p.id==="evac"?" plein":"";
     return "<button class='btn-prest"+pl+"' id='bip-"+p.id+"' onclick='toggleBIbtn(\""+p.id+"\")'>"+echapper(p.label)+"</button>";
   }).join("");
   pn.innerHTML=
@@ -2067,7 +2078,7 @@ function init() {
   if (tok) tok.onclick = fermerPave;
 
   // Prestations
-  var plist = ["haie", "tonte", "elagage", "abattage", "evac", "compost"];
+  var plist = ["haie", "tonte", "elagage", "abattage", "evac"];
   for (var i = 0; i < plist.length; i++) {
     (function(p) {
       var b = trouverEl("bp-" + p);
@@ -2110,6 +2121,8 @@ function init() {
   if (btnVisu) btnVisu.onclick = visualiserDevis;
   var btnRetour = trouverEl("btn-retour");
   if (btnRetour) btnRetour.onclick = function() { allerVers("calc"); };
+  var btnND = trouverEl("btn-nouveau-devis");
+  if (btnND) btnND.onclick = function() { reinitialiser(); allerVers("calc"); };
 
   // Clients
   var btnMesClients = trouverEl("btn-mes-clients");
