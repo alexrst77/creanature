@@ -84,6 +84,19 @@ html,body{height:100%;overflow:hidden;background:var(--gris3);font-family:-apple
 #barre-install.visible{display:block}
 #btn-fermer-install{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:22px;cursor:pointer}
 @keyframes clin{0%,100%{opacity:1}50%{opacity:0}}
+.memo-filtre-btn{padding:5px 14px;border-radius:20px;border:1.5px solid var(--gris2);background:var(--blanc);font-size:12px;font-weight:600;color:var(--gris);cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap;flex-shrink:0}
+.memo-filtre-btn.actif{border-color:var(--or);background:rgba(200,146,62,.08);color:var(--or2)}
+.memo-type-btn{flex:1;height:30px;border-radius:8px;border:1.5px solid var(--gris2);background:none;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;color:var(--gris)}
+.memo-type-btn.actif{border-color:#C77DFF;background:rgba(199,125,255,.1);color:#C77DFF}
+.memo-type-btn.urgent.actif{border-color:#FF3B30;background:rgba(255,59,48,.1);color:#FF3B30}
+.note-item{background:var(--blanc);border-radius:12px;padding:11px 13px;margin-bottom:7px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.note-item.urgent{border-left:3px solid #FF3B30}
+.note-item.tache{border-left:3px solid #34C759}
+.note-txt{font-size:14px;color:var(--noir);line-height:1.5;margin-bottom:5px;word-break:break-word}
+.note-txt.barre{text-decoration:line-through;color:var(--gris)}
+.note-meta{font-size:11px;color:var(--gris)}
+.note-acts{display:flex;gap:6px;margin-top:6px}
+.note-act-btn{padding:4px 12px;border-radius:20px;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif}
 
 /* MODE SOMBRE */
 body.dark{background:#1C1C1E}
@@ -257,6 +270,8 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 <div id="onglets">
   <button class="onglet actif" id="ong-calc" onclick="allerVers('calc')">Calcul</button>
   <button class="onglet" id="ong-devis" onclick="allerVers('devis')">Devis</button>
+  <button class="onglet" id="ong-memo" onclick="allerVers('memo')">&#x1F4DD; Memo</button>
+  <button class="onglet" id="ong-bi" onclick="allerVers('bi')">&#x1F4CB; Terrain</button>
 </div>
 
 <div id="contenu">
@@ -270,6 +285,8 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
     <button class="btn-prest" id="bp-tonte">&#x1F33F; Tonte</button>
     <button class="btn-prest" id="bp-elagage">&#x1F333; Elagage</button>
     <button class="btn-prest" id="bp-abattage">&#x1FA93; Abattage</button>
+    <button class="btn-prest plein" id="bp-evac">&#x267B;&#xFE0F; Evacuation dechets verts</button>
+    <button class="btn-prest plein" id="bp-compost">&#x1F331; Mise en plateforme de compostage</button>
     <button class="btn-prest plein" id="bp-autre">&#x270F; Autre - saisie libre</button>
   </div>
   <div class="zone-autre" id="zone-autre-main">
@@ -360,6 +377,58 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
   </div>
   <button class="btn-sombre" id="btn-visualiser">Visualiser le devis</button>
   <button class="btn-gris" id="btn-retour">Modifier le calcul</button>
+</div>
+
+</div>
+
+<!-- ECRAN MEMO -->
+<div class="ecran" id="ec-memo">
+  <div class="titre-section">Memo partage</div>
+  <div style="display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;padding-bottom:4px">
+    <button class="memo-filtre-btn actif" id="mf-tout" onclick="setMemoFiltre('tout')">Tout</button>
+    <button class="memo-filtre-btn" id="mf-tache" onclick="setMemoFiltre('tache')">Taches</button>
+    <button class="memo-filtre-btn" id="mf-urgent" onclick="setMemoFiltre('urgent')">Urgent</button>
+    <button class="memo-filtre-btn" id="mf-note" onclick="setMemoFiltre('note')">Notes</button>
+  </div>
+  <div id="memo-liste"></div>
+  <div class="carte" style="padding:12px;margin-top:4px">
+    <div style="display:flex;gap:6px;margin-bottom:8px">
+      <button class="memo-type-btn actif" id="mt-note" onclick="setMemoType('note')">Note</button>
+      <button class="memo-type-btn" id="mt-tache" onclick="setMemoType('tache')">Tache</button>
+      <button class="memo-type-btn urgent" id="mt-urgent" onclick="setMemoType('urgent')">Urgent</button>
+    </div>
+    <div style="display:flex;gap:8px;align-items:flex-end">
+      <textarea id="memo-input" rows="1" placeholder="Ecrire une note..." style="flex:1;padding:10px 12px;border:1.5px solid var(--gris2);border-radius:10px;font-size:14px;color:var(--noir);background:var(--gris3);outline:none;resize:none;min-height:40px;max-height:90px;font-family:-apple-system,sans-serif;-webkit-appearance:none" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,90)+'px'"></textarea>
+      <button onclick="envoyerMemo()" style="width:42px;height:42px;border-radius:21px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;color:#fff;font-size:20px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center">&#x27A4;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ECRAN BON D'INTERVENTION -->
+<div class="ecran" id="ec-bi">
+  <div class="titre-section">Prestations realisees</div>
+  <div class="grille2" style="margin-bottom:10px">
+    <button class="btn-prest" id="bi-taille">&#x2702; Taille de haie</button>
+    <button class="btn-prest" id="bi-tonte">&#x1F33F; Tonte</button>
+    <button class="btn-prest" id="bi-feuilles">&#x1F342; Ramassage feuilles</button>
+    <button class="btn-prest" id="bi-fauchage">&#x1F33E; Fauchage</button>
+    <button class="btn-prest plein" id="bi-evac">&#x267B;&#xFE0F; Evacuation dechets verts</button>
+    <button class="btn-prest plein" id="bi-compost">&#x1F331; Mise en plateforme de compostage</button>
+  </div>
+  <div class="titre-section">Note complementaire <span style="font-size:9px;font-weight:400;color:#C7C7CC">(optionnel)</span></div>
+  <div class="carte" style="padding:11px;margin-bottom:10px">
+    <textarea id="bi-note" rows="3" placeholder="Precisions sur l'intervention..." style="width:100%;padding:8px 10px;border:1.5px solid var(--gris2);border-radius:9px;font-size:14px;color:var(--noir);background:var(--gris3);outline:none;resize:none;font-family:-apple-system,sans-serif;-webkit-appearance:none;display:block"></textarea>
+  </div>
+  <div class="titre-section">Client</div>
+  <div class="carte" style="padding:11px;margin-bottom:10px">
+    <input class="input-texte" id="bi-client-search" type="text" placeholder="Rechercher un client..." oninput="rechercherClientBI(this.value)"/>
+    <div id="bi-client-liste" style="margin-top:6px"></div>
+    <div id="bi-client-selectionne" style="display:none;margin-top:8px;padding:8px 12px;background:rgba(200,146,62,.1);border-radius:8px">
+      <span style="font-size:13px;font-weight:600;color:#8B5E1A" id="bi-client-nom-aff"></span>
+    </div>
+  </div>
+  <button class="btn-or" id="btn-envoyer-bi">&#x2709;&#xFE0F; Envoyer le bon d'intervention</button>
+  <button class="btn-gris" id="btn-reset-bi">Reinitialiser</button>
 </div>
 
 </div>
@@ -664,7 +733,7 @@ function toggleDark() {
   document.body.classList.toggle("dark", modeSombre);
   localStorage.setItem("cn_dark", modeSombre ? "1" : "0");
   var btn = document.getElementById("btn-dark");
-  if (btn) btn.textContent = modeSombre ? "☀️" : "🌙";
+  if (btn) btn.textContent = modeSombre ? "\u2600\uFE0F" : "\u1F319";
 }
 
 // === HISTORIQUE DEVIS ===
@@ -695,7 +764,7 @@ function majInfoStats() {
     db.collection("devis").orderBy("timestamp","desc").limit(1).get().then(function(dSnap) {
       var dernierDevis = dSnap.empty ? null : dSnap.docs[0].data();
       var infos = nb + " clients enregistres";
-      if (dernierDevis) infos += " · Dernier devis : N" + dernierDevis.num + " (" + dernierDevis.date + ")";
+      if (dernierDevis) infos += " \u00B7 Dernier devis : N" + dernierDevis.num + " (" + dernierDevis.date + ")";
       var el = document.getElementById("login-info");
       if (el) el.textContent = infos;
     });
@@ -705,7 +774,7 @@ function majInfoStats() {
 function afficherStats() {
   db.collection("devis").orderBy("timestamp","desc").limit(50).get().then(function(snap) {
     var devis = [];
-    snap.forEach(function(doc) { devis.push(doc.data()); });
+    snap.forEach(function(doc) { devis.push(Object.assign({_id: doc.id}, doc.data())); });
 
     var panneau = document.createElement("div");
     panneau.style.cssText = "position:fixed;inset:0;z-index:8000;background:var(--gris3);display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
@@ -742,11 +811,29 @@ function afficherStats() {
 
       devis.forEach(function(d) {
         var item = document.createElement("div");
-        item.style.cssText = "background:#fff;border-radius:12px;padding:14px 15px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.07)";
-        item.innerHTML =
-          "<div><div style='font-size:14px;font-weight:600;color:#1C1C1E'>"+echapper(d.client||"")+"</div>"+
-          "<div style='font-size:11px;color:#8E8E93;margin-top:2px'>N"+d.num+" · "+d.date+"</div></div>"+
-          "<div style='text-align:right'><div style='font-size:14px;font-weight:600;color:#C8923E'>"+(d.totalTTC||0).toFixed(2)+" EUR</div><div style='font-size:10px;color:#8E8E93'>TTC</div></div>";
+        item.style.cssText = "background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.07);gap:8px";
+        var infos = document.createElement("div");
+        infos.style.cssText = "flex:1;min-width:0";
+        infos.innerHTML = "<div style=\'font-size:14px;font-weight:600;color:#1C1C1E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis\'>" + echapper(d.client||"") + "</div>" +
+          "<div style=\'font-size:11px;color:#8E8E93;margin-top:2px\'>N" + echapper(d.num||"") + " \u00B7 " + echapper(d.date||"") + (d.auteur ? " \u00B7 " + echapper(d.auteur) : "") + "</div>";
+        var mont = document.createElement("div");
+        mont.style.cssText = "text-align:right;flex-shrink:0";
+        mont.innerHTML = "<div style=\'font-size:14px;font-weight:600;color:#C8923E\'>" + (d.totalTTC||0).toFixed(2) + " EUR</div><div style=\'font-size:10px;color:#8E8E93\'>TTC</div>";
+        var btnX = document.createElement("button");
+        btnX.style.cssText = "background:rgba(255,59,48,.1);border:none;color:#FF3B30;width:30px;height:30px;border-radius:15px;font-size:18px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:-apple-system,sans-serif";
+        btnX.textContent = "\u00D7";
+        (function(docId, nom) {
+          btnX.onclick = function(e) {
+            e.stopPropagation();
+            if (!confirm("Supprimer le devis de " + nom + " ?")) return;
+            db.collection("devis").doc(docId).delete().then(function() {
+              item.remove(); afficherToast("Devis supprime");
+            }).catch(function(err){ afficherToast("Erreur: " + err.message); });
+          };
+        })(d._id, d.client || "ce client");
+        item.appendChild(infos);
+        item.appendChild(mont);
+        item.appendChild(btnX);
         liste.appendChild(item);
       });
     }
@@ -763,14 +850,14 @@ function afficherStats() {
 function voirHistoriqueClient(nomClient) {
   db.collection("devis").where("client","==",nomClient).orderBy("timestamp","desc").get().then(function(snap) {
     var devis = [];
-    snap.forEach(function(doc) { devis.push(doc.data()); });
+    snap.forEach(function(doc) { devis.push(Object.assign({_id: doc.id}, doc.data())); });
 
     var msg = "Historique de " + nomClient + " :\n\n";
     if (devis.length === 0) {
       msg += "Aucun devis";
     } else {
       devis.forEach(function(d) {
-        msg += "N" + d.num + " · " + d.date + " · " + (d.totalTTC||0).toFixed(2) + " EUR TTC\n";
+        msg += "N" + d.num + " \u00B7 " + d.date + " \u00B7 " + (d.totalTTC||0).toFixed(2) + " EUR TTC\n";
       });
     }
     alert(msg);
@@ -834,14 +921,19 @@ function trouverEl(id) {
 
 // === NAVIGATION ===
 function allerVers(ecran) {
-  var ec = ["calc", "devis"];
+  if (ecran === "calc") {
+    var _totEl = trouverEl("total-ttc");
+    if (_totEl && _totEl.textContent !== "0,00 EUR") afficherBandeauRAZ();
+  }
+  if (ecran !== "memo") stopPollingMemo();
+  var ec = ["calc", "devis", "memo", "bi"];
   for (var i = 0; i < ec.length; i++) {
     var s = trouverEl("ec-" + ec[i]);
     var o = trouverEl("ong-" + ec[i]);
     if (s) s.classList.toggle("actif", ec[i] === ecran);
     if (o) o.classList.toggle("actif", ec[i] === ecran);
   }
-  trouverEl("titre-page").textContent = ecran === "calc" ? "Calculateur" : "Devis";
+  var _tit = {"calc":"Calculateur","devis":"Devis","memo":"Memo","bi":"Terrain"}; trouverEl("titre-page").textContent = _tit[ecran] || ecran;
   if (ecran === "devis") {
     syncTotaux2();
     // Numero sauve au moment de la visualisation
@@ -857,7 +949,9 @@ var nomPrests = {
   "haie": "Taille de haie",
   "tonte": "Tonte",
   "elagage": "Elagage",
-  "abattage": "Abattage"
+  "abattage": "Abattage",
+  "evac": "Evacuation dechets verts",
+  "compost": "Mise en plateforme de compostage"
 };
 
 function togglePrest(p) {
@@ -867,7 +961,7 @@ function togglePrest(p) {
   } else {
     etat.prests.push(p);
   }
-  var liste = ["haie", "tonte", "elagage", "abattage"];
+  var liste = ["haie", "tonte", "elagage", "abattage", "evac", "compost"];
   for (var i = 0; i < liste.length; i++) {
     var b = trouverEl("bp-" + liste[i]);
     if (b) b.classList.toggle("actif", etat.prests.indexOf(liste[i]) >= 0);
@@ -1347,7 +1441,7 @@ function reinitialiser() {
   lignes = [];
   compteurLigne = 0;
   valeurs = {};
-  var plist = ["haie", "tonte", "elagage", "abattage"];
+  var plist = ["haie", "tonte", "elagage", "abattage", "evac", "compost"];
   for (var i = 0; i < plist.length; i++) {
     var b = trouverEl("bp-" + plist[i]);
     if (b) b.classList.remove("actif");
@@ -1429,7 +1523,7 @@ function construireDevis() {
   var photosHTML = "";
   var groupesPhotos = [];
   if (etat.photos.length > 0) {
-    groupesPhotos.push({titre: "", arr: etat.photos});
+    var _tp = etat.prests.map(function(p){return nomPrests[p]||p;}); if(etat.autre&&etat.autreTexte)_tp.push(etat.autreTexte); groupesPhotos.push({titre: _tp.join(", ")||"Prestation principale", arr: etat.photos});
   }
   for (var i = 0; i < lignes.length; i++) {
     var lg = lignes[i];
@@ -1447,7 +1541,7 @@ function construireDevis() {
       if (groupesPhotos[g].titre) photosHTML += "<div style='font-size:9px;color:#888;margin-bottom:4px'>" + echapper(groupesPhotos[g].titre) + "</div>";
       photosHTML += "<div style='display:flex;flex-wrap:wrap;gap:5px'>";
       for (var p = 0; p < groupesPhotos[g].arr.length; p++) {
-        photosHTML += '<img src="' + groupesPhotos[g].arr[p] + '" style="max-width:200px;max-height:200px;width:auto;height:auto;border-radius:5px;border:1px solid #eee;display:block"/>';
+        photosHTML += '<img src="' + groupesPhotos[g].arr[p] + '" style="width:150px;height:120px;object-fit:cover;border-radius:5px;border:1px solid #eee"/>';
       }
       photosHTML += "</div></div>";
     }
@@ -1457,11 +1551,11 @@ function construireDevis() {
   var logoSVG = '<img src="data:image/png;base64,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" alt="Crea Nature" style="height:55px;object-fit:contain"/>';
 
   var html = "<!DOCTYPE html><html><head><meta charset='UTF-8'>";
-  html += "<title>Devis " + echapper(num) + "</title>";
+  html += "<title>Devis " + echapper(num) + "<\/title>";
   html += "<style>*{box-sizing:border-box;margin:0;padding:0}";
   html += "body{font-family:Arial,Helvetica,sans-serif;color:#1C1C1E;font-size:13px;padding:28px 30px}";
   html += "@page{size:A4;margin:10mm 10mm 0 10mm}@media print{body{padding:0}html{-webkit-print-color-adjust:exact;print-color-adjust:exact}}";
-  html += "</style></head><body>";
+  html += "<\/style><\/head><body>";
 
 
 
@@ -1513,7 +1607,7 @@ function construireDevis() {
   html += "Le client garantit lacces au chantier. ";
   html += "En cas dannulation, les fournitures commandees restent dues.";
   html += "</div></div>";
-  html += "</body></html>";
+  html += "<\/body><\/html>";
   return html;
 }
 
@@ -1805,6 +1899,180 @@ function _afficherPanneauClients(clients) {
   rechInp.focus();
 }
 
+
+// === BANDEAU RAZ ===
+function afficherBandeauRAZ() {
+  if (document.getElementById("bandeau-raz")) return;
+  var div = document.createElement("div");
+  div.id = "bandeau-raz";
+  div.style.cssText = "position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:linear-gradient(135deg,#C8923E,#8B5E1A);color:#fff;padding:10px 16px;padding-top:calc(env(safe-area-inset-top,44px)+4px);display:flex;justify-content:space-between;align-items:center;z-index:5000;font-family:-apple-system,sans-serif;gap:8px";
+  var txt = document.createElement("span");
+  txt.style.cssText = "font-size:13px;font-weight:500;flex-shrink:0";
+  txt.textContent = "Nouveau devis ?";
+  var btns = document.createElement("div");
+  btns.style.cssText = "display:flex;gap:8px;flex-shrink:0";
+  var bRAZ = document.createElement("button");
+  bRAZ.style.cssText = "background:#fff;border:none;color:#8B5E1A;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif";
+  bRAZ.textContent = "Remettre a zero";
+  bRAZ.onclick = function() { reinitialiser(); var b=document.getElementById("bandeau-raz"); if(b) b.remove(); };
+  var bGarde = document.createElement("button");
+  bGarde.style.cssText = "background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 12px;border-radius:20px;font-size:13px;cursor:pointer;font-family:-apple-system,sans-serif";
+  bGarde.textContent = "Garder";
+  bGarde.onclick = function() { var b=document.getElementById("bandeau-raz"); if(b) b.remove(); };
+  btns.appendChild(bRAZ); btns.appendChild(bGarde);
+  div.appendChild(txt); div.appendChild(btns);
+  document.body.appendChild(div);
+  setTimeout(function(){ var b=document.getElementById("bandeau-raz"); if(b) b.remove(); }, 6000);
+}
+
+// === MEMO ===
+var memoFiltreCourant = "tout";
+var memoTypeCourant = "note";
+var memoPolling = null;
+
+function setMemoFiltre(f) {
+  memoFiltreCourant = f;
+  document.querySelectorAll(".memo-filtre-btn").forEach(function(b){ b.classList.remove("actif"); });
+  var el = document.getElementById("mf-" + f);
+  if (el) el.classList.add("actif");
+  chargerMemos();
+}
+
+function setMemoType(t) {
+  memoTypeCourant = t;
+  document.querySelectorAll(".memo-type-btn").forEach(function(b){ b.classList.remove("actif"); });
+  var el = document.getElementById("mt-" + t);
+  if (el) el.classList.add("actif");
+}
+
+function chargerMemos() {
+  var liste = document.getElementById("memo-liste");
+  if (!liste) return;
+  db.collection("memos").orderBy("timestamp","desc").limit(50).get().then(function(snap) {
+    var r = [];
+    snap.forEach(function(doc){ r.push(Object.assign({_id:doc.id}, doc.data())); });
+    if (memoFiltreCourant !== "tout") r = r.filter(function(x){ return x.type === memoFiltreCourant; });
+    if (!r.length) { liste.innerHTML = "<div style='text-align:center;color:#8E8E93;padding:20px;font-size:14px'>Aucune note</div>"; return; }
+    liste.innerHTML = "";
+    r.forEach(function(n) {
+      var div = document.createElement("div");
+      div.className = "note-item" + (n.type==="urgent" ? " urgent" : n.type==="tache" ? " tache" : "");
+      var d = new Date(n.timestamp||0);
+      var ds = ("0"+d.getDate()).slice(-2)+"/"+("0"+(d.getMonth()+1)).slice(-2)+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2);
+      div.innerHTML = "<div class='note-txt"+(n.fait?" barre":"")+"'>"+echapper(n.texte||"")+"</div><div class='note-meta'>"+echapper(n.auteur||"")+" - "+ds+"</div>";
+      var acts = document.createElement("div");
+      acts.className = "note-acts";
+      if (n.type === "tache") {
+        var bF = document.createElement("button");
+        bF.className = "note-act-btn";
+        bF.style.cssText = "background:"+(n.fait?"rgba(100,100,100,.15)":"rgba(52,199,89,.15)")+";color:"+(n.fait?"#8E8E93":"#34C759");
+        bF.textContent = n.fait ? "Rouvrir" : "Fait !";
+        (function(id,f){ bF.onclick=function(){ db.collection("memos").doc(id).update({fait:!f}).then(chargerMemos); }; })(n._id,n.fait);
+        acts.appendChild(bF);
+      }
+      var bS = document.createElement("button");
+      bS.className = "note-act-btn";
+      bS.style.cssText = "background:rgba(255,59,48,.12);color:#FF3B30";
+      bS.textContent = "Supprimer";
+      (function(id){ bS.onclick=function(){ db.collection("memos").doc(id).delete().then(chargerMemos); }; })(n._id);
+      acts.appendChild(bS);
+      div.appendChild(acts);
+      liste.appendChild(div);
+    });
+  }).catch(function(){ liste.innerHTML = "<div style='text-align:center;color:#FF3B30;padding:20px;font-size:13px'>Erreur connexion</div>"; });
+}
+
+function envoyerMemo() {
+  var inp = document.getElementById("memo-input");
+  if (!inp) return;
+  var txt = inp.value.trim();
+  if (!txt) return;
+  var auteur = utilisateurActuel ? utilisateurActuel.nom : "Equipe";
+  db.collection("memos").add({texte:txt, type:memoTypeCourant, auteur:auteur, timestamp:Date.now(), fait:false})
+    .then(function(){ inp.value=""; inp.style.height="auto"; chargerMemos(); })
+    .catch(function(){ afficherToast("Erreur envoi"); });
+}
+
+function lancerPollingMemo() {
+  chargerMemos();
+  if (memoPolling) clearInterval(memoPolling);
+  memoPolling = setInterval(chargerMemos, 8000);
+}
+
+function stopPollingMemo() {
+  if (memoPolling){ clearInterval(memoPolling); memoPolling=null; }
+}
+
+// === BON D'INTERVENTION ===
+var biPrestsSelec = [];
+var biClientSelec = null;
+var BI_PRESTS = [
+  {id:"taille",   label:"Taille de haie"},
+  {id:"tonte",    label:"Tonte"},
+  {id:"feuilles", label:"Ramassage feuilles"},
+  {id:"fauchage", label:"Fauchage"},
+  {id:"evac",     label:"Evacuation dechets verts"},
+  {id:"compost",  label:"Mise en plateforme de compostage"}
+];
+
+function toggleBI(id) {
+  var idx = biPrestsSelec.indexOf(id);
+  if (idx >= 0) biPrestsSelec.splice(idx,1); else biPrestsSelec.push(id);
+  var btn = document.getElementById("bi-"+id);
+  if (btn) btn.classList.toggle("actif", biPrestsSelec.indexOf(id)>=0);
+}
+
+function rechercherClientBI(val) {
+  var liste = document.getElementById("bi-client-liste");
+  if (!liste) return;
+  if (!val || val.length < 2) { liste.innerHTML=""; return; }
+  db.collection("clients").orderBy("nom").get().then(function(snap) {
+    var r = [];
+    snap.forEach(function(doc){ var d=doc.data(); if(d.nom&&d.nom.toLowerCase().indexOf(val.toLowerCase())>=0) r.push(Object.assign({_id:doc.id},d)); });
+    liste.innerHTML = "";
+    r.slice(0,5).forEach(function(cl) {
+      var item = document.createElement("div");
+      item.style.cssText = "padding:9px 12px;background:rgba(200,146,62,.08);border-radius:8px;margin-bottom:4px;cursor:pointer;font-size:14px;color:var(--noir)";
+      item.textContent = cl.nom + (cl.adresse ? " - "+cl.adresse : "");
+      (function(client){ item.onclick=function(){
+        biClientSelec = client;
+        liste.innerHTML = "";
+        var inp=document.getElementById("bi-client-search"); if(inp) inp.value=client.nom;
+        var aff=document.getElementById("bi-client-selectionne"); if(aff) aff.style.display="block";
+        var nm=document.getElementById("bi-client-nom-aff"); if(nm) nm.textContent=client.nom+(client.adresse?" - "+client.adresse:"");
+      }; })(cl);
+      liste.appendChild(item);
+    });
+  }).catch(function(){});
+}
+
+function envoyerBI() {
+  if (biPrestsSelec.length===0){ afficherToast("Selectionne au moins une prestation"); return; }
+  var note = (document.getElementById("bi-note")||{}).value || "";
+  var nomCl = biClientSelec ? biClientSelec.nom : "";
+  var emailCl = biClientSelec ? (biClientSelec.email||"") : "";
+  var d = new Date();
+  var JOURS=["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+  var MOIS=["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"];
+  var dateStr = JOURS[d.getDay()]+" "+d.getDate()+" "+MOIS[d.getMonth()]+" "+d.getFullYear();
+  var auteur = utilisateurActuel ? utilisateurActuel.nom : "Crea Nature";
+  var prenom = nomCl ? nomCl.split(" ")[0] : "";
+  var listePr = biPrestsSelec.map(function(id){ var p=BI_PRESTS.find(function(x){return x.id===id;}); return p?"   - "+p.label:id; }).join("\n");
+  var corps = "Bonjour "+prenom+",\n\nNous vous confirmons notre intervention realisee ce "+dateStr+".\n\nPrestations effectuees :\n"+listePr+(note?"\n\nRemarques : "+note:"")+"\n\nNous restons disponibles pour toute question.\n\nCordialement,\n"+auteur+"\nCrea Nature\ncreanature@ymail.com";
+  var sujet = "Bon d'intervention - "+dateStr+(nomCl?" - "+nomCl:"");
+  window.location.href = "mailto:"+encodeURIComponent(emailCl)+"?cc="+encodeURIComponent("creanature@ymail.com")+"&subject="+encodeURIComponent(sujet)+"&body="+encodeURIComponent(corps);
+  afficherToast("Mail prepare !");
+}
+
+function reinitialiserBI() {
+  biPrestsSelec = []; biClientSelec = null;
+  BI_PRESTS.forEach(function(p){ var b=document.getElementById("bi-"+p.id); if(b) b.classList.remove("actif"); });
+  var n=document.getElementById("bi-note"); if(n) n.value="";
+  var i=document.getElementById("bi-client-search"); if(i) i.value="";
+  var a=document.getElementById("bi-client-selectionne"); if(a) a.style.display="none";
+  var l=document.getElementById("bi-client-liste"); if(l) l.innerHTML="";
+}
+
 function init() {
   // Attacher evenements pave
   var touches = ["7","8","9","4","5","6","1","2","3",".","0"];
@@ -1821,7 +2089,7 @@ function init() {
   if (tok) tok.onclick = fermerPave;
 
   // Prestations
-  var plist = ["haie", "tonte", "elagage", "abattage"];
+  var plist = ["haie", "tonte", "elagage", "abattage", "evac", "compost"];
   for (var i = 0; i < plist.length; i++) {
     (function(p) {
       var b = trouverEl("bp-" + p);
@@ -1903,6 +2171,18 @@ function init() {
   if (oCalc) oCalc.onclick = function() { allerVers("calc"); };
   var oDevis = trouverEl("ong-devis");
   if (oDevis) oDevis.onclick = function() { allerVers("devis"); };
+  var oMemo = trouverEl("ong-memo");
+  if (oMemo) oMemo.onclick = function() { allerVers("memo"); };
+  var oBi = trouverEl("ong-bi");
+  if (oBi) oBi.onclick = function() { allerVers("bi"); };
+  BI_PRESTS.forEach(function(p) {
+    var b = document.getElementById("bi-"+p.id);
+    if (b) (function(id){ b.onclick=function(){ toggleBI(id); }; })(p.id);
+  });
+  var btnEnvBI = trouverEl("btn-envoyer-bi");
+  if (btnEnvBI) btnEnvBI.onclick = envoyerBI;
+  var btnRstBI = trouverEl("btn-reset-bi");
+  if (btnRstBI) btnRstBI.onclick = reinitialiserBI;
 
   // Fermer install
   var btnFI = trouverEl("btn-fermer-install");
@@ -1921,7 +2201,7 @@ function init() {
     modeSombre = true;
     document.body.classList.add("dark");
     var btnD = document.getElementById("btn-dark");
-    if (btnD) btnD.textContent = "☀️";
+    if (btnD) btnD.textContent = "\u2600\uFE0F";
   }
 
   // Demarrage : afficher choix utilisateur
