@@ -10,6 +10,8 @@
 <title>Crea Nature</title>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -83,10 +85,12 @@ html,body{height:100%;overflow:hidden;background:var(--gris3);font-family:-apple
 #barre-install{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:linear-gradient(135deg,var(--or),var(--or2));color:#fff;font-size:13px;font-weight:500;padding:10px 40px;padding-top:calc(var(--haut) + 8px);text-align:center;z-index:3000;display:none;line-height:1.5}
 #barre-install.visible{display:block}
 #btn-fermer-install{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:22px;cursor:pointer}
-@keyframes clin{0%,100%{opacity:1}50%{opacity:0}}
+.acc-btn-purple{background:#251830;color:#C77DFF}
+.acc-btn-terrain{background:linear-gradient(135deg,#1A2C1A,#0D3D1A);color:#4CD964}
+.acc-btn-full{grid-column:1/-1}
 .memo-filtre-btn{padding:5px 14px;border-radius:20px;border:1.5px solid var(--gris2);background:var(--blanc);font-size:12px;font-weight:600;color:var(--gris);cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap;flex-shrink:0}
 .memo-filtre-btn.actif{border-color:var(--or);background:rgba(200,146,62,.08);color:var(--or2)}
-.memo-type-btn{flex:1;height:30px;border-radius:8px;border:1.5px solid var(--gris2);background:none;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;color:var(--gris)}
+.memo-type-btn{flex:1;height:30px;border-radius:8px;border:1.5px solid #3A3A3C;background:none;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;color:#8E8E93}
 .memo-type-btn.actif{border-color:#C77DFF;background:rgba(199,125,255,.1);color:#C77DFF}
 .memo-type-btn.urgent.actif{border-color:#FF3B30;background:rgba(255,59,48,.1);color:#FF3B30}
 .note-item{background:var(--blanc);border-radius:12px;padding:11px 13px;margin-bottom:7px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
@@ -97,6 +101,7 @@ html,body{height:100%;overflow:hidden;background:var(--gris3);font-family:-apple
 .note-meta{font-size:11px;color:var(--gris)}
 .note-acts{display:flex;gap:6px;margin-top:6px}
 .note-act-btn{padding:4px 12px;border-radius:20px;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif}
+@keyframes clin{0%,100%{opacity:1}50%{opacity:0}}
 
 /* MODE SOMBRE */
 body.dark{background:#1C1C1E}
@@ -186,8 +191,8 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 
 /* BOUTON MODE SOMBRE */
 #btn-dark{position:fixed;bottom:calc(env(safe-area-inset-bottom,34px) + 10px);right:16px;width:40px;height:40px;border-radius:20px;background:rgba(0,0,0,.3);border:none;font-size:18px;cursor:pointer;z-index:500;display:flex;align-items:center;justify-content:center}
-</style>
-</head>
+<\/style>
+<\/head>
 <body>
 <!-- ECRAN CHOIX UTILISATEUR -->
 <div id="ecran-users" class="ecran-plein">
@@ -213,7 +218,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 
 <!-- ECRAN PIN -->
 <div id="ecran-login" class="ecran-plein cache">
-  <button id="btn-retour-users" style="position:absolute;top:calc(env(safe-area-inset-top,44px)+10px);left:16px;background:none;border:none;color:#C8923E;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif">← Retour</button>
+  <button id="btn-retour-users" style="position:absolute;top:calc(env(safe-area-inset-top,44px)+10px);left:16px;background:none;border:none;color:#C8923E;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif">\u2190 Retour</button>
   <div class="login-logo" style="margin-top:20px">
     <div id="avatar-login" style="width:70px;height:70px;border-radius:35px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:700;font-family:-apple-system,sans-serif">?</div>
   </div>
@@ -270,8 +275,6 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 <div id="onglets">
   <button class="onglet actif" id="ong-calc" onclick="allerVers('calc')">Calcul</button>
   <button class="onglet" id="ong-devis" onclick="allerVers('devis')">Devis</button>
-  <button class="onglet" id="ong-memo" onclick="allerVers('memo')">&#x1F4DD; Memo</button>
-  <button class="onglet" id="ong-bi" onclick="allerVers('bi')">&#x1F4CB; Terrain</button>
 </div>
 
 <div id="contenu">
@@ -380,58 +383,6 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 </div>
 
 </div>
-
-<!-- ECRAN MEMO -->
-<div class="ecran" id="ec-memo">
-  <div class="titre-section">Memo partage</div>
-  <div style="display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;padding-bottom:4px">
-    <button class="memo-filtre-btn actif" id="mf-tout" onclick="setMemoFiltre('tout')">Tout</button>
-    <button class="memo-filtre-btn" id="mf-tache" onclick="setMemoFiltre('tache')">Taches</button>
-    <button class="memo-filtre-btn" id="mf-urgent" onclick="setMemoFiltre('urgent')">Urgent</button>
-    <button class="memo-filtre-btn" id="mf-note" onclick="setMemoFiltre('note')">Notes</button>
-  </div>
-  <div id="memo-liste"></div>
-  <div class="carte" style="padding:12px;margin-top:4px">
-    <div style="display:flex;gap:6px;margin-bottom:8px">
-      <button class="memo-type-btn actif" id="mt-note" onclick="setMemoType('note')">Note</button>
-      <button class="memo-type-btn" id="mt-tache" onclick="setMemoType('tache')">Tache</button>
-      <button class="memo-type-btn urgent" id="mt-urgent" onclick="setMemoType('urgent')">Urgent</button>
-    </div>
-    <div style="display:flex;gap:8px;align-items:flex-end">
-      <textarea id="memo-input" rows="1" placeholder="Ecrire une note..." style="flex:1;padding:10px 12px;border:1.5px solid var(--gris2);border-radius:10px;font-size:14px;color:var(--noir);background:var(--gris3);outline:none;resize:none;min-height:40px;max-height:90px;font-family:-apple-system,sans-serif;-webkit-appearance:none" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,90)+'px'"></textarea>
-      <button onclick="envoyerMemo()" style="width:42px;height:42px;border-radius:21px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;color:#fff;font-size:20px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center">&#x27A4;</button>
-    </div>
-  </div>
-</div>
-
-<!-- ECRAN BON D'INTERVENTION -->
-<div class="ecran" id="ec-bi">
-  <div class="titre-section">Prestations realisees</div>
-  <div class="grille2" style="margin-bottom:10px">
-    <button class="btn-prest" id="bi-taille">&#x2702; Taille de haie</button>
-    <button class="btn-prest" id="bi-tonte">&#x1F33F; Tonte</button>
-    <button class="btn-prest" id="bi-feuilles">&#x1F342; Ramassage feuilles</button>
-    <button class="btn-prest" id="bi-fauchage">&#x1F33E; Fauchage</button>
-    <button class="btn-prest plein" id="bi-evac">&#x267B;&#xFE0F; Evacuation dechets verts</button>
-    <button class="btn-prest plein" id="bi-compost">&#x1F331; Mise en plateforme de compostage</button>
-  </div>
-  <div class="titre-section">Note complementaire <span style="font-size:9px;font-weight:400;color:#C7C7CC">(optionnel)</span></div>
-  <div class="carte" style="padding:11px;margin-bottom:10px">
-    <textarea id="bi-note" rows="3" placeholder="Precisions sur l'intervention..." style="width:100%;padding:8px 10px;border:1.5px solid var(--gris2);border-radius:9px;font-size:14px;color:var(--noir);background:var(--gris3);outline:none;resize:none;font-family:-apple-system,sans-serif;-webkit-appearance:none;display:block"></textarea>
-  </div>
-  <div class="titre-section">Client</div>
-  <div class="carte" style="padding:11px;margin-bottom:10px">
-    <input class="input-texte" id="bi-client-search" type="text" placeholder="Rechercher un client..." oninput="rechercherClientBI(this.value)"/>
-    <div id="bi-client-liste" style="margin-top:6px"></div>
-    <div id="bi-client-selectionne" style="display:none;margin-top:8px;padding:8px 12px;background:rgba(200,146,62,.1);border-radius:8px">
-      <span style="font-size:13px;font-weight:600;color:#8B5E1A" id="bi-client-nom-aff"></span>
-    </div>
-  </div>
-  <button class="btn-or" id="btn-envoyer-bi">&#x2709;&#xFE0F; Envoyer le bon d'intervention</button>
-  <button class="btn-gris" id="btn-reset-bi">Reinitialiser</button>
-</div>
-
-</div>
 </div>
 
 <div id="pave">
@@ -446,16 +397,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
   <button class="touche" id="t3">3</button>
   <button class="touche" id="tv">.</button>
   <button class="touche" id="t0">0</button>
-  <button class="touche eff" id="teff">&#x232B;</button>
-  <button class="touche-ok" id="tok">Valider</button>
-</div>
-
-<div id="barre-install">
-  <button id="btn-fermer-install">&#x2715;</button>
-  Safari > Partager > Sur l'ecran d'accueil
-</div>
-
-<script>
+  <button class="touche eff" id="teff">&#x232B;</but
 
 // === UTILISATEURS & AUTH ===
 var utilisateurActuel = null;
@@ -617,6 +559,8 @@ function construireAccueil() {
         "<button class='acc-btn acc-btn-dark' onclick='ouvrirPanneauClients()'><span class='acc-ico'>&#x1F465;</span><span class='acc-lbl'>Mes clients</span><span class='acc-desc'>Base de donnees</span></button>" +
         "<button class='acc-btn acc-btn-green' onclick='afficherStats()'><span class='acc-ico'>&#x1F4CA;</span><span class='acc-lbl'>Historique</span><span class='acc-desc'>Devis et CA</span></button>" +
         "<button class='acc-btn acc-btn-blue' onclick='ouvrirReglages()'><span class='acc-ico'>&#x2699;&#xFE0F;</span><span class='acc-lbl'>Reglages</span><span class='acc-desc'>PIN, profils</span></button>" +
+        "<button class='acc-btn acc-btn-purple acc-btn-full' onclick='ouvrirPanneauMemo()'><span class='acc-ico'>&#x1F4DD;</span><span class='acc-lbl'>Memo partage</span><span class='acc-desc'>Notes et taches</span></button>" +
+        "<button class='acc-btn acc-btn-terrain acc-btn-full' onclick='ouvrirPanneauBI()'><span class='acc-ico'>&#x1F4CB;</span><span class='acc-lbl'>Bon d'intervention</span><span class='acc-desc'>Generer et envoyer</span></button>" +
       "</div>" +
       "<div class='acc-section'>Derniers devis</div>" +
       "<div class='acc-devis-list' id='acc-derniers-devis'><div style='padding:20px;text-align:center;color:#636366;font-size:13px'>Chargement...</div></div>" +
@@ -774,7 +718,7 @@ function majInfoStats() {
 function afficherStats() {
   db.collection("devis").orderBy("timestamp","desc").limit(50).get().then(function(snap) {
     var devis = [];
-    snap.forEach(function(doc) { devis.push(Object.assign({_id: doc.id}, doc.data())); });
+    snap.forEach(function(doc) { devis.push(Object.assign({_id:doc.id}, doc.data())); });
 
     var panneau = document.createElement("div");
     panneau.style.cssText = "position:fixed;inset:0;z-index:999999;background:var(--gris3);display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
@@ -810,30 +754,18 @@ function afficherStats() {
       liste.appendChild(carte);
 
       devis.forEach(function(d) {
-        var item = document.createElement("div");
-        item.style.cssText = "background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.07);gap:8px";
-        var infos = document.createElement("div");
-        infos.style.cssText = "flex:1;min-width:0";
-        infos.innerHTML = "<div style=\'font-size:14px;font-weight:600;color:#1C1C1E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis\'>" + echapper(d.client||"") + "</div>" +
-          "<div style=\'font-size:11px;color:#8E8E93;margin-top:2px\'>N" + echapper(d.num||"") + " \u00B7 " + echapper(d.date||"") + (d.auteur ? " \u00B7 " + echapper(d.auteur) : "") + "</div>";
-        var mont = document.createElement("div");
-        mont.style.cssText = "text-align:right;flex-shrink:0";
-        mont.innerHTML = "<div style=\'font-size:14px;font-weight:600;color:#C8923E\'>" + (d.totalTTC||0).toFixed(2) + " EUR</div><div style=\'font-size:10px;color:#8E8E93\'>TTC</div>";
-        var btnX = document.createElement("button");
-        btnX.style.cssText = "background:rgba(255,59,48,.1);border:none;color:#FF3B30;width:30px;height:30px;border-radius:15px;font-size:18px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:-apple-system,sans-serif";
-        btnX.textContent = "\u00D7";
-        (function(docId, nom) {
-          btnX.onclick = function(e) {
-            e.stopPropagation();
-            if (!confirm("Supprimer le devis de " + nom + " ?")) return;
-            db.collection("devis").doc(docId).delete().then(function() {
-              item.remove(); afficherToast("Devis supprime");
-            }).catch(function(err){ afficherToast("Erreur: " + err.message); });
-          };
-        })(d._id, d.client || "ce client");
-        item.appendChild(infos);
-        item.appendChild(mont);
-        item.appendChild(btnX);
+        var item=document.createElement("div");
+        item.style.cssText="background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.07);gap:8px";
+        var inf=document.createElement("div"); inf.style.cssText="flex:1;min-width:0";
+        inf.innerHTML="<div style=\'font-size:14px;font-weight:600;color:#1C1C1E\'>"+echapper(d.client||"")+"</div>"+
+          "<div style=\'font-size:11px;color:#8E8E93;margin-top:2px\'>N"+echapper(d.num||"")+" \u00B7 "+echapper(d.date||"")+(d.auteur?" \u00B7 "+echapper(d.auteur):"")+"</div>";
+        var mo=document.createElement("div"); mo.style.cssText="text-align:right;flex-shrink:0";
+        mo.innerHTML="<div style=\'font-size:14px;font-weight:600;color:#C8923E\'>"+(d.totalTTC||0).toFixed(2)+" EUR</div><div style=\'font-size:10px;color:#8E8E93\'>TTC</div>";
+        var bX=document.createElement("button");
+        bX.style.cssText="background:rgba(255,59,48,.1);border:none;color:#FF3B30;width:30px;height:30px;border-radius:15px;font-size:18px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center";
+        bX.textContent="\u00D7";
+        (function(id,nm){ bX.onclick=function(e){ e.stopPropagation(); if(!confirm("Supprimer le devis de "+nm+" ?"))return; db.collection("devis").doc(id).delete().then(function(){ item.remove(); afficherToast("Devis supprime"); }).catch(function(err){ afficherToast("Erreur: "+err.message); }); }; })(d._id,d.client||"ce client");
+        item.appendChild(inf); item.appendChild(mo); item.appendChild(bX);
         liste.appendChild(item);
       });
     }
@@ -850,7 +782,7 @@ function afficherStats() {
 function voirHistoriqueClient(nomClient) {
   db.collection("devis").where("client","==",nomClient).orderBy("timestamp","desc").get().then(function(snap) {
     var devis = [];
-    snap.forEach(function(doc) { devis.push(Object.assign({_id: doc.id}, doc.data())); });
+    snap.forEach(function(doc) { devis.push(Object.assign({_id:doc.id}, doc.data())); });
 
     var msg = "Historique de " + nomClient + " :\n\n";
     if (devis.length === 0) {
@@ -921,19 +853,15 @@ function trouverEl(id) {
 
 // === NAVIGATION ===
 function allerVers(ecran) {
-  if (ecran === "calc") {
-    var _totEl = trouverEl("total-ttc");
-    if (_totEl && _totEl.textContent !== "0,00 EUR") afficherBandeauRAZ();
-  }
-  if (ecran !== "memo") stopPollingMemo();
-  var ec = ["calc", "devis", "memo", "bi"];
+  if(ecran==="calc"){ var _t=trouverEl("total-ttc"); if(_t&&_t.textContent!=="0,00 EUR") afficherBandeauRAZ(); }
+  var ec = ["calc", "devis"];
   for (var i = 0; i < ec.length; i++) {
     var s = trouverEl("ec-" + ec[i]);
     var o = trouverEl("ong-" + ec[i]);
     if (s) s.classList.toggle("actif", ec[i] === ecran);
     if (o) o.classList.toggle("actif", ec[i] === ecran);
   }
-  var _tit = {"calc":"Calculateur","devis":"Devis","memo":"Memo","bi":"Terrain"}; trouverEl("titre-page").textContent = _tit[ecran] || ecran;
+  trouverEl("titre-page").textContent = ecran === "calc" ? "Calculateur" : "Devis";
   if (ecran === "devis") {
     syncTotaux2();
     // Numero sauve au moment de la visualisation
@@ -1523,7 +1451,7 @@ function construireDevis() {
   var photosHTML = "";
   var groupesPhotos = [];
   if (etat.photos.length > 0) {
-    var _tp = etat.prests.map(function(p){return nomPrests[p]||p;}); if(etat.autre&&etat.autreTexte)_tp.push(etat.autreTexte); groupesPhotos.push({titre: _tp.join(", ")||"Prestation principale", arr: etat.photos});
+    var _tp=etat.prests.map(function(p){return nomPrests[p]||p;}); if(etat.autre&&etat.autreTexte)_tp.push(etat.autreTexte); groupesPhotos.push({titre:_tp.join(", ")||"Prestation principale",arr:etat.photos});
   }
   for (var i = 0; i < lignes.length; i++) {
     var lg = lignes[i];
@@ -1903,140 +1831,179 @@ function _afficherPanneauClients(clients) {
 // === BANDEAU RAZ ===
 function afficherBandeauRAZ() {
   if (document.getElementById("bandeau-raz")) return;
-  var div = document.createElement("div");
-  div.id = "bandeau-raz";
-  div.style.cssText = "position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:linear-gradient(135deg,#C8923E,#8B5E1A);color:#fff;padding:10px 16px;padding-top:calc(env(safe-area-inset-top,44px)+4px);display:flex;justify-content:space-between;align-items:center;z-index:999999;font-family:-apple-system,sans-serif;gap:8px";
-  var txt = document.createElement("span");
-  txt.style.cssText = "font-size:13px;font-weight:500;flex-shrink:0";
-  txt.textContent = "Nouveau devis ?";
-  var btns = document.createElement("div");
-  btns.style.cssText = "display:flex;gap:8px;flex-shrink:0";
-  var bRAZ = document.createElement("button");
-  bRAZ.style.cssText = "background:#fff;border:none;color:#8B5E1A;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif";
-  bRAZ.textContent = "Remettre a zero";
-  bRAZ.onclick = function() { reinitialiser(); var b=document.getElementById("bandeau-raz"); if(b) b.remove(); };
-  var bGarde = document.createElement("button");
-  bGarde.style.cssText = "background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 12px;border-radius:20px;font-size:13px;cursor:pointer;font-family:-apple-system,sans-serif";
-  bGarde.textContent = "Garder";
-  bGarde.onclick = function() { var b=document.getElementById("bandeau-raz"); if(b) b.remove(); };
-  btns.appendChild(bRAZ); btns.appendChild(bGarde);
-  div.appendChild(txt); div.appendChild(btns);
+  var div=document.createElement("div"); div.id="bandeau-raz";
+  div.style.cssText="position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:linear-gradient(135deg,#C8923E,#8B5E1A);color:#fff;padding:10px 16px;padding-top:calc(env(safe-area-inset-top,44px)+4px);display:flex;justify-content:space-between;align-items:center;z-index:999999;font-family:-apple-system,sans-serif;gap:8px";
+  var txt=document.createElement("span"); txt.style.cssText="font-size:13px;font-weight:500"; txt.textContent="Nouveau devis ?";
+  var btns=document.createElement("div"); btns.style.cssText="display:flex;gap:8px";
+  var bR=document.createElement("button"); bR.style.cssText="background:#fff;border:none;color:#8B5E1A;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif"; bR.textContent="Remettre a zero";
+  bR.onclick=function(){ reinitialiser(); var b=document.getElementById("bandeau-raz"); if(b) b.remove(); };
+  var bG=document.createElement("button"); bG.style.cssText="background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 12px;border-radius:20px;font-size:13px;cursor:pointer;font-family:-apple-system,sans-serif"; bG.textContent="Garder";
+  bG.onclick=function(){ var b=document.getElementById("bandeau-raz"); if(b) b.remove(); };
+  btns.appendChild(bR); btns.appendChild(bG); div.appendChild(txt); div.appendChild(btns);
   document.body.appendChild(div);
   setTimeout(function(){ var b=document.getElementById("bandeau-raz"); if(b) b.remove(); }, 6000);
 }
 
-// === MEMO ===
-var memoFiltreCourant = "tout";
-var memoTypeCourant = "note";
-var memoPolling = null;
+// === PANNEAU MEMO ===
+var memoTypeCourant="note"; var memoFiltreCourant="tout"; var memoPolling=null;
+
+function ouvrirPanneauMemo() {
+  var ancien=document.getElementById("panneau-memo"); if(ancien) ancien.remove();
+  var pn=document.createElement("div"); pn.id="panneau-memo";
+  pn.style.cssText="position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+  pn.innerHTML=
+    "<div style='background:#2A1A3A;padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px) + 6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>"+
+      "<span style='font-size:17px;font-weight:700;color:#fff'>Memo partage</span>"+
+      "<button onclick='fermerPanneauMemo()' style='background:rgba(255,255,255,.1);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>"+
+    "</div>"+
+    "<div style='display:flex;gap:6px;padding:10px 14px;background:#1C1C1E;border-bottom:.5px solid #2C2C2E;flex-shrink:0;overflow-x:auto'>"+
+      "<button class='memo-filtre-btn actif' id='mf-tout' onclick='setMemoFiltre("tout")'>Tout</button>"+
+      "<button class='memo-filtre-btn' id='mf-tache' onclick='setMemoFiltre("tache")'>Taches</button>"+
+      "<button class='memo-filtre-btn' id='mf-urgent' onclick='setMemoFiltre("urgent")'>Urgent</button>"+
+      "<button class='memo-filtre-btn' id='mf-note' onclick='setMemoFiltre("note")'>Notes</button>"+
+    "</div>"+
+    "<div id='memo-liste' style='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px 14px'></div>"+
+    "<div style='flex-shrink:0;background:#2C2C2E;border-top:.5px solid #3A3A3C;padding:10px 14px;padding-bottom:calc(env(safe-area-inset-bottom,34px) + 8px)'>"+
+      "<div style='display:flex;gap:6px;margin-bottom:8px'>"+
+        "<button class='memo-type-btn actif' id='mt-note' onclick='setMemoType("note")'>Note</button>"+
+        "<button class='memo-type-btn' id='mt-tache' onclick='setMemoType("tache")'>Tache</button>"+
+        "<button class='memo-type-btn urgent' id='mt-urgent' onclick='setMemoType("urgent")'>Urgent</button>"+
+      "</div>"+
+      "<div style='display:flex;gap:8px;align-items:flex-end'>"+
+        "<textarea id='memo-input' rows='1' placeholder='Ecrire une note...' style='flex:1;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:10px;font-size:14px;color:#fff;background:#3A3A3C;outline:none;resize:none;min-height:40px;max-height:90px;font-family:-apple-system,sans-serif;-webkit-appearance:none' oninput='this.style.height="auto";this.style.height=Math.min(this.scrollHeight,90)+"px"'></textarea>"+
+        "<button onclick='envoyerMemo()' style='width:42px;height:42px;border-radius:21px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;color:#fff;font-size:20px;cursor:pointer;flex-shrink:0'>&#x27A4;</button>"+
+      "</div>"+
+    "</div>";
+  document.body.appendChild(pn);
+  memoFiltreCourant="tout"; memoTypeCourant="note";
+  chargerMemos();
+  if(memoPolling) clearInterval(memoPolling);
+  memoPolling=setInterval(chargerMemos,8000);
+}
+
+function fermerPanneauMemo() {
+  if(memoPolling){ clearInterval(memoPolling); memoPolling=null; }
+  var pn=document.getElementById("panneau-memo"); if(pn) pn.remove();
+}
 
 function setMemoFiltre(f) {
-  memoFiltreCourant = f;
+  memoFiltreCourant=f;
   document.querySelectorAll(".memo-filtre-btn").forEach(function(b){ b.classList.remove("actif"); });
-  var el = document.getElementById("mf-" + f);
-  if (el) el.classList.add("actif");
+  var el=document.getElementById("mf-"+f); if(el) el.classList.add("actif");
   chargerMemos();
 }
 
 function setMemoType(t) {
-  memoTypeCourant = t;
+  memoTypeCourant=t;
   document.querySelectorAll(".memo-type-btn").forEach(function(b){ b.classList.remove("actif"); });
-  var el = document.getElementById("mt-" + t);
-  if (el) el.classList.add("actif");
+  var el=document.getElementById("mt-"+t); if(el) el.classList.add("actif");
 }
 
 function chargerMemos() {
-  var liste = document.getElementById("memo-liste");
-  if (!liste) return;
+  var liste=document.getElementById("memo-liste"); if(!liste) return;
   db.collection("memos").orderBy("timestamp","desc").limit(50).get().then(function(snap) {
-    var r = [];
-    snap.forEach(function(doc){ r.push(Object.assign({_id:doc.id}, doc.data())); });
-    if (memoFiltreCourant !== "tout") r = r.filter(function(x){ return x.type === memoFiltreCourant; });
-    if (!r.length) { liste.innerHTML = "<div style='text-align:center;color:#8E8E93;padding:20px;font-size:14px'>Aucune note</div>"; return; }
-    liste.innerHTML = "";
+    var r=[]; snap.forEach(function(doc){ r.push(Object.assign({_id:doc.id},doc.data())); });
+    if(memoFiltreCourant!=="tout") r=r.filter(function(x){ return x.type===memoFiltreCourant; });
+    if(!r.length){ liste.innerHTML="<div style='text-align:center;color:#8E8E93;padding:30px;font-size:14px'>Aucune note</div>"; return; }
+    liste.innerHTML="";
     r.forEach(function(n) {
-      var div = document.createElement("div");
-      div.className = "note-item" + (n.type==="urgent" ? " urgent" : n.type==="tache" ? " tache" : "");
-      var d = new Date(n.timestamp||0);
-      var ds = ("0"+d.getDate()).slice(-2)+"/"+("0"+(d.getMonth()+1)).slice(-2)+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2);
-      div.innerHTML = "<div class='note-txt"+(n.fait?" barre":"")+"'>"+echapper(n.texte||"")+"</div><div class='note-meta'>"+echapper(n.auteur||"")+" - "+ds+"</div>";
-      var acts = document.createElement("div");
-      acts.className = "note-acts";
-      if (n.type === "tache") {
-        var bF = document.createElement("button");
-        bF.className = "note-act-btn";
-        bF.style.cssText = "background:"+(n.fait?"rgba(100,100,100,.15)":"rgba(52,199,89,.15)")+";color:"+(n.fait?"#8E8E93":"#34C759");
-        bF.textContent = n.fait ? "Rouvrir" : "Fait !";
+      var div=document.createElement("div");
+      div.className="note-item"+(n.type==="urgent"?" urgent":n.type==="tache"?" tache":"");
+      var d=new Date(n.timestamp||0);
+      var ds=("0"+d.getDate()).slice(-2)+"/"+("0"+(d.getMonth()+1)).slice(-2)+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2);
+      div.innerHTML="<div class='note-txt"+(n.fait?" barre":"")+"'>"+echapper(n.texte||"")+"</div><div class='note-meta'>"+echapper(n.auteur||"")+" - "+ds+"</div>";
+      var acts=document.createElement("div"); acts.className="note-acts";
+      if(n.type==="tache"){
+        var bF=document.createElement("button"); bF.className="note-act-btn";
+        bF.style.cssText="background:"+(n.fait?"rgba(100,100,100,.15)":"rgba(52,199,89,.15)")+";color:"+(n.fait?"#8E8E93":"#34C759");
+        bF.textContent=n.fait?"Rouvrir":"Fait !";
         (function(id,f){ bF.onclick=function(){ db.collection("memos").doc(id).update({fait:!f}).then(chargerMemos); }; })(n._id,n.fait);
         acts.appendChild(bF);
       }
-      var bS = document.createElement("button");
-      bS.className = "note-act-btn";
-      bS.style.cssText = "background:rgba(255,59,48,.12);color:#FF3B30";
-      bS.textContent = "Supprimer";
+      var bS=document.createElement("button"); bS.className="note-act-btn";
+      bS.style.cssText="background:rgba(255,59,48,.12);color:#FF3B30"; bS.textContent="Supprimer";
       (function(id){ bS.onclick=function(){ db.collection("memos").doc(id).delete().then(chargerMemos); }; })(n._id);
-      acts.appendChild(bS);
-      div.appendChild(acts);
-      liste.appendChild(div);
+      acts.appendChild(bS); div.appendChild(acts); liste.appendChild(div);
     });
-  }).catch(function(){ liste.innerHTML = "<div style='text-align:center;color:#FF3B30;padding:20px;font-size:13px'>Erreur connexion</div>"; });
+  }).catch(function(){ var l=document.getElementById("memo-liste"); if(l) l.innerHTML="<div style='text-align:center;color:#FF3B30;padding:20px'>Erreur connexion</div>"; });
 }
 
 function envoyerMemo() {
-  var inp = document.getElementById("memo-input");
-  if (!inp) return;
-  var txt = inp.value.trim();
-  if (!txt) return;
-  var auteur = utilisateurActuel ? utilisateurActuel.nom : "Equipe";
-  db.collection("memos").add({texte:txt, type:memoTypeCourant, auteur:auteur, timestamp:Date.now(), fait:false})
+  var inp=document.getElementById("memo-input"); if(!inp) return;
+  var txt=inp.value.trim(); if(!txt) return;
+  var auteur=utilisateurActuel?utilisateurActuel.nom:"Equipe";
+  db.collection("memos").add({texte:txt,type:memoTypeCourant,auteur:auteur,timestamp:Date.now(),fait:false})
     .then(function(){ inp.value=""; inp.style.height="auto"; chargerMemos(); })
     .catch(function(){ afficherToast("Erreur envoi"); });
 }
 
-function lancerPollingMemo() {
-  chargerMemos();
-  if (memoPolling) clearInterval(memoPolling);
-  memoPolling = setInterval(chargerMemos, 8000);
-}
-
-function stopPollingMemo() {
-  if (memoPolling){ clearInterval(memoPolling); memoPolling=null; }
-}
-
-// === BON D'INTERVENTION ===
-var biPrestsSelec = [];
-var biClientSelec = null;
-var BI_PRESTS = [
-  {id:"taille",   label:"Taille de haie"},
-  {id:"tonte",    label:"Tonte"},
-  {id:"feuilles", label:"Ramassage feuilles"},
-  {id:"fauchage", label:"Fauchage"},
-  {id:"evac",     label:"Evacuation dechets verts"},
-  {id:"compost",  label:"Mise en plateforme de compostage"}
+// === PANNEAU BON D'INTERVENTION ===
+var biPrestsSelec=[]; var biClientSelec=null;
+var BI_PRESTS=[
+  {id:"taille",label:"Taille de haie"},
+  {id:"tonte",label:"Tonte"},
+  {id:"feuilles",label:"Ramassage feuilles"},
+  {id:"fauchage",label:"Fauchage"},
+  {id:"evac",label:"Evacuation dechets verts"},
+  {id:"compost",label:"Mise en plateforme de compostage"}
 ];
 
-function toggleBI(id) {
-  var idx = biPrestsSelec.indexOf(id);
-  if (idx >= 0) biPrestsSelec.splice(idx,1); else biPrestsSelec.push(id);
-  var btn = document.getElementById("bi-"+id);
-  if (btn) btn.classList.toggle("actif", biPrestsSelec.indexOf(id)>=0);
+function ouvrirPanneauBI() {
+  biPrestsSelec=[]; biClientSelec=null;
+  var ancien=document.getElementById("panneau-bi"); if(ancien) ancien.remove();
+  var pn=document.createElement("div"); pn.id="panneau-bi";
+  pn.style.cssText="position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif;overflow-y:auto";
+  var grille=BI_PRESTS.map(function(p){
+    var plein=p.id==="evac"||p.id==="compost"?" plein":"";
+    return "<button class='btn-prest"+plein+"' id='bip-"+p.id+"' onclick='toggleBIbtn(""+p.id+"")'>"+echapper(p.label)+"</button>";
+  }).join("");
+  pn.innerHTML=
+    "<div style='background:#0D3D1A;padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px) + 6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>"+
+      "<span style='font-size:17px;font-weight:700;color:#fff'>Bon d'intervention</span>"+
+      "<button onclick='fermerPanneauBI()' style='background:rgba(255,255,255,.1);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>"+
+    "</div>"+
+    "<div style='flex:1;padding:14px 14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)'>"+
+      "<div class='titre-section'>Prestations realisees</div>"+
+      "<div class='grille2' style='margin-bottom:12px'>"+grille+"</div>"+
+      "<div class='titre-section'>Note complementaire</div>"+
+      "<div class='carte' style='padding:11px;margin-bottom:12px'>"+
+        "<textarea id='bi-note' rows='3' placeholder='Precisions sur l\'intervention...' style='width:100%;padding:8px 10px;border:1.5px solid var(--gris2);border-radius:9px;font-size:14px;color:var(--noir);background:var(--gris3);outline:none;resize:none;font-family:-apple-system,sans-serif;-webkit-appearance:none;display:block'></textarea>"+
+      "</div>"+
+      "<div class='titre-section'>Client</div>"+
+      "<div class='carte' style='padding:11px;margin-bottom:12px'>"+
+        "<input class='input-texte' id='bi-client-search' type='text' placeholder='Rechercher un client...' oninput='rechercherClientBI(this.value)'/>"+
+        "<div id='bi-client-liste' style='margin-top:6px'></div>"+
+        "<div id='bi-client-selectionne' style='display:none;margin-top:8px;padding:8px 12px;background:rgba(200,146,62,.1);border-radius:8px'>"+
+          "<span style='font-size:13px;font-weight:600;color:#8B5E1A' id='bi-client-nom-aff'></span>"+
+        "</div>"+
+      "</div>"+
+      "<button class='btn-or' onclick='envoyerBI()'>Envoyer le bon d\'intervention</button>"+
+      "<button class='btn-gris' onclick='reinitialiserBI()' style='margin-top:8px'>Reinitialiser</button>"+
+    "</div>";
+  document.body.appendChild(pn);
+}
+
+function fermerPanneauBI() { var pn=document.getElementById("panneau-bi"); if(pn) pn.remove(); }
+
+function toggleBIbtn(id) {
+  var idx=biPrestsSelec.indexOf(id);
+  if(idx>=0) biPrestsSelec.splice(idx,1); else biPrestsSelec.push(id);
+  var btn=document.getElementById("bip-"+id); if(btn) btn.classList.toggle("actif",biPrestsSelec.indexOf(id)>=0);
 }
 
 function rechercherClientBI(val) {
-  var liste = document.getElementById("bi-client-liste");
-  if (!liste) return;
-  if (!val || val.length < 2) { liste.innerHTML=""; return; }
+  var liste=document.getElementById("bi-client-liste"); if(!liste) return;
+  if(!val||val.length<2){ liste.innerHTML=""; return; }
   db.collection("clients").orderBy("nom").get().then(function(snap) {
-    var r = [];
+    var r=[];
     snap.forEach(function(doc){ var d=doc.data(); if(d.nom&&d.nom.toLowerCase().indexOf(val.toLowerCase())>=0) r.push(Object.assign({_id:doc.id},d)); });
-    liste.innerHTML = "";
+    liste.innerHTML="";
     r.slice(0,5).forEach(function(cl) {
-      var item = document.createElement("div");
-      item.style.cssText = "padding:9px 12px;background:rgba(200,146,62,.08);border-radius:8px;margin-bottom:4px;cursor:pointer;font-size:14px;color:var(--noir)";
-      item.textContent = cl.nom + (cl.adresse ? " - "+cl.adresse : "");
+      var item=document.createElement("div");
+      item.style.cssText="padding:9px 12px;background:rgba(200,146,62,.08);border-radius:8px;margin-bottom:4px;cursor:pointer;font-size:14px;color:var(--noir)";
+      item.textContent=cl.nom+(cl.adresse?" - "+cl.adresse:"");
       (function(client){ item.onclick=function(){
-        biClientSelec = client;
-        liste.innerHTML = "";
+        biClientSelec=client; liste.innerHTML="";
         var inp=document.getElementById("bi-client-search"); if(inp) inp.value=client.nom;
         var aff=document.getElementById("bi-client-selectionne"); if(aff) aff.style.display="block";
         var nm=document.getElementById("bi-client-nom-aff"); if(nm) nm.textContent=client.nom+(client.adresse?" - "+client.adresse:"");
@@ -2047,26 +2014,25 @@ function rechercherClientBI(val) {
 }
 
 function envoyerBI() {
-  if (biPrestsSelec.length===0){ afficherToast("Selectionne au moins une prestation"); return; }
-  var note = (document.getElementById("bi-note")||{}).value || "";
-  var nomCl = biClientSelec ? biClientSelec.nom : "";
-  var emailCl = biClientSelec ? (biClientSelec.email||"") : "";
-  var d = new Date();
+  if(biPrestsSelec.length===0){ afficherToast("Selectionne au moins une prestation"); return; }
+  var note=(document.getElementById("bi-note")||{}).value||"";
+  var nomCl=biClientSelec?biClientSelec.nom:""; var emailCl=biClientSelec?(biClientSelec.email||""):"";
+  var d=new Date();
   var JOURS=["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
   var MOIS=["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"];
-  var dateStr = JOURS[d.getDay()]+" "+d.getDate()+" "+MOIS[d.getMonth()]+" "+d.getFullYear();
-  var auteur = utilisateurActuel ? utilisateurActuel.nom : "Crea Nature";
-  var prenom = nomCl ? nomCl.split(" ")[0] : "";
-  var listePr = biPrestsSelec.map(function(id){ var p=BI_PRESTS.find(function(x){return x.id===id;}); return p?"   - "+p.label:id; }).join("\n");
-  var corps = "Bonjour "+prenom+",\n\nNous vous confirmons notre intervention realisee ce "+dateStr+".\n\nPrestations effectuees :\n"+listePr+(note?"\n\nRemarques : "+note:"")+"\n\nNous restons disponibles pour toute question.\n\nCordialement,\n"+auteur+"\nCrea Nature\ncreanature@ymail.com";
-  var sujet = "Bon d'intervention - "+dateStr+(nomCl?" - "+nomCl:"");
-  window.location.href = "mailto:"+encodeURIComponent(emailCl)+"?cc="+encodeURIComponent("creanature@ymail.com")+"&subject="+encodeURIComponent(sujet)+"&body="+encodeURIComponent(corps);
+  var dateStr=JOURS[d.getDay()]+" "+d.getDate()+" "+MOIS[d.getMonth()]+" "+d.getFullYear();
+  var auteur=utilisateurActuel?utilisateurActuel.nom:"Crea Nature";
+  var prenom=nomCl?nomCl.split(" ")[0]:"";
+  var listePr=biPrestsSelec.map(function(id){ var p=BI_PRESTS.find(function(x){return x.id===id;}); return p?"   - "+p.label:id; }).join("\n");
+  var corps="Bonjour "+prenom+",\n\nNous vous confirmons notre intervention realisee ce "+dateStr+".\n\nPrestations effectuees :\n"+listePr+(note?"\n\nRemarques : "+note:"")+"\n\nNous restons disponibles.\n\nCordialement,\n"+auteur+"\nCrea Nature\ncreanature@ymail.com";
+  var sujet="Bon d'intervention - "+dateStr+(nomCl?" - "+nomCl:"");
+  window.location.href="mailto:"+encodeURIComponent(emailCl)+"?cc="+encodeURIComponent("creanature@ymail.com")+"&subject="+encodeURIComponent(sujet)+"&body="+encodeURIComponent(corps);
   afficherToast("Mail prepare !");
 }
 
 function reinitialiserBI() {
-  biPrestsSelec = []; biClientSelec = null;
-  BI_PRESTS.forEach(function(p){ var b=document.getElementById("bi-"+p.id); if(b) b.classList.remove("actif"); });
+  biPrestsSelec=[]; biClientSelec=null;
+  BI_PRESTS.forEach(function(p){ var b=document.getElementById("bip-"+p.id); if(b) b.classList.remove("actif"); });
   var n=document.getElementById("bi-note"); if(n) n.value="";
   var i=document.getElementById("bi-client-search"); if(i) i.value="";
   var a=document.getElementById("bi-client-selectionne"); if(a) a.style.display="none";
@@ -2171,18 +2137,6 @@ function init() {
   if (oCalc) oCalc.onclick = function() { allerVers("calc"); };
   var oDevis = trouverEl("ong-devis");
   if (oDevis) oDevis.onclick = function() { allerVers("devis"); };
-  var oMemo = trouverEl("ong-memo");
-  if (oMemo) oMemo.onclick = function() { allerVers("memo"); };
-  var oBi = trouverEl("ong-bi");
-  if (oBi) oBi.onclick = function() { allerVers("bi"); };
-  BI_PRESTS.forEach(function(p) {
-    var b = document.getElementById("bi-"+p.id);
-    if (b) (function(id){ b.onclick=function(){ toggleBI(id); }; })(p.id);
-  });
-  var btnEnvBI = trouverEl("btn-envoyer-bi");
-  if (btnEnvBI) btnEnvBI.onclick = envoyerBI;
-  var btnRstBI = trouverEl("btn-reset-bi");
-  if (btnRstBI) btnRstBI.onclick = reinitialiserBI;
 
   // Fermer install
   var btnFI = trouverEl("btn-fermer-install");
@@ -2218,6 +2172,20 @@ function init() {
       if (u) {
         utilisateurActuel = u;
         ouvrirAccueil();
+      } else {
+        afficherChoixUsers();
+      }
+    });
+  } else {
+    afficherChoixUsers();
+  }
+
+  afficherPhotos("main");
+  calculer();
+}
+
+window.addEventListener("load", init);
+  ouvrirAccueil();
       } else {
         afficherChoixUsers();
       }
