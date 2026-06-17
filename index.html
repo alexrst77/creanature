@@ -1573,6 +1573,56 @@ function construireDevis() {
   return html;
 }
 
+function envoyerDevisParMail() {
+  var nom     = lireChamp("c-nom") || "";
+  var email   = lireChamp("c-email") || "";
+  var num     = lireChamp("d-num") || "001";
+  var date    = lireChamp("d-date") || "";
+  var tel     = lireChamp("c-tel") || "";
+  var adresse = lireChamp("c-adresse") || "";
+  var t       = calculer();
+  var ht      = t.ht.toFixed(2);
+  var tva     = (t.ttc - t.ht).toFixed(2);
+  var ttc     = t.ttc.toFixed(2);
+  var auteur  = utilisateurActuel ? utilisateurActuel.nom : "Crea Nature";
+  var prenom  = nom ? nom.split(" ")[0] : "Madame, Monsieur";
+
+  // Detail des lignes
+  var lignesTexte = "";
+  var rangees = construireRangees();
+  for (var i = 0; i < rangees.length; i++) {
+    var rg = rangees[i];
+    if (rg.label) lignesTexte += "  - " + rg.label + " : " + rg.total.toFixed(2) + " EUR HT\n";
+  }
+
+  var sujet = "Devis N" + num + " - Crea Nature - " + nom;
+
+  var corps =
+    "Bonjour " + prenom + ",\n\n" +
+    "Veuillez trouver ci-dessous votre devis N" + num + " en date du " + date + ".\n\n" +
+    "=== RECAPITULATIF ===\n" +
+    (lignesTexte ? lignesTexte + "\n" : "") +
+    "Total HT  : " + ht + " EUR\n" +
+    "TVA 20%   : " + tva + " EUR\n" +
+    "Total TTC : " + ttc + " EUR\n\n" +
+    "Le PDF complet de votre devis vous a ete transmis separement ou peut etre genere " +
+    "depuis cette application via le bouton \"Sauvegarder PDF\".\n\n" +
+    "Pour valider ce devis, il vous suffit de nous retourner ce mail avec votre accord.\n\n" +
+    "Nous restons a votre disposition pour toute question.\n\n" +
+    "Cordialement,\n" +
+    auteur + "\n" +
+    "Crea Nature\n" +
+    "Tel : 06 XX XX XX XX\n" +
+    "creanature@ymail.com";
+
+  // Ouvrir le mail
+  window.location.href =
+    "mailto:" + encodeURIComponent(email) +
+    "?cc=" + encodeURIComponent("creanature@ymail.com") +
+    "&subject=" + encodeURIComponent(sujet) +
+    "&body=" + encodeURIComponent(corps);
+}
+
 function visualiserDevis() {
   syncTotaux2();
   // Incrementer et sauver le numero dans Firebase
@@ -1621,9 +1671,15 @@ function visualiserDevis() {
     }
   };
 
+  var btnMail = document.createElement("button");
+  btnMail.style.cssText = "background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.6);color:#fff;padding:7px 14px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap";
+  btnMail.innerHTML = "&#x2709;&#xFE0F; Envoyer";
+  btnMail.onclick = function() { envoyerDevisParMail(); };
+
   barre.appendChild(btnFermer);
   barre.appendChild(titre);
   barre.appendChild(btnImprimer);
+  barre.appendChild(btnMail);
 
   var iframe = document.createElement("iframe");
   iframe.id = "iframe-devis";
