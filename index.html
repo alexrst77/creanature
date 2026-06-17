@@ -573,6 +573,8 @@ function construireAccueil() {
         "<button class='acc-btn acc-btn-blue' onclick='ouvrirReglages()'><span class='acc-ico'>&#x2699;&#xFE0F;</span><span class='acc-lbl'>Reglages</span><span class='acc-desc'>PIN, profils</span></button>" +
         "<button class='acc-btn acc-btn-purple acc-btn-full' onclick='ouvrirPanneauMemo()'><span class='acc-ico'>&#x1F4DD;</span><span class='acc-lbl'>Memo partage</span><span class='acc-desc'>Notes et taches</span></button>" +
         "<button class='acc-btn acc-btn-terrain acc-btn-full' onclick='ouvrirPanneauBI()'><span class='acc-ico'>&#x1F4CB;</span><span class='acc-lbl'>Bon d'intervention</span><span class='acc-desc'>Generer et envoyer</span></button>" +
+      
+        "<button class='acc-btn acc-btn-full' style='background:linear-gradient(135deg,#1A3A2A,#0D5C35);color:#4CD964' onclick='ouvrirPanneauTresorerie()'><span class='acc-ico'>&#x1F4B0;</span><span class='acc-lbl'>Tresorerie</span><span class='acc-desc'>Encaissements et avances</span></button>" +
       "</div>" +
       "<div class='acc-section'>Derniers devis</div>" +
       "<div class='acc-devis-list' id='acc-derniers-devis'><div style='padding:20px;text-align:center;color:#636366;font-size:13px'>Chargement...</div></div>" +
@@ -693,19 +695,29 @@ function toggleDark() {
 }
 
 // === HISTORIQUE DEVIS ===
-function sauverDevisDansHistorique(numDevis, nomClient, auteur) {
+function sauverDevisDansHistorique(numDevis, nomClient, auteur3) {
   var n = new Date();
   var date = ("0"+n.getDate()).slice(-2)+"/"+("0"+(n.getMonth()+1)).slice(-2)+"/"+n.getFullYear();
+  var auteurSave = utilisateurActuel ? utilisateurActuel.nom : "";
   var t = calculer();
-  var auteur = utilisateurActuel ? utilisateurActuel.nom : "";
+  var snap = {
+    prests: etat.prests.slice(),
+    autre: etat.autre,
+    autreTexte: etat.autreTexte,
+    interv: etat.interv,
+    heures: etat.heures,
+    fournitures: etat.fournitures,
+    designation: lireChamp("main-designation")
+  };
   var data = {
-    num: numDevis,
-    client: nomClient || "Sans nom",
-    date: date,
+    num: numDevis, client: nomClient || "Sans nom", date: date,
     totalHT: parseFloat(t.ht.toFixed(2)),
     totalTTC: parseFloat(t.ttc.toFixed(2)),
-    timestamp: n.getTime(),
-    auteur: auteur
+    timestamp: n.getTime(), auteur: auteurSave,
+    adresse: lireChamp("c-adresse") || "",
+    email: lireChamp("c-email") || "",
+    tel: lireChamp("c-tel") || "",
+    snapshot: snap
   };
   db.collection("devis").add(data).catch(function(e) {
     console.log("Erreur historique:", e);
@@ -733,6 +745,7 @@ function afficherStats() {
     snap.forEach(function(doc) { devis.push(Object.assign({_id:doc.id}, doc.data())); });
 
     var panneau = document.createElement("div");
+    panneau.id = "panneau-stats";
     panneau.style.cssText = "position:fixed;inset:0;z-index:999999;background:var(--gris3);display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
 
     var barre = document.createElement("div");
@@ -787,7 +800,32 @@ function afficherStats() {
               .catch(function(err){ afficherToast("Erreur: "+err.message); });
           };
         })(d._id, d.client||"ce client");
-        item.appendChild(inf); item.appendChild(mo); item.appendChild(bX);
+        // Bouton Consulter
+        var bC = document.createElement("button");
+        bC.style.cssText = "background:rgba(100,181,246,.15);border:none;color:#64B5F6;padding:4px 9px;border-radius:14px;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0;white-space:nowrap";
+        bC.textContent = "Voir";
+        (function(devisData) {
+          bC.onclick = function(e) {
+            e.stopPropagation();
+            document.getElementById("panneau-tresor") && document.getElementById("panneau-tresor").remove();
+            var pnStat = document.getElementById("panneau-stats");
+            if (pnStat) pnStat.remove();
+            chargerDevisDansCalculateur(devisData, false);
+          };
+        })(d);
+        // Bouton Dupliquer
+        var bD = document.createElement("button");
+        bD.style.cssText = "background:rgba(76,217,100,.15);border:none;color:#4CD964;padding:4px 9px;border-radius:14px;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0;white-space:nowrap";
+        bD.textContent = "Dupliquer";
+        (function(devisData) {
+          bD.onclick = function(e) {
+            e.stopPropagation();
+            var pnStat = document.getElementById("panneau-stats");
+            if (pnStat) pnStat.remove();
+            chargerDevisDansCalculateur(devisData, true);
+          };
+        })(d);
+        item.appendChild(inf); item.appendChild(mo); item.appendChild(bC); item.appendChild(bD); item.appendChild(bX);
         liste.appendChild(item);
       });
     }
@@ -1578,49 +1616,60 @@ function envoyerDevisParMail() {
   var email   = lireChamp("c-email") || "";
   var num     = lireChamp("d-num") || "001";
   var date    = lireChamp("d-date") || "";
-  var tel     = lireChamp("c-tel") || "";
-  var adresse = lireChamp("c-adresse") || "";
   var t       = calculer();
-  var ht      = t.ht.toFixed(2);
-  var tva     = (t.ttc - t.ht).toFixed(2);
-  var ttc     = t.ttc.toFixed(2);
+  var ht      = t.ht.toFixed(2).replace(".", ",");
+  var tva     = (t.ttc - t.ht).toFixed(2).replace(".", ",");
+  var ttc     = t.ttc.toFixed(2).replace(".", ",");
   var auteur  = utilisateurActuel ? utilisateurActuel.nom : "Crea Nature";
   var prenom  = nom ? nom.split(" ")[0] : "Madame, Monsieur";
 
-  // Detail des lignes
-  var lignesTexte = "";
+  // Detail des prestations
+  var lignes2 = [];
   var rangees = construireRangees();
   for (var i = 0; i < rangees.length; i++) {
     var rg = rangees[i];
-    if (rg.label) lignesTexte += "  - " + rg.label + " : " + rg.total.toFixed(2) + " EUR HT\n";
+    if (rg.label) lignes2.push("  * " + rg.label + " : " + rg.total.toFixed(2).replace(".", ",") + " EUR HT");
   }
 
-  var sujet = "Devis N" + num + " - Crea Nature - " + nom;
+  var nl = "%0D%0A";
+  var sujet = encodeURIComponent("Devis N" + num + " - Crea Nature - " + nom);
 
-  var corps =
-    "Bonjour " + prenom + ",\n\n" +
-    "Veuillez trouver ci-dessous votre devis N" + num + " en date du " + date + ".\n\n" +
-    "=== RECAPITULATIF ===\n" +
-    (lignesTexte ? lignesTexte + "\n" : "") +
-    "Total HT  : " + ht + " EUR\n" +
-    "TVA 20%   : " + tva + " EUR\n" +
-    "Total TTC : " + ttc + " EUR\n\n" +
-    "Le PDF complet de votre devis vous a ete transmis separement ou peut etre genere " +
-    "depuis cette application via le bouton \"Sauvegarder PDF\".\n\n" +
-    "Pour valider ce devis, il vous suffit de nous retourner ce mail avec votre accord.\n\n" +
-    "Nous restons a votre disposition pour toute question.\n\n" +
-    "Cordialement,\n" +
-    auteur + "\n" +
-    "Crea Nature\n" +
-    "Tel : 06 XX XX XX XX\n" +
-    "creanature@ymail.com";
+  // Corps construit ligne par ligne et encod\u00E9 manuellement
+  var corps = encodeURIComponent("Bonjour " + prenom + ",") + nl + nl
+    + encodeURIComponent("Veuillez trouver en piece jointe votre devis N" + num + " du " + date + ".") + nl + nl
+    + encodeURIComponent("__________ RECAPITULATIF __________") + nl;
 
-  // Ouvrir le mail
-  window.location.href =
-    "mailto:" + encodeURIComponent(email) +
-    "?cc=" + encodeURIComponent("creanature@ymail.com") +
-    "&subject=" + encodeURIComponent(sujet) +
-    "&body=" + encodeURIComponent(corps);
+  for (var j = 0; j < lignes2.length; j++) {
+    corps += nl + encodeURIComponent(lignes2[j]);
+  }
+
+  corps += nl + nl
+    + encodeURIComponent("Total HT  : " + ht + " EUR") + nl
+    + encodeURIComponent("TVA 20 %  : " + tva + " EUR") + nl
+    + encodeURIComponent("Total TTC : " + ttc + " EUR") + nl + nl
+    + encodeURIComponent("____________________________________") + nl + nl
+    + encodeURIComponent("Pour valider ce devis, merci de nous retourner ce mail avec votre accord ecrit.") + nl + nl
+    + encodeURIComponent("Nous restons disponibles pour toute question ou modification.") + nl + nl
+    + encodeURIComponent("Cordialement,") + nl
+    + encodeURIComponent(auteur) + nl
+    + encodeURIComponent("Crea Nature") + nl
+    + encodeURIComponent("Tel : 06 19 30 40 93") + nl
+    + encodeURIComponent("creanature@ymail.com");
+
+  // D\u00E9clencher impression PDF d'abord si l'overlay est present
+  var iframe = document.getElementById("iframe-devis");
+  if (iframe && iframe.contentWindow) {
+    iframe.contentWindow.print();
+  }
+
+  // Petit d\u00E9lai pour laisser le PDF s'ouvrir avant Gmail
+  setTimeout(function() {
+    window.location.href =
+      "mailto:" + encodeURIComponent(email) +
+      "?cc=" + encodeURIComponent("creanature@ymail.com") +
+      "&subject=" + sujet +
+      "&body=" + corps;
+  }, 800);
 }
 
 function visualiserDevis() {
@@ -2117,6 +2166,316 @@ function reinitialiserBI(){
   var a=document.getElementById("bi-client-selectionne"); if(a) a.style.display="none";
   var l=document.getElementById("bi-client-liste"); if(l) l.innerHTML="";
 }
+
+
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+// DEVIS : CONSULTER / MODIFIER / DUPLIQUER
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+
+function chargerDevisDansCalculateur(d, dupliquer) {
+  // R\u00E9initialiser d'abord
+  reinitialiser();
+  // Charger les prestations principales
+  if (d.snapshot) {
+    var snap = d.snapshot;
+    // Prestations
+    if (snap.prests) {
+      snap.prests.forEach(function(p) {
+        etat.prests.push(p);
+        var btn = trouverEl("bp-" + p);
+        if (btn) btn.classList.add("actif");
+      });
+    }
+    if (snap.autre) { etat.autre = true; }
+    if (snap.autreTexte) {
+      etat.autreTexte = snap.autreTexte;
+      var inp = trouverEl("txt-autre-main");
+      if (inp) inp.value = snap.autreTexte;
+      var z = trouverEl("zone-autre-main");
+      if (z) z.classList.add("visible");
+    }
+    if (snap.interv) {
+      etat.interv = snap.interv;
+      for (var i = 1; i <= 4; i++) {
+        var b = trouverEl("ib-" + i);
+        if (b) b.classList.toggle("actif", i === snap.interv);
+      }
+    }
+    if (snap.heures) {
+      etat.heures = snap.heures;
+      valeurs["fc-h"] = snap.heures;
+      var vh = trouverEl("fv-h");
+      if (vh) { vh.textContent = snap.heures; vh.classList.remove("dim"); }
+    }
+    if (snap.fournitures) {
+      etat.fournitures = snap.fournitures;
+      valeurs["fc-s"] = snap.fournitures;
+      var vs = trouverEl("fv-s");
+      if (vs) { vs.textContent = snap.fournitures; vs.classList.remove("dim"); }
+    }
+    if (snap.designation) {
+      var md = trouverEl("main-designation");
+      if (md) md.value = snap.designation;
+    }
+  }
+  // Infos client
+  if (d.client) { var ec = trouverEl("c-nom"); if (ec) ec.value = d.client; }
+  if (d.adresse) { var ea = trouverEl("c-adresse"); if (ea) ea.value = d.adresse; }
+  if (d.email) { var ee = trouverEl("c-email"); if (ee) ee.value = d.email; }
+  if (d.tel) { var et = trouverEl("c-tel"); if (et) et.value = d.tel; }
+  if (d.date) { var ed = trouverEl("d-date"); if (ed) ed.value = d.date; }
+  // Num\u00E9ro : garder si modification, nouveau si dupliquer
+  if (!dupliquer && d.num) {
+    var en = trouverEl("d-num"); if (en) en.value = d.num;
+  }
+  calculer();
+  // Aller sur l'onglet calc
+  lancerCalculateur();
+  allerVers("calc");
+}
+
+// Ajouter snapshot aux donn\u00E9es sauvegard\u00E9es dans Firebase
+var _sauverDevisOrig = sauverDevisDansHistorique;
+function sauverDevisDansHistorique(numDevis, nomClient, auteur2) {
+  var n = new Date();
+  var date = ("0"+n.getDate()).slice(-2)+"/"+("0"+(n.getMonth()+1)).slice(-2)+"/"+n.getFullYear();
+  var auteurSave = utilisateurActuel ? utilisateurActuel.nom : "";
+  var t = calculer();
+  var snap = {
+    prests: etat.prests.slice(),
+    autre: etat.autre,
+    autreTexte: etat.autreTexte,
+    interv: etat.interv,
+    heures: etat.heures,
+    fournitures: etat.fournitures,
+    designation: lireChamp("main-designation")
+  };
+  var data = {
+    num: numDevis, client: nomClient || "Sans nom", date: date,
+    totalHT: parseFloat(t.ht.toFixed(2)),
+    totalTTC: parseFloat(t.ttc.toFixed(2)),
+    timestamp: n.getTime(), auteur: auteurSave,
+    adresse: lireChamp("c-adresse") || "",
+    email: lireChamp("c-email") || "",
+    tel: lireChamp("c-tel") || "",
+    snapshot: snap
+  };
+  db.collection("devis").add(data).catch(function(e) {
+    console.log("Erreur historique:", e);
+  });
+}
+
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+// TRESORERIE
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+
+var TRESOR_USERS = [
+  { id: "alex", nom: "Alexandre", initiale: "A" },
+  { id: "guil", nom: "Guillaume", initiale: "G" }
+];
+
+function ouvrirPanneauTresorerie() {
+  var ancien = document.getElementById("panneau-tresor");
+  if (ancien) ancien.remove();
+  var pn = document.createElement("div");
+  pn.id = "panneau-tresor";
+  pn.style.cssText = "position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+  // Header
+  pn.innerHTML =
+    "<div style='background:linear-gradient(135deg,#1A3A2A,#0D5C35);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>" +
+      "<span style='font-size:17px;font-weight:700;color:#fff'>Tresorerie</span>" +
+      "<button onclick='fermerPanneauTresorerie()' style='background:rgba(255,255,255,.1);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>" +
+    "</div>" +
+    "<div id='tresor-body' style='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)'>" +
+      "<div style='text-align:center;color:#8E8E93;padding:30px;font-size:14px'>Chargement...</div>" +
+    "</div>";
+  document.body.appendChild(pn);
+  chargerTresorerie();
+}
+
+function fermerPanneauTresorerie() {
+  var pn = document.getElementById("panneau-tresor");
+  if (pn) pn.remove();
+}
+
+function chargerTresorerie() {
+  var body = document.getElementById("tresor-body");
+  if (!body) return;
+  db.collection("tresorerie").get().then(function(snap) {
+    var data = {};
+    snap.forEach(function(doc) { data[doc.id] = doc.data(); });
+    afficherTresorerie(data);
+  }).catch(function(e) {
+    if (body) body.innerHTML = "<div style='text-align:center;color:#FF3B30;padding:20px'>Erreur: " + e.message + "</div>";
+  });
+}
+
+function afficherTresorerie(data) {
+  var body = document.getElementById("tresor-body");
+  if (!body) return;
+  body.innerHTML = "";
+
+  TRESOR_USERS.forEach(function(usr) {
+    var uid = usr.id;
+    var d = data[uid] || { encaissements: [], avances: 0 };
+    var encaissements = d.encaissements || [];
+    var avances = d.avances || 0;
+    var totalEnc = encaissements.reduce(function(s, e) { return s + (e.valide ? (e.montant || 0) : 0); }, 0);
+    var totalEnc2 = encaissements.reduce(function(s, e) { return s + (e.montant || 0); }, 0);
+
+    // Section par personne
+    var section = document.createElement("div");
+    section.style.cssText = "background:#2C2C2E;border-radius:16px;padding:16px;margin-bottom:16px";
+
+    // Titre + avatar
+    section.innerHTML =
+      "<div style='display:flex;align-items:center;gap:10px;margin-bottom:12px'>" +
+        "<div style='width:36px;height:36px;border-radius:18px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:700'>" + usr.initiale + "</div>" +
+        "<span style='font-size:16px;font-weight:700;color:#fff'>" + usr.nom + "</span>" +
+      "</div>" +
+      // Stats
+      "<div style='display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px'>" +
+        "<div style='background:#1C1C1E;border-radius:10px;padding:10px;text-align:center'>" +
+          "<div style='font-size:18px;font-weight:700;color:#4CD964'>" + totalEnc.toFixed(2) + " EUR</div>" +
+          "<div style='font-size:10px;color:#8E8E93;margin-top:2px;text-transform:uppercase;letter-spacing:.05em'>Encaisse valide</div>" +
+        "</div>" +
+        "<div style='background:#1C1C1E;border-radius:10px;padding:10px;text-align:center'>" +
+          "<div style='font-size:18px;font-weight:700;color:#FF6B35'>" + avances.toFixed(2) + " EUR</div>" +
+          "<div style='font-size:10px;color:#8E8E93;margin-top:2px;text-transform:uppercase;letter-spacing:.05em'>Avances</div>" +
+        "</div>" +
+      "</div>";
+
+    // Liste encaissements
+    var listDiv = document.createElement("div");
+    listDiv.style.cssText = "margin-bottom:10px";
+    var titleEnc = document.createElement("div");
+    titleEnc.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8E8E93;margin-bottom:6px";
+    titleEnc.textContent = "Encaissements clients";
+    listDiv.appendChild(titleEnc);
+
+    encaissements.forEach(function(enc, idx) {
+      var row = document.createElement("div");
+      row.style.cssText = "display:flex;align-items:center;gap:8px;background:#1C1C1E;border-radius:8px;padding:8px 10px;margin-bottom:5px";
+      // Checkbox valide
+      var cb = document.createElement("button");
+      cb.style.cssText = "width:22px;height:22px;border-radius:11px;border:2px solid " + (enc.valide ? "#4CD964" : "#3A3A3C") + ";background:" + (enc.valide ? "#4CD964" : "none") + ";cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff";
+      cb.innerHTML = enc.valide ? "&#x2713;" : "";
+      (function(userId, i, v) {
+        cb.onclick = function() {
+          var d2 = data[userId] || { encaissements: [], avances: 0 };
+          d2.encaissements[i].valide = !v;
+          db.collection("tresorerie").doc(userId).set(d2).then(function() {
+            chargerTresorerie();
+          });
+        };
+      })(uid, idx, enc.valide);
+      // Infos
+      var info = document.createElement("div");
+      info.style.cssText = "flex:1;min-width:0";
+      info.innerHTML = "<div style='font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(enc.client || "") + "</div>" +
+        "<div style='font-size:11px;color:#8E8E93'>" + enc.date + "</div>";
+      // Montant
+      var mont = document.createElement("div");
+      mont.style.cssText = "font-size:14px;font-weight:700;color:" + (enc.valide ? "#4CD964" : "#AEAEB2") + ";flex-shrink:0";
+      mont.textContent = (enc.montant || 0).toFixed(2) + " EUR";
+      // Supprimer
+      var bDel = document.createElement("button");
+      bDel.style.cssText = "background:rgba(255,59,48,.15);border:none;color:#FF3B30;width:24px;height:24px;border-radius:12px;font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center";
+      bDel.innerHTML = "&#x00D7;";
+      (function(userId, i) {
+        bDel.onclick = function() {
+          if (!confirm("Supprimer cet encaissement ?")) return;
+          var d2 = data[userId] || { encaissements: [], avances: 0 };
+          d2.encaissements.splice(i, 1);
+          db.collection("tresorerie").doc(userId).set(d2).then(function() { chargerTresorerie(); });
+        };
+      })(uid, idx);
+      row.appendChild(cb); row.appendChild(info); row.appendChild(mont); row.appendChild(bDel);
+      listDiv.appendChild(row);
+    });
+
+    // Formulaire ajout encaissement
+    var formEnc = document.createElement("div");
+    formEnc.style.cssText = "display:flex;gap:6px;margin-top:6px";
+    var inpClient = document.createElement("input");
+    inpClient.type = "text"; inpClient.placeholder = "Client";
+    inpClient.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    var inpMont = document.createElement("input");
+    inpMont.type = "number"; inpMont.placeholder = "EUR";
+    inpMont.style.cssText = "width:80px;padding:8px 8px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    var btnAdd = document.createElement("button");
+    btnAdd.style.cssText = "background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
+    btnAdd.textContent = "+ Ajouter";
+    (function(userId) {
+      btnAdd.onclick = function() {
+        var client = inpClient.value.trim();
+        var montant = parseFloat(inpMont.value);
+        if (!client || isNaN(montant) || montant <= 0) { afficherToast("Remplis client et montant"); return; }
+        var d2 = data[userId] || { encaissements: [], avances: 0 };
+        if (!d2.encaissements) d2.encaissements = [];
+        var now = new Date();
+        d2.encaissements.push({
+          client: client, montant: montant, valide: false,
+          date: ("0"+now.getDate()).slice(-2)+"/"+("0"+(now.getMonth()+1)).slice(-2)+"/"+now.getFullYear()
+        });
+        db.collection("tresorerie").doc(userId).set(d2).then(function() {
+          inpClient.value = ""; inpMont.value = "";
+          chargerTresorerie();
+        });
+      };
+    })(uid);
+    formEnc.appendChild(inpClient); formEnc.appendChild(inpMont); formEnc.appendChild(btnAdd);
+    listDiv.appendChild(formEnc);
+    section.appendChild(listDiv);
+
+    // Section avances
+    var avDiv = document.createElement("div");
+    var titleAv = document.createElement("div");
+    titleAv.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8E8E93;margin-bottom:6px";
+    titleAv.textContent = "Avances a la societe";
+    avDiv.appendChild(titleAv);
+    // Formulaire avances
+    var formAv = document.createElement("div");
+    formAv.style.cssText = "display:flex;gap:6px;margin-bottom:8px";
+    var inpAv = document.createElement("input");
+    inpAv.type = "number"; inpAv.placeholder = "Montant EUR (+/-)";
+    inpAv.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    var btnAv = document.createElement("button");
+    btnAv.style.cssText = "background:rgba(255,107,53,.8);border:none;color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
+    btnAv.textContent = "Ajouter";
+    var btnRaz = document.createElement("button");
+    btnRaz.style.cssText = "background:rgba(255,59,48,.2);border:none;color:#FF3B30;padding:8px 10px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
+    btnRaz.textContent = "RAZ";
+    (function(userId) {
+      btnAv.onclick = function() {
+        var montant = parseFloat(inpAv.value);
+        if (isNaN(montant)) { afficherToast("Entre un montant"); return; }
+        var d2 = data[userId] || { encaissements: [], avances: 0 };
+        d2.avances = (d2.avances || 0) + montant;
+        if (d2.avances < 0) d2.avances = 0;
+        db.collection("tresorerie").doc(userId).set(d2).then(function() {
+          inpAv.value = ""; chargerTresorerie();
+        });
+      };
+      btnRaz.onclick = function() {
+        if (!confirm("Remettre les avances de " + usr.nom + " a zero ?")) return;
+        var d2 = data[userId] || { encaissements: [], avances: 0 };
+        d2.avances = 0;
+        db.collection("tresorerie").doc(userId).set(d2).then(function() { chargerTresorerie(); });
+      };
+    })(uid);
+    formAv.appendChild(inpAv); formAv.appendChild(btnAv); formAv.appendChild(btnRaz);
+    avDiv.appendChild(formAv);
+    // Indication
+    var avNote = document.createElement("div");
+    avNote.style.cssText = "font-size:11px;color:#636366;text-align:center;margin-top:2px";
+    avNote.textContent = "Entre un montant negatif pour rembourser";
+    avDiv.appendChild(avNote);
+    section.appendChild(avDiv);
+    body.appendChild(section);
+  });
+}
+
 
 function init() {
   // Attacher evenements pave
