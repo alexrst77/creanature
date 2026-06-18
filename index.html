@@ -550,8 +550,9 @@ function construireAccueil() {
     "<div class='acc-header' style='width:100%;flex-shrink:0'>" +
       "<div class='acc-user-bar'>" +
         "<div><div class='acc-bienvenue'>Bonjour,</div><div class='acc-nom'>" + echapper(user.nom) + "</div></div>" +
-        "<div style='display:flex;gap:10px;align-items:center'>" +
-          "<button onclick='toggleDark()' style='background:none;border:none;font-size:22px;cursor:pointer'>&#x1F31B;</button>" +
+        "<div style='display:flex;gap:8px;align-items:center'>" +
+          "<button onclick='location.reload()' style='background:rgba(255,255,255,.08);border:none;width:32px;height:32px;border-radius:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#8E8E93'><svg width='16' height='16' viewBox='0 0 24 24' fill='none'><path d='M23 4v6h-6' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/><path d='M1 20v-6h6' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg></button>" +
+          "<button onclick='ouvrirReglages()' style='background:rgba(200,146,62,.15);border:none;width:36px;height:36px;border-radius:18px;cursor:pointer;display:flex;align-items:center;justify-content:center'>" + "<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"12\" cy=\"12\" r=\"3\" fill=\"#C8923E\"/><path d=\"M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z\" fill=\"#C8923E\" opacity=\".7\"/></svg>" + "</button>" +
           "<div class='acc-avatar' onclick='deconnecter()' title='Deconnexion'>" + echapper(user.initiale) + "</div>" +
         "</div>" +
       "</div>" +
@@ -571,14 +572,15 @@ function construireAccueil() {
         "<button class='acc-btn acc-btn-gold' onclick='lancerCalculateur()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\" fill=\"white\" opacity=\".9\"/><path d=\"M14 2v6h6\" fill=\"none\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"13\" x2=\"16\" y2=\"13\" stroke=\"rgba(0,0,0,.3)\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"17\" x2=\"13\" y2=\"17\" stroke=\"rgba(0,0,0,.3)\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></span><span class='acc-lbl'>Nouveau devis</span><span class='acc-desc'>Calculer et generer</span></button>" +
         "<button class='acc-btn acc-btn-dark' onclick='ouvrirPanneauClients()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"9\" cy=\"7\" r=\"4\" fill=\"white\"/><path d=\"M2 21v-1a7 7 0 0 1 7-7 7 7 0 0 1 7 7v1\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><circle cx=\"18\" cy=\"8\" r=\"3\" fill=\"white\" opacity=\".7\"/><path d=\"M22 21v-1a5 5 0 0 0-4-4.9\" stroke=\"white\" stroke-width=\"1.8\" stroke-linecap=\"round\" opacity=\".7\"/></svg></span><span class='acc-lbl'>Mes clients</span><span class='acc-desc'>Base de donnees</span></button>" +
         "<button class='acc-btn acc-btn-green' onclick='afficherStats()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"14\" width=\"4\" height=\"7\" rx=\"1.5\" fill=\"white\" opacity=\".6\"/><rect x=\"10\" y=\"9\" width=\"4\" height=\"12\" rx=\"1.5\" fill=\"white\" opacity=\".8\"/><rect x=\"17\" y=\"5\" width=\"4\" height=\"16\" rx=\"1.5\" fill=\"white\"/></svg></span><span class='acc-lbl'>Historique</span><span class='acc-desc'>Devis et CA</span></button>" +
-        "<button class='acc-btn acc-btn-blue' onclick='ouvrirReglages()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"12\" cy=\"12\" r=\"3\" fill=\"white\"/><path d=\"M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z\" fill=\"white\" opacity=\".8\"/></svg></span><span class='acc-lbl'>Reglages</span><span class='acc-desc'>PIN, profils</span></button>" +
-        "<button class='acc-btn acc-btn-purple acc-btn-full' onclick='ouvrirPanneauMemo()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\" fill=\"white\" opacity=\".15\"/><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\" stroke=\"white\" stroke-width=\"1.8\"/><line x1=\"8\" y1=\"8\" x2=\"16\" y2=\"8\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"12\" x2=\"16\" y2=\"12\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"16\" x2=\"12\" y2=\"16\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></span><span class='acc-lbl'>Memo partage</span><span class='acc-desc'>Notes et taches</span></button>" +
-        "<button class='acc-btn acc-btn-terrain acc-btn-full' onclick='ouvrirPanneauBI()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Bon d'intervention</span><span class='acc-desc'>Generer et envoyer</span></button>" +
+        "<button class=\'acc-btn\' style=\'background:linear-gradient(135deg,#1A2C3A,#0D3D5C);color:#64B5F6\' onclick=\'ouvrirPlanning()\'><span class=\'acc-ico\'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"3\" fill=\"white\" opacity=\".15\"/><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"3\" stroke=\"white\" stroke-width=\"1.8\"/><line x1=\"3\" y1=\"9\" x2=\"21\" y2=\"9\" stroke=\"white\" stroke-width=\"1.5\"/><line x1=\"8\" y1=\"2\" x2=\"8\" y2=\"6\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><line x1=\"16\" y1=\"2\" x2=\"16\" y2=\"6\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"7\" y=\"13\" width=\"3\" height=\"3\" rx=\"1\" fill=\"white\" opacity=\".8\"/><rect x=\"14\" y=\"13\" width=\"3\" height=\"3\" rx=\"1\" fill=\"white\"/></svg></span><span class=\'acc-lbl\'>Planning</span><span class=\'acc-desc\'>52 semaines</span></button>" +
+        
+        "<button class='acc-btn acc-btn-purple' onclick='ouvrirPanneauMemo()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\" fill=\"white\" opacity=\".15\"/><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\" stroke=\"white\" stroke-width=\"1.8\"/><line x1=\"8\" y1=\"8\" x2=\"16\" y2=\"8\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"12\" x2=\"16\" y2=\"12\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"16\" x2=\"12\" y2=\"16\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></span><span class='acc-lbl'>Memo partage</span><span class='acc-desc'>Notes et taches</span></button>" +
+        "<button class='acc-btn acc-btn-terrain' onclick='ouvrirPanneauBI()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Bon d'intervention</span><span class='acc-desc'>Generer et envoyer</span></button>" +
       
-        "<button class='acc-btn acc-btn-full' style='background:linear-gradient(135deg,#1A3A2A,#0D5C35);color:#4CD964' onclick='ouvrirPanneauTresorerie()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Tresorerie</span><span class='acc-desc'>Encaissements et avances</span></button>" +
+        "<button class='acc-btn' style='background:linear-gradient(135deg,#1A3A2A,#0D5C35);color:#4CD964' onclick='ouvrirPanneauTresorerie()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Tresorerie</span><span class='acc-desc'>Encaissements et avances</span></button>" +
       "</div>" +
       "<div class='acc-section'>Derniers devis</div>" +
-      "<div class='acc-devis-list' id='acc-derniers-devis'><div style='padding:20px;text-align:center;color:#636366;font-size:13px'>Chargement...</div></div>" +
+      "<div class='acc-devis-list' id='acc-derniers-devis'></div>" +
     "</div>";
 
   var now2 = new Date();
@@ -587,34 +589,7 @@ function construireAccueil() {
     if (el2) el2.textContent = s.size;
   }).catch(function(){});
 
-  db.collection("devis").orderBy("timestamp","desc").limit(20).get().then(function(s) {
-    var caMois = 0;
-    var html = "";
-    var count = 0;
-    s.forEach(function(doc) {
-      var d = doc.data();
-      var ts = new Date(d.timestamp || 0);
-      if (ts.getMonth() === now2.getMonth() && ts.getFullYear() === now2.getFullYear()) caMois += d.totalTTC || 0;
-      if (count < 5) {
-        html += "<div class='acc-devis-item'>" +
-          "<div><div style='font-size:14px;font-weight:600;color:#fff'>" + echapper(d.client || "") + "</div>" +
-          "<div style='font-size:11px;color:#636366;margin-top:2px'>N" + echapper(d.num || "") + " - " + echapper(d.date || "") + (d.auteur ? " - " + echapper(d.auteur) : "") + "</div></div>" +
-          "<div style='font-size:13px;font-weight:600;color:#C8923E'>" + (d.totalTTC || 0).toFixed(0) + " EUR</div>" +
-        "</div>";
-        count++;
-      }
-    });
-    var nbEl = document.getElementById("acc-nb-devis");
-    if (nbEl) nbEl.textContent = s.size;
-    var caEl = document.getElementById("acc-ca");
-    if (caEl) caEl.textContent = caMois > 999 ? (Math.round(caMois / 100) / 10) + "k" : Math.round(caMois) + "";
-    var ddEl = document.getElementById("acc-derniers-devis");
-    if (ddEl) ddEl.innerHTML = html || "<div style='padding:20px;text-align:center;color:#636366;font-size:13px'>Aucun devis</div>";
-  }).catch(function() {
-    var ddEl2 = document.getElementById("acc-derniers-devis");
-    if (ddEl2) ddEl2.innerHTML = "<div style='padding:20px;text-align:center;color:#636366;font-size:13px'>Aucune donnee</div>";
-  });
-}
+  }
 
 function ouvrirReglages() {
   var panneau = document.createElement("div");
@@ -2347,7 +2322,7 @@ function ouvrirPanneauBI() {
       "</div>"+
       "<div id='bi-contenu-prev' style='display:none;padding:14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)'>"+
         "<div class='titre-section'>Date d\'intervention</div>"+
-        "<div class='carte' style='padding:11px;margin-bottom:12px'><input type='date' id='prev-date' style='width:100%;padding:10px 12px;border:1.5px solid var(--gris2);border-radius:9px;font-size:15px;color:var(--noir);background:var(--gris3);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none'></div>"+
+        "<div class='carte' style='padding:11px;margin-bottom:12px'><div style='display:flex;gap:8px'><div style='flex:1'><div style='font-size:11px;color:#8E8E93;margin-bottom:4px'>Du</div><input type='date' id='prev-date-debut' style='width:100%;padding:8px 10px;border:1.5px solid var(--gris2);border-radius:9px;font-size:14px;color:var(--noir);background:var(--gris3);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none'></div><div style='flex:1'><div style='font-size:11px;color:#8E8E93;margin-bottom:4px'>Au</div><input type='date' id='prev-date-fin' style='width:100%;padding:8px 10px;border:1.5px solid var(--gris2);border-radius:9px;font-size:14px;color:var(--noir);background:var(--gris3);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none'></div></div></div>"+
         "<div class='titre-section'>Type d\'intervention</div>"+
         "<div class='grille2' style='margin-bottom:12px'>"+
           "<button class='btn-prest' id='prev-prest-tonte' data-label='Tonte' onclick='this.classList.toggle(\"actif\")'>Tonte</button>"+
@@ -3168,9 +3143,12 @@ function rechercherClientPrev(val) {
 }
 
 function envoyerPrevention() {
-  var dateEl = document.getElementById("prev-date");
-  var dateVal = dateEl ? dateEl.value : "";
-  if (!dateVal) { afficherToast("Selectionne une date"); return; }
+  var dateDebEl = document.getElementById("prev-date-debut");
+  var dateFinEl = document.getElementById("prev-date-fin");
+  var dateDebVal = dateDebEl ? dateDebEl.value : "";
+  var dateFinVal = dateFinEl ? dateFinEl.value : "";
+  if (!dateDebVal) { afficherToast("Selectionne une date de debut"); return; }
+  var dateVal = dateDebVal;
   var prestsSelec = [];
   ["tonte","taille","feuilles","fauchage"].forEach(function(p) {
     var b = document.getElementById("prev-prest-" + p);
@@ -3184,19 +3162,25 @@ function envoyerPrevention() {
   var auteur = utilisateurActuel ? utilisateurActuel.nom : "Crea Nature";
 
   // Formatter la date
-  var parts = dateVal.split("-");
+  var parts = dateDebVal.split("-");
   var JOURS = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
   var MOIS = ["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"];
   var dateObj = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
   var dateStr = JOURS[dateObj.getDay()] + " " + dateObj.getDate() + " " + MOIS[dateObj.getMonth()] + " " + dateObj.getFullYear();
+  var dateStrFull = dateStr;
+  if (dateFinVal && dateFinVal !== dateDebVal) {
+    var pf = dateFinVal.split("-");
+    var df = new Date(parseInt(pf[0]), parseInt(pf[1])-1, parseInt(pf[2]));
+    dateStrFull = "du " + dateStr + " au " + JOURS[df.getDay()] + " " + df.getDate() + " " + MOIS[df.getMonth()] + " " + df.getFullYear();
+  }
 
   var listePrest = prestsSelec.map(function(p){ return "  - " + p; }).join("\n");
-  var sujet = "Avis de passage - Crea Nature - " + dateStr;
+  var sujet = "Avis de passage - Crea Nature - " + dateStrFull;
   var corps = "Bonjour " + prenom + ",\n\nNous vous informons que notre equipe interviendra chez vous le " + dateStr + " pour effectuer les travaux suivants :\n\n" + listePrest + "\n\nMerci de vous assurer que nous aurons acces a votre propriete ce jour-la.\n\nSi cette date ne vous convient pas, n'hesitez pas a nous contacter pour convenir d'un autre rendez-vous.\n\nCordialement,\n" + auteur + "\nCrea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com";
 
   var nl = "%0D%0A";
   var corpsEnc = encodeURIComponent("Bonjour " + prenom + ",") + nl + nl
-    + encodeURIComponent("Nous vous informons que notre equipe interviendra chez vous le " + dateStr + " pour :") + nl
+    + encodeURIComponent("Nous vous informons que notre equipe interviendra chez vous " + dateStrFull + " pour :") + nl
     + prestsSelec.map(function(p){ return encodeURIComponent("  - " + p); }).join(nl)
     + nl + nl
     + encodeURIComponent("Merci de vous assurer que nous aurons acces a votre propriete ce jour-la.") + nl + nl
@@ -3212,6 +3196,556 @@ function envoyerPrevention() {
 
   afficherToast("Mail de prevention prepare !");
 }
+
+
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+// PLANNING ANNUEL 52 SEMAINES
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+
+// Donn\u00E9es planning initiales (issues du PDF)
+var PLANNING_DEFAUT = [
+  {
+    client: "ENA2",
+    interventions: {
+      TONTE:     [16,18,20,22,24,26,28,30,32,34,36,38],
+      FEUILLES:  [44,46,48],
+      TAILLE:    [12,14],
+      DESHERBAGE:[10,20,30]
+    }
+  },
+  {
+    client: "DPWORLD",
+    interventions: {
+      TONTE:     [14,16,18,20,22,24,28,30,32,34],
+      FAUCHAGE:  [26,28,30,32],
+      FEUILLES:  [40,42,44,46,48],
+      TAILLE:    [10,12,14],
+      DESHERBAGE:[16,22,28,34,40]
+    }
+  },
+  {
+    client: "CAPUSIN",
+    interventions: {
+      TONTE:     [16,18,20,22,26,28,30,32],
+      FEUILLES:  [44,46],
+      TAILLE:    [10,12],
+      DESHERBAGE:[14,28]
+    }
+  },
+  {
+    client: "DPD LST",
+    interventions: {
+      TONTE:     [14,16,18,20,22,24,28,30,32,34],
+      FAUCHAGE:  [26,32],
+      FEUILLES:  [44,46],
+      TAILLE:    [12]
+    }
+  },
+  {
+    client: "SCI EPERMAILLE",
+    interventions: {
+      TONTE:     [16,18,20,22,26,28,30,32],
+      TAILLE:    [12],
+      FEUILLES:  [44],
+      ELAGAGE:   [10],
+      DESHERBAGE:[14,28]
+    }
+  },
+  {
+    client: "PIK",
+    interventions: {
+      TONTE:     [14,16,18,20,22,24,26,28,30,32,34,36],
+      TAILLE:    [10],
+      FEUILLES:  [44],
+      FAUCHAGE:  [26,30,34]
+    }
+  },
+  {
+    client: "VERHEYDEN",
+    interventions: {
+      TONTE:     [16,18,20,22,24,26,28,30,32,34],
+      TAILLE:    [12],
+      DESHERBAGE:[14,22],
+      FEUILLES:  [44]
+    }
+  }
+];
+
+var PREST_COULEURS = {
+  TONTE:     "#4CD964",
+  FAUCHAGE:  "#FF9500",
+  FEUILLES:  "#FF6B35",
+  TAILLE:    "#64B5F6",
+  DESHERBAGE:"#C77DFF",
+  ELAGAGE:   "#FF3B30"
+};
+
+function getLundiSemaine(annee, semaine) {
+  var jan4 = new Date(annee, 0, 4);
+  var joursDepuis = (semaine - 1) * 7;
+  var jourSemaine = jan4.getDay() || 7;
+  var lundi = new Date(jan4);
+  lundi.setDate(jan4.getDate() - (jourSemaine - 1) + joursDepuis);
+  return lundi;
+}
+
+function formaterDateICS(date) {
+  var y = date.getFullYear();
+  var m = String(date.getMonth()+1).padStart(2,"0");
+  var d = String(date.getDate()).padStart(2,"0");
+  return y + m + d;
+}
+
+function genererICS(client) {
+  var plannings = JSON.parse(localStorage.getItem("creanature_planning") || "null") || PLANNING_DEFAUT;
+  var plan = plannings.find(function(p){ return p.client === client; });
+  if (!plan) return;
+  var annee = new Date().getFullYear();
+  var lines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Crea Nature//Planning//FR",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH"
+  ];
+  Object.keys(plan.interventions).forEach(function(prest) {
+    var semaines = plan.interventions[prest];
+    semaines.forEach(function(sem) {
+      var lundi = getLundiSemaine(annee, sem);
+      var mardi = new Date(lundi); mardi.setDate(lundi.getDate()+1);
+      var uid = "creanature-" + client.replace(/\s/g,"-") + "-" + prest + "-S" + sem + "-" + annee + "@creanature";
+      lines.push("BEGIN:VEVENT");
+      lines.push("UID:" + uid);
+      lines.push("DTSTART;VALUE=DATE:" + formaterDateICS(lundi));
+      lines.push("DTEND;VALUE=DATE:" + formaterDateICS(mardi));
+      lines.push("SUMMARY:" + client + " - " + prest + " (S" + sem + ")");
+      lines.push("DESCRIPTION:Planning Crea Nature - " + client + " - " + prest);
+      lines.push("CATEGORIES:CREA NATURE");
+      lines.push("END:VEVENT");
+    });
+  });
+  lines.push("END:VCALENDAR");
+  var icsContent = lines.join("\r\n");
+  var blob = new Blob([icsContent], {type: "text/calendar;charset=utf-8"});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = "planning-" + client.replace(/\s/g,"-").toLowerCase() + "-" + annee + ".ics";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  afficherToast("Fichier ICS telecharge - ouvre-le pour importer dans Calendrier");
+}
+
+function ouvrirPlanning() {
+  var ancien = document.getElementById("panneau-planning");
+  if (ancien) ancien.remove();
+  var pn = document.createElement("div");
+  pn.id = "panneau-planning";
+  pn.style.cssText = "position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "background:linear-gradient(135deg,#1A2C3A,#0D3D5C);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0";
+  hdr.innerHTML = "<div><div style='font-size:17px;font-weight:700;color:#fff'>Planning annuel</div><div style='font-size:11px;color:rgba(255,255,255,.6);margin-top:2px'>52 semaines</div></div>";
+  var btnF = document.createElement("button");
+  btnF.style.cssText = "background:rgba(255,255,255,.1);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnF.textContent = "Fermer";
+  btnF.onclick = function(){ pn.remove(); };
+  var btnSem = document.createElement("button");
+  btnSem.style.cssText = "background:rgba(200,146,62,.25);border:none;color:#C8923E;padding:6px 12px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnSem.textContent = "Sem. " + getSemaineCourante();
+  btnSem.onclick = function(){ afficherSemaineEnCours(plannings, pn); };
+  hdr.appendChild(btnSem);
+  hdr.appendChild(btnF);
+
+  // Onglets clients
+  var plannings = JSON.parse(localStorage.getItem("creanature_planning") || "null") || PLANNING_DEFAUT;
+  var onglets = document.createElement("div");
+  onglets.style.cssText = "display:flex;overflow-x:auto;background:#0D1A2A;padding:8px 12px;gap:8px;flex-shrink:0;-webkit-overflow-scrolling:touch";
+
+  var corps = document.createElement("div");
+  corps.style.cssText = "flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px";
+
+  function afficherClient(plan) {
+    corps.innerHTML = "";
+
+    // Designation client
+    var descDiv = document.createElement("div");
+    descDiv.style.cssText = "margin-bottom:12px;display:flex;align-items:center;gap:8px";
+    var descInp = document.createElement("input");
+    descInp.type = "text";
+    descInp.placeholder = "Designation / notes (optionnel)";
+    descInp.value = plan.designation || "";
+    descInp.style.cssText = "flex:1;padding:9px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#2C2C2E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    descInp.oninput = function() {
+      plan.designation = this.value;
+      localStorage.setItem("creanature_planning", JSON.stringify(plannings));
+    };
+    descDiv.appendChild(descInp);
+    corps.appendChild(descDiv);
+
+    // Actions : sync + supprimer
+    var actRow = document.createElement("div");
+    actRow.style.cssText = "display:flex;gap:8px;margin-bottom:14px";
+    var btnSync = document.createElement("button");
+    btnSync.style.cssText = "flex:1;height:44px;border-radius:12px;background:linear-gradient(135deg,#1A7BC4,#0D5C9E);border:none;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;gap:6px";
+    btnSync.innerHTML = "<svg width='16' height='16' viewBox='0 0 24 24' fill='none'><rect x='3' y='4' width='18' height='18' rx='3' stroke='white' stroke-width='2'/><line x1='3' y1='9' x2='21' y2='9' stroke='white' stroke-width='2'/><line x1='8' y1='2' x2='8' y2='6' stroke='white' stroke-width='2' stroke-linecap='round'/><line x1='16' y1='2' x2='16' y2='6' stroke='white' stroke-width='2' stroke-linecap='round'/></svg> Calendrier";
+    (function(cl){ btnSync.onclick = function(){ genererICS(cl); }; })(plan.client);
+    var btnDel = document.createElement("button");
+    btnDel.style.cssText = "height:44px;padding:0 14px;border-radius:12px;background:rgba(255,59,48,.15);border:none;color:#FF3B30;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+    btnDel.textContent = "Supprimer";
+    (function(cl) {
+      btnDel.onclick = function() {
+        if (!confirm("Supprimer le planning de " + cl + " ?")) return;
+        var idx = plannings.findIndex(function(p){ return p.client===cl; });
+        if (idx >= 0) {
+          plannings.splice(idx, 1);
+          localStorage.setItem("creanature_planning", JSON.stringify(plannings));
+          pn.remove();
+          ouvrirPlanning();
+        }
+      };
+    })(plan.client);
+    actRow.appendChild(btnSync); actRow.appendChild(btnDel);
+    corps.appendChild(actRow);
+
+    // Legende prestations cliquables pour ajouter/retirer
+    var legende = document.createElement("div");
+    legende.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px";
+    var PRESTS_DISPO = ["TONTE","FAUCHAGE","FEUILLES","TAILLE","DESHERBAGE","ELAGAGE"];
+    PRESTS_DISPO.forEach(function(p) {
+      var actif = plan.interventions[p] && plan.interventions[p].length > 0;
+      var chip = document.createElement("button");
+      chip.style.cssText = "padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;border:2px solid " + (PREST_COULEURS[p]||"#8E8E93") + ";background:" + (actif ? (PREST_COULEURS[p]||"#8E8E93") : "transparent") + ";color:" + (actif ? "#fff" : (PREST_COULEURS[p]||"#8E8E93"));
+      chip.textContent = p + (actif ? " (" + plan.interventions[p].length + ")" : " +");
+      chip.setAttribute("data-prest", p);
+      (function(prest, el) {
+        el.onclick = function() {
+          if (!plan.interventions[prest]) {
+            plan.interventions[prest] = [];
+          }
+          afficherClient(plan);
+        };
+      })(p, chip);
+      legende.appendChild(chip);
+    });
+    corps.appendChild(legende);
+
+    // Hint
+    var hint = document.createElement("div");
+    hint.style.cssText = "font-size:11px;color:#636366;margin-bottom:10px;text-align:center";
+    hint.textContent = "Touche une case pour ajouter / retirer une semaine";
+    corps.appendChild(hint);
+
+    // Tableau 52 semaines
+    var tableWrap = document.createElement("div");
+    tableWrap.style.cssText = "overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px;background:#2C2C2E;padding:12px";
+
+    var semNumRow = document.createElement("div");
+    semNumRow.style.cssText = "display:flex;gap:2px;margin-bottom:6px;align-items:center";
+    var lblSem = document.createElement("div");
+    lblSem.style.cssText = "width:80px;flex-shrink:0;font-size:9px;color:#636366;font-weight:600;text-transform:uppercase";
+    lblSem.textContent = "Semaine";
+    semNumRow.appendChild(lblSem);
+    // Groupes de 4 semaines (13 groupes = 52)
+    for (var s=1; s<=52; s++) {
+      var cell = document.createElement("div");
+      cell.style.cssText = "width:16px;flex-shrink:0;text-align:center;font-size:7px;color:" + (s%4===0?"#8E8E93":"#3A3A3C");
+      cell.textContent = s%4===0 ? String(s) : "";
+      semNumRow.appendChild(cell);
+    }
+    tableWrap.appendChild(semNumRow);
+
+    // Ligne par prestation
+    Object.keys(plan.interventions).forEach(function(prest) {
+      var semaines = plan.interventions[prest] || [];
+      var row = document.createElement("div");
+      row.style.cssText = "display:flex;gap:2px;margin-bottom:4px;align-items:center";
+      var lbl = document.createElement("div");
+      lbl.style.cssText = "width:80px;flex-shrink:0;font-size:10px;font-weight:600;color:" + (PREST_COULEURS[prest]||"#8E8E93");
+      lbl.textContent = prest;
+      row.appendChild(lbl);
+      for (var s2=1; s2<=52; s2++) {
+        var dot = document.createElement("div");
+        var actif = semaines.indexOf(s2) >= 0;
+        dot.style.cssText = "width:16px;height:16px;flex-shrink:0;border-radius:3px;cursor:pointer;background:" + (actif ? (PREST_COULEURS[prest]||"#C8923E") : "rgba(255,255,255,.05)") + ";transition:transform .1s";
+        dot.title = "S" + s2;
+        (function(prest2, sem, dotEl, plan2) {
+          dotEl.onclick = function() {
+            var idx2 = plan2.interventions[prest2].indexOf(sem);
+            if (idx2 >= 0) {
+              plan2.interventions[prest2].splice(idx2, 1);
+              dotEl.style.background = "rgba(255,255,255,.05)";
+            } else {
+              plan2.interventions[prest2].push(sem);
+              plan2.interventions[prest2].sort(function(a,b){return a-b;});
+              dotEl.style.background = PREST_COULEURS[prest2]||"#C8923E";
+            }
+            localStorage.setItem("creanature_planning", JSON.stringify(plannings));
+            // Mettre \u00E0 jour le chip de l\u00E9gende
+            var chips = legende.querySelectorAll("button");
+            chips.forEach(function(ch) {
+              if (ch.getAttribute("data-prest") === prest2) {
+                var nb = plan2.interventions[prest2].length;
+                ch.textContent = prest2 + (nb > 0 ? " (" + nb + ")" : " +");
+                ch.style.background = nb > 0 ? (PREST_COULEURS[prest2]||"#8E8E93") : "transparent";
+                ch.style.color = nb > 0 ? "#fff" : (PREST_COULEURS[prest2]||"#8E8E93");
+              }
+            });
+          };
+          dotEl.onmouseenter = function(){ dotEl.style.transform="scale(1.3)"; };
+          dotEl.onmouseleave = function(){ dotEl.style.transform="scale(1)"; };
+        })(prest, s2, dot, plan);
+        row.appendChild(dot);
+      }
+      tableWrap.appendChild(row);
+    });
+
+    // Ligne semaine courante
+    var semCourante = getSemaineCourante();
+    var rows = tableWrap.querySelectorAll("div[style*='display:flex']");
+    // Ajouter indicateur semaine courante
+    var indicRow = document.createElement("div");
+    indicRow.style.cssText = "display:flex;gap:2px;margin-top:6px;align-items:center";
+    var indicLbl = document.createElement("div");
+    indicLbl.style.cssText = "width:80px;flex-shrink:0;font-size:9px;color:#C8923E;font-weight:600";
+    indicLbl.textContent = "Auj. S" + semCourante;
+    indicRow.appendChild(indicLbl);
+    for (var s3=1; s3<=52; s3++) {
+      var tick = document.createElement("div");
+      tick.style.cssText = "width:16px;height:3px;flex-shrink:0;border-radius:2px;background:" + (s3===semCourante?"#C8923E":"transparent");
+      indicRow.appendChild(tick);
+    }
+    tableWrap.appendChild(indicRow);
+    corps.appendChild(tableWrap);
+  }
+
+  // Onglet "Ajouter client"
+  function creerOnglet(texte, actif) {
+    var btn = document.createElement("button");
+    btn.style.cssText = "flex-shrink:0;padding:6px 14px;border-radius:20px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;background:" + (actif?"rgba(100,181,246,.3)":"rgba(255,255,255,.08)") + ";color:" + (actif?"#64B5F6":"#8E8E93");
+    btn.textContent = texte;
+    return btn;
+  }
+
+  plannings.forEach(function(plan) {
+    var ong = creerOnglet(plan.client, false);
+    (function(p) {
+      ong.onclick = function() {
+        onglets.querySelectorAll("button").forEach(function(b){ b.style.background="rgba(255,255,255,.08)"; b.style.color="#8E8E93"; });
+        ong.style.background="rgba(100,181,246,.3)"; ong.style.color="#64B5F6";
+        afficherClient(p);
+      };
+    })(plan);
+    onglets.appendChild(ong);
+  });
+
+  // Bouton + nouveau client
+  var btnNew = document.createElement("button");
+  btnNew.style.cssText = "flex-shrink:0;padding:6px 14px;border-radius:20px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;background:rgba(200,146,62,.2);color:#C8923E";
+  btnNew.textContent = "+ Nouveau";
+  btnNew.onclick = function(){ ouvrirNouveauClientPlanning(plannings, function(){ pn.remove(); ouvrirPlanning(); }); };
+  onglets.appendChild(btnNew);
+
+  pn.appendChild(hdr); pn.appendChild(onglets); pn.appendChild(corps);
+  document.body.appendChild(pn);
+
+  // Afficher le premier client par d\u00E9faut
+  if (plannings.length > 0) {
+    onglets.querySelectorAll("button")[0].click();
+  }
+}
+
+
+function afficherSemaineEnCours(plannings, parentPn) {
+  var semaine = getSemaineCourante();
+  var annee = new Date().getFullYear();
+  var lundi = getLundiSemaine(annee, semaine);
+  var JOURS = ["dim","lun","mar","mer","jeu","ven","sam"];
+  var MOIS = ["jan","fev","mar","avr","mai","jun","jul","aou","sep","oct","nov","dec"];
+  var lundiStr = JOURS[lundi.getDay()] + " " + lundi.getDate() + " " + MOIS[lundi.getMonth()];
+
+  var ancien = document.getElementById("panneau-semaine");
+  if (ancien) ancien.remove();
+  var pn = document.createElement("div");
+  pn.id = "panneau-semaine";
+  pn.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "background:linear-gradient(135deg,#C8923E,#8B5E1A);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0";
+  hdr.innerHTML = "<div><div style='font-size:17px;font-weight:700;color:#fff'>Semaine " + semaine + "</div><div style='font-size:12px;color:rgba(255,255,255,.8);margin-top:2px'>A partir du " + lundiStr + " " + annee + "</div></div>";
+  var btnF2 = document.createElement("button");
+  btnF2.style.cssText = "background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnF2.textContent = "Retour";
+  btnF2.onclick = function(){ pn.remove(); };
+  hdr.appendChild(btnF2);
+
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px";
+
+  // Collecter tout ce qui est pr\u00E9vu cette semaine
+  var previsions = [];
+  plannings.forEach(function(plan) {
+    Object.keys(plan.interventions).forEach(function(prest) {
+      if ((plan.interventions[prest]||[]).indexOf(semaine) >= 0) {
+        previsions.push({ client: plan.client, prest: prest, designation: plan.designation || "" });
+      }
+    });
+  });
+
+  if (!previsions.length) {
+    body.innerHTML = "<div style='text-align:center;color:#8E8E93;padding:60px 20px;font-size:15px'>Aucune intervention prevue cette semaine</div>";
+  } else {
+    // R\u00E9sum\u00E9
+    var resume = document.createElement("div");
+    resume.style.cssText = "background:linear-gradient(135deg,#C8923E,#8B5E1A);border-radius:14px;padding:16px;margin-bottom:14px;color:#fff";
+    resume.innerHTML = "<div style='font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.8;margin-bottom:4px'>Total semaine " + semaine + "</div><div style='font-size:28px;font-weight:200'>" + previsions.length + " intervention" + (previsions.length > 1 ? "s" : "") + "</div><div style='font-size:12px;opacity:.7;margin-top:4px'>" + [...new Set(previsions.map(function(p){return p.client;}))].join(" \u00B7 ") + "</div>";
+    body.appendChild(resume);
+
+    // Grouper par client
+    var parClient = {};
+    previsions.forEach(function(p) {
+      if (!parClient[p.client]) parClient[p.client] = [];
+      parClient[p.client].push(p);
+    });
+
+    Object.keys(parClient).forEach(function(client) {
+      var card = document.createElement("div");
+      card.style.cssText = "background:#2C2C2E;border-radius:14px;padding:14px;margin-bottom:10px";
+      var titreClient = document.createElement("div");
+      titreClient.style.cssText = "font-size:15px;font-weight:700;color:#fff;margin-bottom:10px";
+      var desig = parClient[client][0].designation;
+      titreClient.innerHTML = echapper(client) + (desig ? "<span style='font-size:11px;font-weight:400;color:#8E8E93;margin-left:8px'>" + echapper(desig) + "</span>" : "");
+      card.appendChild(titreClient);
+      var prestRow = document.createElement("div");
+      prestRow.style.cssText = "display:flex;flex-wrap:wrap;gap:6px";
+      parClient[client].forEach(function(p) {
+        var chip = document.createElement("div");
+        chip.style.cssText = "padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;color:#fff;background:" + (PREST_COULEURS[p.prest]||"#8E8E93");
+        chip.textContent = p.prest;
+        prestRow.appendChild(chip);
+      });
+      card.appendChild(prestRow);
+
+      // Bouton pr\u00E9vention
+      var btnPrev = document.createElement("button");
+      btnPrev.style.cssText = "width:100%;height:38px;border-radius:10px;background:rgba(200,146,62,.15);border:none;color:#C8923E;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;margin-top:10px";
+      btnPrev.textContent = "Envoyer avis de passage";
+      (function(cl) {
+        btnPrev.onclick = function() {
+          pn.remove();
+          if (parentPn) parentPn.remove();
+          // Pr\u00E9-remplir la pr\u00E9vention avec ce client
+          setTimeout(function() {
+            ouvrirPanneauBI();
+            setTimeout(function() {
+              ouvrirOngletPrevention();
+              var inp = document.getElementById("prev-client-search");
+              if (inp) { inp.value = cl; rechercherClientPrev(cl); }
+            }, 200);
+          }, 100);
+        };
+      })(client);
+      card.appendChild(btnPrev);
+      body.appendChild(card);
+    });
+  }
+
+  pn.appendChild(hdr); pn.appendChild(body);
+  document.body.appendChild(pn);
+}
+function getSemaineCourante() {
+  var now = new Date();
+  var debut = new Date(now.getFullYear(), 0, 4);
+  var diff = now - debut;
+  return Math.ceil((diff / 86400000 + (debut.getDay()||7) - 1) / 7);
+}
+
+function ouvrirEditPlanning(clientNom, plannings, callback) {
+  var plan = plannings.find(function(p){ return p.client===clientNom; });
+  if (!plan) return;
+  var popup = document.createElement("div");
+  popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.8);display:flex;align-items:flex-end;justify-content:center;font-family:-apple-system,sans-serif";
+  var box = document.createElement("div");
+  box.style.cssText = "background:#2C2C2E;border-radius:20px 20px 0 0;padding:20px 16px;width:100%;max-width:430px;max-height:80vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)";
+  box.innerHTML = "<div style='font-size:17px;font-weight:700;color:#fff;margin-bottom:4px'>" + echapper(clientNom) + "</div>" +
+    "<div style='font-size:12px;color:#8E8E93;margin-bottom:16px'>Entrez les numeros de semaines separes par des virgules</div>";
+  var PRESTS = ["TONTE","FAUCHAGE","FEUILLES","TAILLE","DESHERBAGE","ELAGAGE"];
+  var inputs = {};
+  PRESTS.forEach(function(p) {
+    var sems = (plan.interventions[p] || []).join(",");
+    var row = document.createElement("div");
+    row.style.cssText = "margin-bottom:12px";
+    var lbl = document.createElement("div");
+    lbl.style.cssText = "font-size:11px;font-weight:700;color:" + (PREST_COULEURS[p]||"#8E8E93") + ";margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em";
+    lbl.textContent = p;
+    var inp = document.createElement("input");
+    inp.type = "text"; inp.value = sems;
+    inp.placeholder = "ex: 14,16,18,20";
+    inp.style.cssText = "width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#1C1C1E;color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    inputs[p] = inp;
+    row.appendChild(lbl); row.appendChild(inp);
+    box.appendChild(row);
+  });
+  var btnSave = document.createElement("button");
+  btnSave.style.cssText = "width:100%;height:48px;border-radius:12px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;margin-top:8px";
+  btnSave.textContent = "Sauvegarder";
+  btnSave.onclick = function() {
+    PRESTS.forEach(function(p) {
+      var val = inputs[p].value.trim();
+      if (val) {
+        plan.interventions[p] = val.split(",").map(function(s){ return parseInt(s.trim()); }).filter(function(n){ return !isNaN(n) && n>=1 && n<=52; });
+      } else {
+        delete plan.interventions[p];
+      }
+    });
+    localStorage.setItem("creanature_planning", JSON.stringify(plannings));
+    popup.remove();
+    afficherToast("Planning sauvegarde !");
+    if (callback) callback();
+  };
+  var btnAnn = document.createElement("button");
+  btnAnn.style.cssText = "width:100%;height:44px;border-radius:12px;background:rgba(255,255,255,.08);border:none;color:#8E8E93;font-size:14px;cursor:pointer;font-family:-apple-system,sans-serif;margin-top:8px";
+  btnAnn.textContent = "Annuler";
+  btnAnn.onclick = function(){ popup.remove(); };
+  box.appendChild(btnSave); box.appendChild(btnAnn);
+  popup.appendChild(box);
+  popup.onclick = function(e){ if(e.target===popup) popup.remove(); };
+  document.body.appendChild(popup);
+}
+
+function ouvrirNouveauClientPlanning(plannings, callback) {
+  var popup = document.createElement("div");
+  popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;font-family:-apple-system,sans-serif";
+  var box = document.createElement("div");
+  box.style.cssText = "background:#2C2C2E;border-radius:18px;padding:24px 20px;width:300px;max-width:90vw";
+  box.innerHTML = "<div style='font-size:17px;font-weight:700;color:#fff;margin-bottom:16px;text-align:center'>Nouveau client</div>";
+  var inp = document.createElement("input");
+  inp.type = "text"; inp.placeholder = "Nom du client";
+  inp.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid #3A3A3C;border-radius:10px;background:#1C1C1E;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:16px;display:block";
+  var btnOk = document.createElement("button");
+  btnOk.style.cssText = "width:100%;height:48px;border-radius:12px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:8px";
+  btnOk.textContent = "Creer";
+  btnOk.onclick = function() {
+    var nom = inp.value.trim().toUpperCase();
+    if (!nom) { afficherToast("Entre un nom"); return; }
+    if (plannings.find(function(p){ return p.client===nom; })) { afficherToast("Client deja existant"); return; }
+    plannings.push({ client: nom, interventions: {}, designation: "" });
+    localStorage.setItem("creanature_planning", JSON.stringify(plannings));
+    popup.remove();
+    afficherToast(nom + " ajoute !");
+    if (callback) callback();
+  };
+  var btnAnn = document.createElement("button");
+  btnAnn.style.cssText = "width:100%;height:44px;border-radius:12px;background:rgba(255,255,255,.08);border:none;color:#8E8E93;font-size:14px;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnAnn.textContent = "Annuler";
+  btnAnn.onclick = function(){ popup.remove(); };
+  box.appendChild(inp); box.appendChild(btnOk); box.appendChild(btnAnn);
+  popup.appendChild(box);
+  document.body.appendChild(popup);
+}
+
 
 function init() {
   // Attacher evenements pave
