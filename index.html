@@ -147,7 +147,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 .acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
 .acc-btn{border-radius:16px;padding:18px 14px;border:none;cursor:pointer;font-family:-apple-system,sans-serif;display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;transition:opacity .15s}
 .acc-btn:active{opacity:.8}
-.acc-btn .acc-ico{font-size:26px;line-height:1}
+.acc-btn .acc-ico{line-height:1;display:flex;align-items:center}
 .acc-btn .acc-lbl{font-size:14px;font-weight:600;line-height:1.2}
 .acc-btn .acc-desc{font-size:11px;opacity:.7;line-height:1.3}
 .acc-btn-gold{background:linear-gradient(135deg,#C8923E,#8B5E1A);color:#fff}
@@ -216,7 +216,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 
 <!-- ECRAN PIN -->
 <div id="ecran-login" class="ecran-plein cache">
-  <button id="btn-retour-users" style="position:absolute;top:calc(env(safe-area-inset-top,44px)+10px);left:16px;background:none;border:none;color:#C8923E;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;z-index:100000">← Retour</button>
+  <button id="btn-retour-users" style="position:absolute;top:calc(env(safe-area-inset-top,44px) + 2px);left:12px;background:none;border:none;color:#C8923E;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;z-index:100000;padding:8px 4px">← Retour</button>
   <div class="login-logo" style="margin-top:20px">
     <div id="avatar-login" style="width:70px;height:70px;border-radius:35px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:700;font-family:-apple-system,sans-serif">?</div>
   </div>
@@ -265,9 +265,9 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIcAAAAsCAYAAABPPKsnAAAYVElEQVR42u1ceZgUxdn/vVXdPbO7sBzCCkjUQKK4C4rBC48sGy+iiNFkRjEKKsilsKiIxuRLM6JBjUhQwEC8ryQzXuACHiisMR7EjYjZNRruQ3ARlmOvme6u9/tjqqEdZ3aXJM/zxXxbz9PPzlZX1/HWr97jV9VN+OcT2TaopCZCiOicBFBdXMzTYzEmgNGe/l8likciMh6PyNYKxuMRyfGIZAa1i+0bOtltLRiPRGQ0kfCCeU/dflZPoYxeQqqOhpUnTUl7w2Hri3f3D9wWi8WUX47jEYlIQhG1a5P/KnAwQNNtm/zJXjh58DDDMC41TXmyaYj+4ZAJIQSEIOSFQhCmhJRyd8gyVhiWsSiUV/Bi/+j8egBgtgXRQdC0p28wOGwbIhaDAoA5406O5ofNmaYh+ngKzZYpDGmImwXJmlDIsC3LZCZhh02rb16B8T3TkOM6d8wXnqK9Zsia9afV+399TeyJZo5HJEW/qoHa0zcMHJFIRCYSCW/W6NO6hi31gCHFCCnFEkX0M8sQk4UUfUfeU3kOALwYG3p2OGy8MHTaoC6+Zqh6fORjUhqHmyFjRUHInCGk8UUy5V7+3Uvnvcscl0TRdoD8hyeRS2MkEglv5hUD+hjS+aB7YeinrqeeHDPnneFjf/PnahCdS8Crtl1qLJ00NHSJ/cqbQtC+lXM+nhaPR+QKu9QAxHtC0OEl0YW/3rPXO5IJ73TpXPDOliXlI4mi3ooVttEu/m8YOHxTcvdPB/Tu1Dn8DhHV7djTON405BWPTz2974Kxg0wCeghpronFKl18J+2aCCEXQNCESKSYy2KVrgHxCUEcsfrJKwsGjvxt7VEXzhmRTLpTCjvkPbHx5fLryspibhsBIgAYAKS+fI3n5xmBcYiM/KBmlLkWQ3tqAzgYoJqaCM2Z9J1Qfr61DCBFBp03eUHVAgV+33H4sebQXgGAJdROAMjb3eQBQJPjPkkkjnxnwT/O1FPxBRNEp66FHW3bFhyPSDelljelXOTnhxauXTz57LKymMsth8UCgALgAvD0pbt6IM/VZZBR1sVBroV0Xrsz/M+CIxGJiEQi4aX2d5wdsuSx9Uln6KR5f9kVj0Skct2rDUOc1TnU43pBolZBCAAYgiHKtm0x/LaKzSTER4J4JAAo10sSkXBSsqCkpIYomvCERY8nU84jzSn3d4X5od/vfv3WTqguZmamHP6QMgycTkQxIpohBMYDCAPoCeAGABMBTAJwhH5msM4fL4CpAI49ACaJiGnie7redg1yKOCIaB7jV1cef2rHfGNCY8rbOO2RD9fYNkT34lqa+NAH6z1P3SUE3W1Y1CUcQoFtQyRKamgIVgoAREQvQtAFACAtIQCWSrKKRhPepiVTZgiiE7Y1iEke473uPTt3b3CSv6RYTCGRyJwsmTZV4lrl0RMsxJ+Y+VlmHAPgJABFRHQPgA8A5BPwZz2Wiwi4AsAqAj4L1NeBFB51XfyP1ibtxNyhgKO4uJgBgATNbkq5qwSRNf/6U4fHYuCV2hexZIeZAG3pWhDqxKCyWAyqrm692FlSxAAYrlpuSqPnmmdHH86mWQAQ+l08d8PmivJfFITNX7iuuuD06OwmsBq14/PdfwbRmO3Lyo+maNRj2xZBjQHAYOa7FfOd8LzlAD5hxk0AVgGwAN6qf78M4Cj97D4GtgL4zAOWA/hUD/JyYvyCGd21NvHatUcbwZF2QmNq5pUDT+gQNgY3NXuTAX5JKW8iAK6pKeIhKBUjZ73eQFLc73gKBtG0l+44/9hx46qc7tW1BAD7GowaTymlnNRAcr0egHLXL7p+sRA06cu9DWcdNew3yz9/rfw4MAbvrUtexcCOlCcmIG2fxFfdH3QDuBBADQBTXxaAFABiRiGAhwA8zcBwDSgCcAIAm4Bf6mdIAZcp4C0AzQDGtRSptadMzbGyNP2XvMtSjufe/vSa9y3Cs1KIMx4rL+2cSCS8nTVFDIDY40VNSW+/YchdhimWxu3zuq5EpbJtWwz72bN1irFbkThWsOhzZI/O3ZjRa9tOp7jfpfPfBgDHERMEYU2/6NwNrPhFEnrbbkjMy/A36gBKQuJoAI6+UgGzsx3AkwT0BbBO54eRNjG3MHCbfuYMAIYQuIiINhBwsY5kvHbz0hZwDKlUAOB5GFwQNoz7xwy8eMKCqlXM3NCM5HAAVF1cS7Zt01X3Vm41TLnJ83gOmNZ1LQy/EotBDdErXwpsYkX9QfyTXXubtpgp66xTR83b9be4bW1bcVM3IhrPJG4FABf0jFLovWXptN5EYDttWlj3K0nEPycPMwGUIg2C6wEM1JN+HIB3GZgB4CMAXfVkDwRwFoDLAfQDMBrANKVwBzNfx0AHAOW6HdkOgRbAwQDFYlD3XHtsRwX0rW9yPiXF96X9D/GiBK4EwCU1RawdTwiSq0jS4MZQwcVC0IDls350f1lZzE2jjdabpriIge/va0xefWR0dtPm+I15/aOxVKqR7wPzsqMvuP+NPW/8vG/HPKOrFOQ6XrIEAKaX1Pgr2QNASmEuA+OJaBgRxor0ZK4F8CUEbG1m7hNADMC3ASzW15lEON4AOgNYAmB1gA8ZD2BvoJ32lAsc0+20alXNVndB6JlyeQoL0eWBsYN+bZg0i0icWjHzwi6ReEJ91qs+XRa0iogGR29ONCVTfFmnjqEb35p7+anMII9V0+FdCnoIQa8NvOLhNzc8Nip8ZHR20/qXy88PmXIUA4Wblt20ZX8yuaqxyXnCkBQCcDgArOxeTBl+hwVgOTPfwoxbFfAAgHoAG6Fwr+9/KOBOAFU6epkOYCYzbneB9wA8pzWNz4e8CODhQDuGvtpCxB3KRVnaaK2tYDsiS2jfWpvi3zCGA/0WJTURAgCPUGQZ0kjCXUsKlxYWmFPdpHe9IN7z5Zd7zyYC9/wcJjNIKvVXZnR57Z7hvX546+LF+5uc1YD36/SWPOW7noKUcj6zLb59zRPNf09MON40xAsAQwhKETDNTTqDVjVs69uQdHdw2vHMllIZ/xsZgvJBZOQQBGUxHUGm1SfT3FbAoQLl2noFjydk3mtLO5mEHbehTaXHTv/CGDhT2Eg6Ks80BExhdr3x0Q/fmjNu0I/Cpvx92JR5jsL1cbv07eGxyh2IAUttfKoABwYNZMb2Nx9UM/JCoecrF1zSE0C32rrGfUWdzUqimPooPv7Ywg7ht0iKza5SE7/1w9kr/DY/e35S7455VteGRmd/lsFIITBRKXQWQEqlI5N9GaypDwQXQAmASwA0AlgAoCHAjAaTFxDg0Uibzb0A5mUp67d1EoCzNVhFAGRBwasAcCWAxwDs1OXHAuii7+/V/fOytHOaboe1Y12p58gN9NUJON9SP9cEYAuANQD+FugHB+r+HoChegwyo33WZSwAfwSwEQAdAIcQTEQEqZRj2xDlsapFD5WfWtzseI8VhK0hbor+8bz9g4fqk3TPBbFXdi2ZeeE6pbzTiLBshV23tLnI2i2EeTUZ1JsZbx4xfGFjzVNje3YssN4Ccc26zXXnnznm0f38wViTTlrobF46+WQhjEWmIcNMyfps7KhSmAKgj5Z6GYALMwaOwCrphrRzWqcnuqXkcykxAFfpvDV6MkRAcL5gzwEw8xBN9qsaHEo70v11/ic6BA+OwW+nL9ImEgAm6/5IDY5CPT4/1enFUqDH7oO0QofrX2RokSMB3NWGfn+mwSHFQc9UEgHwFFMsBvXYqNLwhDnvb3RdGpNylMPMC5gpUtTJ3PLSneddC6j3wTgFAJfFKpuVUi9JIa8joLeUtBQAjHz5EjMaP92XOu+M0d9qAAA6aaGz/fWptxXk5b8viJ+o29/0EYg6ZVmxTMDHWjD1AM7Xq9HTAqMA6oE0+eXqwSUzhJ9NGxwF4Md6JXmaducsqhx6VcYB/BzANQCiOnz2VfHDAC4DMAXAfQBezzCJnwTKVgdWdGY7GwPlPg1MOADUAtgTuD9Ua5MeeuKX6DEPB/BUFtPyeeDZWgDnAjgdwAU6srsBwKMBZ52Ng0bRBSAhIGU8EpHVR9e6tl1qjItVrnt86lnrwNjzkzve+HbFXefNMqXxiJCkXE+t/WzO0NAx5a+kCHg9zzSudQFlslGx5qnRVxYWWKfsbGgeWBZdUA8AW18tHxg2QwsZ+G4y5UR7nT/7uQ0VN15E8LLyDZwWsKFXR1Kv8p0Abg6o26B/YrRhc803QzcAyA+YiosAfFdHQz6AfA3yjL6C6WcBs/y+Bk9mOzKwCWgE/A+04GP55ZIZwMl0nkOBfaItSPM6Q3X5c3QY7xOIXoaf5gF4sxVZeSLYapo/T9VFEwkvFqt0p2OIikciksDzDUG/HDt2kDns56/dzBInEujtwzqGj9nsWqczAx54bcrx2PN4g4FQgxUSD+2sa/zdgB8v+Kjm+bE9ty276T5TWlWKsW37juZ+vc6f9Zx/UNnLHVD6ANiqhZEEcBOAaRkCR8AWuxnmJtOceFpFjwWwAsDvdL4FYEKWVR10ZINevRm411HnhQNRg8pot6XEGVoilylsSU67tHx8mXRp4XmheSFL9zmk/5pZ91ZcAGCGEObo2aNPGDJ34onfmY6VIppIeKPue/tBBtYO7dV5PgAMm7Z09bsNFWVNjreKQfcRgR04n3uKSSn+qInrr5JCIF/SnRsXT5raMZy/mgjljqNGFJ197yXHX/HAF/w324pUFzOYWxMIa5W9OQCQewCMyQCIaoMQpa7vKg2QhwDMCty/Ugs1G3vqtRCNqCxRwz+TOMfv1sr7DnlYt92AgxuPnOO5L7WmatYybQ4ssK9GKwJCOq7y8ix5m8dqoqnEpl51zR0eufGML01TrAVQf1hheMyiO84bYBjyzgtvX1ax1E6eG+4c3vvGby6JnD3pxcTKB6McDouUq9R1jc2pRsM0//ytwnDvnXuaoRx3j2UZM7a/PnWMcjGP+scWAcDGJTcKAcolCE+j+e9a7b+rBeAAWKgp9CUZjhe3ADS/vpu1M/eGtuN/AXAygO5I7+rOy2K2WlrJ/xc0fHMA8IMAzA0s9ju1+ZU55JEH4OpARGcA6KU1aZWv+Q6qZcXC8VSDcPAry5I3SYHbJMl1hhT9DCGKBVHt9t2N60OGPIlZLH713mFVSqnpyaRzOwl68K05kZWO8nYpZZyrlCoIW1ZYgf+4tXbfIyHD2ORJGWZFxyvm4VLSH75887b3PHbHNDQ4zYq5NRLqcB1NRAG8FFitcW1f383gLnJpDRfADzWbejuA3freXZocI82gLjhE9rS1Vf7vBo/ScmjWv7+j8z/QZnJhIOqSGX1gAJ20c5+Zrs0ODiBlSFnYLGmByczE9JzjOEs9pV5xXFEVCkkzJIxigHt4nuobtnBSh4JQxZ6G5D9MkkWOl7wZZO4WhGMMKZDyvJEDRjz6VEbjawA8vW7x5CMLC2i+6/Jq05TJlOs0tEEYQmuJawE8qVVhHoBF2uve0spE+Kp+akBAEwM+Q0prlf4acK+0QXscymS2JdEhlPuD9huuDpizmwD8qZV+kzYpP9Sao0A75n20Bj3QX6O6OMFp/S13WgBMV/Wb+szH995/9aDl4QIxXhBNIEI3pZACaJuCrCLw3HrlbWyuV0cIIW43JFHKVRMMqWBKQnPKeWbwqCeeitsRK1ICD9XpsyIoqSF0LyYqi20GMGxDxeTbunbMn7m7zm0EgCE7S3KFkr6DF9JhWpEOGZu1KViqOZCmHJtpftQwGMCZWkC3Zinn6LamaHD8q8cKKcseDmUBAQUikLbW+2ggLL5Gj/FpbWJ2Z3GKOcNcf5ThY7yVCWZjegwcA+Ca2Oop9gyDjopEIn+56fHEX7VH31L6IB6JVGBQ0+t5IaMspVg1pVyHJc1k2xaJkhov2zsqHI9LRCKqqmrcLP6cbMWuDtsSrQnZ0atilo7vp2qAfFdrENXKhE7RdY3U4acM0NKnaeD5pFd/zTbKNpiY1lZ8HQ6eQCvSvznjeREgs1Kai2gpddN9u1VzFYdpvuNBACOyhPWZPlIHzWmIQN++Ij9Dv/BMdz/78Z7pl/Xf4Tk8OJFIxO1IsYXi7gqoVPrFJopHIqJ7cS3tLCniSHUxJ1BjRGOJVMX3LrzF9dR7IdM0XI8/HDLhj9XMoCjlmKhINRNFed3iyQMFUYiZ1qbzi9vioXt64LcgfZb0p9rEHJdjPyZIel2iyaunstS7VnMXx+lnJmhm89/hc1QFHOKB2qTt1aGkCvhDZfr/tbqf1ALY/YPUOzVnk9ByuFyb36eDDEWWPlIL+zAHk11aagCAfVn/Z2eM6P+prqlN9o8ZxAxaMvPCDz9YOIIr5172KACk313J8cwK22AGra+YMmn9okm7/FcUAm36puF5PagTM0JvCmyuLddlGrUg38wo6/fjbl3ODvAaQl+Wzpsa0CS79GrMpRk+DmiAmzOjvwwT0lkzlKwn9IEs9Z2u22QANwbq89vuoSMsv80zdb6l//5e5yd1BNZH5/vcxWmBZz9vixYUAFBSVMTpGeFn88PGMbNHn3gcAEQirR+GSSQigggMomrLFAAdiABypyFQRGDBagSReKOsLOYyxyV9nQzy1WznLB63r0Uu1fYzL8tK89nQrgFe5LkAAFSAo2AtYN857qp5D2Tx+CmDMCpsQaOQnqyrtE8kkD4xv1KbhOs1/V6p21wcCEu9HLvJyNiVFhpQu3WZTtpppxy7u/naxE7QTuztAOYAeC3gSqT3VqKJhGKAtnYKv5pMebVNTe5UAri4trRV7eGfH2XA47QmsVoqn2ZFp/PnFeXH5YfNwQw1T6Msk/iyiKgHARACR2ZZwX4Esw/AMBw8KshZSL7RWgt8qCnlTKH5dW3Tsb4/Cf6rEJmkWFftO/ipTxsirTf0an9Vg6RUa7O5un+1SJ97/XEArEG2tpeeVB8wR2QAcIeecImDxyNnBMr3zghlZwOYr/23u/RG37kBp/jArixPLy01Fi6sdGZcMeCOjmFj7m/GDoqVL6zcgsDL1NnSSgxRQCWg1OGuqwCo7gCgT6R/LfWp6yKIyNtcMWWO0+ys7jP8wUq2bUHRmJdJJZum+SNmNkKOs6P+615/cPt9q1abvQDsD0yKX9dzAJZpO5/r1QQ//zodAXHAYc0cSz2A7wcA29DKvokPkL/q/Y+++uqqJ3KTJvrqs+w6+7L/FMDxAR9le0AGft+f0lyHEei/X1cl0oevVeA5yrJ345sc74CNjFVWerYNcWxNv99uMj8rNwiPE/CDBdsHGUAV53C6KBaLKWZQxa/Qy3EViKg7AFRXf9259Lfr1748eVSnwvC5e/bvPxkAEgePB37F4UqlUp/gq/EW5xC8H7t/mcNR3NAGB9LP26GvllIycG7iULgOPzJYF9B0mSG3ykGj79N+Tq5++wD5JEf7O/XVZmIvY9vYRjSR8JKOE7UMWTbnuhOnj1tY5SwYO8jI5qCy7lbinnMKQVyUcj2wQg+2baG/50GZwPj0hRtO6dYx//Fde5rsoy6c9wHHIzKa+5MMok0e9UHBiBybZi3da6lsa8fuxCHUG9RmImMjTwaiGW5jv3Jpv1z9oiz3sl30tY03AIjFYioeichfPFuzem+Dc2VByLQfGDfoxnELqxwC2I9qDqTpNgGAlZI9GHRY0vFAAt1WD9xY6IPH//wTnbTQWbvohjO6Fobf3V+ffKbP8Dl3rFhhG618q0NlWUktASQXz8Ft4ECylVVt6Ftb6818NriR57VhjJn94kPsF2e5l+3iFskbu7TUiFVWunePPOGazh1Cjyrw/C+655fHYpUuANh2qVFSU8Tdi2upLFbpPj/jvKEFIWsZILxwftjLs0IDGrdtXr+zpIh9rbCp4oZxBXnh3zYnnYd7XzDnung8IiPtn4L6j07UEvcRq6x07xl14tkd8s3nBfFuEmLq+Lnvv5BZ9vnY0ImFBdY8R6G5sDA/bJE85ZRxz/wFAP6eGHu2aZl3WYZxqlI85aiLHpjDti0wPcbtwPiGgiMIEPvK44sOKwjPzg8bV4B5Awl6RhjilU5G6O+X3v3Grrh93v2dO4QmuYqaOxXmhUmIGVbIbDQN49pOHfKOS3lqpevwpOLLf/s3jkckognV/inKbzg4gK9+RXDuxJNLLGmMl1JeYljiCCEoSSRqpRS9D+9SQMIwIU0DlmlASLHbNI1l0jDmDxjxu3fSeyrt3wP7rwKHT5EnohER/NTkw7ecfmyIjBMMw/i2FJRvmNLL75C/27Ks7aZhrXX79a3234KzbVtMT8e97R9P+W9Ntg1ht7Bn8jVQxdv2Qdv29A3WHNmes22bgJViSDa2paSI2yORb376X50CLaa0WHwlAAAAAElFTkSuQmCC" alt="Crea Nature" style="height:40px;object-fit:contain"/>
   <span id="titre-page">Calculateur</span>
   <div style="display:flex;gap:4px;align-items:center">
-    <button onclick="ouvrirAssistantIA()" style="background:linear-gradient(135deg,#6E40C9,#9B59D0);border:none;font-size:13px;font-weight:700;color:#fff;padding:5px 11px;border-radius:20px;cursor:pointer;font-family:-apple-system,sans-serif">&#x2728; IA</button>
-    <button id="btn-stats" onclick="afficherStats()" style="background:none;border:none;font-size:20px;cursor:pointer;padding:4px;line-height:1">&#x1F4CA;</button>
-    <button onclick="retourAccueil()" style="background:none;border:none;font-size:20px;cursor:pointer;padding:4px;line-height:1">&#x1F3E0;</button>
+    <button onclick="ouvrirAssistantIA()" style="background:linear-gradient(135deg,#6E40C9,#9B59D0);border:none;color:#fff;padding:5px 10px;border-radius:20px;cursor:pointer;font-family:-apple-system,sans-serif;display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" fill="white"/></svg>IA</button>
+    <button id="btn-stats" onclick="afficherStats()" style="background:none;border:none;cursor:pointer;padding:4px;color:#8E8E93;display:flex;align-items:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><polyline points="4,17 9,11 14,14 20,7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="4" cy="17" r="1.5" fill="currentColor"/><circle cx="9" cy="11" r="1.5" fill="currentColor"/><circle cx="14" cy="14" r="1.5" fill="currentColor"/><circle cx="20" cy="7" r="1.5" fill="currentColor"/></svg></button>
+    <button onclick="retourAccueil()" style="background:none;border:none;cursor:pointer;padding:4px;color:#8E8E93;display:flex;align-items:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
 </div>
 
@@ -568,14 +568,14 @@ function construireAccueil() {
     "<div class='acc-body'>" +
       "<div class='acc-section'>Actions rapides</div>" +
       "<div class='acc-grid'>" +
-        "<button class='acc-btn acc-btn-gold' onclick='lancerCalculateur()'><span class='acc-ico'>&#x1F9EE;</span><span class='acc-lbl'>Nouveau devis</span><span class='acc-desc'>Calculer et generer</span></button>" +
-        "<button class='acc-btn acc-btn-dark' onclick='ouvrirPanneauClients()'><span class='acc-ico'>&#x1F465;</span><span class='acc-lbl'>Mes clients</span><span class='acc-desc'>Base de donnees</span></button>" +
-        "<button class='acc-btn acc-btn-green' onclick='afficherStats()'><span class='acc-ico'>&#x1F4CA;</span><span class='acc-lbl'>Historique</span><span class='acc-desc'>Devis et CA</span></button>" +
-        "<button class='acc-btn acc-btn-blue' onclick='ouvrirReglages()'><span class='acc-ico'>&#x2699;&#xFE0F;</span><span class='acc-lbl'>Reglages</span><span class='acc-desc'>PIN, profils</span></button>" +
-        "<button class='acc-btn acc-btn-purple acc-btn-full' onclick='ouvrirPanneauMemo()'><span class='acc-ico'>&#x1F4DD;</span><span class='acc-lbl'>Memo partage</span><span class='acc-desc'>Notes et taches</span></button>" +
-        "<button class='acc-btn acc-btn-terrain acc-btn-full' onclick='ouvrirPanneauBI()'><span class='acc-ico'>&#x1F4CB;</span><span class='acc-lbl'>Bon d'intervention</span><span class='acc-desc'>Generer et envoyer</span></button>" +
+        "<button class='acc-btn acc-btn-gold' onclick='lancerCalculateur()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\" fill=\"white\" opacity=\".9\"/><path d=\"M14 2v6h6\" fill=\"none\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"13\" x2=\"16\" y2=\"13\" stroke=\"rgba(0,0,0,.3)\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"17\" x2=\"13\" y2=\"17\" stroke=\"rgba(0,0,0,.3)\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></span><span class='acc-lbl'>Nouveau devis</span><span class='acc-desc'>Calculer et generer</span></button>" +
+        "<button class='acc-btn acc-btn-dark' onclick='ouvrirPanneauClients()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"9\" cy=\"7\" r=\"4\" fill=\"white\"/><path d=\"M2 21v-1a7 7 0 0 1 7-7 7 7 0 0 1 7 7v1\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><circle cx=\"18\" cy=\"8\" r=\"3\" fill=\"white\" opacity=\".7\"/><path d=\"M22 21v-1a5 5 0 0 0-4-4.9\" stroke=\"white\" stroke-width=\"1.8\" stroke-linecap=\"round\" opacity=\".7\"/></svg></span><span class='acc-lbl'>Mes clients</span><span class='acc-desc'>Base de donnees</span></button>" +
+        "<button class='acc-btn acc-btn-green' onclick='afficherStats()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"14\" width=\"4\" height=\"7\" rx=\"1.5\" fill=\"white\" opacity=\".6\"/><rect x=\"10\" y=\"9\" width=\"4\" height=\"12\" rx=\"1.5\" fill=\"white\" opacity=\".8\"/><rect x=\"17\" y=\"5\" width=\"4\" height=\"16\" rx=\"1.5\" fill=\"white\"/></svg></span><span class='acc-lbl'>Historique</span><span class='acc-desc'>Devis et CA</span></button>" +
+        "<button class='acc-btn acc-btn-blue' onclick='ouvrirReglages()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"12\" cy=\"12\" r=\"3\" fill=\"white\"/><path d=\"M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z\" fill=\"white\" opacity=\".8\"/></svg></span><span class='acc-lbl'>Reglages</span><span class='acc-desc'>PIN, profils</span></button>" +
+        "<button class='acc-btn acc-btn-purple acc-btn-full' onclick='ouvrirPanneauMemo()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\" fill=\"white\" opacity=\".15\"/><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\" stroke=\"white\" stroke-width=\"1.8\"/><line x1=\"8\" y1=\"8\" x2=\"16\" y2=\"8\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"12\" x2=\"16\" y2=\"12\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"16\" x2=\"12\" y2=\"16\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></span><span class='acc-lbl'>Memo partage</span><span class='acc-desc'>Notes et taches</span></button>" +
+        "<button class='acc-btn acc-btn-terrain acc-btn-full' onclick='ouvrirPanneauBI()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Bon d'intervention</span><span class='acc-desc'>Generer et envoyer</span></button>" +
       
-        "<button class='acc-btn acc-btn-full' style='background:linear-gradient(135deg,#1A3A2A,#0D5C35);color:#4CD964' onclick='ouvrirPanneauTresorerie()'><span class='acc-ico'>&#x1F4B0;</span><span class='acc-lbl'>Tresorerie</span><span class='acc-desc'>Encaissements et avances</span></button>" +
+        "<button class='acc-btn acc-btn-full' style='background:linear-gradient(135deg,#1A3A2A,#0D5C35);color:#4CD964' onclick='ouvrirPanneauTresorerie()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Tresorerie</span><span class='acc-desc'>Encaissements et avances</span></button>" +
       "</div>" +
       "<div class='acc-section'>Derniers devis</div>" +
       "<div class='acc-devis-list' id='acc-derniers-devis'><div style='padding:20px;text-align:center;color:#636366;font-size:13px'>Chargement...</div></div>" +
@@ -678,6 +678,98 @@ function ouvrirReglages() {
       corps.appendChild(cu);
     });
   });
+
+
+  // Tarif horaire
+  var secTarif = document.createElement("div");
+  secTarif.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:16px 0 8px 2px";
+  secTarif.textContent = "Tarif horaire";
+  corps.appendChild(secTarif);
+  var carteTarif = document.createElement("div");
+  carteTarif.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:16px";
+  var tarifActuel = parseInt(localStorage.getItem("creanature_tarif") || "72");
+  carteTarif.innerHTML =
+    "<div style='font-size:13px;color:#8E8E93;margin-bottom:10px'>Tarif actuel : <span style='color:#C8923E;font-weight:700'>" + tarifActuel + " EUR HT/h</span></div>" +
+    "<div style='display:flex;gap:8px;align-items:center'>" +
+      "<input id='rg-tarif' type='number' value='" + tarifActuel + "' min='1' max='999' style='flex:1;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:16px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none'/>" +
+      "<span style='color:#8E8E93;font-size:13px'>EUR HT / heure</span>" +
+    "</div>" +
+    "<button id='rg-btn-tarif' style='width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;font-size:14px;font-weight:600;color:#fff;cursor:pointer;font-family:-apple-system,sans-serif;margin-top:10px'>Sauvegarder le tarif</button>" +
+    "<div id='rg-msg-tarif' style='text-align:center;font-size:12px;margin-top:8px;min-height:16px'></div>";
+  corps.appendChild(carteTarif);
+  carteTarif.querySelector("#rg-btn-tarif").onclick = function() {
+    var v = parseInt(carteTarif.querySelector("#rg-tarif").value);
+    var msg = carteTarif.querySelector("#rg-msg-tarif");
+    if (!v || v < 1) { msg.style.color="#FF3B30"; msg.textContent="Tarif invalide"; return; }
+    localStorage.setItem("creanature_tarif", String(v));
+    TARIF_HORAIRE = v;
+    msg.style.color="#34C759"; msg.textContent="Tarif mis a jour : " + v + " EUR HT/h";
+    calculer();
+  };
+
+  // Email soci\u00E9t\u00E9
+  var secEmail = document.createElement("div");
+  secEmail.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:0 0 8px 2px";
+  secEmail.textContent = "Informations societe";
+  corps.appendChild(secEmail);
+  var carteEmail = document.createElement("div");
+  carteEmail.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:16px";
+  var emailSoc = localStorage.getItem("creanature_email") || "creanature@ymail.com";
+  var telSoc = localStorage.getItem("creanature_tel") || "06 19 30 40 93";
+  carteEmail.innerHTML =
+    "<label style='font-size:12px;color:#8E8E93;display:block;margin-bottom:4px'>Email</label>" +
+    "<input id='rg-email' type='email' value='" + emailSoc + "' style='width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:10px;display:block'/>" +
+    "<label style='font-size:12px;color:#8E8E93;display:block;margin-bottom:4px'>Telephone</label>" +
+    "<input id='rg-tel' type='tel' value='" + telSoc + "' style='width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:10px;display:block'/>" +
+    "<button id='rg-btn-email' style='width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;font-size:14px;font-weight:600;color:#fff;cursor:pointer;font-family:-apple-system,sans-serif'>Sauvegarder</button>" +
+    "<div id='rg-msg-email' style='text-align:center;font-size:12px;margin-top:8px;min-height:16px'></div>";
+  corps.appendChild(carteEmail);
+  carteEmail.querySelector("#rg-btn-email").onclick = function() {
+    var em = carteEmail.querySelector("#rg-email").value.trim();
+    var tel = carteEmail.querySelector("#rg-tel").value.trim();
+    var msg2 = carteEmail.querySelector("#rg-msg-email");
+    if (!em) { msg2.style.color="#FF3B30"; msg2.textContent="Email invalide"; return; }
+    localStorage.setItem("creanature_email", em);
+    localStorage.setItem("creanature_tel", tel);
+    msg2.style.color="#34C759"; msg2.textContent="Informations sauvegardees !";
+  };
+
+  // TVA
+  var secTVA = document.createElement("div");
+  secTVA.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:0 0 8px 2px";
+  secTVA.textContent = "TVA";
+  corps.appendChild(secTVA);
+  var carteTVA = document.createElement("div");
+  carteTVA.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px";
+  var tvaActuelle = localStorage.getItem("creanature_tva") || "20";
+  carteTVA.innerHTML =
+    "<span style='font-size:14px;color:#fff'>Taux de TVA</span>" +
+    "<div style='display:flex;align-items:center;gap:8px'>" +
+      "<input id='rg-tva' type='number' value='" + tvaActuelle + "' min='0' max='100' style='width:70px;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;text-align:center'/>" +
+      "<span style='color:#8E8E93;font-size:14px'>%</span>" +
+      "<button id='rg-btn-tva' style='padding:8px 14px;border-radius:9px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;font-size:13px;font-weight:600;color:#fff;cursor:pointer;font-family:-apple-system,sans-serif'>OK</button>" +
+    "</div>";
+  corps.appendChild(carteTVA);
+  carteTVA.querySelector("#rg-btn-tva").onclick = function() {
+    var v2 = parseFloat(carteTVA.querySelector("#rg-tva").value);
+    if (isNaN(v2)) return;
+    localStorage.setItem("creanature_tva", String(v2));
+    TAUX_TVA = v2 / 100;
+    afficherToast("TVA mise a jour : " + v2 + "%");
+    calculer();
+  };
+
+  // Mode sombre toggle
+  var secMode = document.createElement("div");
+  secMode.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:0 0 8px 2px";
+  secMode.textContent = "Apparence";
+  corps.appendChild(secMode);
+  var carteMode = document.createElement("div");
+  carteMode.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between";
+  carteMode.innerHTML =
+    "<span style='font-size:14px;color:#fff'>Mode sombre</span>" +
+    "<button onclick='toggleDark()' style='background:linear-gradient(135deg,#6E40C9,#9B59D0);border:none;color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Basculer</button>";
+  corps.appendChild(carteMode);
 
   panneau.appendChild(barre);
   panneau.appendChild(corps);
@@ -919,9 +1011,9 @@ function ouvrirDetailMois(nomMois, devisListe, tousDevis) {
 function afficherListeDevis(devisListe, container) {
   devisListe.forEach(function(d) {
     var item = document.createElement("div");
-    item.style.cssText = "background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.07);gap:8px";
+    item.style.cssText = "background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.07);gap:5px";
     var inf = document.createElement("div"); inf.style.cssText = "flex:1;min-width:0";
-    inf.innerHTML = "<div style='font-size:14px;font-weight:600;color:#1C1C1E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(d.client||"") + "</div><div style='font-size:11px;color:#8E8E93;margin-top:2px'>N" + echapper(d.num||"") + " \u00B7 " + echapper(d.date||"") + (d.auteur?" \u00B7 "+echapper(d.auteur):"") + "</div>";
+    inf.innerHTML = "<div style='font-size:13px;font-weight:600;color:#1C1C1E;word-break:break-word;line-height:1.3'>" + echapper(d.client||"") + "</div><div style='font-size:11px;color:#8E8E93;margin-top:2px'>N" + echapper(d.num||"") + " \u00B7 " + echapper(d.date||"") + (d.auteur?" \u00B7 "+echapper(d.auteur):"") + "</div>";
     var mo = document.createElement("div"); mo.style.cssText = "text-align:right;flex-shrink:0";
     mo.innerHTML = "<div style='font-size:14px;font-weight:600;color:#C8923E'>" + (d.totalTTC||0).toFixed(2) + " EUR</div><div style='font-size:10px;color:#8E8E93'>TTC</div>";
     // Bouton Voir
@@ -972,6 +1064,8 @@ function voirHistoriqueClient(nomClient) {
 }
 
 // === ETAT ===
+var TARIF_HORAIRE = parseInt(localStorage.getItem("creanature_tarif")||"72");
+var TAUX_TVA = (parseFloat(localStorage.getItem("creanature_tva")||"20"))/100;
 var etat = {
   prests: [],
   interv: 0,
@@ -1554,6 +1648,24 @@ function reinitialiser() {
   lignes = [];
   compteurLigne = 0;
   valeurs = {};
+  // Recharger le prochain numero depuis Firebase
+  var dNum2 = trouverEl("d-num");
+  if (dNum2) {
+    var n2 = new Date();
+    var yyyy3 = String(n2.getFullYear());
+    var mm3 = String(n2.getMonth()+1).padStart(2,"0");
+    db.collection("config").doc("devis").get().then(function(doc2) {
+      var dernierNum2 = 0;
+      if (doc2.exists) {
+        var dat2 = doc2.data();
+        if (dat2.annee === yyyy3 && dat2.mois === mm3) dernierNum2 = dat2.num || 0;
+      }
+      var nextStr = String(dernierNum2 + 1).padStart(3,"0");
+      if (dNum2) dNum2.value = yyyy3 + "-" + mm3 + "-" + nextStr;
+    }).catch(function() {
+      if (dNum2) dNum2.value = yyyy3 + "-" + mm3 + "-001";
+    });
+  }
   var plist = ["haie", "tonte", "elagage", "abattage", "evac"];
   for (var i = 0; i < plist.length; i++) {
     var b = trouverEl("bp-" + plist[i]);
@@ -1787,7 +1899,7 @@ function envoyerDevisParMail() {
 
 function visualiserDevis() {
   syncTotaux2();
-  // Incrementer et sauver le numero dans Firebase
+  // Sauver le numero COURANT et preparer le SUIVANT dans Firebase
   var numInput = trouverEl("d-num");
   var numDevis = numInput ? numInput.value : "001";
   if (numInput && numInput.value) {
@@ -1795,6 +1907,7 @@ function visualiserDevis() {
     var numVal = parseInt(parties[parties.length - 1]) || 0;
     var anneeVal = parties[0] || "";
     var moisVal = parties[1] || "";
+    // Stocker le numero COURANT - init() lira ce num et fera +1
     db.collection("config").doc("devis").set({
       num: numVal, annee: anneeVal, mois: moisVal
     }).catch(function(e) { console.log("Erreur save num:", e); });
@@ -2205,10 +2318,15 @@ function ouvrirPanneauBI() {
   }).join("");
   pn.innerHTML=
     "<div style='background:#0D3D1A;padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px) + 6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>"+
-      "<span style='font-size:17px;font-weight:700;color:#fff'>Bon d'intervention</span>"+
+      "<span style='font-size:17px;font-weight:700;color:#fff'>Terrain</span>"+
       "<button onclick='fermerPanneauBI()' style='background:rgba(255,255,255,.1);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>"+
     "</div>"+
-    "<div style='flex:1;padding:14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)'>"+
+    "<div style='display:flex;background:#0A2E14;border-bottom:.5px solid rgba(255,255,255,.1);flex-shrink:0'>"+
+      "<button id='bi-ong-bi' onclick='ouvrirOngletBI()' style='flex:1;padding:12px;background:none;border:none;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;border-bottom:2px solid #fff'>Bon d\'intervention</button>"+
+      "<button id='bi-ong-prev' onclick='ouvrirOngletPrevention()' style='flex:1;padding:12px;background:none;border:none;color:rgba(255,255,255,.5);font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;border-bottom:2px solid transparent'>Prevention</button>"+
+    "</div>"+
+    "<div style='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch'>"+
+    "<div id='bi-contenu-bi' style='padding:14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)'>"+
       "<div class='titre-section'>Prestations realisees</div>"+
       "<div class='grille2' style='margin-bottom:12px'>"+grille+"</div>"+
       "<div class='titre-section'>Note complementaire</div>"+
@@ -2226,6 +2344,26 @@ function ouvrirPanneauBI() {
       "<button class='btn-or' onclick='envoyerBI()'>Envoyer le bon d'intervention</button>"+
       "<button class='btn-gris' onclick='reinitialiserBI()' style='margin-top:8px'>Reinitialiser</button>"+
       "<div style='margin-top:16px'><div style='font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8E8E93;margin-bottom:8px'>Derniers envois</div><div id='bi-historique-liste'></div></div>"+
+      "</div>"+
+      "<div id='bi-contenu-prev' style='display:none;padding:14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)'>"+
+        "<div class='titre-section'>Date d\'intervention</div>"+
+        "<div class='carte' style='padding:11px;margin-bottom:12px'><input type='date' id='prev-date' style='width:100%;padding:10px 12px;border:1.5px solid var(--gris2);border-radius:9px;font-size:15px;color:var(--noir);background:var(--gris3);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none'></div>"+
+        "<div class='titre-section'>Type d\'intervention</div>"+
+        "<div class='grille2' style='margin-bottom:12px'>"+
+          "<button class='btn-prest' id='prev-prest-tonte' data-label='Tonte' onclick='this.classList.toggle(\"actif\")'>Tonte</button>"+
+          "<button class='btn-prest' id='prev-prest-taille' data-label='Taille de haie' onclick='this.classList.toggle(\"actif\")'>Taille de haie</button>"+
+          "<button class='btn-prest' id='prev-prest-feuilles' data-label='Ramassage feuilles' onclick='this.classList.toggle(\"actif\")'>Ramassage feuilles</button>"+
+          "<button class='btn-prest' id='prev-prest-fauchage' data-label='Fauchage' onclick='this.classList.toggle(\"actif\")'>Fauchage</button>"+
+        "</div>"+
+        "<div class='titre-section'>Client</div>"+
+        "<div class='carte' style='padding:11px;margin-bottom:12px'>"+
+          "<input class='input-texte' id='prev-client-search' type='text' placeholder='Rechercher un client...' oninput='rechercherClientPrev(this.value)'/>"+
+          "<div id='prev-client-liste' style='margin-top:6px'></div>"+
+          "<div id='prev-client-selectionne' style='display:none;margin-top:8px;padding:8px 12px;background:rgba(200,146,62,.1);border-radius:8px;font-size:13px;font-weight:600;color:#8B5E1A'></div>"+
+        "</div>"+
+        "<button class='btn-or' onclick='envoyerPrevention()'>Envoyer l\'avis de passage</button>"+
+      "</div>"+
+    "</div>"
     "</div>";
   document.body.appendChild(pn);
   chargerHistoriqueBI();
@@ -2687,51 +2825,62 @@ function dupliquerDevis(d) {
   lancerCalculateur();
   allerVers("calc");
   reinitialiser();
-  var snap = d.snapshot || {};
-  if (snap.prests) {
-    snap.prests.forEach(function(p) {
-      etat.prests.push(p);
-      var btn = trouverEl("bp-" + p);
-      if (btn) btn.classList.add("actif");
-    });
-  }
-  if (snap.autre) { etat.autre = true; }
-  if (snap.autreTexte) {
-    etat.autreTexte = snap.autreTexte;
-    var inp = trouverEl("txt-autre-main");
-    if (inp) inp.value = snap.autreTexte;
-    var z = trouverEl("zone-autre-main");
-    if (z) z.classList.add("visible");
-  }
-  if (snap.interv) {
-    etat.interv = snap.interv;
-    for (var i = 1; i <= 4; i++) {
-      var bI = trouverEl("bi-" + i);
-      if (bI) bI.classList.toggle("actif", i === snap.interv);
+  // Attendre que Firebase ait recharg\u00E9 le num\u00E9ro (async) avant de remplir
+  setTimeout(function() {
+    var snap = d.snapshot || {};
+    // Prestations
+    if (snap.prests) {
+      snap.prests.forEach(function(p) {
+        if (!etat.prests.includes(p)) etat.prests.push(p);
+        var btn = trouverEl("bp-" + p);
+        if (btn) btn.classList.add("actif");
+      });
     }
-  }
-  if (snap.heures) {
-    etat.heures = snap.heures;
-    valeurs["fc-h"] = snap.heures;
-    var vh = trouverEl("fv-h");
-    if (vh) { vh.textContent = snap.heures; vh.classList.remove("dim"); }
-  }
-  if (snap.fournitures) {
-    etat.fournitures = snap.fournitures;
-    valeurs["fc-s"] = snap.fournitures;
-    var vs = trouverEl("fv-s");
-    if (vs) { vs.textContent = snap.fournitures; vs.classList.remove("dim"); }
-  }
-  if (snap.designation) {
-    var md = trouverEl("main-designation");
-    if (md) md.value = snap.designation;
-  }
-  if (d.client) { var ec = trouverEl("c-nom"); if (ec) ec.value = d.client; }
-  if (d.adresse) { var ea = trouverEl("c-adresse"); if (ea) ea.value = d.adresse; }
-  if (d.email) { var ee = trouverEl("c-email"); if (ee) ee.value = d.email; }
-  if (d.tel) { var et = trouverEl("c-tel"); if (et) et.value = d.tel; }
-  calculer();
-  afficherToast("Devis charge - modifiez puis generez");
+    // Autre prestation
+    if (snap.autre) { etat.autre = true; }
+    if (snap.autreTexte) {
+      etat.autreTexte = snap.autreTexte;
+      var inp = trouverEl("txt-autre-main");
+      if (inp) inp.value = snap.autreTexte;
+      var z = trouverEl("zone-autre-main");
+      if (z) z.classList.add("visible");
+    }
+    // Intervenants
+    if (snap.interv) {
+      var nb = parseInt(snap.interv);
+      etat.interv = nb;
+      for (var i = 1; i <= 4; i++) {
+        var bI = trouverEl("bi-" + i);
+        if (bI) bI.classList.toggle("actif", i === nb);
+      }
+    }
+    // Heures
+    if (snap.heures) {
+      etat.heures = String(snap.heures);
+      valeurs["fc-h"] = String(snap.heures);
+      var vh = trouverEl("fv-h");
+      if (vh) { vh.textContent = String(snap.heures); vh.classList.remove("dim"); }
+    }
+    // Fournitures
+    if (snap.fournitures) {
+      etat.fournitures = String(snap.fournitures);
+      valeurs["fc-s"] = String(snap.fournitures);
+      var vs = trouverEl("fv-s");
+      if (vs) { vs.textContent = String(snap.fournitures); vs.classList.remove("dim"); }
+    }
+    // Designation
+    if (snap.designation) {
+      var md = trouverEl("main-designation");
+      if (md) md.value = snap.designation;
+    }
+    // Client
+    if (d.client) { var ec = trouverEl("c-nom"); if (ec) ec.value = d.client; }
+    if (d.adresse) { var ea = trouverEl("c-adresse"); if (ea) ea.value = d.adresse; }
+    if (d.email) { var ee = trouverEl("c-email"); if (ee) ee.value = d.email; }
+    if (d.tel) { var et = trouverEl("c-tel"); if (et) et.value = d.tel; }
+    calculer();
+    afficherToast("Devis charge - nouveau numero pret");
+  }, 800);
 }
 
 function ajouterDevisATresorerie(d) {
@@ -2958,6 +3107,110 @@ function chargerHistoriqueBI() {
       cont.appendChild(item);
     });
   }).catch(function(){ cont.innerHTML = "<div style='text-align:center;color:#8E8E93;font-size:13px;padding:10px'>Erreur</div>"; });
+}
+
+
+function ouvrirOngletPrevention() {
+  // Switcher l'affichage dans le panneau BI
+  var contBI = document.getElementById("bi-contenu-bi");
+  var contPrev = document.getElementById("bi-contenu-prev");
+  var ongBI = document.getElementById("bi-ong-bi");
+  var ongPrev = document.getElementById("bi-ong-prev");
+  if (!contBI || !contPrev) return;
+  contBI.style.display = "none";
+  contPrev.style.display = "block";
+  ongBI.style.cssText = ongBI.style.cssText.replace("color:#fff","color:rgba(255,255,255,.5)").replace("border-bottom:2px solid #fff","border-bottom:2px solid transparent");
+  ongPrev.style.cssText = ongPrev.style.cssText.replace("color:rgba(255,255,255,.5)","color:#fff").replace("border-bottom:2px solid transparent","border-bottom:2px solid #fff");
+}
+
+function ouvrirOngletBI() {
+  var contBI = document.getElementById("bi-contenu-bi");
+  var contPrev = document.getElementById("bi-contenu-prev");
+  var ongBI = document.getElementById("bi-ong-bi");
+  var ongPrev = document.getElementById("bi-ong-prev");
+  if (!contBI || !contPrev) return;
+  contBI.style.display = "block";
+  contPrev.style.display = "none";
+  ongBI.style.cssText = ongBI.style.cssText.replace("color:rgba(255,255,255,.5)","color:#fff").replace("border-bottom:2px solid transparent","border-bottom:2px solid #fff");
+  ongPrev.style.cssText = ongPrev.style.cssText.replace("color:#fff","color:rgba(255,255,255,.5)").replace("border-bottom:2px solid #fff","border-bottom:2px solid transparent");
+}
+
+var prevClientSelec = null;
+
+function rechercherClientPrev(val) {
+  var liste = document.getElementById("prev-client-liste");
+  if (!liste) return;
+  if (!val || val.length < 2) { liste.innerHTML = ""; return; }
+  db.collection("clients").orderBy("nom").get().then(function(snap) {
+    var r = [];
+    snap.forEach(function(doc) {
+      var d = doc.data();
+      if (d.nom && d.nom.toLowerCase().indexOf(val.toLowerCase()) >= 0) r.push(Object.assign({_id:doc.id},d));
+    });
+    liste.innerHTML = "";
+    r.slice(0,5).forEach(function(cl) {
+      var item = document.createElement("div");
+      item.style.cssText = "padding:9px 12px;background:rgba(200,146,62,.08);border-radius:8px;margin-bottom:4px;cursor:pointer;font-size:14px;color:var(--noir)";
+      item.textContent = cl.nom + (cl.adresse ? " - " + cl.adresse : "");
+      (function(client) {
+        item.onclick = function() {
+          prevClientSelec = client;
+          liste.innerHTML = "";
+          var inp = document.getElementById("prev-client-search");
+          if (inp) inp.value = client.nom;
+          var aff = document.getElementById("prev-client-selectionne");
+          if (aff) { aff.style.display = "block"; aff.textContent = client.nom + (client.email ? " - " + client.email : ""); }
+        };
+      })(cl);
+      liste.appendChild(item);
+    });
+  });
+}
+
+function envoyerPrevention() {
+  var dateEl = document.getElementById("prev-date");
+  var dateVal = dateEl ? dateEl.value : "";
+  if (!dateVal) { afficherToast("Selectionne une date"); return; }
+  var prestsSelec = [];
+  ["tonte","taille","feuilles","fauchage"].forEach(function(p) {
+    var b = document.getElementById("prev-prest-" + p);
+    if (b && b.classList.contains("actif")) prestsSelec.push(b.getAttribute("data-label"));
+  });
+  if (!prestsSelec.length) { afficherToast("Selectionne au moins une intervention"); return; }
+
+  var nomCl = prevClientSelec ? prevClientSelec.nom : "";
+  var emailCl = prevClientSelec ? (prevClientSelec.email || "") : "";
+  var prenom = nomCl ? nomCl.split(" ")[0] : "Madame, Monsieur";
+  var auteur = utilisateurActuel ? utilisateurActuel.nom : "Crea Nature";
+
+  // Formatter la date
+  var parts = dateVal.split("-");
+  var JOURS = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+  var MOIS = ["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"];
+  var dateObj = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+  var dateStr = JOURS[dateObj.getDay()] + " " + dateObj.getDate() + " " + MOIS[dateObj.getMonth()] + " " + dateObj.getFullYear();
+
+  var listePrest = prestsSelec.map(function(p){ return "  - " + p; }).join("\n");
+  var sujet = "Avis de passage - Crea Nature - " + dateStr;
+  var corps = "Bonjour " + prenom + ",\n\nNous vous informons que notre equipe interviendra chez vous le " + dateStr + " pour effectuer les travaux suivants :\n\n" + listePrest + "\n\nMerci de vous assurer que nous aurons acces a votre propriete ce jour-la.\n\nSi cette date ne vous convient pas, n'hesitez pas a nous contacter pour convenir d'un autre rendez-vous.\n\nCordialement,\n" + auteur + "\nCrea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com";
+
+  var nl = "%0D%0A";
+  var corpsEnc = encodeURIComponent("Bonjour " + prenom + ",") + nl + nl
+    + encodeURIComponent("Nous vous informons que notre equipe interviendra chez vous le " + dateStr + " pour :") + nl
+    + prestsSelec.map(function(p){ return encodeURIComponent("  - " + p); }).join(nl)
+    + nl + nl
+    + encodeURIComponent("Merci de vous assurer que nous aurons acces a votre propriete ce jour-la.") + nl + nl
+    + encodeURIComponent("Si cette date ne vous convient pas, contactez-nous pour reporter.") + nl + nl
+    + encodeURIComponent("Cordialement,") + nl
+    + encodeURIComponent(auteur) + nl
+    + encodeURIComponent("Crea Nature - Tel : 06 19 30 40 93 - creanature@ymail.com");
+
+  window.location.href = "mailto:" + encodeURIComponent(emailCl)
+    + "?cc=" + encodeURIComponent("creanature@ymail.com")
+    + "&subject=" + encodeURIComponent(sujet)
+    + "&body=" + corpsEnc;
+
+  afficherToast("Mail de prevention prepare !");
 }
 
 function init() {
