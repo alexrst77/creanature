@@ -669,6 +669,55 @@ function ouvrirReglages() {
     });
   });
 
+  // === API IA ===
+  var secAPI = document.createElement("div");
+  secAPI.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:0 0 8px 2px";
+  secAPI.textContent = "Assistant IA";
+  corps.appendChild(secAPI);
+  var carteAPI = document.createElement("div");
+  carteAPI.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:16px";
+  var apiVal = localStorage.getItem("creanature_api_key") || "";
+  var apiInfoEl = document.createElement("div");
+  apiInfoEl.style.cssText = "font-size:12px;margin-bottom:8px;color:" + (apiVal ? "#34C759" : "#FF3B30");
+  apiInfoEl.textContent = apiVal ? "Cle API configuree" : "Cle API manquante - IA inactive";
+  var apiNoteEl = document.createElement("div");
+  apiNoteEl.style.cssText = "font-size:11px;color:#636366;margin-bottom:10px";
+  apiNoteEl.textContent = "Obtenir sur console.anthropic.com > API Keys";
+  var inpAPIEl = document.createElement("input");
+  inpAPIEl.type = "password";
+  inpAPIEl.placeholder = "sk-ant-api03-...";
+  inpAPIEl.value = apiVal;
+  inpAPIEl.style.cssText = "width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:8px;display:block";
+  var btnSvAPI = document.createElement("button");
+  btnSvAPI.style.cssText = "width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,#6E40C9,#9B59D0);border:none;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:6px;display:block";
+  btnSvAPI.textContent = "Sauvegarder la cle";
+  btnSvAPI.onclick = function() {
+    var v = inpAPIEl.value.trim();
+    localStorage.setItem("creanature_api_key", v);
+    apiInfoEl.textContent = v ? "Cle API configuree" : "Cle API manquante - IA inactive";
+    apiInfoEl.style.color = v ? "#34C759" : "#FF3B30";
+    afficherToast(v ? "Cle API sauvegardee !" : "Cle supprimee");
+  };
+  var btnTstAPI = document.createElement("button");
+  btnTstAPI.style.cssText = "width:100%;height:40px;border-radius:11px;background:rgba(110,64,201,.15);border:none;color:#9B59D0;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;display:block";
+  btnTstAPI.textContent = "Tester la connexion IA";
+  btnTstAPI.onclick = function() {
+    var k = inpAPIEl.value.trim();
+    if (!k) { afficherToast("Entre une cle d'abord"); return; }
+    btnTstAPI.textContent = "Test..."; btnTstAPI.disabled = true;
+    fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST",
+      headers:{"Content-Type":"application/json","x-api-key":k,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:5,messages:[{role:"user",content:"ok"}]})
+    }).then(function(r){return r.json();})
+    .then(function(d){ btnTstAPI.textContent="Tester la connexion IA"; btnTstAPI.disabled=false; afficherToast(d.content ? "IA connectee !" : "Erreur API"); })
+    .catch(function(){ btnTstAPI.textContent="Tester la connexion IA"; btnTstAPI.disabled=false; afficherToast("Echec - verifier la cle"); });
+  };
+  carteAPI.appendChild(apiInfoEl); carteAPI.appendChild(apiNoteEl);
+  carteAPI.appendChild(inpAPIEl); carteAPI.appendChild(btnSvAPI); carteAPI.appendChild(btnTstAPI);
+  corps.appendChild(carteAPI);
+
+
 
   // Tarif horaire
   var secTarif = document.createElement("div");
@@ -3066,9 +3115,21 @@ function envoyerMessageIA() {
   msgs.appendChild(loading);
   msgs.scrollTop = msgs.scrollHeight;
   var ctx = "Prestations disponibles: haie=Taille de haie, tonte=Tonte, elagage=Elagage, abattage=Abattage, evac=Evacuation/Compostage. Tarif: 72 EUR HT par heure par intervenant. Client actuel: " + (lireChamp("c-nom")||"aucun") + ".";
+  var _apiKey = localStorage.getItem("creanature_api_key") || "";
+  if (!_apiKey) {
+    var _msgs = document.getElementById("ia-msgs");
+    var _old = document.getElementById("ia-loading"); if(_old) _old.remove();
+    if(_msgs) _msgs.appendChild(creerMsgIA("Cle API manquante. Va dans Reglages > Assistant IA pour configurer ta cle Anthropic."));
+    return;
+  }
   fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
-    headers: {"Content-Type":"application/json"},
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": _apiKey,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true"
+    },
     body: JSON.stringify({
       model: "claude-sonnet-4-6",
       max_tokens: 800,
