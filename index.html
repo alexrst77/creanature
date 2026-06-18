@@ -563,7 +563,7 @@ function construireAccueil() {
       "<div class='acc-stat-row'>" +
         "<div class='acc-stat'><div class='acc-stat-val' id='acc-nb-clients'>-</div><div class='acc-stat-lbl'>Clients</div></div>" +
         "<div class='acc-stat'><div class='acc-stat-val' id='acc-nb-devis'>-</div><div class='acc-stat-lbl'>Devis</div></div>" +
-        "<div class='acc-stat'><div class='acc-stat-val' id='acc-ca'>-</div><div class='acc-stat-lbl'>CA " + moisNom + "</div></div>" +
+        "<div class=\'acc-stat-val\' id=\'acc-ca\'>-</div><div class=\'acc-stat-lbl\'>Previsionnel</div></div>" + moisNom + "</div></div>" +
       "</div>" +
     "</div>" +
     "<div class='acc-body'>" +
@@ -587,6 +587,21 @@ function construireAccueil() {
   db.collection("clients").get().then(function(s) {
     var el2 = document.getElementById("acc-nb-clients");
     if (el2) el2.textContent = s.size;
+  }).catch(function(){});
+
+  var _now = new Date();
+  var _y = _now.getFullYear(), _m = _now.getMonth();
+  db.collection("devis").orderBy("timestamp","desc").limit(200).get().then(function(snap) {
+    var nb = 0, total = 0;
+    snap.forEach(function(doc) {
+      var d = doc.data(); nb++;
+      var ts = new Date(d.timestamp||0);
+      if (ts.getFullYear()===_y && ts.getMonth()===_m) total += d.totalTTC||0;
+    });
+    var elD = document.getElementById("acc-nb-devis");
+    if (elD) elD.textContent = nb;
+    var elCA = document.getElementById("acc-ca");
+    if (elCA) elCA.textContent = total.toLocaleString("fr-FR",{minimumFractionDigits:2}) + " \u20AC";
   }).catch(function(){});
 
   }
@@ -745,6 +760,49 @@ function ouvrirReglages() {
     "<span style='font-size:14px;color:#fff'>Mode sombre</span>" +
     "<button onclick='toggleDark()' style='background:linear-gradient(135deg,#6E40C9,#9B59D0);border:none;color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Basculer</button>";
   corps.appendChild(carteMode);
+
+  // Planning
+  var secPlan2 = document.createElement("div");
+  secPlan2.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:0 0 8px 2px";
+  secPlan2.textContent = "Planning";
+  corps.appendChild(secPlan2);
+  var cartePlan2 = document.createElement("div");
+  cartePlan2.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:8px";
+  var nbClients = (JSON.parse(localStorage.getItem('creanature_planning')||'[]').length || PLANNING_DEFAUT.length);
+  var infoPlan = document.createElement("div");
+  infoPlan.style.cssText = "font-size:13px;color:#8E8E93";
+  infoPlan.textContent = nbClients + " clients dans le planning";
+  var btnOuvPlan2 = document.createElement("button");
+  btnOuvPlan2.style.cssText = "height:40px;border-radius:10px;background:rgba(100,181,246,.15);border:none;color:#64B5F6;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnOuvPlan2.textContent = "Ouvrir le planning 52 semaines";
+  btnOuvPlan2.onclick = function() { panneau.remove(); ouvrirPlanning(); };
+  var btnRazPlan2 = document.createElement("button");
+  btnRazPlan2.style.cssText = "height:40px;border-radius:10px;background:rgba(255,59,48,.15);border:none;color:#FF3B30;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnRazPlan2.textContent = "Reinitialiser (donnees PDF d'origine)";
+  btnRazPlan2.onclick = function() { if (confirm("Reinitialiser le planning ?")) { localStorage.removeItem('creanature_planning'); afficherToast("Planning reinitialise"); panneau.remove(); } };
+  cartePlan2.appendChild(infoPlan); cartePlan2.appendChild(btnOuvPlan2); cartePlan2.appendChild(btnRazPlan2);
+  corps.appendChild(cartePlan2);
+
+  // Raccourcis
+  var secRacc = document.createElement("div");
+  secRacc.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:0 0 8px 2px";
+  secRacc.textContent = "Raccourcis";
+  corps.appendChild(secRacc);
+  var carteRacc = document.createElement("div");
+  carteRacc.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:24px;display:flex;flex-direction:column;gap:8px";
+  var btns3 = [
+    {label:"Historique des devis", fn:function(){ panneau.remove(); afficherStats(); }},
+    {label:"Tresorerie", fn:function(){ panneau.remove(); ouvrirPanneauTresorerie(); }},
+    {label:"Assistant IA", fn:function(){ panneau.remove(); ouvrirAssistantIA(); }}
+  ];
+  btns3.forEach(function(b) {
+    var btn3 = document.createElement("button");
+    btn3.style.cssText = "height:40px;border-radius:10px;background:rgba(255,255,255,.06);border:none;color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:-apple-system,sans-serif;text-align:left;padding:0 14px";
+    btn3.textContent = b.label + " \u203A";
+    btn3.onclick = b.fn;
+    carteRacc.appendChild(btn3);
+  });
+  corps.appendChild(carteRacc);
 
   panneau.appendChild(barre);
   panneau.appendChild(corps);
@@ -1856,20 +1914,23 @@ function envoyerDevisParMail() {
     + encodeURIComponent("Tel : 06 19 30 40 93") + nl
     + encodeURIComponent("creanature@ymail.com");
 
-  // D\u00E9clencher impression PDF d'abord si l'overlay est present
+  // 1. Generer et telecharger le PDF
+  var nomFichier = "Devis-" + num + "-" + nom.replace(/\\s+/g,"-") + ".pdf";
   var iframe = document.getElementById("iframe-devis");
   if (iframe && iframe.contentWindow) {
+    try { iframe.contentWindow.document.title = nomFichier.replace(".pdf",""); } catch(e){}
     iframe.contentWindow.print();
   }
-
-  // Petit d\u00E9lai pour laisser le PDF s'ouvrir avant Gmail
+  // 2. Toast instructif
+  afficherToast("Etape 1 : Sauvegardez le PDF. Etape 2 : Joignez-le dans Gmail");
+  // 3. Ouvrir Gmail apres delai
   setTimeout(function() {
     window.location.href =
       "mailto:" + encodeURIComponent(email) +
       "?cc=" + encodeURIComponent("creanature@ymail.com") +
       "&subject=" + sujet +
       "&body=" + corps;
-  }, 800);
+  }, 2500);
 }
 
 function visualiserDevis() {
@@ -2112,7 +2173,18 @@ function _afficherPanneauClients(clients) {
       var btnHist = document.createElement("button");
       btnHist.style.cssText = "background:none;border:none;color:var(--or);font-size:11px;font-weight:600;cursor:pointer;padding:4px 0 0;font-family:-apple-system,sans-serif;display:block";
       btnHist.textContent = "Voir l'historique";
-      (function(nc) { btnHist.onclick = function(e) { e.stopPropagation(); panneau.remove(); afficherStats(); }; })(c.nom);
+      (function(nc) {
+      btnHist.onclick = function(e) {
+        e.stopPropagation();
+        panneau.remove();
+        db.collection("devis").orderBy("timestamp","desc").limit(200).get().then(function(snap) {
+          var devis = [];
+          snap.forEach(function(doc){ devis.push(Object.assign({_id:doc.id}, doc.data())); });
+          var filtered = devis.filter(function(d){ return (d.client||"").toLowerCase().indexOf(nc.toLowerCase())>=0; });
+          ouvrirHistoriqueClient(nc, filtered, devis);
+        });
+      };
+    })(c.nom);
       infos.appendChild(btnHist);
 
       (function(client) {
@@ -3652,6 +3724,36 @@ function afficherSemaineEnCours(plannings, parentPn) {
     });
   }
 
+  pn.appendChild(hdr); pn.appendChild(body);
+  document.body.appendChild(pn);
+}
+
+function ouvrirHistoriqueClient(nomClient, devisFiltres, tousDevis) {
+  var ancien = document.getElementById("panneau-histo-client");
+  if (ancien) ancien.remove();
+  var pn = document.createElement("div");
+  pn.id = "panneau-histo-client";
+  pn.style.cssText = "position:fixed;inset:0;z-index:9999999;background:var(--gris3);display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "background:linear-gradient(135deg,#C8923E,#8B5E1A);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px)+6px)";
+  hdr.innerHTML = "<div><div style='font-size:17px;font-weight:700'>" + echapper(nomClient) + "</div><div style='font-size:12px;opacity:.8;margin-top:2px'>" + devisFiltres.length + " devis</div></div>";
+  var btnF = document.createElement("button");
+  btnF.style.cssText = "background:rgba(255,255,255,.25);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnF.textContent = "Fermer";
+  btnF.onclick = function(){ pn.remove(); };
+  hdr.appendChild(btnF);
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px";
+  if (!devisFiltres.length) {
+    body.innerHTML = "<div style='text-align:center;color:#8E8E93;padding:40px;font-size:14px'>Aucun devis pour ce client</div>";
+  } else {
+    var totalCA = devisFiltres.reduce(function(s,d){return s+(d.totalTTC||0);},0);
+    var carte = document.createElement("div");
+    carte.style.cssText = "background:linear-gradient(135deg,#C8923E,#8B5E1A);border-radius:14px;padding:16px;margin-bottom:14px;color:#fff";
+    carte.innerHTML = "<div style='font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.8;margin-bottom:4px'>Total client</div><div style='font-size:30px;font-weight:200'>" + totalCA.toLocaleString("fr-FR",{minimumFractionDigits:2}) + " EUR TTC</div><div style='font-size:12px;opacity:.7;margin-top:4px'>" + devisFiltres.length + " devis</div>";
+    body.appendChild(carte);
+    afficherListeDevis(devisFiltres, body);
+  }
   pn.appendChild(hdr); pn.appendChild(body);
   document.body.appendChild(pn);
 }
