@@ -140,7 +140,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 .acc-stat-row{display:flex;gap:10px}
 .acc-stat{flex:1;background:rgba(255,255,255,.06);border-radius:12px;padding:12px;text-align:center}
 .acc-stat-val{font-size:22px;font-weight:700;color:var(--or);font-variant-numeric:tabular-nums}
-.acc-stat-lbl{font-size:10px;color:#8E8E93;margin-top:2px;text-transform:uppercase;letter-spacing:.08em}
+.acc-stat-lbl{font-size:10px;color:#8E8E93;margin-top:2px;text-transform:uppercase;letter-spacing:.08em}.acc-stat-lbl-row{display:flex;align-items:center;gap:8px;margin-top:2px}.acc-stat-mois{font-size:13px;color:var(--or);font-weight:600;text-transform:none;letter-spacing:0}.acc-stat-ca{font-size:26px!important;font-weight:300!important}.acc-stat-main{flex:2!important}.acc-stat-lbl-row{display:flex;align-items:center;gap:8px;margin-top:2px}.acc-stat-mois{font-size:13px;color:var(--or);font-weight:600;text-transform:none;letter-spacing:0}.acc-stat-ca{font-size:26px!important;font-weight:300!important}.acc-stat-main{flex:2!important}
 .acc-body{width:100%;padding:16px 16px calc(env(safe-area-inset-bottom,34px)+20px)}
 .acc-section{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:16px 0 8px 2px}
 .acc-section:first-child{margin-top:0}
@@ -561,9 +561,14 @@ function construireAccueil() {
         "<div class='acc-logo-txt'><span class='acc-crea'>Crea</span><span class='acc-nature'>NATURE</span></div>" +
       "</div>" +
       "<div class='acc-stat-row'>" +
-        "<div class='acc-stat'><div class='acc-stat-val' id='acc-nb-clients'>-</div><div class='acc-stat-lbl'>Clients</div></div>" +
         "<div class='acc-stat'><div class='acc-stat-val' id='acc-nb-devis'>-</div><div class='acc-stat-lbl'>Devis</div></div>" +
-        "<div class=\'acc-stat-val\' id=\'acc-ca\'>-</div><div class=\'acc-stat-lbl\'>Previsionnel</div></div>" + moisNom + "</div></div>" +
+        "<div class='acc-stat acc-stat-main'>" +
+          "<div class='acc-stat-val acc-stat-ca' id='acc-ca'>-</div>" +
+          "<div class='acc-stat-lbl-row'>" +
+            "<span class='acc-stat-lbl'>Previsionnel</span>" +
+            "<span class='acc-stat-mois'>" + moisNom + "</span>" +
+          "</div>" +
+        "</div>" +
       "</div>" +
     "</div>" +
     "<div class='acc-body'>" +
@@ -579,15 +584,10 @@ function construireAccueil() {
       
         "<button class='acc-btn' style='background:linear-gradient(135deg,#1A3A2A,#0D5C35);color:#4CD964' onclick='ouvrirPanneauTresorerie()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Tresorerie</span><span class='acc-desc'>Encaissements et avances</span></button>" +
       "</div>" +
-      "<div class='acc-section'>Derniers devis</div>" +
       "<div class='acc-devis-list' id='acc-derniers-devis'></div>" +
     "</div>";
 
   var now2 = new Date();
-  db.collection("clients").get().then(function(s) {
-    var el2 = document.getElementById("acc-nb-clients");
-    if (el2) el2.textContent = s.size;
-  }).catch(function(){});
 
   var _now = new Date();
   var _y = _now.getFullYear(), _m = _now.getMonth();
@@ -705,10 +705,10 @@ function ouvrirReglages() {
     var k = inpAPIEl.value.trim();
     if (!k) { afficherToast("Entre une cle d'abord"); return; }
     btnTstAPI.textContent = "Test..."; btnTstAPI.disabled = true;
-    fetch("https://api.anthropic.com/v1/messages", {
+    fetch("https://api.openai.com/v1/chat/completions", {
       method:"POST",
-      headers:{"Content-Type":"application/json","x-api-key":k,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-      body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:5,messages:[{role:"user",content:"ok"}]})
+      headers:{"Content-Type":"application/json","Authorization":"Bearer "+k},
+      body:JSON.stringify({model:"gpt-4o-mini",max_tokens:5,messages:[{role:"user",content:"ok"}]})
     }).then(function(r){return r.json();})
     .then(function(d){ btnTstAPI.textContent="Tester la connexion IA"; btnTstAPI.disabled=false; afficherToast(d.content ? "IA connectee !" : "Erreur API"); })
     .catch(function(){ btnTstAPI.textContent="Tester la connexion IA"; btnTstAPI.disabled=false; afficherToast("Echec - verifier la cle"); });
@@ -3119,29 +3119,29 @@ function envoyerMessageIA() {
   if (!_apiKey) {
     var _msgs = document.getElementById("ia-msgs");
     var _old = document.getElementById("ia-loading"); if(_old) _old.remove();
-    if(_msgs) _msgs.appendChild(creerMsgIA("Cle API manquante. Va dans Reglages > Assistant IA pour configurer ta cle Anthropic."));
+    if(_msgs) _msgs.appendChild(creerMsgIA("Cle API manquante. Va dans Reglages > Assistant IA pour configurer ta cle OpenAI (sk-...)."));
     return;
   }
-  fetch("https://api.anthropic.com/v1/messages", {
+  fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-api-key": _apiKey,
-      "anthropic-version": "2023-06-01",
-      "anthropic-dangerous-direct-browser-access": "true"
+      "Authorization": "Bearer " + _apiKey
     },
     body: JSON.stringify({
-      model: "claude-sonnet-4-6",
+      model: "gpt-4o-mini",
       max_tokens: 800,
-      system: "Tu es un assistant pour Crea Nature, entreprise de paysagisme en Seine-et-Marne. Analyse la description du chantier et reponds UNIQUEMENT en JSON valide:\n{\"prests\":[],\"interv\":1,\"heures\":\"4\",\"fournitures\":\"0\",\"designation\":\"label court pro\",\"client\":\"\",\"explication\":\"ce que tu as compris\"}\nprests = tableau d ids parmi: haie, tonte, elagage, abattage, evac. interv = 1 a 4. heures = nombre string (demi-journee=4, journee=8). fournitures = cout materiel sinon 0. designation = label court pour PDF. client = nom si mentionne sinon vide. explication = 1-2 phrases. Ne reponds QUE du JSON. " + ctx,
-      messages: [{role:"user", content:txt}]
+      messages: [
+        {role: "system", content: "Tu es un assistant pour Crea Nature, entreprise de paysagisme en Seine-et-Marne. Analyse la description du chantier et reponds UNIQUEMENT en JSON valide:\n{\"prests\":[],\"interv\":1,\"heures\":\"4\",\"fournitures\":\"0\",\"designation\":\"label court pro\",\"client\":\"\",\"explication\":\"ce que tu as compris\"}\nprests = tableau d ids parmi: haie, tonte, elagage, abattage, evac. interv = 1 a 4. heures = nombre string (demi-journee=4, journee=8). fournitures = cout materiel sinon 0. designation = label court pour PDF. client = nom si mentionne sinon vide. explication = 1-2 phrases. Ne reponds QUE du JSON. " + ctx},
+        {role: "user", content: txt}
+      ]
     })
   })
   .then(function(r){ return r.json(); })
   .then(function(data){
     var old = document.getElementById("ia-loading"); if(old) old.remove();
     try {
-      var raw = data.content[0].text;
+      var raw = data.choices && data.choices[0] ? data.choices[0].message.content : (data.content && data.content[0] ? data.content[0].text : "");
       var parsed = JSON.parse(raw.replace(/```json|```/g,"").trim());
       afficherSuggestionIA(parsed, msgs);
     } catch(e) {
