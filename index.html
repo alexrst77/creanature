@@ -582,6 +582,7 @@ function construireAccueil() {
         "<button class='acc-btn acc-btn-purple' onclick='ouvrirPanneauMemo()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\" fill=\"white\" opacity=\".15\"/><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\" stroke=\"white\" stroke-width=\"1.8\"/><line x1=\"8\" y1=\"8\" x2=\"16\" y2=\"8\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"12\" x2=\"16\" y2=\"12\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"16\" x2=\"12\" y2=\"16\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></span><span class='acc-lbl'>Memo partage</span><span class='acc-desc'>Notes et taches</span></button>" +
         "<button class='acc-btn acc-btn-terrain' onclick='ouvrirPanneauBI()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Bon d'intervention</span><span class='acc-desc'>Generer et envoyer</span></button>" +
       
+        "<button class='acc-btn' style='background:linear-gradient(135deg,#1A3A5C,#0D2640);color:#64B5F6' onclick='ouvrirCampagneMail()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M22 2L11 13\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M22 2l-7 20-4-9-9-4 20-7z\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Campagne mail</span><span class='acc-desc'>Demarcher vos clients</span></button>" +
         "<button class='acc-btn' style='background:linear-gradient(135deg,#1A3A2A,#0D5C35);color:#4CD964' onclick='ouvrirPanneauTresorerie()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Tresorerie</span><span class='acc-desc'>Encaissements et avances</span></button>" +
       "</div>" +
       "<div class='acc-devis-list' id='acc-derniers-devis'></div>" +
@@ -3880,17 +3881,47 @@ function ouvrirEditPlanning(clientNom, plannings, callback) {
 
 function ouvrirNouveauClientPlanning(plannings, callback) {
   var popup = document.createElement("div");
-  popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;font-family:-apple-system,sans-serif";
+  popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.85);display:flex;align-items:flex-end;justify-content:center;font-family:-apple-system,sans-serif";
   var box = document.createElement("div");
-  box.style.cssText = "background:#2C2C2E;border-radius:18px;padding:24px 20px;width:300px;max-width:90vw";
-  box.innerHTML = "<div style='font-size:17px;font-weight:700;color:#fff;margin-bottom:16px;text-align:center'>Nouveau client</div>";
+  box.style.cssText = "background:#2C2C2E;border-radius:20px 20px 0 0;padding:20px 16px;width:100%;max-width:430px;max-height:85vh;display:flex;flex-direction:column;padding-bottom:calc(env(safe-area-inset-bottom,34px)+16px)";
+
+  // Header
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-shrink:0";
+  hdr.innerHTML = "<div style='font-size:17px;font-weight:700;color:#fff'>Nouveau client planning</div>";
+  var btnX = document.createElement("button");
+  btnX.style.cssText = "background:rgba(255,255,255,.08);border:none;color:#8E8E93;width:28px;height:28px;border-radius:14px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center";
+  btnX.textContent = "\u00D7";
+  btnX.onclick = function(){ popup.remove(); };
+  hdr.appendChild(btnX);
+  box.appendChild(hdr);
+
+  // Onglets
+  var onglets = document.createElement("div");
+  onglets.style.cssText = "display:flex;gap:6px;margin-bottom:16px;flex-shrink:0";
+  var ongManuel = document.createElement("button");
+  ongManuel.style.cssText = "flex:1;padding:9px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;background:rgba(200,146,62,.25);color:#C8923E";
+  ongManuel.textContent = "Manuel";
+  var ongIA = document.createElement("button");
+  ongIA.style.cssText = "flex:1;padding:9px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;background:rgba(255,255,255,.08);color:#8E8E93";
+  ongIA.innerHTML = "\u2728 Generer avec IA";
+  onglets.appendChild(ongManuel); onglets.appendChild(ongIA);
+  box.appendChild(onglets);
+
+  // Contenu scrollable
+  var corps = document.createElement("div");
+  corps.style.cssText = "overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1";
+  box.appendChild(corps);
+
+  // \u2500\u2500 Panneau Manuel \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  var pManuel = document.createElement("div");
   var inp = document.createElement("input");
-  inp.type = "text"; inp.placeholder = "Nom du client";
-  inp.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid #3A3A3C;border-radius:10px;background:#1C1C1E;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:16px;display:block";
-  var btnOk = document.createElement("button");
-  btnOk.style.cssText = "width:100%;height:48px;border-radius:12px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:8px";
-  btnOk.textContent = "Creer";
-  btnOk.onclick = function() {
+  inp.type = "text"; inp.placeholder = "Nom du client (ex: DUPONT SAS)";
+  inp.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid #3A3A3C;border-radius:10px;background:#1C1C1E;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:12px;display:block;box-sizing:border-box";
+  var btnCr = document.createElement("button");
+  btnCr.style.cssText = "width:100%;height:48px;border-radius:12px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnCr.textContent = "Creer le planning";
+  btnCr.onclick = function() {
     var nom = inp.value.trim().toUpperCase();
     if (!nom) { afficherToast("Entre un nom"); return; }
     if (plannings.find(function(p){ return p.client===nom; })) { afficherToast("Client deja existant"); return; }
@@ -3900,12 +3931,446 @@ function ouvrirNouveauClientPlanning(plannings, callback) {
     afficherToast(nom + " ajoute !");
     if (callback) callback();
   };
-  var btnAnn = document.createElement("button");
-  btnAnn.style.cssText = "width:100%;height:44px;border-radius:12px;background:rgba(255,255,255,.08);border:none;color:#8E8E93;font-size:14px;cursor:pointer;font-family:-apple-system,sans-serif";
-  btnAnn.textContent = "Annuler";
-  btnAnn.onclick = function(){ popup.remove(); };
-  box.appendChild(inp); box.appendChild(btnOk); box.appendChild(btnAnn);
+  pManuel.appendChild(inp); pManuel.appendChild(btnCr);
+  corps.appendChild(pManuel);
+
+  // \u2500\u2500 Panneau IA \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  var pIA = document.createElement("div");
+  pIA.style.display = "none";
+
+  var lblNom = document.createElement("div");
+  lblNom.style.cssText = "font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px";
+  lblNom.textContent = "Nom du client";
+  var inpNom = document.createElement("input");
+  inpNom.type = "text"; inpNom.placeholder = "Ex: NOUVEAU CLIENT SAS";
+  inpNom.style.cssText = "width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#1C1C1E;color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:12px;display:block;box-sizing:border-box";
+
+  var lblDesc = document.createElement("div");
+  lblDesc.style.cssText = "font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px";
+  lblDesc.textContent = "Prestations du contrat";
+  var taDesc = document.createElement("textarea");
+  taDesc.placeholder = "Ex: 10 tontes, 2 fauchages, 1 taille de haie, 3 desherbage...";
+  taDesc.rows = 3;
+  taDesc.style.cssText = "width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#1C1C1E;color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;resize:none;-webkit-appearance:none;margin-bottom:14px;display:block;box-sizing:border-box;line-height:1.4";
+
+  var hint = document.createElement("div");
+  hint.style.cssText = "background:rgba(110,64,201,.15);border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:12px;color:rgba(155,89,208,.9);line-height:1.5";
+  hint.textContent = "L'IA va analyser les plannings existants pour caler les interventions sur les memes semaines que tes clients actuels.";
+
+  var resultIA = document.createElement("div");
+  resultIA.id = "planning-ia-result";
+
+  var btnGen = document.createElement("button");
+  btnGen.style.cssText = "width:100%;height:50px;border-radius:12px;background:linear-gradient(135deg,#6E40C9,#9B59D0);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px";
+  btnGen.innerHTML = "<svg width='16' height='16' viewBox='0 0 24 24' fill='none'><path d='M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z' fill='white'/></svg> Generer le planning";
+  btnGen.onclick = function() {
+    var nom = inpNom.value.trim().toUpperCase();
+    var desc = taDesc.value.trim();
+    if (!nom) { afficherToast("Entre le nom du client"); return; }
+    if (!desc) { afficherToast("Decris les prestations du contrat"); return; }
+    if (plannings.find(function(p){ return p.client===nom; })) { afficherToast("Client deja existant"); return; }
+    var apiKey = localStorage.getItem("creanature_api_key") || "";
+    if (!apiKey) { afficherToast("Cle API manquante - Reglages > Assistant IA"); return; }
+
+    btnGen.textContent = "Generation en cours..."; btnGen.disabled = true;
+    resultIA.innerHTML = "<div style='text-align:center;color:#8E8E93;padding:16px;font-size:13px'>Analyse des plannings existants...</div>";
+
+    // Construire le contexte des plannings existants
+    var contexte = "Plannings existants:\n";
+    plannings.forEach(function(p) {
+      contexte += "\n" + p.client + ":\n";
+      Object.keys(p.interventions).forEach(function(prest) {
+        contexte += "  " + prest + ": semaines " + (p.interventions[prest]||[]).join(",") + "\n";
+      });
+    });
+
+    fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type":"application/json", "Authorization":"Bearer " + apiKey },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        max_tokens: 800,
+        messages: [
+          {role:"system", content:"Tu es un expert en planification de travaux de paysagisme. Ton role: generer un planning annuel sur 52 semaines pour un nouveau client, en repartissant les interventions intelligemment sur les memes semaines que les clients existants (pour optimiser les deplacements), en evitant les semaines sans activite deja planifiee sauf si necessaire. Reponds UNIQUEMENT en JSON valide: {\"prests\":{\"TONTE\":[1,4,7],\"FAUCHAGE\":[10,20],\"TAILLE\":[15]}} avec les noms de prestations en majuscules (TONTE, FAUCHAGE, TAILLE, DESHERBAGE, FEUILLES, ELAGAGE) et les numeros de semaines. Ne reponds QUE du JSON."},
+          {role:"user", content:"Nouveau client: " + nom + "\nPrestations du contrat: " + desc + "\n\n" + contexte}
+        ]
+      })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      btnGen.innerHTML = "<svg width='16' height='16' viewBox='0 0 24 24' fill='none'><path d='M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z' fill='white'/></svg> Generer le planning";
+      btnGen.disabled = false;
+      try {
+        var raw = data.choices && data.choices[0] ? data.choices[0].message.content : "";
+        var parsed = JSON.parse(raw.replace(/```json|```/g,"").trim());
+        var prests = parsed.prests || parsed;
+        resultIA.innerHTML = "";
+
+        // Aper\u00E7u
+        var prevDiv = document.createElement("div");
+        prevDiv.style.cssText = "background:#1C1C1E;border-radius:12px;padding:14px;margin-bottom:12px";
+        var prevTitre = document.createElement("div");
+        prevTitre.style.cssText = "font-size:12px;font-weight:700;color:#9B59D0;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px";
+        prevTitre.textContent = "Planning genere pour " + nom;
+        prevDiv.appendChild(prevTitre);
+        Object.keys(prests).forEach(function(prest) {
+          var sems = prests[prest] || [];
+          var row = document.createElement("div");
+          row.style.cssText = "display:flex;align-items:center;gap:8px;margin-bottom:6px";
+          var chip = document.createElement("div");
+          chip.style.cssText = "padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;color:#fff;background:" + (PREST_COULEURS[prest]||"#8E8E93") + ";flex-shrink:0;min-width:80px;text-align:center";
+          chip.textContent = prest;
+          var semsDiv = document.createElement("div");
+          semsDiv.style.cssText = "font-size:12px;color:#8E8E93;flex:1";
+          semsDiv.textContent = sems.length + " fois - S" + sems.slice(0,4).join(", S") + (sems.length > 4 ? "..." : "");
+          row.appendChild(chip); row.appendChild(semsDiv);
+          prevDiv.appendChild(row);
+        });
+        resultIA.appendChild(prevDiv);
+
+        var btnApply = document.createElement("button");
+        btnApply.style.cssText = "width:100%;height:50px;border-radius:12px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:8px";
+        btnApply.textContent = "Valider et ajouter au planning";
+        btnApply.onclick = function() {
+          plannings.push({ client: nom, interventions: prests, designation: "" });
+          localStorage.setItem("creanature_planning", JSON.stringify(plannings));
+          popup.remove();
+          afficherToast(nom + " ajoute avec " + Object.keys(prests).length + " prestations !");
+          if (callback) callback();
+        };
+        var btnRegen = document.createElement("button");
+        btnRegen.style.cssText = "width:100%;height:40px;border-radius:12px;background:rgba(110,64,201,.2);border:none;color:#9B59D0;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+        btnRegen.textContent = "Regenerer";
+        btnRegen.onclick = function() { resultIA.innerHTML = ""; btnGen.click(); };
+        resultIA.appendChild(btnApply);
+        resultIA.appendChild(btnRegen);
+      } catch(e) {
+        resultIA.innerHTML = "<div style='color:#FF3B30;padding:10px;text-align:center;font-size:13px'>Erreur de generation. Reformule et reessaie.</div>";
+      }
+    })
+    .catch(function() {
+      btnGen.innerHTML = "Generer le planning"; btnGen.disabled = false;
+      resultIA.innerHTML = "<div style='color:#FF3B30;padding:10px;text-align:center;font-size:13px'>Erreur de connexion.</div>";
+    });
+  };
+
+  pIA.appendChild(lblNom); pIA.appendChild(inpNom);
+  pIA.appendChild(lblDesc); pIA.appendChild(taDesc);
+  pIA.appendChild(hint); pIA.appendChild(resultIA); pIA.appendChild(btnGen);
+  corps.appendChild(pIA);
+
+  // Switcher onglets
+  ongManuel.onclick = function() {
+    ongManuel.style.background = "rgba(200,146,62,.25)"; ongManuel.style.color = "#C8923E";
+    ongIA.style.background = "rgba(255,255,255,.08)"; ongIA.style.color = "#8E8E93";
+    pManuel.style.display = "block"; pIA.style.display = "none";
+  };
+  ongIA.onclick = function() {
+    ongIA.style.background = "rgba(110,64,201,.3)"; ongIA.style.color = "#9B59D0";
+    ongManuel.style.background = "rgba(255,255,255,.08)"; ongManuel.style.color = "#8E8E93";
+    pManuel.style.display = "none"; pIA.style.display = "block";
+  };
+
   popup.appendChild(box);
+  popup.onclick = function(e){ if(e.target===popup) popup.remove(); };
+  document.body.appendChild(popup);
+}
+
+
+
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+// MODULE CAMPAGNE MAIL
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+
+var CAMPAGNES_MODELES = [
+  {
+    id: "printemps",
+    titre: "Offre printemps",
+    emoji: "\u1F331",
+    sujet: "Crea Nature - Pr\u00E9parez votre jardin pour le printemps !",
+    corps: "Bonjour,\n\nLe printemps approche et c'est le moment id\u00E9al pour pr\u00E9parer vos espaces verts !\n\nChez Crea Nature, nous vous proposons :\n\n\u1F33F Tonte et mise en forme de vos pelouses\n\u2702\uFE0F Taille de haies et arbustes\n\u1F338 Nettoyage et pr\u00E9paration des massifs\n\u1F331 Plantation et entretien saisonnier\n\nProfitez de notre expertise pour un jardin impeccable d\u00E8s les beaux jours.\n\nContactez-nous pour obtenir un devis gratuit !\n\nCordialement,\nL'\u00E9quipe Crea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com"
+  },
+  {
+    id: "automne",
+    titre: "Nettoyage automne",
+    emoji: "\u1F342",
+    sujet: "Crea Nature - Pr\u00E9parez votre jardin pour l'hiver",
+    corps: "Bonjour,\n\nL'automne est l\u00E0 ! C'est le moment de pr\u00E9parer vos espaces verts pour affronter l'hiver dans les meilleures conditions.\n\nNos prestations automnales :\n\n\u1F342 Ramassage de feuilles\n\u2702\uFE0F Taille d'automne de vos haies\n\u1F33F Fauchage et d\u00E9broussaillage\n\u1F331 Traitement et protection de vos plantations\n\nN'attendez pas que votre jardin soit envahi ! Faites appel \u00E0 nos \u00E9quipes d\u00E8s maintenant.\n\nCordialement,\nL'\u00E9quipe Crea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com"
+  },
+  {
+    id: "renouvellement",
+    titre: "Renouvellement contrat",
+    emoji: "\u1F4CB",
+    sujet: "Crea Nature - Renouvellement de votre contrat d'entretien",
+    corps: "Bonjour,\n\nNous esp\u00E9rons que vous \u00EAtes satisfait(e) de nos services d'entretien de vos espaces verts.\n\n\u00C0 l'approche du renouvellement de votre contrat, nous souhaitons vous recontacter pour :\n\n\u2705 Faire le bilan de l'ann\u00E9e \u00E9coul\u00E9e\n\u2705 Adapter nos prestations \u00E0 vos besoins\n\u2705 Vous proposer notre offre pour la prochaine saison\n\nNous restons \u00E0 votre disposition pour convenir d'un rendez-vous ou r\u00E9pondre \u00E0 vos questions.\n\nMerci de votre confiance.\n\nCordialement,\nL'\u00E9quipe Crea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com"
+  },
+  {
+    id: "voeux",
+    titre: "V\u0153ux de fin d'ann\u00E9e",
+    emoji: "\u1F384",
+    sujet: "Crea Nature vous souhaite une excellente ann\u00E9e !",
+    corps: "Bonjour,\n\n\u00C0 l'occasion de la nouvelle ann\u00E9e, toute l'\u00E9quipe Crea Nature vous adresse ses meilleurs v\u0153ux.\n\nNous vous souhaitons une excellente ann\u00E9e, pleine de sant\u00E9, de bonheur et de beaux projets.\n\nMerci de nous faire confiance pour l'entretien de vos espaces verts. C'est gr\u00E2ce \u00E0 vous que nous pouvons continuer \u00E0 grandir et \u00E0 am\u00E9liorer nos services.\n\nNous nous r\u00E9jouissons de continuer \u00E0 travailler avec vous en cette nouvelle ann\u00E9e.\n\nChaleureusement,\nL'\u00E9quipe Crea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com"
+  },
+  {
+    id: "nouveaute",
+    titre: "Nouveau service",
+    emoji: "\u2728",
+    sujet: "Crea Nature - D\u00E9couvrez nos nouveaux services",
+    corps: "Bonjour,\n\nCrea Nature \u00E9volue et nous sommes ravis de vous annoncer de nouvelles prestations !\n\nNos nouveaut\u00E9s :\n\n\u1F333 \u00C9lagage et abattage d'arbres\n\u1F3E1 Am\u00E9nagement et cr\u00E9ation de jardins\n\u1F4A7 Installation de syst\u00E8mes d'arrosage automatique\n\u1F33F Conseils personnalis\u00E9s en v\u00E9g\u00E9talisation\n\nFaites confiance \u00E0 notre \u00E9quipe de professionnels pour embellir et valoriser vos espaces ext\u00E9rieurs.\n\nContactez-nous pour en savoir plus !\n\nCordialement,\nL'\u00E9quipe Crea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com"
+  }
+];
+
+function ouvrirCampagneMail() {
+  var ancien = document.getElementById("panneau-campagne");
+  if (ancien) ancien.remove();
+
+  var pn = document.createElement("div");
+  pn.id = "panneau-campagne";
+  pn.style.cssText = "position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+
+  // Header
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "background:linear-gradient(135deg,#1A3A5C,#0D2640);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0";
+  hdr.innerHTML = "<div><div style='font-size:17px;font-weight:700;color:#fff'>Campagne mail</div><div style='font-size:11px;color:rgba(255,255,255,.6);margin-top:2px'>Envoyer a tous vos clients</div></div>";
+  var btnF = document.createElement("button");
+  btnF.style.cssText = "background:rgba(255,255,255,.1);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnF.textContent = "Fermer";
+  btnF.onclick = function(){ pn.remove(); };
+  hdr.appendChild(btnF);
+
+  // Corps scrollable
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px";
+
+  // \u2500\u2500 Section mod\u00E8les \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  var titreModeles = document.createElement("div");
+  titreModeles.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8E8E93;margin-bottom:10px";
+  titreModeles.textContent = "Modeles prets";
+  body.appendChild(titreModeles);
+
+  CAMPAGNES_MODELES.forEach(function(m) {
+    var card = document.createElement("button");
+    card.style.cssText = "width:100%;background:#2C2C2E;border:none;border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:-apple-system,sans-serif;text-align:left";
+    var ico = document.createElement("div");
+    ico.style.cssText = "width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#1A3A5C,#0D2640);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0";
+    ico.textContent = m.emoji;
+    var info = document.createElement("div");
+    info.innerHTML = "<div style='font-size:15px;font-weight:600;color:#fff;margin-bottom:3px'>" + echapper(m.titre) + "</div><div style='font-size:12px;color:#8E8E93'>" + echapper(m.sujet) + "</div>";
+    card.appendChild(ico); card.appendChild(info);
+    (function(modele){ card.onclick = function(){ ouvrirEditeurCampagne(modele, pn); }; })(m);
+    body.appendChild(card);
+  });
+
+  // \u2500\u2500 Nouvelle campagne avec IA \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  var sep = document.createElement("div");
+  sep.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8E8E93;margin:16px 0 10px";
+  sep.textContent = "Creer avec l'IA";
+  body.appendChild(sep);
+
+  var cardIA = document.createElement("button");
+  cardIA.style.cssText = "width:100%;background:linear-gradient(135deg,#2D1B69,#1A0F40);border:none;border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:-apple-system,sans-serif;text-align:left;margin-bottom:8px";
+  cardIA.innerHTML = "<div style='width:44px;height:44px;border-radius:12px;background:rgba(110,64,201,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0'><svg width='22' height='22' viewBox='0 0 24 24' fill='none'><path d='M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z' fill='white'/></svg></div><div><div style='font-size:15px;font-weight:600;color:#fff;margin-bottom:3px'>Nouvelle campagne IA</div><div style='font-size:12px;color:rgba(255,255,255,.6)'>Decris ton objectif, ChatGPT redige</div></div>";
+  cardIA.onclick = function(){ ouvrirIACampagne(pn); };
+  body.appendChild(cardIA);
+
+  // \u2500\u2500 Campagne libre \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  var cardLibre = document.createElement("button");
+  cardLibre.style.cssText = "width:100%;background:#2C2C2E;border:none;border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:-apple-system,sans-serif;text-align:left;margin-bottom:20px";
+  cardLibre.innerHTML = "<div style='width:44px;height:44px;border-radius:12px;background:rgba(200,146,62,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0'><svg width='22' height='22' viewBox='0 0 24 24' fill='none'><path d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7' stroke='#C8923E' stroke-width='2' stroke-linecap='round'/><path d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z' stroke='#C8923E' stroke-width='2' stroke-linecap='round'/></svg></div><div><div style='font-size:15px;font-weight:600;color:#fff;margin-bottom:3px'>Message libre</div><div style='font-size:12px;color:#8E8E93'>Ecrire ton propre message</div></div>";
+  cardLibre.onclick = function(){ ouvrirEditeurCampagne({id:"libre",titre:"Message libre",emoji:"\u270F\uFE0F",sujet:"",corps:""}, pn); };
+  body.appendChild(cardLibre);
+
+  pn.appendChild(hdr); pn.appendChild(body);
+  document.body.appendChild(pn);
+}
+
+function ouvrirIACampagne(parentPn) {
+  var popup = document.createElement("div");
+  popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "background:linear-gradient(135deg,#6E40C9,#9B59D0);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0";
+  hdr.innerHTML = "<div><div style='font-size:17px;font-weight:700;color:#fff'>\u2728 IA - Campagne mail</div><div style='font-size:11px;color:rgba(255,255,255,.7);margin-top:2px'>Decris ton objectif</div></div>";
+  var btnRetour = document.createElement("button");
+  btnRetour.style.cssText = "background:rgba(255,255,255,.15);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnRetour.textContent = "Retour";
+  btnRetour.onclick = function(){ popup.remove(); };
+  hdr.appendChild(btnRetour);
+
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px";
+
+  // Instructions
+  var hint = document.createElement("div");
+  hint.style.cssText = "background:#2C2C2E;border-radius:12px;padding:14px;margin-bottom:14px;font-size:13px;color:#8E8E93;line-height:1.6";
+  hint.textContent = "Exemples :\n- Offre sp\u00E9ciale taille de haie pour l'automne avec 10% de remise\n- Rappel aux clients pour le nettoyage hivernal\n- Pr\u00E9sentation de notre nouveau service d'\u00E9lagage";
+  body.appendChild(hint);
+
+  // Zone de saisie
+  var label = document.createElement("div");
+  label.style.cssText = "font-size:12px;color:#8E8E93;margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em;font-weight:700";
+  label.textContent = "D\u00E9cris ta campagne";
+  body.appendChild(label);
+
+  var ta = document.createElement("textarea");
+  ta.placeholder = "Ex: Je veux envoyer un mail pour proposer une remise de 15% sur la tonte de printemps...";
+  ta.rows = 4;
+  ta.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid #3A3A3C;border-radius:12px;background:#2C2C2E;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;resize:none;-webkit-appearance:none;display:block;box-sizing:border-box;margin-bottom:14px";
+  body.appendChild(ta);
+
+  // R\u00E9sultat IA
+  var resultDiv = document.createElement("div");
+  resultDiv.id = "ia-campagne-result";
+  body.appendChild(resultDiv);
+
+  // Bouton g\u00E9n\u00E9rer
+  var btnGen = document.createElement("button");
+  btnGen.style.cssText = "width:100%;height:52px;border-radius:14px;background:linear-gradient(135deg,#6E40C9,#9B59D0);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px";
+  btnGen.innerHTML = "<svg width='18' height='18' viewBox='0 0 24 24' fill='none'><path d='M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z' fill='white'/></svg> Generer avec ChatGPT";
+  btnGen.onclick = function() {
+    var desc = ta.value.trim();
+    if (!desc) { afficherToast("Decris d'abord ta campagne"); return; }
+    var apiKey = localStorage.getItem("creanature_api_key") || "";
+    if (!apiKey) { afficherToast("Cle API manquante - Reglages > Assistant IA"); return; }
+    btnGen.textContent = "Generation en cours..."; btnGen.disabled = true;
+    resultDiv.innerHTML = "<div style='text-align:center;color:#8E8E93;padding:20px;font-size:14px'>ChatGPT redige votre campagne...</div>";
+    fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type":"application/json", "Authorization":"Bearer " + apiKey },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        max_tokens: 600,
+        messages: [
+          {role:"system", content:"Tu es un expert en communication pour Crea Nature, entreprise de paysagisme en Seine-et-Marne. Redige un mail de campagne commercial professionnel et chaleureux. Reponds UNIQUEMENT en JSON: {\"sujet\":\"sujet du mail\",\"corps\":\"corps du mail complet avec sauts de ligne\"}. Le mail doit finir par la signature Crea Nature, Tel : 06 19 30 40 93, creanature@ymail.com. Ne reponds QUE du JSON."},
+          {role:"user", content:"Objectif de la campagne: " + desc}
+        ]
+      })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      btnGen.innerHTML = "<svg width='18' height='18' viewBox='0 0 24 24' fill='none'><path d='M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z' fill='white'/></svg> Generer avec ChatGPT";
+      btnGen.disabled = false;
+      try {
+        var raw = data.choices && data.choices[0] ? data.choices[0].message.content : "";
+        var parsed = JSON.parse(raw.replace(/```json|```/g,"").trim());
+        var modeleIA = { id:"ia_"+Date.now(), titre:"Campagne IA", emoji:"\u2728", sujet:parsed.sujet, corps:parsed.corps };
+        resultDiv.innerHTML = "";
+        var preview = document.createElement("div");
+        preview.style.cssText = "background:#2C2C2E;border-radius:12px;padding:14px;margin-bottom:12px";
+        preview.innerHTML = "<div style='font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px'>Apercu gener\u00E9</div><div style='font-size:13px;font-weight:600;color:#C8923E;margin-bottom:6px'>" + echapper(parsed.sujet) + "</div><div style='font-size:13px;color:#fff;white-space:pre-wrap;line-height:1.5'>" + echapper(parsed.corps.substring(0,300)) + (parsed.corps.length > 300 ? "..." : "") + "</div>";
+        resultDiv.appendChild(preview);
+        var btnUtiliser = document.createElement("button");
+        btnUtiliser.style.cssText = "width:100%;height:50px;border-radius:14px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif";
+        btnUtiliser.textContent = "Utiliser ce mail";
+        btnUtiliser.onclick = function(){ popup.remove(); if(parentPn) parentPn.remove(); ouvrirEditeurCampagne(modeleIA, null); };
+        resultDiv.appendChild(btnUtiliser);
+      } catch(e) {
+        resultDiv.innerHTML = "<div style='color:#FF3B30;padding:10px;text-align:center;font-size:13px'>Erreur de g\u00E9n\u00E9ration. R\u00E9essaie.</div>";
+      }
+    })
+    .catch(function() {
+      btnGen.innerHTML = "Generer avec ChatGPT"; btnGen.disabled = false;
+      resultDiv.innerHTML = "<div style='color:#FF3B30;padding:10px;text-align:center;font-size:13px'>Erreur de connexion.</div>";
+    });
+  };
+
+  pn.appendChild(hdr); pn.appendChild(body); pn.appendChild(btnGen);
+
+  // Padding sous le bouton
+  var padBtn = document.createElement("div");
+  padBtn.style.cssText = "height:calc(env(safe-area-inset-bottom,34px)+16px);background:#1C1C1E;flex-shrink:0";
+  pn.appendChild(padBtn);
+
+  var pn = popup;
+  document.body.appendChild(popup);
+}
+
+function ouvrirEditeurCampagne(modele, parentPn) {
+  var popup = document.createElement("div");
+  popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "background:linear-gradient(135deg,#1A3A5C,#0D2640);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0";
+  hdr.innerHTML = "<div style='font-size:17px;font-weight:700;color:#fff'>" + modele.emoji + " " + echapper(modele.titre) + "</div>";
+  var btnRet = document.createElement("button");
+  btnRet.style.cssText = "background:rgba(255,255,255,.1);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnRet.textContent = "Retour";
+  btnRet.onclick = function(){ popup.remove(); };
+  hdr.appendChild(btnRet);
+
+  var body = document.createElement("div");
+  body.style.cssText = "flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px";
+
+  // Sujet
+  var lblSujet = document.createElement("div");
+  lblSujet.style.cssText = "font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px";
+  lblSujet.textContent = "Sujet du mail";
+  var inpSujet = document.createElement("input");
+  inpSujet.type = "text";
+  inpSujet.value = modele.sujet;
+  inpSujet.placeholder = "Sujet de votre campagne";
+  inpSujet.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid #3A3A3C;border-radius:10px;background:#2C2C2E;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;display:block;box-sizing:border-box;margin-bottom:14px";
+
+  // Corps
+  var lblCorps = document.createElement("div");
+  lblCorps.style.cssText = "font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px";
+  lblCorps.textContent = "Corps du mail";
+  var taCorps = document.createElement("textarea");
+  taCorps.value = modele.corps;
+  taCorps.rows = 12;
+  taCorps.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid #3A3A3C;border-radius:10px;background:#2C2C2E;color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;resize:none;-webkit-appearance:none;display:block;box-sizing:border-box;margin-bottom:14px;line-height:1.5";
+
+  // Destinataires
+  var lblDest = document.createElement("div");
+  lblDest.style.cssText = "font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px";
+  lblDest.textContent = "Destinataires";
+  var destInfo = document.createElement("div");
+  destInfo.style.cssText = "background:#2C2C2E;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#8E8E93";
+  destInfo.textContent = "Chargement des clients...";
+
+  // Charger les clients depuis Firebase
+  var emails = [];
+  db.collection("clients").get().then(function(snap) {
+    var clients = [];
+    snap.forEach(function(doc) {
+      var d = doc.data();
+      if (d.email) clients.push({nom: d.nom||"", email: d.email});
+    });
+    emails = clients.map(function(c){ return c.email; });
+    destInfo.innerHTML = "<div style='font-size:15px;font-weight:600;color:#fff;margin-bottom:4px'>" + clients.length + " clients avec email</div><div style='font-size:11px;color:#636366'>" + clients.slice(0,3).map(function(c){return echapper(c.nom);}).join(", ") + (clients.length > 3 ? " et " + (clients.length-3) + " autres" : "") + "</div>";
+    if (clients.length === 0) {
+      destInfo.innerHTML = "<div style='color:#FF3B30;font-size:13px'>Aucun client avec email dans votre base</div>";
+    }
+  }).catch(function(){ destInfo.textContent = "Erreur chargement clients"; });
+
+  body.appendChild(lblSujet); body.appendChild(inpSujet);
+  body.appendChild(lblCorps); body.appendChild(taCorps);
+  body.appendChild(lblDest); body.appendChild(destInfo);
+
+  // Bouton envoyer
+  var footer = document.createElement("div");
+  footer.style.cssText = "flex-shrink:0;padding:14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+10px);background:#1C1C1E;border-top:.5px solid #2C2C2E";
+  var btnEnvoyer = document.createElement("button");
+  btnEnvoyer.style.cssText = "width:100%;height:52px;border-radius:14px;background:linear-gradient(135deg,#1A3A5C,#0D2640);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px";
+  btnEnvoyer.innerHTML = "<svg width='18' height='18' viewBox='0 0 24 24' fill='none'><path d='M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg> Envoyer la campagne";
+  btnEnvoyer.onclick = function() {
+    var sujet = inpSujet.value.trim();
+    var corps = taCorps.value.trim();
+    if (!sujet) { afficherToast("Entre un sujet"); return; }
+    if (!corps) { afficherToast("Entre le corps du mail"); return; }
+    if (!emails.length) { afficherToast("Aucun client avec email"); return; }
+    var bcc = emails.map(function(e){ return encodeURIComponent(e); }).join(",");
+    var nl = "%0D%0A";
+    var corpsEnc = corps.split("\n").map(function(l){ return encodeURIComponent(l); }).join(nl);
+    window.location.href = "mailto:creanature@ymail.com?bcc=" + bcc
+      + "&subject=" + encodeURIComponent(sujet)
+      + "&body=" + corpsEnc;
+    afficherToast("Mail prepare - " + emails.length + " destinataires en BCC");
+    setTimeout(function(){ popup.remove(); if(parentPn) parentPn.remove(); }, 1000);
+  };
+  footer.appendChild(btnEnvoyer);
+
+  popup.appendChild(hdr); popup.appendChild(body); popup.appendChild(footer);
   document.body.appendChild(popup);
 }
 
