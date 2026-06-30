@@ -356,8 +356,10 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
     <input class="input-texte" id="c-nom" type="text" placeholder="Jean Dupont"/>
     <label class="label-form">Adresse</label>
     <input class="input-texte" id="c-adresse" type="text" placeholder="12 rue des Fleurs, Paris"/>
-    <label class="label-form">Email client</label>
+    <label class="label-form">Email client (factures)</label>
     <input class="input-texte" id="c-email" type="email" placeholder="client@email.com"/>
+    <label class="label-form">Email bon d'intervention / prevention</label>
+    <input class="input-texte" id="c-email2" type="email" placeholder="Laisser vide = meme email"/>
     <label class="label-form">Telephone</label>
     <input class="input-texte" id="c-tel" type="tel" placeholder="06 00 00 00 00"/>
     <button id="btn-sauver-client" style="width:100%;height:38px;border-radius:9px;background:#F2F2F7;border:1.5px solid #E5E5EA;font-size:13px;font-weight:500;color:#8E8E93;cursor:pointer;font-family:-apple-system,sans-serif;margin-top:10px">+ Enregistrer ce client</button>
@@ -415,6 +417,15 @@ var USERS_DEFAUT = [
   {id:"alex", nom:"Alexandre", initiale:"A", pin:"0407", role:"Gerant"},
   {id:"guil", nom:"Guillaume",  initiale:"G", pin:"3010", role:"Gerant"}
 ];
+
+// Nom complet pour les signatures de mail selon le profil connecte
+function nomComplet() {
+  var u = utilisateurActuel;
+  if (!u) return "Crea Nature";
+  if (u.id === "alex") return "Alexandre Rossit";
+  if (u.id === "guil") return "Guillaume Boucher";
+  return u.nom || "Crea Nature";
+}
 
 function chargerUtilisateurs(cb) {
   db.collection("config").doc("users").get().then(function(doc) {
@@ -927,7 +938,7 @@ function afficherStats() {
     // Barre
     var barre = document.createElement("div");
     barre.style.cssText = "background:linear-gradient(135deg,#C8923E,#8B5E1A);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px) + 6px)";
-    barre.innerHTML = "<span style='font-size:17px;font-weight:700'>Historique des devis</span>";
+    barre.innerHTML = "<div><div style='font-size:17px;font-weight:700'>Historique des devis</div><div style='font-size:12px;font-weight:500;opacity:.85;margin-top:1px'>" + devis.length + " devis enregistre" + (devis.length>1?"s":"") + "</div></div>";
     var btnF = document.createElement("button");
     btnF.style.cssText = "background:rgba(255,255,255,.25);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
     btnF.textContent = "Fermer";
@@ -1096,7 +1107,7 @@ function afficherListeDevis(devisListe, container) {
     var item = document.createElement("div");
     item.style.cssText = "background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.07);gap:5px";
     var inf = document.createElement("div"); inf.style.cssText = "flex:1;min-width:0";
-    inf.innerHTML = "<div style='font-size:13px;font-weight:600;color:#1C1C1E;word-break:break-word;line-height:1.3'>" + echapper(d.client||"") + "</div><div style='font-size:11px;color:#8E8E93;margin-top:2px'>N" + echapper(d.num||"") + " \u00B7 " + echapper(d.date||"") + (d.auteur?" \u00B7 "+echapper(d.auteur):"") + "</div>";
+    inf.innerHTML = "<div style='font-size:13px;font-weight:600;color:#1C1C1E;overflow-wrap:break-word;word-break:normal;line-height:1.3'>" + echapper(d.client||"") + "</div><div style='font-size:11px;color:#8E8E93;margin-top:2px'>N" + echapper(d.num||"") + " \u00B7 " + echapper(d.date||"") + (d.auteur?" \u00B7 "+echapper(d.auteur):"") + "</div>";
     var mo = document.createElement("div"); mo.style.cssText = "text-align:right;flex-shrink:0";
     mo.innerHTML = "<div style='font-size:14px;font-weight:600;color:#C8923E'>" + (d.totalTTC||0).toFixed(2) + " EUR</div><div style='font-size:10px;color:#8E8E93'>TTC</div>";
     // Bouton Voir
@@ -1736,17 +1747,13 @@ function reinitialiser() {
   if (dNum2) {
     var n2 = new Date();
     var yyyy3 = String(n2.getFullYear());
-    var mm3 = String(n2.getMonth()+1).padStart(2,"0");
-    db.collection("config").doc("devis").get().then(function(doc2) {
-      var dernierNum2 = 0;
-      if (doc2.exists) {
-        var dat2 = doc2.data();
-        if (dat2.annee === yyyy3 && dat2.mois === mm3) dernierNum2 = dat2.num || 0;
-      }
-      var nextStr = String(dernierNum2 + 1).padStart(3,"0");
-      if (dNum2) dNum2.value = yyyy3 + "-" + mm3 + "-" + nextStr;
+    // Numero = annee + (nombre total de devis + 1)
+    db.collection("devis").get().then(function(snap2) {
+      var total2 = snap2.size || 0;
+      var nextStr = String(total2 + 1).padStart(3,"0");
+      if (dNum2) dNum2.value = yyyy3 + "-" + nextStr;
     }).catch(function() {
-      if (dNum2) dNum2.value = yyyy3 + "-" + mm3 + "-001";
+      if (dNum2) dNum2.value = yyyy3 + "-001";
     });
   }
   var plist = ["haie", "tonte", "elagage", "abattage", "evac"];
@@ -2109,10 +2116,13 @@ function sauverClients(clients) {
 function sauverClientActuel() {
   var nom = lireChamp("c-nom").trim();
   if (!nom) { alert("Saisis au moins le nom du client."); return; }
+  var emailPrincipal = lireChamp("c-email");
+  var email2Saisi = lireChamp("c-email2");
   var data = {
     nom: nom,
     adresse: lireChamp("c-adresse"),
-    email: lireChamp("c-email"),
+    email: emailPrincipal,
+    email2: email2Saisi || emailPrincipal,
     tel: lireChamp("c-tel"),
     date: new Date().toLocaleDateString("fr-FR")
   };
@@ -2240,10 +2250,11 @@ function _afficherPanneauClients(clients) {
       (function(client) {
         infos.onclick = function() {
           // Remplir le formulaire
-          var n=trouverEl("c-nom"),a=trouverEl("c-adresse"),e=trouverEl("c-email"),t=trouverEl("c-tel");
+          var n=trouverEl("c-nom"),a=trouverEl("c-adresse"),e=trouverEl("c-email"),t=trouverEl("c-tel"),e2=trouverEl("c-email2");
           if(n) n.value = client.nom;
           if(a) a.value = client.adresse || "";
           if(e) e.value = client.email || "";
+          if(e2) e2.value = client.email2 || client.email || "";
           if(t) t.value = client.tel || "";
           panneau.remove();
         };
@@ -2459,11 +2470,13 @@ function ouvrirPanneauBI() {
           "<div id='prev-client-selectionne' style='display:none;margin-top:8px;padding:8px 12px;background:rgba(200,146,62,.1);border-radius:8px;font-size:13px;font-weight:600;color:#8B5E1A'></div>"+
         "</div>"+
         "<button class='btn-or' onclick='envoyerPrevention()'>Envoyer l\'avis de passage</button>"+
+        "<div style='margin-top:16px'><div style='font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8E8E93;margin-bottom:8px'>Derniers envois</div><div id='prev-historique-liste'></div></div>"+
       "</div>"+
     "</div>"
     "</div>";
   document.body.appendChild(pn);
   chargerHistoriqueBI();
+  chargerHistoriquePrevention();
 }
 function fermerPanneauBI(){ var pn=document.getElementById("panneau-bi"); if(pn) pn.remove(); }
 function toggleBIbtn(id){
@@ -2495,7 +2508,7 @@ function rechercherClientBI(val){
 function envoyerBI(){
   if(biPrestsSelec.length===0){ afficherToast("Selectionne au moins une prestation"); return; }
   var note=(document.getElementById("bi-note")||{}).value||"";
-  var nomCl=biClientSelec?biClientSelec.nom:""; var emailCl=biClientSelec?(biClientSelec.email||""):"";
+  var nomCl=biClientSelec?biClientSelec.nom:""; var emailCl=biClientSelec?(biClientSelec.email2||biClientSelec.email||""):"";
   var d=new Date();
   var JOURS=["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
   var MOIS=["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"];
@@ -2503,7 +2516,7 @@ function envoyerBI(){
   var auteur=utilisateurActuel?utilisateurActuel.nom:"Crea Nature";
   var prenom=nomCl?nomCl.split(" ")[0]:"";
   var listePr=biPrestsSelec.map(function(id){ var p=BI_PRESTS.find(function(x){return x.id===id;}); return p?"   - "+p.label:id; }).join("\n");
-  var corps="Bonjour "+prenom+",\n\nNous vous confirmons notre intervention realisee ce "+dateStr+".\n\nPrestations effectuees :\n"+listePr+(note?"\n\nRemarques : "+note:"")+"\n\nNous restons disponibles.\n\nCordialement,\n"+auteur+"\nCrea Nature\ncreanature@ymail.com";
+  var corps="Bonjour,\n\nNous vous confirmons notre intervention realisee ce "+dateStr+".\nPrestations effectuees :\n"+listePr+"."+(note?"\nRemarques : "+note:"")+"\nNous restons disponibles.\n\nCordialement\n"+nomComplet()+"\nCrea Nature.";
   var sujet="Bon d'intervention - "+dateStr+(nomCl?" - "+nomCl:"");
   window.location.href="mailto:"+encodeURIComponent(emailCl)+"?cc="+encodeURIComponent("creanature@ymail.com")+"&subject="+encodeURIComponent(sujet)+"&body="+encodeURIComponent(corps);
   afficherToast("Mail prepare !");
@@ -2677,23 +2690,29 @@ function afficherTresorerie(data) {
 
   TRESOR_USERS.forEach(function(usr) {
     var uid = usr.id;
-    var d = data[uid] || { encaissements: [], avances: 0 };
+    var d = data[uid] || { encaissements: [], avances: 0, avancesHisto: [], archives: {} };
     var encaissements = d.encaissements || [];
-    var avances = d.avances || 0;
+    // Migration : si avances est un nombre mais pas d'historique, on garde le nombre
+    var avancesHisto = d.avancesHisto || [];
+    var avances = 0;
+    if (avancesHisto.length > 0) {
+      avances = avancesHisto.reduce(function(s, a) { return s + (a.montant || 0); }, 0);
+    } else {
+      avances = d.avances || 0;
+    }
+    if (avances < 0) avances = 0;
+    var archives = d.archives || {};
     var totalEnc = encaissements.reduce(function(s, e) { return s + (e.valide ? (e.montant || 0) : 0); }, 0);
     var totalEnc2 = encaissements.reduce(function(s, e) { return s + (e.montant || 0); }, 0);
 
-    // Section par personne
     var section = document.createElement("div");
     section.style.cssText = "background:#2C2C2E;border-radius:16px;padding:16px;margin-bottom:16px";
 
-    // Titre + avatar
     section.innerHTML =
       "<div style='display:flex;align-items:center;gap:10px;margin-bottom:12px'>" +
         "<div style='width:36px;height:36px;border-radius:18px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:700'>" + usr.initiale + "</div>" +
         "<span style='font-size:16px;font-weight:700;color:#fff'>" + usr.nom + "</span>" +
       "</div>" +
-      // Stats
       "<div style='display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px'>" +
         "<div style='background:#1C1C1E;border-radius:10px;padding:10px;text-align:center'>" +
           "<div style='font-size:14px;font-weight:700;color:#64B5F6'>" + totalEnc2.toFixed(2) + " EUR</div>" +
@@ -2709,18 +2728,47 @@ function afficherTresorerie(data) {
         "</div>" +
       "</div>";
 
-    // Liste encaissements
+    // \u2500\u2500 Liste encaissements (annee en cours) \u2500\u2500
     var listDiv = document.createElement("div");
     listDiv.style.cssText = "margin-bottom:10px";
+    var titleRow = document.createElement("div");
+    titleRow.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:6px";
     var titleEnc = document.createElement("div");
-    titleEnc.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8E8E93;margin-bottom:6px";
+    titleEnc.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8E8E93";
     titleEnc.textContent = "Encaissements clients";
-    listDiv.appendChild(titleEnc);
+    titleRow.appendChild(titleEnc);
+    // Bouton archives (si des archives existent)
+    var anneesArchivees = Object.keys(archives).sort().reverse();
+    if (anneesArchivees.length > 0) {
+      var btnArch = document.createElement("button");
+      btnArch.style.cssText = "background:rgba(100,181,246,.15);border:none;color:#64B5F6;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+      btnArch.textContent = "Archives (" + anneesArchivees.length + ")";
+      (function(userId, arch) {
+        btnArch.onclick = function() { ouvrirArchivesEncaissements(usr.nom, arch); };
+      })(uid, archives);
+      titleRow.appendChild(btnArch);
+    }
+    listDiv.appendChild(titleRow);
 
     encaissements.forEach(function(enc, idx) {
       var row = document.createElement("div");
       row.style.cssText = "display:flex;align-items:center;gap:8px;background:#1C1C1E;border-radius:8px;padding:8px 10px;margin-bottom:5px";
-      // Checkbox valide
+      // Case de selection pour archivage
+      var selBox = document.createElement("button");
+      var estSelec = (window._encSelec && window._encSelec[uid] && window._encSelec[uid].indexOf(idx) >= 0);
+      selBox.style.cssText = "width:20px;height:20px;border-radius:5px;border:2px solid " + (estSelec ? "#64B5F6" : "#3A3A3C") + ";background:" + (estSelec ? "#64B5F6" : "none") + ";cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff";
+      selBox.innerHTML = estSelec ? "&#x2713;" : "";
+      (function(userId, i) {
+        selBox.onclick = function() {
+          if (!window._encSelec) window._encSelec = {};
+          if (!window._encSelec[userId]) window._encSelec[userId] = [];
+          var p = window._encSelec[userId].indexOf(i);
+          if (p >= 0) window._encSelec[userId].splice(p, 1);
+          else window._encSelec[userId].push(i);
+          chargerTresorerie();
+        };
+      })(uid, idx);
+      row.appendChild(selBox);
       var cb = document.createElement("button");
       cb.style.cssText = "width:22px;height:22px;border-radius:11px;border:2px solid " + (enc.valide ? "#4CD964" : "#3A3A3C") + ";background:" + (enc.valide ? "#4CD964" : "none") + ";cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff";
       cb.innerHTML = enc.valide ? "&#x2713;" : "";
@@ -2728,21 +2776,16 @@ function afficherTresorerie(data) {
         cb.onclick = function() {
           var d2 = data[userId] || { encaissements: [], avances: 0 };
           d2.encaissements[i].valide = !v;
-          db.collection("tresorerie").doc(userId).set(d2).then(function() {
-            chargerTresorerie();
-          });
+          db.collection("tresorerie").doc(userId).set(d2).then(function() { chargerTresorerie(); });
         };
       })(uid, idx, enc.valide);
-      // Infos
       var info = document.createElement("div");
       info.style.cssText = "flex:1;min-width:0";
       info.innerHTML = "<div style='font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(enc.client || "") + "</div>" +
         "<div style='font-size:11px;color:#8E8E93'>" + enc.date + "</div>";
-      // Montant
       var mont = document.createElement("div");
       mont.style.cssText = "font-size:14px;font-weight:700;color:" + (enc.valide ? "#4CD964" : "#AEAEB2") + ";flex-shrink:0";
       mont.textContent = (enc.montant || 0).toFixed(2) + " EUR";
-      // Supprimer
       var bDel = document.createElement("button");
       bDel.style.cssText = "background:rgba(255,59,48,.15);border:none;color:#FF3B30;width:24px;height:24px;border-radius:12px;font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center";
       bDel.innerHTML = "&#x00D7;";
@@ -2783,62 +2826,250 @@ function afficherTresorerie(data) {
           date: ("0"+now.getDate()).slice(-2)+"/"+("0"+(now.getMonth()+1)).slice(-2)+"/"+now.getFullYear()
         });
         db.collection("tresorerie").doc(userId).set(d2).then(function() {
-          inpClient.value = ""; inpMont.value = "";
-          chargerTresorerie();
+          inpClient.value = ""; inpMont.value = ""; chargerTresorerie();
         });
       };
     })(uid);
     formEnc.appendChild(inpClient); formEnc.appendChild(inpMont); formEnc.appendChild(btnAdd);
     listDiv.appendChild(formEnc);
+
+    // Bouton archiver les encaissements selectionnes
+    if (encaissements.length > 0) {
+      var selec = (window._encSelec && window._encSelec[uid]) ? window._encSelec[uid].slice() : [];
+      var nbSelec = selec.length;
+      var barArch = document.createElement("div");
+      barArch.style.cssText = "display:flex;gap:6px;margin-top:8px";
+      var btnArchiver = document.createElement("button");
+      btnArchiver.style.cssText = "flex:1;background:rgba(100,181,246,.15);border:1px solid rgba(100,181,246,.3);color:#64B5F6;padding:9px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+      btnArchiver.textContent = nbSelec > 0 ? ("Archiver la selection (" + nbSelec + ")") : "Archiver (selectionne d'abord)";
+      (function(userId, encs) {
+        btnArchiver.onclick = function() {
+          var sel = (window._encSelec && window._encSelec[userId]) ? window._encSelec[userId].slice() : [];
+          if (sel.length === 0) { afficherToast("Coche les encaissements a archiver"); return; }
+          var annee = new Date().getFullYear();
+          var anneeArch = prompt("Archiver ces " + sel.length + " encaissement(s) sous quelle annee ?", String(annee));
+          if (!anneeArch) return;
+          anneeArch = anneeArch.trim();
+          if (!confirm("Archiver " + sel.length + " encaissement(s) sous '" + anneeArch + "' ? Ils seront retires de la liste active.")) return;
+          var d2 = data[userId] || { encaissements: [], avances: 0 };
+          if (!d2.archives) d2.archives = {};
+          if (!d2.archives[anneeArch]) d2.archives[anneeArch] = [];
+          // Trier les index par ordre decroissant pour splice sans decalage
+          sel.sort(function(a,b){ return b - a; });
+          var aArchiver = [];
+          sel.forEach(function(i) {
+            if (d2.encaissements[i]) { aArchiver.push(d2.encaissements[i]); d2.encaissements.splice(i, 1); }
+          });
+          d2.archives[anneeArch] = d2.archives[anneeArch].concat(aArchiver.reverse());
+          if (window._encSelec) window._encSelec[userId] = [];
+          db.collection("tresorerie").doc(userId).set(d2).then(function() {
+            afficherToast(aArchiver.length + " encaissement(s) archive(s) sous " + anneeArch);
+            chargerTresorerie();
+          });
+        };
+      })(uid, encaissements);
+      barArch.appendChild(btnArchiver);
+      // Bouton tout selectionner / deselectionner
+      var btnToutSel = document.createElement("button");
+      btnToutSel.style.cssText = "background:rgba(255,255,255,.06);border:1px solid #3A3A3C;color:#8E8E93;padding:9px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
+      btnToutSel.textContent = (nbSelec === encaissements.length && nbSelec > 0) ? "Aucun" : "Tout";
+      (function(userId, total) {
+        btnToutSel.onclick = function() {
+          if (!window._encSelec) window._encSelec = {};
+          var cur = window._encSelec[userId] || [];
+          if (cur.length === total) { window._encSelec[userId] = []; }
+          else { window._encSelec[userId] = []; for (var k = 0; k < total; k++) window._encSelec[userId].push(k); }
+          chargerTresorerie();
+        };
+      })(uid, encaissements.length);
+      barArch.appendChild(btnToutSel);
+      listDiv.appendChild(barArch);
+    }
     section.appendChild(listDiv);
 
-    // Section avances
+    // \u2500\u2500 Section avances avec historique \u2500\u2500
     var avDiv = document.createElement("div");
+    avDiv.style.cssText = "margin-top:4px";
+    var avTitleRow = document.createElement("div");
+    avTitleRow.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:6px";
     var titleAv = document.createElement("div");
-    titleAv.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8E8E93;margin-bottom:6px";
+    titleAv.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8E8E93";
     titleAv.textContent = "Avances a la societe";
-    avDiv.appendChild(titleAv);
-    // Formulaire avances
+    avTitleRow.appendChild(titleAv);
+    // Bouton historique des avances
+    if (avancesHisto.length > 0) {
+      var btnHistoAv = document.createElement("button");
+      btnHistoAv.style.cssText = "background:rgba(255,107,53,.15);border:none;color:#FF6B35;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+      btnHistoAv.textContent = "Historique (" + avancesHisto.length + ")";
+      (function(userId, histo, nom) {
+        btnHistoAv.onclick = function() { ouvrirHistoriqueAvances(nom, histo, userId, data); };
+      })(uid, avancesHisto, usr.nom);
+      avTitleRow.appendChild(btnHistoAv);
+    }
+    avDiv.appendChild(avTitleRow);
+
+    // Formulaire avances : montant + libelle
     var formAv = document.createElement("div");
-    formAv.style.cssText = "display:flex;gap:6px;margin-bottom:8px";
+    formAv.style.cssText = "display:flex;flex-direction:column;gap:6px;margin-bottom:8px";
+    var ligne1 = document.createElement("div");
+    ligne1.style.cssText = "display:flex;gap:6px";
     var inpAv = document.createElement("input");
     inpAv.type = "number"; inpAv.placeholder = "Montant EUR (+/-)";
-    inpAv.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    inpAv.style.cssText = "width:130px;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    var inpLibelle = document.createElement("input");
+    inpLibelle.type = "text"; inpLibelle.placeholder = "Motif (ex: achat carburant)";
+    inpLibelle.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    ligne1.appendChild(inpAv); ligne1.appendChild(inpLibelle);
     var btnAv = document.createElement("button");
-    btnAv.style.cssText = "background:rgba(255,107,53,.8);border:none;color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
-    btnAv.textContent = "Ajouter";
-    var btnRaz = document.createElement("button");
-    btnRaz.style.cssText = "background:rgba(255,59,48,.2);border:none;color:#FF3B30;padding:8px 10px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
-    btnRaz.textContent = "RAZ";
-    (function(userId) {
+    btnAv.style.cssText = "background:rgba(255,107,53,.85);border:none;color:#fff;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+    btnAv.textContent = "Enregistrer le mouvement";
+    formAv.appendChild(ligne1); formAv.appendChild(btnAv);
+    (function(userId, histoActuel) {
       btnAv.onclick = function() {
         var montant = parseFloat(inpAv.value);
-        if (isNaN(montant)) { afficherToast("Entre un montant"); return; }
+        var libelle = inpLibelle.value.trim();
+        if (isNaN(montant) || montant === 0) { afficherToast("Entre un montant"); return; }
+        if (!libelle) { afficherToast("Indique le motif du mouvement"); return; }
         var d2 = data[userId] || { encaissements: [], avances: 0 };
-        d2.avances = (d2.avances || 0) + montant;
+        if (!d2.avancesHisto) {
+          d2.avancesHisto = [];
+          // Migration : si un ancien total existe, on le convertit en 1ere entree
+          if (d2.avances && d2.avances > 0) {
+            d2.avancesHisto.push({ montant: d2.avances, libelle: "Solde initial", date: "-" });
+          }
+        }
+        var now = new Date();
+        d2.avancesHisto.push({
+          montant: montant, libelle: libelle,
+          date: ("0"+now.getDate()).slice(-2)+"/"+("0"+(now.getMonth()+1)).slice(-2)+"/"+now.getFullYear()
+        });
+        // Recalculer le total
+        d2.avances = d2.avancesHisto.reduce(function(s,a){ return s+(a.montant||0); }, 0);
         if (d2.avances < 0) d2.avances = 0;
         db.collection("tresorerie").doc(userId).set(d2).then(function() {
-          inpAv.value = ""; chargerTresorerie();
+          inpAv.value = ""; inpLibelle.value = ""; chargerTresorerie();
         });
       };
-      btnRaz.onclick = function() {
-        if (!confirm("Remettre les avances de " + usr.nom + " a zero ?")) return;
-        var d2 = data[userId] || { encaissements: [], avances: 0 };
-        d2.avances = 0;
-        db.collection("tresorerie").doc(userId).set(d2).then(function() { chargerTresorerie(); });
-      };
-    })(uid);
-    formAv.appendChild(inpAv); formAv.appendChild(btnAv); formAv.appendChild(btnRaz);
+    })(uid, avancesHisto);
     avDiv.appendChild(formAv);
-    // Indication
     var avNote = document.createElement("div");
     avNote.style.cssText = "font-size:11px;color:#636366;text-align:center;margin-top:2px";
-    avNote.textContent = "Entre un montant negatif pour rembourser";
+    avNote.textContent = "Montant positif = avance ajoutee, negatif = remboursement";
     avDiv.appendChild(avNote);
     section.appendChild(avDiv);
     body.appendChild(section);
   });
 }
+
+function ouvrirHistoriqueAvances(nom, histo, userId, data) {
+  var pop = document.createElement("div");
+  pop.id = "popup-histo-avances";
+  pop.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.8);display:flex;align-items:flex-end;justify-content:center;font-family:-apple-system,sans-serif";
+  var box = document.createElement("div");
+  box.style.cssText = "background:#2C2C2E;border-radius:20px 20px 0 0;width:100%;max-width:430px;max-height:80vh;display:flex;flex-direction:column;padding-bottom:calc(env(safe-area-inset-bottom,34px)+10px)";
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "display:flex;align-items:center;justify-content:space-between;padding:18px 18px 14px;flex-shrink:0";
+  hdr.innerHTML = "<div><div style='font-size:17px;font-weight:700;color:#fff'>Historique des avances</div><div style='font-size:12px;color:#8E8E93;margin-top:2px'>" + echapper(nom) + "</div></div>";
+  var btnX = document.createElement("button");
+  btnX.style.cssText = "background:rgba(255,255,255,.1);border:none;color:#fff;width:30px;height:30px;border-radius:15px;font-size:18px;cursor:pointer";
+  btnX.innerHTML = "&#x00D7;";
+  btnX.onclick = function() { pop.remove(); };
+  hdr.appendChild(btnX);
+  box.appendChild(hdr);
+  var list = document.createElement("div");
+  list.style.cssText = "flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 16px 16px";
+  var total = 0;
+  // Afficher du plus recent au plus ancien
+  for (var i = histo.length - 1; i >= 0; i--) {
+    var a = histo[i];
+    total += (a.montant || 0);
+    var row = document.createElement("div");
+    row.style.cssText = "display:flex;align-items:center;gap:10px;background:#1C1C1E;border-radius:10px;padding:12px;margin-bottom:6px";
+    var pos = (a.montant || 0) >= 0;
+    var ic = document.createElement("div");
+    ic.style.cssText = "width:32px;height:32px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;background:" + (pos ? "rgba(76,217,100,.15)" : "rgba(255,59,48,.15)") + ";color:" + (pos ? "#4CD964" : "#FF3B30");
+    ic.textContent = pos ? "+" : "-";
+    var inf = document.createElement("div");
+    inf.style.cssText = "flex:1;min-width:0";
+    inf.innerHTML = "<div style='font-size:14px;font-weight:600;color:#fff'>" + echapper(a.libelle || "Mouvement") + "</div><div style='font-size:11px;color:#8E8E93;margin-top:2px'>" + echapper(a.date || "-") + "</div>";
+    var mt = document.createElement("div");
+    mt.style.cssText = "font-size:15px;font-weight:700;flex-shrink:0;color:" + (pos ? "#4CD964" : "#FF3B30");
+    mt.textContent = (pos ? "+" : "") + (a.montant || 0).toFixed(2) + " EUR";
+    var bDel = document.createElement("button");
+    bDel.style.cssText = "background:rgba(255,59,48,.12);border:none;color:#FF3B30;width:26px;height:26px;border-radius:13px;font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center";
+    bDel.innerHTML = "&#x00D7;";
+    (function(index) {
+      bDel.onclick = function() {
+        if (!confirm("Supprimer ce mouvement ?")) return;
+        var d2 = data[userId];
+        d2.avancesHisto.splice(index, 1);
+        d2.avances = d2.avancesHisto.reduce(function(s,x){ return s+(x.montant||0); }, 0);
+        if (d2.avances < 0) d2.avances = 0;
+        db.collection("tresorerie").doc(userId).set(d2).then(function() {
+          pop.remove(); chargerTresorerie();
+        });
+      };
+    })(i);
+    row.appendChild(ic); row.appendChild(inf); row.appendChild(mt); row.appendChild(bDel);
+    list.appendChild(row);
+  }
+  // Total
+  var totRow = document.createElement("div");
+  totRow.style.cssText = "display:flex;align-items:center;justify-content:space-between;background:rgba(255,107,53,.12);border-radius:10px;padding:14px;margin-top:8px";
+  totRow.innerHTML = "<span style='font-size:13px;font-weight:700;color:#FF6B35;text-transform:uppercase;letter-spacing:.05em'>Total avances</span><span style='font-size:18px;font-weight:700;color:#FF6B35'>" + total.toFixed(2) + " EUR</span>";
+  list.appendChild(totRow);
+  box.appendChild(list);
+  pop.appendChild(box);
+  pop.onclick = function(e) { if (e.target === pop) pop.remove(); };
+  document.body.appendChild(pop);
+}
+
+function ouvrirArchivesEncaissements(nom, archives) {
+  var pop = document.createElement("div");
+  pop.id = "popup-archives-enc";
+  pop.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.8);display:flex;align-items:flex-end;justify-content:center;font-family:-apple-system,sans-serif";
+  var box = document.createElement("div");
+  box.style.cssText = "background:#2C2C2E;border-radius:20px 20px 0 0;width:100%;max-width:430px;max-height:82vh;display:flex;flex-direction:column;padding-bottom:calc(env(safe-area-inset-bottom,34px)+10px)";
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "display:flex;align-items:center;justify-content:space-between;padding:18px 18px 14px;flex-shrink:0";
+  hdr.innerHTML = "<div><div style='font-size:17px;font-weight:700;color:#fff'>Encaissements archives</div><div style='font-size:12px;color:#8E8E93;margin-top:2px'>" + echapper(nom) + "</div></div>";
+  var btnX = document.createElement("button");
+  btnX.style.cssText = "background:rgba(255,255,255,.1);border:none;color:#fff;width:30px;height:30px;border-radius:15px;font-size:18px;cursor:pointer";
+  btnX.innerHTML = "&#x00D7;";
+  btnX.onclick = function() { pop.remove(); };
+  hdr.appendChild(btnX);
+  box.appendChild(hdr);
+  var list = document.createElement("div");
+  list.style.cssText = "flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 16px 16px";
+  var annees = Object.keys(archives).sort().reverse();
+  annees.forEach(function(annee) {
+    var encs = archives[annee] || [];
+    var totalAnnee = encs.reduce(function(s,e){ return s+(e.montant||0); }, 0);
+    // En-tete annee (accordeon)
+    var anneeHdr = document.createElement("button");
+    anneeHdr.style.cssText = "width:100%;display:flex;align-items:center;justify-content:space-between;background:#1C1C1E;border:none;border-radius:10px;padding:13px 14px;margin-bottom:6px;cursor:pointer;font-family:-apple-system,sans-serif";
+    anneeHdr.innerHTML = "<span style='font-size:15px;font-weight:700;color:#fff'>" + echapper(annee) + " <span style='font-size:11px;color:#8E8E93;font-weight:400'>(" + encs.length + ")</span></span><span style='font-size:14px;font-weight:700;color:#64B5F6'>" + totalAnnee.toFixed(2) + " EUR</span>";
+    var detail = document.createElement("div");
+    detail.style.cssText = "display:none;margin-bottom:8px";
+    encs.forEach(function(e) {
+      var r = document.createElement("div");
+      r.style.cssText = "display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.03);border-radius:8px;padding:8px 10px;margin-bottom:4px";
+      r.innerHTML = "<div style='flex:1;min-width:0'><div style='font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(e.client||"") + "</div><div style='font-size:11px;color:#8E8E93'>" + echapper(e.date||"") + "</div></div>" +
+        "<div style='font-size:14px;font-weight:700;color:" + (e.valide?"#4CD964":"#AEAEB2") + "'>" + (e.montant||0).toFixed(2) + " EUR</div>";
+      detail.appendChild(r);
+    });
+    (function(det) {
+      anneeHdr.onclick = function() { det.style.display = det.style.display === "none" ? "block" : "none"; };
+    })(detail);
+    list.appendChild(anneeHdr);
+    list.appendChild(detail);
+  });
+  box.appendChild(list);
+  pop.appendChild(box);
+  pop.onclick = function(e) { if (e.target === pop) pop.remove(); };
+  document.body.appendChild(pop);
+}
+
 
 
 function voirDevisPDF(d) {
@@ -3218,6 +3449,32 @@ function chargerHistoriqueBI() {
   }).catch(function(){ cont.innerHTML = "<div style='text-align:center;color:#8E8E93;font-size:13px;padding:10px'>Erreur</div>"; });
 }
 
+function chargerHistoriquePrevention() {
+  var cont = document.getElementById("prev-historique-liste");
+  if (!cont) return;
+  cont.innerHTML = "<div style='text-align:center;color:#8E8E93;font-size:13px;padding:10px'>Chargement...</div>";
+  db.collection("prev_historique").orderBy("timestamp","desc").limit(20).get().then(function(snap) {
+    if (snap.empty) { cont.innerHTML = "<div style='text-align:center;color:#8E8E93;font-size:13px;padding:10px'>Aucun envoi</div>"; return; }
+    cont.innerHTML = "";
+    snap.forEach(function(doc) {
+      var d = doc.data(); var id = doc.id;
+      var item = document.createElement("div");
+      item.style.cssText = "display:flex;align-items:center;gap:8px;padding:9px 12px;background:rgba(255,255,255,.06);border-radius:10px;margin-bottom:6px";
+      var info = document.createElement("div");
+      info.style.cssText = "flex:1;min-width:0";
+      var prestLabels = (d.prests||[]).join(", ");
+      info.innerHTML = "<div style='font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>"+(d.client||"Sans client")+"</div><div style='font-size:11px;color:#8E8E93;margin-top:1px'>"+(d.date||"")+(d.auteur?" \u00B7 "+d.auteur:"")+"</div><div style='font-size:10px;color:#636366;margin-top:1px'>"+prestLabels+"</div>";
+      var bX = document.createElement("button");
+      bX.style.cssText = "background:rgba(255,59,48,.15);border:none;color:#FF3B30;width:26px;height:26px;border-radius:13px;font-size:15px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center";
+      bX.textContent = "\u00D7";
+      (function(docId){ bX.onclick=function(){ db.collection("prev_historique").doc(docId).delete().then(chargerHistoriquePrevention).catch(function(){}); }; })(id);
+      item.appendChild(info); item.appendChild(bX);
+      cont.appendChild(item);
+    });
+  }).catch(function(){ cont.innerHTML = "<div style='text-align:center;color:#8E8E93;font-size:13px;padding:10px'>Erreur</div>"; });
+}
+
+
 
 function ouvrirOngletPrevention() {
   // Switcher l'affichage dans le panneau BI
@@ -3291,7 +3548,7 @@ function envoyerPrevention() {
   if (!prestsSelec.length) { afficherToast("Selectionne au moins une intervention"); return; }
 
   var nomCl = prevClientSelec ? prevClientSelec.nom : "";
-  var emailCl = prevClientSelec ? (prevClientSelec.email || "") : "";
+  var emailCl = prevClientSelec ? (prevClientSelec.email2 || prevClientSelec.email || "") : "";
   var prenom = nomCl ? nomCl.split(" ")[0] : "Madame, Monsieur";
   var auteur = utilisateurActuel ? utilisateurActuel.nom : "Crea Nature";
 
@@ -3329,6 +3586,15 @@ function envoyerPrevention() {
     + "&body=" + corpsEnc;
 
   afficherToast("Mail de prevention prepare !");
+  // Sauver dans historique prevention
+  db.collection("prev_historique").add({
+    client: nomCl || "",
+    email: emailCl || "",
+    prests: prestsSelec.slice(),
+    date: dateStrFull,
+    auteur: utilisateurActuel ? utilisateurActuel.nom : "",
+    timestamp: Date.now()
+  }).then(function(){ chargerHistoriquePrevention(); }).catch(function(){});
 }
 
 
