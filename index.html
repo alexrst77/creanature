@@ -189,6 +189,66 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 
 /* BOUTON MODE SOMBRE */
 #btn-dark{position:fixed;bottom:calc(env(safe-area-inset-bottom,34px) + 10px);right:16px;width:40px;height:40px;border-radius:20px;background:rgba(0,0,0,.3);border:none;font-size:18px;cursor:pointer;z-index:500;display:flex;align-items:center;justify-content:center}
+
+/* ===== VERSION BUREAU (ordinateur) ===== */
+@media (min-width: 768px) {
+  html, body { background: #0D0F14 !important; overflow: auto; }
+  #app {
+    max-width: 1100px !important;
+    height: 100vh;
+    box-shadow: 0 0 60px rgba(0,0,0,.5);
+    background: #1C1C1E;
+  }
+  /* Forcer le theme sombre des ecrans calc/devis sur bureau */
+  #barre-statut { background: #16191F !important; color: #fff; }
+  #navbar { background: #16191F !important; border-bottom-color: rgba(255,255,255,.08) !important; }
+  #contenu { background: #1C1C1E !important; padding: 24px 32px 120px !important; }
+  #titre-page { color: #A8AEBA !important; }
+  /* Calculateur en 2 colonnes */
+  #ec-calc.actif {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 32px;
+    align-items: start;
+  }
+  /* Repartir les sections : prestations/intervenants/heures/fournitures a gauche, le reste a droite */
+  #ec-calc .titre-section, #ec-calc .grille2, #ec-calc .grille4,
+  #ec-calc .champ-tap, #ec-calc .carte, #ec-calc .bloc-totaux,
+  #ec-calc .btn-or, #ec-calc .btn-gris, #ec-calc .btn-tirete,
+  #ec-calc .grille-photos, #ec-calc .zone-autre, #ec-calc .input-texte { grid-column: auto; }
+  /* Cartes plus aerees */
+  .carte, .champ-tap, .bloc-totaux { border-radius: 14px; }
+  /* Cartes sombres sur bureau */
+  .carte { background: #2C2C2E !important; box-shadow: none !important; }
+  .champ-tap { background: #2C2C2E !important; }
+  .champ-val { color: #fff !important; }
+  .input-texte { background: #1C1C1E !important; color: #fff !important; border-color: #3A3A3C !important; }
+  .titre-section { color: #8E8E93 !important; }
+  .btn-prest { background: #2C2C2E !important; border-color: #3A3A3C !important; color: #EBEBF5 !important; }
+  .btn-prest.actif { background: rgba(200,146,62,.18) !important; border-color: var(--or) !important; color: var(--or) !important; }
+  .bloc-totaux { background: #2C2C2E !important; box-shadow: none !important; }
+  .total-label { color: #AEAEB2 !important; }
+  .total-valeur { color: #fff !important; }
+  /* Pave numerique centre sous l'app */
+  #pave { max-width: 1100px !important; }
+  /* Boutons plus grands au survol */
+  .btn-prest:hover, .btn-interv:hover, .acc-btn:hover { opacity: .85; cursor: pointer; }
+  /* Accueil : grille plus large sur bureau */
+  .acc-grid { grid-template-columns: repeat(4, 1fr) !important; }
+  .acc-btn-full { grid-column: span 4 !important; }
+  /* Boutons intervenants sombres */
+  .btn-interv { background: #2C2C2E !important; border-color: #3A3A3C !important; color: #EBEBF5 !important; }
+  .btn-interv.actif { background: var(--or) !important; border-color: var(--or) !important; color: #fff !important; }
+  /* Boutons gris/tirete sombres */
+  .btn-gris { background: #2C2C2E !important; border-color: #3A3A3C !important; color: #AEAEB2 !important; }
+  .btn-tirete { background: rgba(200,146,62,.08) !important; border-color: var(--or) !important; color: var(--or) !important; }
+  /* Champ designation libre */
+  .zone-autre textarea, textarea.input-texte { background: #1C1C1E !important; color: #fff !important; border-color: #3A3A3C !important; }
+  /* Bloc designation */
+  .bloc-desig { background: #2C2C2E !important; }
+  /* Boutons ajout photo */
+  .btn-ajout-photo { background: #1C1C1E !important; border-color: #3A3A3C !important; color: #8E8E93 !important; }
+}
 </style>
 </head>
 <body>
@@ -208,7 +268,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
       <path d="M30 20 C32 16 36 14 40 10" stroke="url(#ulg)" stroke-width="1.2" stroke-linecap="round" fill="none"/>
     </svg>
   </div>
-  <div class="ep-titre">Crea Nature</div>
+  <div class="ep-titre" id="ep-titre-soc">Crea Nature</div>
   <div class="ep-sous">Qui es-tu ?</div>
   <div id="liste-users"></div>
   <div style="margin-top:20px;font-size:11px;color:#48484A;text-align:center" id="login-info"></div>
@@ -532,6 +592,22 @@ function lancerCalculateur() {
   if (ep) ep.classList.add("cache");
   document.getElementById("app").style.display = "flex";
   allerVers("calc");
+  majCompteurDevis();
+}
+
+// Met a jour le compteur de devis dans la banniere et le numero
+function majCompteurDevis() {
+  if (!db) return;
+  db.collection("devis").get().then(function(snap) {
+    var total = snap.size || 0;
+    var cptBan = trouverEl("cpt-devis-banniere");
+    if (cptBan) cptBan.textContent = total + " devis";
+    var dNum = trouverEl("d-num");
+    if (dNum && !dNum.value) {
+      var yyyy = String(new Date().getFullYear());
+      dNum.value = yyyy + "-" + String(total + 1).padStart(3,"0");
+    }
+  }).catch(function(){});
 }
 
 function retourAccueil() {
@@ -581,6 +657,10 @@ function construireAccueil() {
           "</div>" +
         "</div>" +
       "</div>" +
+      "<div class='acc-stat-row' style='margin-top:10px'>" +
+        "<div class='acc-stat'><div class='acc-stat-val' id='acc-ca-mois' style='color:#4CD964'>-</div><div class='acc-stat-lbl'>CA " + moisNom + "</div></div>" +
+        "<div class='acc-stat'><div class='acc-stat-val' id='acc-ca-annee' style='color:#5B8DEF'>-</div><div class='acc-stat-lbl'>CA " + new Date().getFullYear() + "</div></div>" +
+      "</div>" +
     "</div>" +
     "<div class='acc-body'>" +
       "<div class='acc-section'>Actions rapides</div>" +
@@ -608,7 +688,8 @@ function construireAccueil() {
     snap.forEach(function(doc) {
       var d = doc.data(); nb++;
       var ts = new Date(d.timestamp||0);
-      if (ts.getFullYear()===_y && ts.getMonth()===_m) total += d.totalTTC||0;
+      // Previsionnel = devis du mois PAS ENCORE attribues a la tresorerie
+      if (ts.getFullYear()===_y && ts.getMonth()===_m && !d.allocatedTo) total += d.totalTTC||0;
     });
     var elD = document.getElementById("acc-nb-devis");
     if (elD) elD.textContent = nb;
@@ -616,7 +697,66 @@ function construireAccueil() {
     if (elCA) elCA.textContent = total.toLocaleString("fr-FR",{minimumFractionDigits:2}) + " \u20AC";
   }).catch(function(){});
 
+  majCAAccueil();
   }
+
+// Calcul du chiffre d'affaires pour l'accueil (tresorerie + contrats)
+function majCAAccueil() {
+  if (!db) return;
+  var now = new Date();
+  var moisCourant = now.getMonth();
+  var anneeCourante = now.getFullYear();
+  db.collection("tresorerie").get().then(function(snap) {
+    var caMois = 0, caAnnee = 0;
+    snap.forEach(function(doc) {
+      var d = doc.data();
+      var tous = [];
+      (d.encaissements || []).forEach(function(e){ tous.push(e); });
+      if (d.archives) { Object.keys(d.archives).forEach(function(an){ (d.archives[an]||[]).forEach(function(e){ tous.push(e); }); }); }
+      tous.forEach(function(e) {
+        var montant = e.montant || 0;
+        // Parser la date JJ/MM/AAAA
+        var parts = (e.date || "").split("/");
+        if (parts.length === 3) {
+          var mm = parseInt(parts[1],10) - 1;
+          var yyyy = parseInt(parts[2],10);
+          if (yyyy === anneeCourante) {
+            caAnnee += montant;
+            if (mm === moisCourant) caMois += montant;
+          }
+        }
+      });
+    });
+    // Ajouter les contrats
+    db.collection("contrats").get().then(function(snapC) {
+      var mensuelTotal = 0, ponctuelMois = 0, ponctuelAnnee = 0;
+      snapC.forEach(function(doc) {
+        var ct = doc.data();
+        if (ct.type === "ponctuel") {
+          if (ct.annee === anneeCourante) {
+            ponctuelAnnee += (ct.montant || 0);
+            if (ct.mois === moisCourant) ponctuelMois += (ct.montant || 0);
+          }
+        } else {
+          mensuelTotal += (ct.montantMensuel || 0);
+        }
+      });
+      // CA mois = encaissements du mois + contrats mensuels (1 mois) + ponctuels du mois
+      var totalMois = caMois + mensuelTotal + ponctuelMois;
+      // CA annee = encaissements annee + contrats mensuels x12 + ponctuels annee
+      var totalAnnee = caAnnee + (mensuelTotal * 12) + ponctuelAnnee;
+      var elM = document.getElementById("acc-ca-mois");
+      var elA = document.getElementById("acc-ca-annee");
+      if (elM) elM.textContent = Math.round(totalMois).toLocaleString("fr-FR") + " \u20AC";
+      if (elA) elA.textContent = Math.round(totalAnnee).toLocaleString("fr-FR") + " \u20AC";
+    }).catch(function() {
+      var elM = document.getElementById("acc-ca-mois");
+      var elA = document.getElementById("acc-ca-annee");
+      if (elM) elM.textContent = Math.round(caMois).toLocaleString("fr-FR") + " \u20AC";
+      if (elA) elA.textContent = Math.round(caAnnee).toLocaleString("fr-FR") + " \u20AC";
+    });
+  }).catch(function(){});
+}
 
 function ouvrirReglages() {
   var panneau = document.createElement("div");
@@ -631,6 +771,117 @@ function ouvrirReglages() {
   barre.appendChild(bf);
   var corps = document.createElement("div");
   corps.style.cssText = "padding:16px";
+
+  // ===== SOCIETE (nom + logo) =====
+  var secSoc = document.createElement("div");
+  secSoc.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:0 0 8px 2px";
+  secSoc.textContent = "Identite de la societe";
+  corps.appendChild(secSoc);
+  var carteSoc = document.createElement("div");
+  carteSoc.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:18px";
+  // Apercu logo
+  var apercuWrap = document.createElement("div");
+  apercuWrap.style.cssText = "display:flex;align-items:center;gap:14px;margin-bottom:14px";
+  var apercuLogo = document.createElement("div");
+  apercuLogo.style.cssText = "width:60px;height:60px;border-radius:14px;background:#1C1C1E;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:1px solid #3A3A3C";
+  if (SOCIETE_LOGO) {
+    apercuLogo.innerHTML = "<img src='" + SOCIETE_LOGO + "' style='width:100%;height:100%;object-fit:contain'/>";
+  } else {
+    apercuLogo.innerHTML = "<span style='font-size:11px;color:#8E8E93'>Logo</span>";
+  }
+  apercuWrap.appendChild(apercuLogo);
+  var apercuTxt = document.createElement("div");
+  apercuTxt.style.cssText = "flex:1;font-size:13px;color:#8E8E93;line-height:1.4";
+  apercuTxt.textContent = "Logo affiche dans l'app, les devis et les mails. Format PNG conseille.";
+  apercuWrap.appendChild(apercuTxt);
+  carteSoc.appendChild(apercuWrap);
+  // Input fichier cache
+  var inpLogo = document.createElement("input");
+  inpLogo.type = "file";
+  inpLogo.accept = "image/png,image/jpeg,image/*";
+  inpLogo.style.cssText = "display:none";
+  inpLogo.onchange = function() {
+    var f = inpLogo.files && inpLogo.files[0];
+    if (!f) return;
+    if (f.size > 1500000) { afficherToast("Image trop lourde (max 1.5 Mo)"); return; }
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      SOCIETE_LOGO = ev.target.result;
+      apercuLogo.innerHTML = "<img src='" + SOCIETE_LOGO + "' style='width:100%;height:100%;object-fit:contain'/>";
+      afficherToast("Logo charge, pense a enregistrer");
+    };
+    reader.readAsDataURL(f);
+  };
+  carteSoc.appendChild(inpLogo);
+  // Bouton choisir logo
+  var btnLogo = document.createElement("button");
+  btnLogo.style.cssText = "width:100%;height:42px;border-radius:11px;background:rgba(100,181,246,.15);border:none;color:#64B5F6;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:12px";
+  btnLogo.textContent = "Choisir un logo (PNG)";
+  btnLogo.onclick = function() { inpLogo.click(); };
+  carteSoc.appendChild(btnLogo);
+  // Champ nom
+  var labNom = document.createElement("div");
+  labNom.style.cssText = "font-size:11px;color:#8E8E93;margin-bottom:6px";
+  labNom.textContent = "Nom de la societe";
+  carteSoc.appendChild(labNom);
+  var inpNomSoc = document.createElement("input");
+  inpNomSoc.type = "text";
+  inpNomSoc.value = SOCIETE_NOM;
+  inpNomSoc.placeholder = "Crea Nature";
+  inpNomSoc.style.cssText = "width:100%;padding:11px 13px;border:1px solid #3A3A3C;border-radius:11px;font-size:15px;color:#fff;background:#1C1C1E;outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none;box-sizing:border-box;margin-bottom:12px";
+  carteSoc.appendChild(inpNomSoc);
+  // Bouton enregistrer
+  var btnSvSoc = document.createElement("button");
+  btnSvSoc.style.cssText = "width:100%;height:46px;border-radius:11px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnSvSoc.textContent = "Enregistrer l'identite";
+  btnSvSoc.onclick = function() {
+    var nom = inpNomSoc.value.trim() || "Crea Nature";
+    SOCIETE_NOM = nom;
+    localStorage.setItem("cn_societe_nom", nom);
+    if (SOCIETE_LOGO) localStorage.setItem("cn_societe_logo", SOCIETE_LOGO);
+    btnSvSoc.disabled = true; btnSvSoc.textContent = "Enregistrement...";
+    if (db) {
+      db.collection("config").doc("societe").set({ nom: nom, logo: SOCIETE_LOGO || "" }).then(function() {
+        appliquerSociete();
+        afficherToast("Identite enregistree !");
+        btnSvSoc.disabled = false; btnSvSoc.textContent = "Enregistrer l'identite";
+      }).catch(function() {
+        appliquerSociete();
+        afficherToast("Enregistre en local");
+        btnSvSoc.disabled = false; btnSvSoc.textContent = "Enregistrer l'identite";
+      });
+    } else {
+      appliquerSociete();
+      afficherToast("Enregistre en local");
+      btnSvSoc.disabled = false; btnSvSoc.textContent = "Enregistrer l'identite";
+    }
+  };
+  carteSoc.appendChild(btnSvSoc);
+  corps.appendChild(carteSoc);
+
+  // ===== SAUVEGARDE DES DONNEES =====
+  var secBkp = document.createElement("div");
+  secBkp.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:0 0 8px 2px";
+  secBkp.textContent = "Sauvegarde des donnees";
+  corps.appendChild(secBkp);
+  var carteBkp = document.createElement("div");
+  carteBkp.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:18px";
+  var bkpTxt = document.createElement("div");
+  bkpTxt.style.cssText = "font-size:13px;color:#8E8E93;line-height:1.5;margin-bottom:14px";
+  bkpTxt.textContent = "Exporte tous tes clients, devis, tresorerie, memos et plannings dans un fichier de sauvegarde. Garde-le en lieu sur.";
+  carteBkp.appendChild(bkpTxt);
+  var btnDl = document.createElement("button");
+  btnDl.style.cssText = "width:100%;height:46px;border-radius:11px;background:linear-gradient(135deg,#4CD964,#2EA043);border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:10px";
+  btnDl.textContent = "Telecharger la sauvegarde";
+  btnDl.onclick = function() { exporterToutesDonnees("download"); };
+  carteBkp.appendChild(btnDl);
+  var btnMail = document.createElement("button");
+  btnMail.style.cssText = "width:100%;height:46px;border-radius:11px;background:rgba(100,181,246,.15);border:none;color:#64B5F6;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnMail.textContent = "Envoyer par mail + telecharger";
+  btnMail.onclick = function() { exporterToutesDonnees("mail"); };
+  carteBkp.appendChild(btnMail);
+  corps.appendChild(carteBkp);
+
 
   // Changer PIN
   var sec1 = document.createElement("div");
@@ -1324,16 +1575,30 @@ function ouvrirPave(champId, cardId, curId) {
   if (card) card.classList.add("actif");
   var cur = trouverEl(curId);
   if (cur) cur.style.display = "inline-block";
+  // Donner assez d'espace en bas pour scroller le champ au-dessus du pave
+  var contenu = trouverEl("contenu");
   setTimeout(function() {
-    var c = trouverEl(cardId);
-    if (c) c.scrollIntoView({behavior: "smooth", block: "center"});
-  }, 80);
+    var paveH = pave ? pave.offsetHeight : 280;
+    if (contenu) contenu.style.paddingBottom = (paveH + 40) + "px";
+    var ca = trouverEl(cardId);
+    if (ca && contenu) {
+      // Position du champ relative au conteneur scrollable
+      var champTop = ca.offsetTop;
+      var champH = ca.offsetHeight;
+      var visibleH = contenu.clientHeight - paveH;
+      // Scroller pour que le champ soit juste au-dessus du pave
+      var cible = champTop - visibleH + champH + 20;
+      contenu.scrollTo({ top: cible > 0 ? cible : 0, behavior: "smooth" });
+    }
+  }, 100);
 }
 
 function fermerPave() {
   champActif = null;
   var pave = trouverEl("pave");
   if (pave) pave.classList.remove("visible");
+  var contenu = trouverEl("contenu");
+  if (contenu) contenu.style.paddingBottom = "120px";
   var champs = document.querySelectorAll(".champ-tap");
   for (var i = 0; i < champs.length; i++) champs[i].classList.remove("actif");
   var curseurs = document.querySelectorAll(".curseur");
@@ -2072,9 +2337,9 @@ function envoyerDevis() {
   var num = lireChamp("d-num") || "001";
   var corps = "Bonjour " + (nom || "") + ",\n\n";
   corps += "Veuillez trouver ci-joint votre devis.\n\n";
-  corps += "Cordialement,\nCrea Nature\ncreanature@ymail.com";
+  corps += "Cordialement,\n"+SOCIETE_NOM+"\ncreanature@ymail.com";
 
-  var sujet = "Devis Crea Nature N" + num;
+  var sujet = "Devis "+SOCIETE_NOM+" N" + num;
 
   window.location.href = "mailto:" + encodeURIComponent(email) +
     "?cc=" + encodeURIComponent("creanature@ymail.com") +
@@ -2094,6 +2359,105 @@ var firebaseConfig = {
 };
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
+
+// === SOCIETE (nom + logo personnalisables) ===
+var SOCIETE_NOM = localStorage.getItem("cn_societe_nom") || "Crea Nature";
+var SOCIETE_LOGO = localStorage.getItem("cn_societe_logo") || "";
+
+function chargerSociete() {
+  if (!db) { appliquerSociete(); return; }
+  db.collection("config").doc("societe").get().then(function(doc) {
+    if (doc.exists) {
+      var d = doc.data();
+      if (d.nom) { SOCIETE_NOM = d.nom; localStorage.setItem("cn_societe_nom", d.nom); }
+      if (d.logo) { SOCIETE_LOGO = d.logo; localStorage.setItem("cn_societe_logo", d.logo); }
+    }
+    appliquerSociete();
+  }).catch(function(){ appliquerSociete(); });
+}
+
+function appliquerSociete() {
+  // Logo dans la navbar
+  try {
+    var imgs = document.querySelectorAll('img[alt="Crea Nature"]');
+    for (var i = 0; i < imgs.length; i++) {
+      if (SOCIETE_LOGO) imgs[i].src = SOCIETE_LOGO;
+      imgs[i].alt = SOCIETE_NOM;
+    }
+  } catch(e){}
+  // Nom dans l'accueil (acc-crea / acc-nature)
+  try {
+    var elCrea = document.querySelector(".acc-crea");
+    var elNature = document.querySelector(".acc-nature");
+    if (elCrea && elNature) {
+      var parts = SOCIETE_NOM.split(" ");
+      if (parts.length >= 2) {
+        elCrea.textContent = parts[0];
+        elNature.textContent = parts.slice(1).join(" ").toUpperCase();
+      } else {
+        elCrea.textContent = "";
+        elNature.textContent = SOCIETE_NOM.toUpperCase();
+      }
+    }
+    var epTitre = document.getElementById("ep-titre-soc");
+    if (epTitre) epTitre.textContent = SOCIETE_NOM;
+  } catch(e){}
+}
+
+
+// === SAUVEGARDE / EXPORT DE TOUTES LES DONNEES ===
+function exporterToutesDonnees(modeEnvoi) {
+  afficherToast("Preparation de la sauvegarde...");
+  var collections = ["clients", "devis", "tresorerie", "memos", "planning", "bi_historique", "prev_historique", "config"];
+  var backup = { _meta: { app: "Crea Nature", date: new Date().toISOString(), version: 1 } };
+  var promesses = collections.map(function(col) {
+    return db.collection(col).get().then(function(snap) {
+      var arr = [];
+      snap.forEach(function(doc) { arr.push(Object.assign({ _id: doc.id }, doc.data())); });
+      backup[col] = arr;
+    }).catch(function() { backup[col] = []; });
+  });
+  Promise.all(promesses).then(function() {
+    var json = JSON.stringify(backup, null, 2);
+    var dateStr = new Date().toISOString().slice(0,10);
+    var nomFichier = "sauvegarde_creanature_" + dateStr + ".json";
+    if (modeEnvoi === "mail") {
+      // Compter les elements pour le resume
+      var resume = collections.map(function(col){ return "- " + col + " : " + (backup[col] ? backup[col].length : 0); }).join("\n");
+      var sujet = encodeURIComponent("Sauvegarde Crea Nature - " + dateStr);
+      var corps = encodeURIComponent(
+        "Sauvegarde des donnees Crea Nature du " + dateStr + "\n\n" +
+        "Resume :\n" + resume + "\n\n" +
+        "Le fichier de sauvegarde complet a aussi ete telecharge sur l'appareil.\n" +
+        "Pour le restaurer, gardez le fichier .json en lieu sur.\n"
+      );
+      // Telecharger ET ouvrir le mail
+      telechargerFichier(json, nomFichier);
+      window.location.href = "mailto:?subject=" + sujet + "&body=" + corps;
+      afficherToast("Fichier telecharge + mail prepare");
+    } else {
+      telechargerFichier(json, nomFichier);
+      afficherToast("Sauvegarde telechargee !");
+    }
+  }).catch(function() {
+    afficherToast("Erreur lors de la sauvegarde");
+  });
+}
+
+function telechargerFichier(contenu, nomFichier) {
+  try {
+    var blob = new Blob([contenu], { type: "application/json" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = nomFichier;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function() { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+  } catch(e) {
+    afficherToast("Telechargement impossible sur cet appareil");
+  }
+}
 
 // === CLIENTS ===
 var cacheClients = [];
@@ -2184,133 +2548,221 @@ function _afficherPanneauClients(clients) {
 
   var panneau = document.createElement("div");
   panneau.id = "panneau-clients";
-  panneau.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999999;display:flex;align-items:flex-end;justify-content:center";
+  panneau.style.cssText = "position:fixed;inset:0;background:#1C1C1E;z-index:999999;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
 
-  var feuille = document.createElement("div");
-  feuille.style.cssText = "background:#F2F2F7;width:100%;max-width:430px;border-radius:22px 22px 0 0;padding:0 0 40px;font-family:-apple-system,sans-serif;max-height:80vh;display:flex;flex-direction:column";
-
-  // Tete
+  // En-tete
   var tete = document.createElement("div");
-  tete.style.cssText = "background:#fff;padding:16px 18px 14px;border-radius:22px 22px 0 0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0";
-  tete.innerHTML = "<span style='font-size:17px;font-weight:700;color:#1C1C1E'>Mes clients</span>";
+  tete.style.cssText = "background:linear-gradient(135deg,#1A3A2A,#0D5C35);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0";
+  var titreTete = document.createElement("span");
+  titreTete.id = "clients-titre";
+  titreTete.style.cssText = "font-size:17px;font-weight:700;color:#fff";
+  titreTete.textContent = "Mes clients";
+  tete.appendChild(titreTete);
   var btnFermer = document.createElement("button");
-  btnFermer.style.cssText = "background:#E5E5EA;border:none;color:#1C1C1E;width:28px;height:28px;border-radius:14px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:-apple-system,sans-serif";
-  btnFermer.textContent = "x";
+  btnFermer.style.cssText = "background:rgba(255,255,255,.15);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnFermer.textContent = "Fermer";
   btnFermer.onclick = function() { panneau.remove(); };
   tete.appendChild(btnFermer);
-  feuille.appendChild(tete);
+  panneau.appendChild(tete);
 
-  // Recherche
-  var rechWrap = document.createElement("div");
-  rechWrap.style.cssText = "padding:10px 14px;background:#fff;border-bottom:.5px solid #E5E5EA;flex-shrink:0";
-  var rechInp = document.createElement("input");
-  rechInp.type = "text";
-  rechInp.placeholder = "Rechercher un client...";
-  rechInp.style.cssText = "width:100%;padding:9px 12px;border:1.5px solid #E5E5EA;border-radius:9px;font-size:15px;color:#1C1C1E;background:#F2F2F7;outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none";
-  rechWrap.appendChild(rechInp);
-  feuille.appendChild(rechWrap);
+  // Corps (contient soit la liste, soit l'edition)
+  var corps = document.createElement("div");
+  corps.id = "clients-corps";
+  corps.style.cssText = "flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column";
+  panneau.appendChild(corps);
 
-  // Liste
-  var liste = document.createElement("div");
-  liste.style.cssText = "overflow-y:auto;flex:1;padding:8px 14px";
+  // ===== VUE LISTE =====
+  function vueListe() {
+    titreTete.textContent = "Mes clients";
+    corps.innerHTML = "";
+    // Barre recherche + bouton nouveau
+    var rechWrap = document.createElement("div");
+    rechWrap.style.cssText = "padding:12px 14px;background:#1C1C1E;border-bottom:.5px solid rgba(255,255,255,.08);flex-shrink:0;position:sticky;top:0;z-index:2;display:flex;gap:8px";
+    var rechInp = document.createElement("input");
+    rechInp.type = "text";
+    rechInp.placeholder = "Rechercher un client...";
+    rechInp.style.cssText = "flex:1;padding:10px 12px;border:1px solid rgba(255,255,255,.12);border-radius:10px;font-size:15px;color:#fff;background:rgba(255,255,255,.06);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none";
+    rechWrap.appendChild(rechInp);
+    var btnNouveau = document.createElement("button");
+    btnNouveau.style.cssText = "background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;color:#fff;padding:0 16px;border-radius:10px;font-size:20px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
+    btnNouveau.textContent = "+";
+    btnNouveau.title = "Nouveau client";
+    btnNouveau.onclick = function() { vueEdition(null); };
+    rechWrap.appendChild(btnNouveau);
+    corps.appendChild(rechWrap);
 
-  function afficherListe(filtre) {
-    liste.innerHTML = "";
-    var filtered = filtre
-      ? clients.filter(function(c) { return c.nom.toLowerCase().indexOf(filtre.toLowerCase()) >= 0; })
-      : clients;
+    var liste = document.createElement("div");
+    liste.style.cssText = "padding:12px 14px";
+    corps.appendChild(liste);
 
-    if (filtered.length === 0) {
-      liste.innerHTML = "<div style='text-align:center;color:#8E8E93;font-size:14px;padding:30px 0'>Aucun client</div>";
-      return;
+    function rendre(filtre) {
+      liste.innerHTML = "";
+      var filtered = filtre
+        ? clients.filter(function(c) { return (c.nom||"").toLowerCase().indexOf(filtre.toLowerCase()) >= 0; })
+        : clients;
+      // Compteur
+      var cpt = document.createElement("div");
+      cpt.style.cssText = "font-size:11px;color:#8E8E93;margin-bottom:10px;letter-spacing:.04em";
+      cpt.textContent = filtered.length + " client" + (filtered.length>1?"s":"");
+      liste.appendChild(cpt);
+      if (filtered.length === 0) {
+        var vide = document.createElement("div");
+        vide.style.cssText = "text-align:center;color:#8E8E93;font-size:14px;padding:30px 0";
+        vide.textContent = "Aucun client";
+        liste.appendChild(vide);
+        return;
+      }
+      filtered.forEach(function(c) {
+        var item = document.createElement("div");
+        item.style.cssText = "background:#2C2C2E;border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer";
+        // Avatar initiale
+        var av = document.createElement("div");
+        av.style.cssText = "width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#C8923E,#8B5E1A);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;color:#fff;flex-shrink:0";
+        av.textContent = (c.nom||"?").charAt(0).toUpperCase();
+        item.appendChild(av);
+        // Infos
+        var infos = document.createElement("div");
+        infos.style.cssText = "flex:1;min-width:0";
+        infos.innerHTML =
+          "<div style='font-size:15px;font-weight:600;color:#fff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(c.nom||"") + "</div>" +
+          (c.email ? "<div style='font-size:12px;color:#8E8E93;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(c.email) + "</div>" : "") +
+          (c.tel ? "<div style='font-size:12px;color:#8E8E93'>" + echapper(c.tel) + "</div>" : "");
+        item.appendChild(infos);
+        // Chevron
+        var chev = document.createElement("div");
+        chev.style.cssText = "color:#8E8E93;font-size:20px;flex-shrink:0";
+        chev.innerHTML = "&#x203A;";
+        item.appendChild(chev);
+        // Clic = edition
+        (function(client) {
+          item.onclick = function() { vueEdition(client); };
+        })(c);
+        liste.appendChild(item);
+      });
     }
-
-    filtered.forEach(function(c) {
-      var item = document.createElement("div");
-      item.style.cssText = "background:#fff;border-radius:12px;padding:14px 15px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.07)";
-
-      var infos = document.createElement("div");
-      infos.style.cssText = "flex:1;cursor:pointer";
-      infos.innerHTML =
-        "<div style='font-size:15px;font-weight:600;color:#1C1C1E;margin-bottom:2px'>" + echapper(c.nom) + "</div>" +
-        (c.email ? "<div style='font-size:12px;color:#8E8E93'>" + echapper(c.email) + "</div>" : "") +
-        (c.tel ? "<div style='font-size:12px;color:#8E8E93'>" + echapper(c.tel) + "</div>" : "");
-
-      var btnHist = document.createElement("button");
-      btnHist.style.cssText = "background:none;border:none;color:var(--or);font-size:11px;font-weight:600;cursor:pointer;padding:4px 0 0;font-family:-apple-system,sans-serif;display:block";
-      btnHist.textContent = "Voir l'historique";
-      (function(nc) {
-      btnHist.onclick = function(e) {
-        e.stopPropagation();
-        panneau.remove();
-        db.collection("devis").orderBy("timestamp","desc").limit(200).get().then(function(snap) {
-          var devis = [];
-          snap.forEach(function(doc){ devis.push(Object.assign({_id:doc.id}, doc.data())); });
-          var filtered = devis.filter(function(d){ return (d.client||"").toLowerCase().indexOf(nc.toLowerCase())>=0; });
-          ouvrirHistoriqueClient(nc, filtered, devis);
-        });
-      };
-    })(c.nom);
-      infos.appendChild(btnHist);
-
-      (function(client) {
-        infos.onclick = function() {
-          // Remplir le formulaire
-          var n=trouverEl("c-nom"),a=trouverEl("c-adresse"),e=trouverEl("c-email"),t=trouverEl("c-tel"),e2=trouverEl("c-email2");
-          if(n) n.value = client.nom;
-          if(a) a.value = client.adresse || "";
-          if(e) e.value = client.email || "";
-          if(e2) e2.value = client.email2 || client.email || "";
-          if(t) t.value = client.tel || "";
-          panneau.remove();
-          // Afficher le calculateur + onglet Devis pour voir/modifier la fiche
-          var appEl = document.getElementById("app");
-          if (appEl) appEl.style.display = "flex";
-          var ea2 = document.getElementById("ecran-accueil"); if (ea2) ea2.classList.add("cache");
-          if (typeof allerVers === "function") allerVers("devis");
-          afficherToast("Fiche client chargee");
-        };
-      })(c);
-
-      var btnSuppr = document.createElement("button");
-      btnSuppr.style.cssText = "background:none;border:none;color:#FF3B30;font-size:20px;cursor:pointer;padding:0 4px;line-height:1;font-family:-apple-system,sans-serif;flex-shrink:0";
-      btnSuppr.textContent = "x";
-      (function(client) {
-        btnSuppr.onclick = function(e) {
-          e.stopPropagation();
-          if (confirm("Supprimer " + client.nom + " ?")) {
-            var ref = client.id
-              ? db.collection("clients").doc(client.id)
-              : null;
-            if (ref) {
-              ref.delete().then(function() {
-                clients = clients.filter(function(x) { return x.nom !== client.nom; });
-                cacheClients = clients;
-                afficherListe(rechInp.value);
-              });
-            } else {
-              clients = clients.filter(function(x) { return x.nom !== client.nom; });
-              cacheClients = clients;
-              afficherListe(rechInp.value);
-            }
-          }
-        };
-      })(c);
-
-      item.appendChild(infos);
-      item.appendChild(btnSuppr);
-      liste.appendChild(item);
-    });
+    rechInp.oninput = function() { rendre(this.value); };
+    rendre("");
+    rechInp.focus && setTimeout(function(){ try { rechInp.focus(); } catch(e){} }, 100);
   }
 
-  rechInp.oninput = function() { afficherListe(this.value); };
-  afficherListe("");
-  feuille.appendChild(liste);
-  panneau.appendChild(feuille);
+  // ===== VUE EDITION (nouvel "onglet") =====
+  function vueEdition(client) {
+    var estNouveau = !client;
+    titreTete.textContent = estNouveau ? "Nouveau client" : "Modifier le client";
+    corps.innerHTML = "";
+    var form = document.createElement("div");
+    form.style.cssText = "padding:18px 16px;display:flex;flex-direction:column;gap:14px";
+
+    function champ(label, val, placeholder, type) {
+      var wrap = document.createElement("div");
+      var lab = document.createElement("div");
+      lab.style.cssText = "font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8E8E93;margin-bottom:6px";
+      lab.textContent = label;
+      wrap.appendChild(lab);
+      var inp = document.createElement("input");
+      inp.type = type || "text";
+      inp.value = val || "";
+      inp.placeholder = placeholder || "";
+      inp.style.cssText = "width:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.12);border-radius:11px;font-size:15px;color:#fff;background:rgba(255,255,255,.06);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none;box-sizing:border-box";
+      wrap.appendChild(inp);
+      form.appendChild(wrap);
+      return inp;
+    }
+
+    var iNom = champ("Nom du client", client ? client.nom : "", "Jean Dupont");
+    var iAdresse = champ("Adresse", client ? client.adresse : "", "12 rue des Fleurs, Paris");
+    var iEmail = champ("Email (factures)", client ? client.email : "", "client@email.com", "email");
+    var iEmail2 = champ("Email bon d'intervention / prevention", client ? (client.email2 || "") : "", "Laisser vide = meme email", "email");
+    var iTel = champ("Telephone", client ? client.tel : "", "06 00 00 00 00", "tel");
+
+    // Bouton enregistrer
+    var btnSave = document.createElement("button");
+    btnSave.style.cssText = "width:100%;height:50px;border-radius:13px;background:linear-gradient(135deg,#C8923E,#8B5E1A);border:none;font-size:15px;font-weight:700;color:#fff;cursor:pointer;font-family:-apple-system,sans-serif;margin-top:6px";
+    btnSave.textContent = estNouveau ? "Creer le client" : "Enregistrer les modifications";
+    btnSave.onclick = function() {
+      var nom = iNom.value.trim();
+      if (!nom) { afficherToast("Saisis au moins le nom"); return; }
+      var emailP = iEmail.value.trim();
+      var data = {
+        nom: nom,
+        adresse: iAdresse.value.trim(),
+        email: emailP,
+        email2: iEmail2.value.trim() || emailP,
+        tel: iTel.value.trim(),
+        date: new Date().toLocaleDateString("fr-FR")
+      };
+      btnSave.disabled = true;
+      btnSave.textContent = "Enregistrement...";
+      // Mise a jour si existe (par id ou par nom), sinon creation
+      function apresSave() {
+        chargerClientsDepuisFirebase(function(cl) {
+          clients = cl; cacheClients = cl;
+          afficherToast(estNouveau ? "Client cree !" : "Client modifie !");
+          vueListe();
+        });
+      }
+      if (client && client.id) {
+        db.collection("clients").doc(client.id).set(data).then(apresSave).catch(function(){ btnSave.disabled=false; afficherToast("Erreur"); });
+      } else {
+        db.collection("clients").where("nom","==",nom).get().then(function(snap){
+          if (!snap.empty) { snap.docs[0].ref.set(data).then(apresSave); }
+          else { db.collection("clients").add(data).then(apresSave); }
+        }).catch(function(){ btnSave.disabled=false; afficherToast("Erreur"); });
+      }
+    };
+    form.appendChild(btnSave);
+
+    // Bouton retour
+    var btnRetour = document.createElement("button");
+    btnRetour.style.cssText = "width:100%;height:46px;border-radius:13px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);font-size:14px;font-weight:600;color:#AEAEB2;cursor:pointer;font-family:-apple-system,sans-serif";
+    btnRetour.textContent = "Retour a la liste";
+    btnRetour.onclick = function() { vueListe(); };
+    form.appendChild(btnRetour);
+
+    // Pour un client existant : historique + suppression
+    if (!estNouveau) {
+      var btnHisto = document.createElement("button");
+      btnHisto.style.cssText = "width:100%;height:46px;border-radius:13px;background:rgba(100,181,246,.15);border:none;font-size:14px;font-weight:600;color:#64B5F6;cursor:pointer;font-family:-apple-system,sans-serif";
+      btnHisto.textContent = "Voir l'historique des devis";
+      (function(nc){
+        btnHisto.onclick = function() {
+          panneau.remove();
+          db.collection("devis").orderBy("timestamp","desc").limit(200).get().then(function(snap) {
+            var devis = [];
+            snap.forEach(function(doc){ devis.push(Object.assign({_id:doc.id}, doc.data())); });
+            var filtered = devis.filter(function(d){ return (d.client||"").toLowerCase().indexOf(nc.toLowerCase())>=0; });
+            ouvrirHistoriqueClient(nc, filtered, devis);
+          });
+        };
+      })(client.nom);
+      form.appendChild(btnHisto);
+
+      var btnSuppr = document.createElement("button");
+      btnSuppr.style.cssText = "width:100%;height:46px;border-radius:13px;background:rgba(255,59,48,.12);border:none;font-size:14px;font-weight:600;color:#FF3B30;cursor:pointer;font-family:-apple-system,sans-serif";
+      btnSuppr.textContent = "Supprimer ce client";
+      (function(cl){
+        btnSuppr.onclick = function() {
+          if (!confirm("Supprimer " + cl.nom + " ?")) return;
+          function apres() {
+            clients = clients.filter(function(x){ return x.nom !== cl.nom; });
+            cacheClients = clients;
+            afficherToast("Client supprime");
+            vueListe();
+          }
+          if (cl.id) { db.collection("clients").doc(cl.id).delete().then(apres).catch(apres); }
+          else { db.collection("clients").where("nom","==",cl.nom).get().then(function(snap){ if(!snap.empty){ snap.docs[0].ref.delete().then(apres); } else apres(); }).catch(apres); }
+        };
+      })(client);
+      form.appendChild(btnSuppr);
+    }
+
+    corps.appendChild(form);
+  }
+
+  vueListe();
   document.body.appendChild(panneau);
-  panneau.onclick = function(e) { if (e.target === panneau) panneau.remove(); };
-  rechInp.focus();
 }
+
 
 
 // === BANDEAU RAZ ===
@@ -2528,7 +2980,7 @@ function envoyerBI(){
   var auteur=utilisateurActuel?utilisateurActuel.nom:"Crea Nature";
   var prenom=nomCl?nomCl.split(" ")[0]:"";
   var listePr=biPrestsSelec.map(function(id){ var p=BI_PRESTS.find(function(x){return x.id===id;}); return p?"   - "+p.label:id; }).join("\n");
-  var corps="Bonjour,\n\nNous vous confirmons notre intervention realisee ce "+dateStr+".\nPrestations effectuees :\n"+listePr+"."+(note?"\nRemarques : "+note:"")+"\nNous restons disponibles.\n\nCordialement\n"+nomComplet()+"\nCrea Nature.";
+  var corps="Bonjour,\n\nNous vous confirmons notre intervention realisee ce "+dateStr+".\nPrestations effectuees :\n"+listePr+"."+(note?"\nRemarques : "+note:"")+"\nNous restons disponibles.\n\nCordialement\n"+nomComplet()+"\n"+SOCIETE_NOM+".";
   var sujet="Bon d'intervention - "+dateStr+(nomCl?" - "+nomCl:"");
   window.location.href="mailto:"+encodeURIComponent(emailCl)+"?cc="+encodeURIComponent("creanature@ymail.com")+"&subject="+encodeURIComponent(sujet)+"&body="+encodeURIComponent(corps);
   afficherToast("Mail prepare !");
@@ -2689,13 +3141,18 @@ function chargerTresorerie() {
   db.collection("tresorerie").get().then(function(snap) {
     var data = {};
     snap.forEach(function(doc) { data[doc.id] = doc.data(); });
-    afficherTresorerie(data);
+    // Charger aussi les contrats recurrents
+    db.collection("contrats").get().then(function(snapC) {
+      var contrats = [];
+      snapC.forEach(function(doc) { contrats.push(Object.assign({_id: doc.id}, doc.data())); });
+      afficherTresorerie(data, contrats);
+    }).catch(function() { afficherTresorerie(data, []); });
   }).catch(function(e) {
     if (body) body.innerHTML = "<div style='text-align:center;color:#FF3B30;padding:20px'>Erreur: " + e.message + "</div>";
   });
 }
 
-function afficherTresorerie(data) {
+function afficherTresorerie(data, contrats) {
   var body = document.getElementById("tresor-body");
   if (!body) return;
   body.innerHTML = "";
@@ -2978,6 +3435,137 @@ function afficherTresorerie(data) {
     section.appendChild(avDiv);
     body.appendChild(section);
   });
+
+  // ===== RUBRIQUE CONTRATS RECURRENTS =====
+  if (!contrats) contrats = [];
+  var sectionC = document.createElement("div");
+  sectionC.style.cssText = "background:#2C2C2E;border-radius:16px;padding:16px;margin-bottom:16px";
+  var totalMensuelContrats = 0;
+  contrats.forEach(function(ct) { if (ct.type !== "ponctuel") totalMensuelContrats += (ct.montantMensuel || 0); });
+  var totalAnnuelContrats = totalMensuelContrats * 12;
+  // Ponctuels
+  var totalPonctuels = 0;
+  contrats.forEach(function(ct) { if (ct.type === "ponctuel") totalPonctuels += (ct.montant || 0); });
+
+  sectionC.innerHTML =
+    "<div style='display:flex;align-items:center;gap:10px;margin-bottom:14px'>" +
+      "<div style='width:36px;height:36px;border-radius:18px;background:linear-gradient(135deg,#5B8DEF,#3A6FD8);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff'>\u21BB</div>" +
+      "<span style='font-size:16px;font-weight:700;color:#fff'>Contrats recurrents</span>" +
+    "</div>";
+
+  var listeC = document.createElement("div");
+  // Contrats mensuels
+  var titreM = document.createElement("div");
+  titreM.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8E8E93;margin-bottom:8px";
+  titreM.textContent = "Contrats mensuels";
+  listeC.appendChild(titreM);
+
+  contrats.filter(function(ct){ return ct.type !== "ponctuel"; }).forEach(function(ct) {
+    var row = document.createElement("div");
+    row.style.cssText = "display:flex;align-items:center;gap:8px;background:#1C1C1E;border-radius:8px;padding:10px 12px;margin-bottom:5px";
+    var info = document.createElement("div");
+    info.style.cssText = "flex:1;min-width:0";
+    info.innerHTML = "<div style='font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(ct.client || "") + "</div>" +
+      "<div style='font-size:11px;color:#8E8E93;margin-top:2px'>" + (ct.montantMensuel||0).toFixed(2) + " EUR/mois \u00B7 " + ((ct.montantMensuel||0)*12).toFixed(2) + " EUR/an</div>";
+    var bDel = document.createElement("button");
+    bDel.style.cssText = "background:rgba(255,59,48,.15);border:none;color:#FF3B30;width:26px;height:26px;border-radius:13px;font-size:14px;cursor:pointer;flex-shrink:0";
+    bDel.innerHTML = "&#x00D7;";
+    (function(id) {
+      bDel.onclick = function() {
+        if (!confirm("Supprimer ce contrat ?")) return;
+        db.collection("contrats").doc(id).delete().then(function(){ chargerTresorerie(); }).catch(function(){});
+      };
+    })(ct._id);
+    row.appendChild(info); row.appendChild(bDel);
+    listeC.appendChild(row);
+  });
+
+  // Formulaire ajout contrat mensuel
+  var formC = document.createElement("div");
+  formC.style.cssText = "display:flex;gap:6px;margin-top:6px;margin-bottom:14px";
+  var inpClientC = document.createElement("input");
+  inpClientC.type = "text"; inpClientC.placeholder = "Nom du client";
+  inpClientC.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+  var inpMontC = document.createElement("input");
+  inpMontC.type = "number"; inpMontC.placeholder = "EUR/mois";
+  inpMontC.style.cssText = "width:90px;padding:8px 8px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+  var btnAddC = document.createElement("button");
+  btnAddC.style.cssText = "background:linear-gradient(135deg,#5B8DEF,#3A6FD8);border:none;color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
+  btnAddC.textContent = "+ Ajouter";
+  btnAddC.onclick = function() {
+    var client = inpClientC.value.trim();
+    var montant = parseFloat(inpMontC.value);
+    if (!client || isNaN(montant) || montant <= 0) { afficherToast("Remplis client et montant mensuel"); return; }
+    db.collection("contrats").add({ type: "mensuel", client: client, montantMensuel: montant, date: new Date().toISOString() }).then(function() {
+      afficherToast("Contrat ajoute"); chargerTresorerie();
+    }).catch(function(){ afficherToast("Erreur"); });
+  };
+  formC.appendChild(inpClientC); formC.appendChild(inpMontC); formC.appendChild(btnAddC);
+  listeC.appendChild(formC);
+
+  // Montants ponctuels
+  var titreP = document.createElement("div");
+  titreP.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8E8E93;margin-bottom:8px";
+  titreP.textContent = "Montants ponctuels";
+  listeC.appendChild(titreP);
+
+  contrats.filter(function(ct){ return ct.type === "ponctuel"; }).forEach(function(ct) {
+    var row = document.createElement("div");
+    row.style.cssText = "display:flex;align-items:center;gap:8px;background:#1C1C1E;border-radius:8px;padding:10px 12px;margin-bottom:5px";
+    var info = document.createElement("div");
+    info.style.cssText = "flex:1;min-width:0";
+    info.innerHTML = "<div style='font-size:14px;font-weight:600;color:#fff'>" + echapper(ct.libelle || "Divers") + "</div>" +
+      "<div style='font-size:11px;color:#8E8E93;margin-top:2px'>" + (ct.montant||0).toFixed(2) + " EUR \u00B7 " + echapper(ct.periode || "") + "</div>";
+    var bDel = document.createElement("button");
+    bDel.style.cssText = "background:rgba(255,59,48,.15);border:none;color:#FF3B30;width:26px;height:26px;border-radius:13px;font-size:14px;cursor:pointer;flex-shrink:0";
+    bDel.innerHTML = "&#x00D7;";
+    (function(id) {
+      bDel.onclick = function() {
+        if (!confirm("Supprimer ce montant ?")) return;
+        db.collection("contrats").doc(id).delete().then(function(){ chargerTresorerie(); }).catch(function(){});
+      };
+    })(ct._id);
+    row.appendChild(info); row.appendChild(bDel);
+    listeC.appendChild(row);
+  });
+
+  // Formulaire ajout ponctuel
+  var formP = document.createElement("div");
+  formP.style.cssText = "display:flex;gap:6px;margin-top:6px;margin-bottom:6px";
+  var inpLibP = document.createElement("input");
+  inpLibP.type = "text"; inpLibP.placeholder = "Libelle (ex: prime)";
+  inpLibP.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+  var inpMontP = document.createElement("input");
+  inpMontP.type = "number"; inpMontP.placeholder = "EUR";
+  inpMontP.style.cssText = "width:80px;padding:8px 8px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+  var btnAddP = document.createElement("button");
+  btnAddP.style.cssText = "background:rgba(91,141,239,.85);border:none;color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
+  btnAddP.textContent = "+ Ajouter";
+  btnAddP.onclick = function() {
+    var lib = inpLibP.value.trim();
+    var montant = parseFloat(inpMontP.value);
+    if (!lib || isNaN(montant) || montant === 0) { afficherToast("Remplis libelle et montant"); return; }
+    var now = new Date();
+    var periode = ("0"+(now.getMonth()+1)).slice(-2) + "/" + now.getFullYear();
+    db.collection("contrats").add({ type: "ponctuel", libelle: lib, montant: montant, periode: periode, annee: now.getFullYear(), mois: now.getMonth(), date: now.toISOString() }).then(function() {
+      afficherToast("Montant ajoute"); chargerTresorerie();
+    }).catch(function(){ afficherToast("Erreur"); });
+  };
+  formP.appendChild(inpLibP); formP.appendChild(inpMontP); formP.appendChild(btnAddP);
+  listeC.appendChild(formP);
+
+  sectionC.appendChild(listeC);
+
+  // Total de la rubrique
+  var totalRub = document.createElement("div");
+  totalRub.style.cssText = "margin-top:12px;padding-top:12px;border-top:1px solid #3A3A3C";
+  totalRub.innerHTML =
+    "<div style='display:flex;justify-content:space-between;margin-bottom:4px'><span style='font-size:12px;color:#8E8E93'>Contrats mensuels (annuel)</span><span style='font-size:13px;font-weight:600;color:#fff'>" + totalAnnuelContrats.toFixed(2) + " EUR</span></div>" +
+    "<div style='display:flex;justify-content:space-between;margin-bottom:8px'><span style='font-size:12px;color:#8E8E93'>Montants ponctuels</span><span style='font-size:13px;font-weight:600;color:#fff'>" + totalPonctuels.toFixed(2) + " EUR</span></div>" +
+    "<div style='display:flex;justify-content:space-between;align-items:center;background:rgba(91,141,239,.12);border-radius:10px;padding:12px'><span style='font-size:13px;font-weight:700;color:#5B8DEF;text-transform:uppercase;letter-spacing:.05em'>Total recurrents</span><span style='font-size:18px;font-weight:700;color:#5B8DEF'>" + (totalAnnuelContrats + totalPonctuels).toFixed(2) + " EUR</span></div>";
+  sectionC.appendChild(totalRub);
+  body.appendChild(sectionC);
+
 }
 
 function ouvrirHistoriqueAvances(nom, histo, userId, data) {
@@ -3157,7 +3745,7 @@ function voirDevisPDF(d) {
   html += "<title>Devis " + echapper(num) + "<\/title>";
   html += "<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,Helvetica,sans-serif;color:#1C1C1E;font-size:13px;padding:28px 30px}@page{size:A4;margin:10mm 10mm 0 10mm}@media print{body{padding:0}html{-webkit-print-color-adjust:exact;print-color-adjust:exact}}<\/style><\/head><body>";
   html += "<div style='display:flex;justify-content:space-between;align-items:flex-start'>";
-  html += "<div style='font-size:18px;font-weight:700;color:#C8923E'>CREA NATURE</div>";
+  html += "<div style='font-size:18px;font-weight:700;color:#C8923E'>" + echapper(SOCIETE_NOM.toUpperCase()) + "</div>";
   html += "<div style='text-align:right'><div style='font-size:24px;font-weight:700;color:#8B5E1A'>DEVIS</div>";
   html += "<div style='font-size:11px;color:#888;margin-top:2px'>N&deg; " + echapper(num) + "</div>";
   html += "<div style='font-size:11px;color:#888'>Date : " + echapper(date) + "</div></div></div>";
@@ -3276,6 +3864,11 @@ function dupliquerDevis(d) {
 }
 
 function ajouterDevisATresorerie(d) {
+  // Si deja attribue : proposer de retirer l'attribution
+  if (d.allocatedTo) {
+    retirerDevisDeTresorerie(d);
+    return;
+  }
   var popup = document.createElement("div");
   popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;font-family:-apple-system,sans-serif";
   var box = document.createElement("div");
@@ -3369,6 +3962,65 @@ function ouvrirAssistantIA() {
   pn.appendChild(hdr); pn.appendChild(msgs); pn.appendChild(footer);
   document.body.appendChild(pn);
 }
+
+function retirerDevisDeTresorerie(d) {
+  var popup = document.createElement("div");
+  popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;font-family:-apple-system,sans-serif";
+  var box = document.createElement("div");
+  box.style.cssText = "background:#2C2C2E;border-radius:18px;padding:24px 20px;width:300px;max-width:90vw";
+  var titre = document.createElement("div");
+  titre.style.cssText = "font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;text-align:center";
+  titre.textContent = "Annuler l'attribution";
+  var sous = document.createElement("div");
+  sous.style.cssText = "font-size:13px;color:#8E8E93;margin-bottom:20px;text-align:center;line-height:1.4";
+  sous.innerHTML = echapper(d.client || "") + " \u00B7 " + (d.totalTTC || 0).toFixed(2) + " EUR<br>Actuellement attribue a <b style='color:#fff'>" + echapper(d.allocatedTo || "") + "</b>";
+  var btnConf = document.createElement("button");
+  btnConf.style.cssText = "width:100%;height:50px;border-radius:14px;background:rgba(255,59,48,.85);border:none;color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:10px";
+  btnConf.textContent = "Retirer de la tresorerie";
+  btnConf.onclick = function() {
+    popup.remove();
+    // Trouver l'userId a partir du nom
+    var userId = (d.allocatedTo === "Alexandre") ? "alex" : (d.allocatedTo === "Guillaume") ? "guil" : null;
+    if (!userId) { afficherToast("Utilisateur introuvable"); return; }
+    db.collection("tresorerie").doc(userId).get().then(function(doc) {
+      var d2 = doc.exists ? doc.data() : {encaissements: [], avances: 0};
+      if (!d2.encaissements) d2.encaissements = [];
+      // Retirer le 1er encaissement qui correspond a ce devis (client + montant)
+      var idxTrouve = -1;
+      for (var i = 0; i < d2.encaissements.length; i++) {
+        var e = d2.encaissements[i];
+        if (e.client === (d.client||"Sans nom") && Math.abs((e.montant||0) - (d.totalTTC||0)) < 0.01) { idxTrouve = i; break; }
+      }
+      if (idxTrouve >= 0) d2.encaissements.splice(idxTrouve, 1);
+      db.collection("tresorerie").doc(userId).set(d2).then(function() {
+        // Effacer l'attribution sur le devis
+        if (d._id) {
+          db.collection("devis").doc(d._id).update({allocatedTo: ""}).catch(function(){});
+        }
+        d.allocatedTo = "";
+        // Remettre le bouton bT a l'etat initial
+        var btnTresor = document.getElementById("bt-" + (d._id||""));
+        if (btnTresor) {
+          btnTresor.textContent = "+ Tres.";
+          btnTresor.style.background = "rgba(200,146,62,.15)";
+          btnTresor.style.color = "#C8923E";
+        }
+        afficherToast("Attribution annulee");
+        // Rafraichir la liste si possible
+        if (typeof rafraichirListeDevis === "function") rafraichirListeDevis();
+      }).catch(function(err){ afficherToast("Erreur: " + err.message); });
+    }).catch(function(err){ afficherToast("Erreur: " + err.message); });
+  };
+  var btnAnn = document.createElement("button");
+  btnAnn.style.cssText = "width:100%;height:44px;border-radius:12px;background:rgba(255,255,255,.08);border:none;color:#8E8E93;font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnAnn.textContent = "Garder l'attribution";
+  btnAnn.onclick = function() { popup.remove(); };
+  box.appendChild(titre); box.appendChild(sous); box.appendChild(btnConf); box.appendChild(btnAnn);
+  popup.appendChild(box);
+  popup.onclick = function(e) { if (e.target === popup) popup.remove(); };
+  document.body.appendChild(popup);
+}
+
 
 function creerMsgIA(texte) {
   var div = document.createElement("div");
@@ -3633,8 +4285,8 @@ function envoyerPrevention() {
   }
 
   var listePrest = prestsSelec.map(function(p){ return "  - " + p; }).join("\n");
-  var sujet = "Avis de passage - Crea Nature - " + dateStrFull;
-  var corps = "Bonjour " + prenom + ",\n\nNous vous informons que notre equipe interviendra chez vous le " + dateStr + " pour effectuer les travaux suivants :\n\n" + listePrest + "\n\nMerci de vous assurer que nous aurons acces a votre propriete ce jour-la.\n\nSi cette date ne vous convient pas, n'hesitez pas a nous contacter pour convenir d'un autre rendez-vous.\n\nCordialement,\n" + auteur + "\nCrea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com";
+  var sujet = "Avis de passage - "+SOCIETE_NOM+" - " + dateStrFull;
+  var corps = "Bonjour " + prenom + ",\n\nNous vous informons que notre equipe interviendra chez vous le " + dateStr + " pour effectuer les travaux suivants :\n\n" + listePrest + "\n\nMerci de vous assurer que nous aurons acces a votre propriete ce jour-la.\n\nSi cette date ne vous convient pas, n'hesitez pas a nous contacter pour convenir d'un autre rendez-vous.\n\nCordialement,\n" + auteur + "\n"+SOCIETE_NOM+"\nTel : 06 19 30 40 93\ncreanature@ymail.com";
 
   var nl = "%0D%0A";
   var corpsEnc = encodeURIComponent("Bonjour " + prenom + ",") + nl + nl
@@ -4421,35 +5073,35 @@ var CAMPAGNES_MODELES = [
     titre: "Offre printemps",
     emoji: "\u1F331",
     sujet: "Crea Nature - Pr\u00E9parez votre jardin pour le printemps !",
-    corps: "Bonjour,\n\nLe printemps approche et c'est le moment id\u00E9al pour pr\u00E9parer vos espaces verts !\n\nChez Crea Nature, nous vous proposons :\n\n\u1F33F Tonte et mise en forme de vos pelouses\n\u2702\uFE0F Taille de haies et arbustes\n\u1F338 Nettoyage et pr\u00E9paration des massifs\n\u1F331 Plantation et entretien saisonnier\n\nProfitez de notre expertise pour un jardin impeccable d\u00E8s les beaux jours.\n\nContactez-nous pour obtenir un devis gratuit !\n\nCordialement,\nL'\u00E9quipe Crea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com"
+    corps: "Bonjour,\n\nLe printemps approche et c'est le moment id\u00E9al pour pr\u00E9parer vos espaces verts !\n\nChez "+SOCIETE_NOM+", nous vous proposons :\n\n\u1F33F Tonte et mise en forme de vos pelouses\n\u2702\uFE0F Taille de haies et arbustes\n\u1F338 Nettoyage et pr\u00E9paration des massifs\n\u1F331 Plantation et entretien saisonnier\n\nProfitez de notre expertise pour un jardin impeccable d\u00E8s les beaux jours.\n\nContactez-nous pour obtenir un devis gratuit !\n\nCordialement,\nL'\u00E9quipe \"+SOCIETE_NOM+\"\nTel : 06 19 30 40 93\ncreanature@ymail.com"
   },
   {
     id: "automne",
     titre: "Nettoyage automne",
     emoji: "\u1F342",
     sujet: "Crea Nature - Pr\u00E9parez votre jardin pour l'hiver",
-    corps: "Bonjour,\n\nL'automne est l\u00E0 ! C'est le moment de pr\u00E9parer vos espaces verts pour affronter l'hiver dans les meilleures conditions.\n\nNos prestations automnales :\n\n\u1F342 Ramassage de feuilles\n\u2702\uFE0F Taille d'automne de vos haies\n\u1F33F Fauchage et d\u00E9broussaillage\n\u1F331 Traitement et protection de vos plantations\n\nN'attendez pas que votre jardin soit envahi ! Faites appel \u00E0 nos \u00E9quipes d\u00E8s maintenant.\n\nCordialement,\nL'\u00E9quipe Crea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com"
+    corps: "Bonjour,\n\nL'automne est l\u00E0 ! C'est le moment de pr\u00E9parer vos espaces verts pour affronter l'hiver dans les meilleures conditions.\n\nNos prestations automnales :\n\n\u1F342 Ramassage de feuilles\n\u2702\uFE0F Taille d'automne de vos haies\n\u1F33F Fauchage et d\u00E9broussaillage\n\u1F331 Traitement et protection de vos plantations\n\nN'attendez pas que votre jardin soit envahi ! Faites appel \u00E0 nos \u00E9quipes d\u00E8s maintenant.\n\nCordialement,\nL'\u00E9quipe \"+SOCIETE_NOM+\"\nTel : 06 19 30 40 93\ncreanature@ymail.com"
   },
   {
     id: "renouvellement",
     titre: "Renouvellement contrat",
     emoji: "\u1F4CB",
     sujet: "Crea Nature - Renouvellement de votre contrat d'entretien",
-    corps: "Bonjour,\n\nNous esp\u00E9rons que vous \u00EAtes satisfait(e) de nos services d'entretien de vos espaces verts.\n\n\u00C0 l'approche du renouvellement de votre contrat, nous souhaitons vous recontacter pour :\n\n\u2705 Faire le bilan de l'ann\u00E9e \u00E9coul\u00E9e\n\u2705 Adapter nos prestations \u00E0 vos besoins\n\u2705 Vous proposer notre offre pour la prochaine saison\n\nNous restons \u00E0 votre disposition pour convenir d'un rendez-vous ou r\u00E9pondre \u00E0 vos questions.\n\nMerci de votre confiance.\n\nCordialement,\nL'\u00E9quipe Crea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com"
+    corps: "Bonjour,\n\nNous esp\u00E9rons que vous \u00EAtes satisfait(e) de nos services d'entretien de vos espaces verts.\n\n\u00C0 l'approche du renouvellement de votre contrat, nous souhaitons vous recontacter pour :\n\n\u2705 Faire le bilan de l'ann\u00E9e \u00E9coul\u00E9e\n\u2705 Adapter nos prestations \u00E0 vos besoins\n\u2705 Vous proposer notre offre pour la prochaine saison\n\nNous restons \u00E0 votre disposition pour convenir d'un rendez-vous ou r\u00E9pondre \u00E0 vos questions.\n\nMerci de votre confiance.\n\nCordialement,\nL'\u00E9quipe \"+SOCIETE_NOM+\"\nTel : 06 19 30 40 93\ncreanature@ymail.com"
   },
   {
     id: "voeux",
     titre: "V\u0153ux de fin d'ann\u00E9e",
     emoji: "\u1F384",
     sujet: "Crea Nature vous souhaite une excellente ann\u00E9e !",
-    corps: "Bonjour,\n\n\u00C0 l'occasion de la nouvelle ann\u00E9e, toute l'\u00E9quipe Crea Nature vous adresse ses meilleurs v\u0153ux.\n\nNous vous souhaitons une excellente ann\u00E9e, pleine de sant\u00E9, de bonheur et de beaux projets.\n\nMerci de nous faire confiance pour l'entretien de vos espaces verts. C'est gr\u00E2ce \u00E0 vous que nous pouvons continuer \u00E0 grandir et \u00E0 am\u00E9liorer nos services.\n\nNous nous r\u00E9jouissons de continuer \u00E0 travailler avec vous en cette nouvelle ann\u00E9e.\n\nChaleureusement,\nL'\u00E9quipe Crea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com"
+    corps: "Bonjour,\n\n\u00C0 l'occasion de la nouvelle ann\u00E9e, toute l'\u00E9quipe \"+SOCIETE_NOM+\" vous adresse ses meilleurs v\u0153ux.\n\nNous vous souhaitons une excellente ann\u00E9e, pleine de sant\u00E9, de bonheur et de beaux projets.\n\nMerci de nous faire confiance pour l'entretien de vos espaces verts. C'est gr\u00E2ce \u00E0 vous que nous pouvons continuer \u00E0 grandir et \u00E0 am\u00E9liorer nos services.\n\nNous nous r\u00E9jouissons de continuer \u00E0 travailler avec vous en cette nouvelle ann\u00E9e.\n\nChaleureusement,\nL'\u00E9quipe \"+SOCIETE_NOM+\"\nTel : 06 19 30 40 93\ncreanature@ymail.com"
   },
   {
     id: "nouveaute",
     titre: "Nouveau service",
     emoji: "\u2728",
     sujet: "Crea Nature - D\u00E9couvrez nos nouveaux services",
-    corps: "Bonjour,\n\nCrea Nature \u00E9volue et nous sommes ravis de vous annoncer de nouvelles prestations !\n\nNos nouveaut\u00E9s :\n\n\u1F333 \u00C9lagage et abattage d'arbres\n\u1F3E1 Am\u00E9nagement et cr\u00E9ation de jardins\n\u1F4A7 Installation de syst\u00E8mes d'arrosage automatique\n\u1F33F Conseils personnalis\u00E9s en v\u00E9g\u00E9talisation\n\nFaites confiance \u00E0 notre \u00E9quipe de professionnels pour embellir et valoriser vos espaces ext\u00E9rieurs.\n\nContactez-nous pour en savoir plus !\n\nCordialement,\nL'\u00E9quipe Crea Nature\nTel : 06 19 30 40 93\ncreanature@ymail.com"
+    corps: "Bonjour,\n\n"+SOCIETE_NOM+" \u00E9volue et nous sommes ravis de vous annoncer de nouvelles prestations !\n\nNos nouveaut\u00E9s :\n\n\u1F333 \u00C9lagage et abattage d'arbres\n\u1F3E1 Am\u00E9nagement et cr\u00E9ation de jardins\n\u1F4A7 Installation de syst\u00E8mes d'arrosage automatique\n\u1F33F Conseils personnalis\u00E9s en v\u00E9g\u00E9talisation\n\nFaites confiance \u00E0 notre \u00E9quipe de professionnels pour embellir et valoriser vos espaces ext\u00E9rieurs.\n\nContactez-nous pour en savoir plus !\n\nCordialement,\nL'\u00E9quipe \"+SOCIETE_NOM+\"\nTel : 06 19 30 40 93\ncreanature@ymail.com"
   }
 ];
 
@@ -4709,6 +5361,7 @@ function ouvrirEditeurCampagne(modele, parentPn) {
 
 
 function init() {
+  chargerSociete();
   // Attacher evenements pave
   var touches = ["7","8","9","4","5","6","1","2","3",".","0"];
   for (var i = 0; i < touches.length; i++) {
