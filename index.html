@@ -13,15 +13,18 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --or:#C8923E;--or2:#8B5E1A;
-  --noir:#1C1C1E;--gris:#8E8E93;--gris2:#E5E5EA;--gris3:#F2F2F7;--blanc:#ffffff;
+  --or:#D4AF37;--or2:#A8861F;
+  --violet:#8B5CF6;--violet2:#A855F7;--violet-glow:rgba(139,92,246,.4);--or-glow:rgba(212,175,55,.35);
+  --noir:#111116;--gris:#A1A1AA;--gris2:rgba(255,255,255,.08);--gris3:#09090B;--blanc:#18181F;
+  --bg:#09090B;--carte:#111116;--carte2:#18181F;--bordure:rgba(255,255,255,.08);
+  --txt:#FFFFFF;--txt2:#A1A1AA;--succes:#22C55E;--erreur:#EF4444;
   --haut:env(safe-area-inset-top,44px);--bas:env(safe-area-inset-bottom,34px)
 }
-html,body{height:100%;overflow:hidden;background:var(--gris3);font-family:-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+html,body{height:100%;overflow:hidden;background:#09090B;font-family:-apple-system,"SF Pro Display",Inter,sans-serif;-webkit-font-smoothing:antialiased}
 #app{display:flex;flex-direction:column;height:100%;max-width:430px;margin:0 auto}
 #barre-statut{height:calc(var(--haut) + 0px);min-height:44px;background:var(--blanc);display:flex;align-items:flex-end;justify-content:space-between;padding:0 18px 6px;flex-shrink:0}
-#navbar{background:var(--blanc);border-bottom:.5px solid rgba(0,0,0,.12);padding:8px 18px 10px;display:flex;align-items:center;gap:10px;flex-shrink:0}
-#titre-page{margin-left:auto;font-size:10px;font-weight:600;color:var(--gris);letter-spacing:.12em;text-transform:uppercase}
+#navbar{background:var(--blanc);border-bottom:.5px solid rgba(0,0,0,.12);padding:8px 10px 10px;display:flex;align-items:center;gap:6px;flex-shrink:0}
+#titre-page{margin-left:auto;font-size:9px;font-weight:600;color:var(--gris);letter-spacing:.08em;text-transform:uppercase}
 #onglets{display:flex;background:var(--blanc);border-bottom:.5px solid rgba(0,0,0,.1);flex-shrink:0}
 .onglet{flex:1;padding:10px 0;font-size:13px;font-weight:500;color:var(--gris);text-align:center;cursor:pointer;border:none;background:none;border-bottom:2.5px solid transparent;font-family:-apple-system,sans-serif}
 .onglet.actif{color:var(--or);border-bottom-color:var(--or)}
@@ -249,6 +252,217 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
   /* Boutons ajout photo */
   .btn-ajout-photo { background: #1C1C1E !important; border-color: #3A3A3C !important; color: #8E8E93 !important; }
 }
+
+/* Planning : vue verticale sur mobile, grille sur desktop */
+.planning-vue-verticale { display: flex; }
+.planning-vue-grille { display: none; }
+@media (min-width: 768px) {
+  .planning-vue-verticale { display: none; }
+  .planning-vue-grille { display: block; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REDESIGN PREMIUM — Thème futuriste violet/or
+   ═══════════════════════════════════════════════════════════ */
+
+/* Fond global premium avec halos lumineux */
+body {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(139,92,246,.08), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(212,175,55,.06), transparent 40%),
+    #09090B !important;
+}
+#app { background: transparent !important; }
+
+/* Barre de statut + navbar : verre premium */
+#barre-statut { background: rgba(9,9,11,.8) !important; backdrop-filter: blur(20px); }
+#navbar {
+  background: rgba(17,17,22,.7) !important;
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255,255,255,.08) !important;
+}
+#contenu { background: transparent !important; }
+
+/* Cartes : verre premium, coins très arrondis, liseré lumineux */
+.carte, .bloc-totaux, .bloc-desig {
+  background: linear-gradient(160deg, rgba(24,24,31,.9), rgba(17,17,22,.9)) !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+
+/* Boutons prestations premium */
+.btn-prest {
+  background: rgba(24,24,31,.8) !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  color: #E4E4E7 !important;
+  border-radius: 16px !important;
+  transition: all .3s cubic-bezier(.34,1.56,.64,1) !important;
+}
+.btn-prest:active { transform: scale(.96); }
+.btn-prest.actif {
+  background: linear-gradient(135deg, rgba(212,175,55,.18), rgba(168,134,31,.1)) !important;
+  border-color: rgba(212,175,55,.5) !important;
+  color: #D4AF37 !important;
+  box-shadow: 0 0 20px rgba(212,175,55,.25) !important;
+}
+
+/* Boutons or premium */
+.btn-or {
+  background: linear-gradient(135deg, #D4AF37, #A8861F) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(212,175,55,.35) !important;
+  color: #18181F !important;
+  font-weight: 700 !important;
+  transition: all .3s !important;
+}
+.btn-or:active { transform: scale(.97); }
+
+/* Boutons gris premium */
+.btn-gris, .btn-tirete {
+  background: rgba(255,255,255,.04) !important;
+  border: 1px solid rgba(255,255,255,.1) !important;
+  color: #A1A1AA !important;
+  border-radius: 16px !important;
+}
+
+/* Champs premium */
+.champ-tap, .input-texte, textarea.input-texte {
+  background: rgba(255,255,255,.04) !important;
+  border: 1px solid rgba(255,255,255,.1) !important;
+  color: #fff !important;
+  border-radius: 14px !important;
+}
+.input-texte:focus, textarea.input-texte:focus {
+  border-color: rgba(139,92,246,.5) !important;
+  box-shadow: 0 0 0 3px rgba(139,92,246,.12) !important;
+}
+.input-texte::placeholder { color: #52525B !important; }
+.champ-val { color: #fff !important; }
+.champ-l, .label-form { color: #A1A1AA !important; }
+
+/* Intervenants premium */
+.btn-interv {
+  background: rgba(255,255,255,.04) !important;
+  border: 1px solid rgba(255,255,255,.1) !important;
+  color: #E4E4E7 !important;
+  border-radius: 14px !important;
+}
+.btn-interv.actif {
+  background: linear-gradient(135deg, #8B5CF6, #A855F7) !important;
+  border-color: #8B5CF6 !important;
+  color: #fff !important;
+  box-shadow: 0 0 20px rgba(139,92,246,.45) !important;
+}
+
+/* Totaux : violet premium pour TTC */
+.ligne-total.ttc {
+  background: linear-gradient(135deg, rgba(139,92,246,.18), rgba(168,85,247,.1)) !important;
+  border-radius: 14px !important;
+}
+.ligne-total.ttc .total-label { color: #A855F7 !important; }
+.ligne-total.ttc .total-valeur { color: #A855F7 !important; }
+
+/* Onglets premium */
+.onglet { color: #71717A !important; }
+.onglet.actif { color: #D4AF37 !important; border-bottom-color: #D4AF37 !important; }
+
+/* Titres de section */
+.titre-section, .titre-bloc { color: #71717A !important; }
+
+/* Scrollbar premium */
+::-webkit-scrollbar { width: 0; height: 0; }
+
+/* ═══ ACCUEIL PREMIUM ═══ */
+.acc-header {
+  background:
+    radial-gradient(circle at 80% 0%, rgba(139,92,246,.15), transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(212,175,55,.1), transparent 50%),
+    linear-gradient(160deg, #111116, #09090B) !important;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.acc-body { background: transparent !important; }
+
+/* KPI cards premium */
+.acc-stat {
+  background: linear-gradient(160deg, rgba(24,24,31,.9), rgba(17,17,22,.8)) !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  border-radius: 20px !important;
+  padding: 16px 14px !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.04);
+  position: relative;
+  overflow: hidden;
+}
+.acc-stat-main {
+  background: linear-gradient(160deg, rgba(139,92,246,.12), rgba(17,17,22,.8)) !important;
+  border-color: rgba(139,92,246,.25) !important;
+}
+.acc-stat-val { font-size: 26px !important; font-weight: 800 !important; letter-spacing: -.02em; }
+.acc-stat-ca { color: #A855F7 !important; }
+.acc-stat-lbl { color: #71717A !important; font-size: 10px !important; letter-spacing: .08em; text-transform: uppercase; }
+.acc-stat-mois { color: #D4AF37 !important; }
+
+/* Logo accueil */
+.acc-crea { color: #A1A1AA !important; }
+.acc-nature { color: #fff !important; }
+
+/* Section titre */
+.acc-section { color: #52525B !important; font-size: 11px !important; letter-spacing: .12em; text-transform: uppercase; }
+
+/* Cartes d'action premium */
+.acc-btn {
+  background: linear-gradient(160deg, rgba(24,24,31,.9), rgba(17,17,22,.85)) !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  border-radius: 22px !important;
+  padding: 20px 16px !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.04) !important;
+  transition: all .3s cubic-bezier(.34,1.56,.64,1) !important;
+  position: relative;
+  overflow: hidden;
+}
+.acc-btn::after {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+}
+.acc-btn:active { transform: scale(.97); }
+.acc-lbl { color: #fff !important; font-size: 15px !important; font-weight: 700 !important; }
+.acc-desc { color: #71717A !important; font-size: 12px !important; }
+
+/* Carte dorée (Nouveau devis) premium */
+.acc-btn-gold {
+  background: linear-gradient(135deg, rgba(212,175,55,.95), rgba(168,134,31,.9)) !important;
+  border-color: rgba(212,175,55,.5) !important;
+  box-shadow: 0 6px 28px rgba(212,175,55,.3), inset 0 1px 0 rgba(255,255,255,.2) !important;
+}
+.acc-btn-gold .acc-lbl, .acc-btn-gold .acc-desc { color: #18181F !important; }
+.acc-btn-gold .acc-desc { color: rgba(24,24,31,.7) !important; }
+
+/* Icônes avec glow */
+.acc-ico {
+  width: 44px; height: 44px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.06);
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.acc-btn-gold .acc-ico { background: rgba(24,24,31,.2); }
+
+/* Glow coloré par carte (nth-child) */
+.acc-grid .acc-btn:nth-child(2) .acc-ico { background: rgba(139,92,246,.15); box-shadow: 0 0 16px rgba(139,92,246,.2); }
+.acc-grid .acc-btn:nth-child(3) .acc-ico { background: rgba(168,85,247,.15); }
+.acc-grid .acc-btn:nth-child(4) .acc-ico { background: rgba(212,175,55,.15); }
+.acc-grid .acc-btn:nth-child(5) .acc-ico { background: rgba(34,197,94,.12); }
+
+/* Animation fade-up à l'apparition */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.acc-btn { animation: fadeUp .4s ease both; }
+.acc-grid .acc-btn:nth-child(1){animation-delay:.02s}
+.acc-grid .acc-btn:nth-child(2){animation-delay:.06s}
+.acc-grid .acc-btn:nth-child(3){animation-delay:.1s}
+.acc-grid .acc-btn:nth-child(4){animation-delay:.14s}
+.acc-grid .acc-btn:nth-child(5){animation-delay:.18s}
+.acc-grid .acc-btn:nth-child(6){animation-delay:.22s}
+.acc-stat { animation: fadeUp .5s ease both; }
 </style>
 </head>
 <body>
@@ -323,7 +537,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 
 <div id="navbar">
   <img src="data:image/png;base64,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" alt="Crea Nature" style="height:40px;object-fit:contain"/>
-  <span id="titre-page">Calculateur</span><span id="cpt-devis-banniere" style="font-size:10px;font-weight:600;color:#C8923E;background:rgba(200,146,62,.12);padding:2px 8px;border-radius:10px;margin-left:8px"></span>
+  <span id="titre-page">Calculateur</span><span id="cpt-devis-banniere" style="font-size:9px;font-weight:600;color:#C8923E;background:rgba(200,146,62,.12);padding:2px 6px;border-radius:8px;margin-left:4px;white-space:nowrap"></span>
   <div style="display:flex;gap:4px;align-items:center">
     <button onclick="ouvrirAssistantIA()" style="background:linear-gradient(135deg,#6E40C9,#9B59D0);border:none;color:#fff;padding:5px 10px;border-radius:20px;cursor:pointer;font-family:-apple-system,sans-serif;display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" fill="white"/></svg>IA</button>
     <button id="btn-stats" onclick="afficherStats()" style="background:none;border:none;cursor:pointer;padding:4px;color:#8E8E93;display:flex;align-items:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><polyline points="4,17 9,11 14,14 20,7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="4" cy="17" r="1.5" fill="currentColor"/><circle cx="9" cy="11" r="1.5" fill="currentColor"/><circle cx="14" cy="14" r="1.5" fill="currentColor"/><circle cx="20" cy="7" r="1.5" fill="currentColor"/></svg></button>
@@ -3152,6 +3366,39 @@ function chargerTresorerie() {
   });
 }
 
+// Pre-remplir les contrats existants (depuis la liste fournie)
+function importerContratsInitiaux() {
+  if (!confirm("Ajouter les 9 contrats de la liste (Arcese, ENA 2, DPD, SDC, Mutuelle SMPS, Duhaillier, SCI Epermailles, PIK, Verheyden) ?")) return;
+  var contratsAImporter = [
+    { client: "Arcese DP World France", montantMensuel: 2232.30, periodicite: "mensuel" },
+    { client: "ENA 2 c/o Immobilier Gestion (SCI)", montantMensuel: 574.50, periodicite: "mensuel" },
+    { client: "DPD France", montantMensuel: 517.81, periodicite: "mensuel" },
+    { client: "SDC Les Capucins c/o Cabinet Montesquieu", montantMensuel: 892.00, periodicite: "mensuel" },
+    { client: "Mutuelle SMPS", montantMensuel: 180.00, periodicite: "mensuel" },
+    { client: "Duhaillier Cyril", montantMensuel: 72.00, periodicite: "mensuel" },
+    { client: "SCI Des Epermailles", montantMensuel: 132.50, periodicite: "trimestriel" },
+    { client: "PIK", montantMensuel: 155.00, periodicite: "trimestriel" },
+    { client: "Verheyden", montantMensuel: 190.00, periodicite: "trimestriel" }
+  ];
+  afficherToast("Import en cours...");
+  var promesses = contratsAImporter.map(function(ct) {
+    return db.collection("contrats").add({
+      type: "recurrent",
+      periodicite: ct.periodicite,
+      client: ct.client,
+      montantMensuel: ct.montantMensuel,
+      date: new Date().toISOString()
+    });
+  });
+  Promise.all(promesses).then(function() {
+    afficherToast("9 contrats importes !");
+    chargerTresorerie();
+  }).catch(function() {
+    afficherToast("Erreur lors de l'import");
+  });
+}
+
+
 function afficherTresorerie(data, contrats) {
   var body = document.getElementById("tresor-body");
   if (!body) return;
@@ -3443,7 +3690,6 @@ function afficherTresorerie(data, contrats) {
   var totalMensuelContrats = 0;
   contrats.forEach(function(ct) { if (ct.type !== "ponctuel") totalMensuelContrats += (ct.montantMensuel || 0); });
   var totalAnnuelContrats = totalMensuelContrats * 12;
-  // Ponctuels
   var totalPonctuels = 0;
   contrats.forEach(function(ct) { if (ct.type === "ponctuel") totalPonctuels += (ct.montant || 0); });
 
@@ -3454,19 +3700,35 @@ function afficherTresorerie(data, contrats) {
     "</div>";
 
   var listeC = document.createElement("div");
-  // Contrats mensuels
   var titreM = document.createElement("div");
   titreM.style.cssText = "font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8E8E93;margin-bottom:8px";
-  titreM.textContent = "Contrats mensuels";
+  titreM.textContent = "Contrats";
   listeC.appendChild(titreM);
+  // Bouton import initial (si aucun contrat recurrent)
+  if (contrats.filter(function(ct){ return ct.type !== "ponctuel"; }).length === 0) {
+    var btnImport = document.createElement("button");
+    btnImport.style.cssText = "width:100%;padding:10px;border-radius:8px;background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.3);color:#A855F7;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:8px";
+    btnImport.textContent = "Importer mes 9 contrats existants";
+    btnImport.onclick = importerContratsInitiaux;
+    listeC.appendChild(btnImport);
+  }
 
   contrats.filter(function(ct){ return ct.type !== "ponctuel"; }).forEach(function(ct) {
     var row = document.createElement("div");
     row.style.cssText = "display:flex;align-items:center;gap:8px;background:#1C1C1E;border-radius:8px;padding:10px 12px;margin-bottom:5px";
     var info = document.createElement("div");
     info.style.cssText = "flex:1;min-width:0";
-    info.innerHTML = "<div style='font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(ct.client || "") + "</div>" +
-      "<div style='font-size:11px;color:#8E8E93;margin-top:2px'>" + (ct.montantMensuel||0).toFixed(2) + " EUR/mois \u00B7 " + ((ct.montantMensuel||0)*12).toFixed(2) + " EUR/an</div>";
+    var mensuel = ct.montantMensuel || 0;
+    var estTrim = ct.periodicite === "trimestriel";
+    var ligneMontant;
+    if (estTrim) {
+      ligneMontant = (mensuel * 3).toFixed(2) + " EUR/trim \u00B7 " + (mensuel * 12).toFixed(2) + " EUR/an";
+    } else {
+      ligneMontant = mensuel.toFixed(2) + " EUR/mois \u00B7 " + (mensuel * 12).toFixed(2) + " EUR/an";
+    }
+    var badge = estTrim ? "<span style='font-size:9px;font-weight:700;color:#A855F7;background:rgba(168,85,247,.15);padding:1px 6px;border-radius:6px;margin-left:6px'>TRIM</span>" : "";
+    info.innerHTML = "<div style='font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(ct.client || "") + badge + "</div>" +
+      "<div style='font-size:11px;color:#8E8E93;margin-top:2px'>" + ligneMontant + "</div>";
     var bDel = document.createElement("button");
     bDel.style.cssText = "background:rgba(255,59,48,.15);border:none;color:#FF3B30;width:26px;height:26px;border-radius:13px;font-size:14px;cursor:pointer;flex-shrink:0";
     bDel.innerHTML = "&#x00D7;";
@@ -3480,28 +3742,42 @@ function afficherTresorerie(data, contrats) {
     listeC.appendChild(row);
   });
 
-  // Formulaire ajout contrat mensuel
+  // Formulaire ajout contrat (avec choix mensuel/trimestriel)
+  var formWrap = document.createElement("div");
+  formWrap.style.cssText = "margin-top:8px;margin-bottom:14px";
   var formC = document.createElement("div");
-  formC.style.cssText = "display:flex;gap:6px;margin-top:6px;margin-bottom:14px";
+  formC.style.cssText = "display:flex;gap:6px;margin-bottom:6px";
   var inpClientC = document.createElement("input");
   inpClientC.type = "text"; inpClientC.placeholder = "Nom du client";
   inpClientC.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
   var inpMontC = document.createElement("input");
-  inpMontC.type = "number"; inpMontC.placeholder = "EUR/mois";
-  inpMontC.style.cssText = "width:90px;padding:8px 8px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+  inpMontC.type = "number"; inpMontC.placeholder = "Montant";
+  inpMontC.style.cssText = "width:85px;padding:8px 8px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+  formC.appendChild(inpClientC); formC.appendChild(inpMontC);
+  formWrap.appendChild(formC);
+  // Ligne 2 : choix periodicite + bouton
+  var formC2 = document.createElement("div");
+  formC2.style.cssText = "display:flex;gap:6px";
+  var selPeriode = document.createElement("select");
+  selPeriode.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+  selPeriode.innerHTML = "<option value='mensuel'>Montant mensuel</option><option value='trimestriel'>Montant trimestriel</option>";
+  formC2.appendChild(selPeriode);
   var btnAddC = document.createElement("button");
-  btnAddC.style.cssText = "background:linear-gradient(135deg,#5B8DEF,#3A6FD8);border:none;color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
+  btnAddC.style.cssText = "background:linear-gradient(135deg,#5B8DEF,#3A6FD8);border:none;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
   btnAddC.textContent = "+ Ajouter";
   btnAddC.onclick = function() {
     var client = inpClientC.value.trim();
     var montant = parseFloat(inpMontC.value);
-    if (!client || isNaN(montant) || montant <= 0) { afficherToast("Remplis client et montant mensuel"); return; }
-    db.collection("contrats").add({ type: "mensuel", client: client, montantMensuel: montant, date: new Date().toISOString() }).then(function() {
+    if (!client || isNaN(montant) || montant <= 0) { afficherToast("Remplis client et montant"); return; }
+    var periodicite = selPeriode.value;
+    var montantMensuel = (periodicite === "trimestriel") ? (montant / 3) : montant;
+    db.collection("contrats").add({ type: "recurrent", periodicite: periodicite, client: client, montantMensuel: montantMensuel, date: new Date().toISOString() }).then(function() {
       afficherToast("Contrat ajoute"); chargerTresorerie();
     }).catch(function(){ afficherToast("Erreur"); });
   };
-  formC.appendChild(inpClientC); formC.appendChild(inpMontC); formC.appendChild(btnAddC);
-  listeC.appendChild(formC);
+  formC2.appendChild(btnAddC);
+  formWrap.appendChild(formC2);
+  listeC.appendChild(formWrap);
 
   // Montants ponctuels
   var titreP = document.createElement("div");
@@ -3529,7 +3805,6 @@ function afficherTresorerie(data, contrats) {
     listeC.appendChild(row);
   });
 
-  // Formulaire ajout ponctuel
   var formP = document.createElement("div");
   formP.style.cssText = "display:flex;gap:6px;margin-top:6px;margin-bottom:6px";
   var inpLibP = document.createElement("input");
@@ -3556,15 +3831,15 @@ function afficherTresorerie(data, contrats) {
 
   sectionC.appendChild(listeC);
 
-  // Total de la rubrique
   var totalRub = document.createElement("div");
   totalRub.style.cssText = "margin-top:12px;padding-top:12px;border-top:1px solid #3A3A3C";
   totalRub.innerHTML =
-    "<div style='display:flex;justify-content:space-between;margin-bottom:4px'><span style='font-size:12px;color:#8E8E93'>Contrats mensuels (annuel)</span><span style='font-size:13px;font-weight:600;color:#fff'>" + totalAnnuelContrats.toFixed(2) + " EUR</span></div>" +
+    "<div style='display:flex;justify-content:space-between;margin-bottom:4px'><span style='font-size:12px;color:#8E8E93'>Contrats (annuel)</span><span style='font-size:13px;font-weight:600;color:#fff'>" + totalAnnuelContrats.toFixed(2) + " EUR</span></div>" +
     "<div style='display:flex;justify-content:space-between;margin-bottom:8px'><span style='font-size:12px;color:#8E8E93'>Montants ponctuels</span><span style='font-size:13px;font-weight:600;color:#fff'>" + totalPonctuels.toFixed(2) + " EUR</span></div>" +
     "<div style='display:flex;justify-content:space-between;align-items:center;background:rgba(91,141,239,.12);border-radius:10px;padding:12px'><span style='font-size:13px;font-weight:700;color:#5B8DEF;text-transform:uppercase;letter-spacing:.05em'>Total recurrents</span><span style='font-size:18px;font-weight:700;color:#5B8DEF'>" + (totalAnnuelContrats + totalPonctuels).toFixed(2) + " EUR</span></div>";
   sectionC.appendChild(totalRub);
   body.appendChild(sectionC);
+
 
 }
 
@@ -4557,8 +4832,60 @@ function ouvrirPlanning() {
     hint.textContent = "Touche une case pour ajouter / retirer une semaine";
     corps.appendChild(hint);
 
+    // ===== VUE VERTICALE (mobile) : liste par mois =====
+    var vueVerticale = document.createElement("div");
+    vueVerticale.className = "planning-vue-verticale";
+    vueVerticale.style.cssText = "display:flex;flex-direction:column;gap:10px;margin-bottom:14px";
+    // Noms des mois et leur correspondance approximative en semaines
+    var moisNoms = ["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre"];
+    // Pour chaque mois, trouver les semaines (approx : 4.33 sem/mois)
+    for (var moi = 0; moi < 12; moi++) {
+      var semDebut = Math.floor(moi * 4.333) + 1;
+      var semFin = Math.floor((moi + 1) * 4.333);
+      if (moi === 11) semFin = 52;
+      // Collecter les interventions de ce mois
+      var interventionsMois = [];
+      Object.keys(plan.interventions).forEach(function(prest) {
+        var sems = (plan.interventions[prest] || []).filter(function(s){ return s >= semDebut && s <= semFin; });
+        if (sems.length > 0) interventionsMois.push({ prest: prest, sems: sems });
+      });
+      var carteMois = document.createElement("div");
+      carteMois.style.cssText = "background:#2C2C2E;border-radius:12px;padding:12px 14px";
+      var entete = document.createElement("div");
+      entete.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:" + (interventionsMois.length ? "10px" : "0");
+      entete.innerHTML = "<span style='font-size:14px;font-weight:700;color:#fff'>" + moisNoms[moi] + "</span>" +
+        "<span style='font-size:10px;color:#636366'>S" + semDebut + "-S" + semFin + "</span>";
+      carteMois.appendChild(entete);
+      if (interventionsMois.length === 0) {
+        var vide = document.createElement("div");
+        vide.style.cssText = "font-size:12px;color:#636366;font-style:italic";
+        vide.textContent = "Aucune intervention";
+        carteMois.appendChild(vide);
+      } else {
+        interventionsMois.forEach(function(item) {
+          var ligne = document.createElement("div");
+          ligne.style.cssText = "display:flex;align-items:center;gap:8px;padding:6px 0";
+          var pastille = document.createElement("div");
+          pastille.style.cssText = "width:10px;height:10px;border-radius:3px;flex-shrink:0;background:" + (PREST_COULEURS[item.prest] || "#C8923E");
+          ligne.appendChild(pastille);
+          var nom = document.createElement("div");
+          nom.style.cssText = "flex:1;font-size:13px;font-weight:600;color:#fff";
+          nom.textContent = item.prest;
+          ligne.appendChild(nom);
+          var semLabels = document.createElement("div");
+          semLabels.style.cssText = "font-size:11px;color:#8E8E93;font-weight:500";
+          semLabels.textContent = item.sems.map(function(s){ return "S" + s; }).join(", ");
+          ligne.appendChild(semLabels);
+          carteMois.appendChild(ligne);
+        });
+      }
+      vueVerticale.appendChild(carteMois);
+    }
+    corps.appendChild(vueVerticale);
+
     // Tableau 52 semaines
     var tableWrap = document.createElement("div");
+    tableWrap.className = "planning-vue-grille";
     tableWrap.style.cssText = "overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px;background:#2C2C2E;padding:12px";
 
     var semNumRow = document.createElement("div");
