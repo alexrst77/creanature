@@ -483,7 +483,7 @@ body {
   transform: translateX(-50%);
   width: calc(100% - 32px);
   max-width: 400px;
-  z-index: 100001;
+  z-index: 1000000;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -583,6 +583,17 @@ body {
 #barre-statut { color: #A1A1AA; }
 /* Icônes navbar en violet subtil */
 #navbar svg path[fill="white"] { fill: #fff; }
+
+/* Espace en bas des panneaux pour la barre de navigation flottante (rien ne passe dessous) */
+#tresor-body,
+#clients-corps,
+#panneau-stats [style*="overflow-y"],
+#panneau-planning [style*="overflow-y"],
+.panneau-scroll {
+  padding-bottom: 110px !important;
+}
+/* Les listes internes aussi */
+#memo-liste { padding-bottom: 110px; }
 </style>
 </head>
 <body>
@@ -1012,9 +1023,9 @@ function animerNombre(el, valeurFinale, suffixe, duree) {
 function navGoTo(dest) {
   if (dest === "accueil") { retourAccueil(); return; }
   if (dest === "devis") { lancerCalculateur(); masquerBottomNav(); return; }
-  if (dest === "tresorerie") { if (typeof ouvrirPanneauTresorerie === "function") ouvrirPanneauTresorerie(); return; }
-  if (dest === "planning") { if (typeof ouvrirPlanning === "function") ouvrirPlanning(); return; }
-  if (dest === "reglages") { if (typeof ouvrirReglages === "function") ouvrirReglages(); return; }
+  if (dest === "tresorerie") { if (typeof ouvrirPanneauTresorerie === "function") { ouvrirPanneauTresorerie(); afficherBottomNav("tresorerie"); } return; }
+  if (dest === "planning") { if (typeof ouvrirPlanning === "function") { ouvrirPlanning(); afficherBottomNav("planning"); } return; }
+  if (dest === "reglages") { if (typeof ouvrirReglages === "function") { ouvrirReglages(); afficherBottomNav("reglages"); } return; }
 }
 
 function deconnecter() {
@@ -1506,7 +1517,7 @@ function ouvrirReglages() {
   var carteRacc = document.createElement("div");
   carteRacc.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:24px;display:flex;flex-direction:column;gap:8px";
   var btns3 = [
-    {label:"Historique des devis", fn:function(){ panneau.remove(); afficherStats(); }},
+    {label:"Historique", fn:function(){ panneau.remove(); afficherStats(); }},
     {label:"Tresorerie", fn:function(){ panneau.remove(); ouvrirPanneauTresorerie(); }},
     {label:"Assistant IA", fn:function(){ panneau.remove(); ouvrirAssistantIA(); }}
   ];
@@ -1592,7 +1603,7 @@ function afficherStats() {
     // Barre
     var barre = document.createElement("div");
     barre.style.cssText = "background:linear-gradient(135deg,#D4AF37,#A8861F);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px) + 6px)";
-    barre.innerHTML = "<div><div style='font-size:17px;font-weight:700'>Historique des devis</div><div style='font-size:12px;font-weight:500;opacity:.85;margin-top:1px'>" + devis.length + " devis enregistre" + (devis.length>1?"s":"") + "</div></div>";
+    barre.innerHTML = "<div><div style='font-size:17px;font-weight:700'>Historique</div><div style='font-size:12px;font-weight:500;opacity:.85;margin-top:1px'>" + devis.length + " devis enregistre" + (devis.length>1?"s":"") + "</div></div>";
     var btnF = document.createElement("button");
     btnF.style.cssText = "background:rgba(255,255,255,.25);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
     btnF.textContent = "Fermer";
@@ -1624,29 +1635,32 @@ function afficherStats() {
     ongDevis.textContent = "Devis";
     var ongFactures = document.createElement("button");
     ongFactures.id = "ong-histo-factures";
-    ongFactures.style.cssText = "flex:1;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#A1A1AA;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+    ongFactures.style.cssText = "flex:1;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#A1A1AA;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
     ongFactures.textContent = "Factures";
+    var ongContrats = document.createElement("button");
+    ongContrats.id = "ong-histo-contrats";
+    ongContrats.style.cssText = "flex:1;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#A1A1AA;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+    ongContrats.textContent = "Contrats & CA";
     function majOngletsHisto() {
+      var inactif = "rgba(255,255,255,.04)";
+      var inactifBord = "1px solid rgba(255,255,255,.1)";
+      // reset
+      [ongDevis, ongFactures, ongContrats].forEach(function(o){ o.style.background = inactif; o.style.color = "#A1A1AA"; o.style.border = inactifBord; });
       if (modeHisto === "devis") {
-        ongDevis.style.background = "linear-gradient(135deg,#D4AF37,#A8861F)";
-        ongDevis.style.color = "#18181F";
-        ongDevis.style.border = "none";
-        ongFactures.style.background = "rgba(255,255,255,.04)";
-        ongFactures.style.color = "#A1A1AA";
-        ongFactures.style.border = "1px solid rgba(255,255,255,.1)";
+        ongDevis.style.background = "linear-gradient(135deg,#D4AF37,#A8861F)"; ongDevis.style.color = "#18181F"; ongDevis.style.border = "none";
+      } else if (modeHisto === "factures") {
+        ongFactures.style.background = "linear-gradient(135deg,#8B5CF6,#A855F7)"; ongFactures.style.color = "#fff"; ongFactures.style.border = "none";
       } else {
-        ongFactures.style.background = "linear-gradient(135deg,#8B5CF6,#A855F7)";
-        ongFactures.style.color = "#fff";
-        ongFactures.style.border = "none";
-        ongDevis.style.background = "rgba(255,255,255,.04)";
-        ongDevis.style.color = "#A1A1AA";
-        ongDevis.style.border = "1px solid rgba(255,255,255,.1)";
+        ongContrats.style.background = "linear-gradient(135deg,#5B8DEF,#3A6FD8)"; ongContrats.style.color = "#fff"; ongContrats.style.border = "none";
       }
     }
     ongDevis.onclick = function() { modeHisto = "devis"; majOngletsHisto(); afficherContenu(searchInp.value.trim()); };
     ongFactures.onclick = function() { modeHisto = "factures"; majOngletsHisto(); afficherContenu(searchInp.value.trim()); };
+    ongContrats.onclick = function() { modeHisto = "contrats"; majOngletsHisto(); afficherContenu(searchInp.value.trim()); };
     ongletsHisto.appendChild(ongDevis);
     ongletsHisto.appendChild(ongFactures);
+    ongletsHisto.appendChild(ongContrats);
+
 
     panneau.appendChild(searchBar);
     panneau.appendChild(ongletsHisto);
@@ -1657,6 +1671,11 @@ function afficherStats() {
 
     function afficherContenu(filtre) {
       liste.innerHTML = "";
+      // Mode special : Contrats & CA (affiche contrats + totaux factures tresorerie)
+      if (modeHisto === "contrats") {
+        afficherContenuContrats();
+        return;
+      }
       // Filtrer selon le mode : "factures" = uniquement les devis attribues a la tresorerie
       var base = (modeHisto === "factures")
         ? devis.filter(function(d){ return d.allocatedTo; })
@@ -1762,6 +1781,133 @@ function afficherStats() {
         afficherListeDevis(filtered, liste);
       }
     }
+
+    function afficherContenuContrats() {
+      liste.innerHTML = "<div style='text-align:center;color:#8E8E93;padding:30px;font-size:14px'>Chargement...</div>";
+      // Charger contrats + tresorerie en parallele
+      Promise.all([
+        db.collection("contrats").get(),
+        db.collection("tresorerie").get()
+      ]).then(function(res) {
+        var snapC = res[0], snapT = res[1];
+        var contrats = [];
+        snapC.forEach(function(doc){ contrats.push(doc.data()); });
+        liste.innerHTML = "";
+
+        // ===== SECTION TOTAUX FACTURES PAR PERSONNE =====
+        var totauxParPersonne = {};
+        snapT.forEach(function(doc){
+          var d = doc.data();
+          var nom = (doc.id === "alex") ? "Alexandre" : (doc.id === "guil") ? "Guillaume" : doc.id;
+          var tousEnc = [];
+          (d.encaissements || []).forEach(function(e){ tousEnc.push(e); });
+          if (d.archives) { Object.keys(d.archives).forEach(function(an){ (d.archives[an]||[]).forEach(function(e){ tousEnc.push(e); }); }); }
+          var totalTTC = 0, totalHT = 0;
+          tousEnc.forEach(function(e){
+            var ttc = e.montant || 0;
+            totalTTC += ttc;
+            totalHT += montantHT(ttc, tauxTVA(e.client));
+          });
+          totauxParPersonne[nom] = { ttc: totalTTC, ht: totalHT, nb: tousEnc.length };
+        });
+
+        var secTitre1 = document.createElement("div");
+        secTitre1.style.cssText = "font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#71717A;margin:4px 2px 10px";
+        secTitre1.textContent = "Total facture par personne";
+        liste.appendChild(secTitre1);
+
+        var grandTotalTTC = 0, grandTotalHT = 0;
+        ["Alexandre", "Guillaume"].forEach(function(nom){
+          var t = totauxParPersonne[nom] || { ttc: 0, ht: 0, nb: 0 };
+          grandTotalTTC += t.ttc; grandTotalHT += t.ht;
+          var carte = document.createElement("div");
+          carte.style.cssText = "background:linear-gradient(160deg,rgba(24,24,31,.9),rgba(17,17,22,.9));border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:16px;margin-bottom:10px";
+          carte.innerHTML =
+            "<div style='display:flex;align-items:center;gap:10px;margin-bottom:10px'>" +
+              "<div style='width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,#D4AF37,#A8861F);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#18181F'>" + nom.charAt(0) + "</div>" +
+              "<div><div style='font-size:15px;font-weight:700;color:#fff'>" + nom + "</div><div style='font-size:11px;color:#71717A'>" + t.nb + " encaissement" + (t.nb>1?"s":"") + "</div></div>" +
+            "</div>" +
+            "<div style='display:flex;justify-content:space-between;padding-top:8px;border-top:1px solid rgba(255,255,255,.06)'>" +
+              "<div><div style='font-size:11px;color:#71717A'>Facture HT</div><div style='font-size:18px;font-weight:700;color:#22C55E'>" + t.ht.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + " EUR</div></div>" +
+              "<div style='text-align:right'><div style='font-size:11px;color:#71717A'>Facture TTC</div><div style='font-size:14px;font-weight:600;color:#A1A1AA'>" + t.ttc.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + " EUR</div></div>" +
+            "</div>";
+          liste.appendChild(carte);
+        });
+
+        // Total combine
+        var carteTotal = document.createElement("div");
+        carteTotal.style.cssText = "background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);border-radius:18px;padding:16px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center";
+        carteTotal.innerHTML =
+          "<div><div style='font-size:12px;font-weight:700;color:#A855F7;text-transform:uppercase;letter-spacing:.05em'>Total facture (2 gerants)</div><div style='font-size:11px;color:#71717A;margin-top:2px'>TTC " + grandTotalTTC.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + " EUR</div></div>" +
+          "<div style='font-size:22px;font-weight:800;color:#A855F7'>" + grandTotalHT.toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:0}) + " EUR<span style='font-size:12px;font-weight:600;color:#71717A'> HT</span></div>";
+        liste.appendChild(carteTotal);
+
+        // ===== SECTION CONTRATS RECURRENTS =====
+        var secTitre2 = document.createElement("div");
+        secTitre2.style.cssText = "font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#71717A;margin:4px 2px 10px";
+        secTitre2.textContent = "Contrats recurrents";
+        liste.appendChild(secTitre2);
+
+        var contratsRec = contrats.filter(function(ct){ return ct.type !== "ponctuel"; });
+        var ponctuels = contrats.filter(function(ct){ return ct.type === "ponctuel"; });
+
+        if (contratsRec.length === 0 && ponctuels.length === 0) {
+          var vide = document.createElement("div");
+          vide.style.cssText = "text-align:center;color:#71717A;padding:20px;font-size:13px";
+          vide.textContent = "Aucun contrat enregistre";
+          liste.appendChild(vide);
+        }
+
+        var totalContratsHT = 0, totalContratsTTC = 0;
+        contratsRec.forEach(function(ct){
+          var mensuel = ct.montantMensuel || 0;
+          var tva = tauxTVA(ct.client);
+          var annuelTTC = mensuel * 12;
+          var annuelHT = montantHT(mensuel, tva) * 12;
+          totalContratsHT += annuelHT; totalContratsTTC += annuelTTC;
+          var estTrim = ct.periodicite === "trimestriel";
+          var carte = document.createElement("div");
+          carte.style.cssText = "background:linear-gradient(160deg,rgba(24,24,31,.9),rgba(17,17,22,.9));border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:13px 15px;margin-bottom:8px";
+          var badge = estTrim ? "<span style='font-size:9px;font-weight:700;color:#A855F7;background:rgba(168,85,247,.15);padding:1px 6px;border-radius:6px;margin-left:6px'>TRIM</span>" : "";
+          carte.innerHTML =
+            "<div style='display:flex;justify-content:space-between;align-items:flex-start'>" +
+              "<div style='flex:1;min-width:0'><div style='font-size:14px;font-weight:600;color:#fff'>" + echapper(ct.client||"") + badge + "</div>" +
+              "<div style='font-size:11px;color:#71717A;margin-top:2px'>" + mensuel.toFixed(2) + " EUR TTC/mois</div></div>" +
+              "<div style='text-align:right'><div style='font-size:15px;font-weight:700;color:#22C55E'>" + annuelHT.toFixed(0) + " HT</div><div style='font-size:10px;color:#71717A'>" + annuelTTC.toFixed(0) + " TTC/an</div></div>" +
+            "</div>";
+          liste.appendChild(carte);
+        });
+
+        // Ponctuels
+        var totalPonctuelsHT = 0, totalPonctuelsTTC = 0;
+        ponctuels.forEach(function(ct){
+          var m = ct.montant || 0;
+          var mHT = montantHT(m, tauxTVA(ct.libelle));
+          totalPonctuelsHT += mHT; totalPonctuelsTTC += m;
+          var carte = document.createElement("div");
+          carte.style.cssText = "background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:13px 15px;margin-bottom:8px";
+          carte.innerHTML =
+            "<div style='display:flex;justify-content:space-between;align-items:flex-start'>" +
+              "<div style='flex:1;min-width:0'><div style='font-size:14px;font-weight:600;color:#fff'>" + echapper(ct.libelle||"Divers") + "</div>" +
+              "<div style='font-size:11px;color:#71717A;margin-top:2px'>Ponctuel \u00B7 " + echapper(ct.periode||"") + "</div></div>" +
+              "<div style='text-align:right'><div style='font-size:15px;font-weight:700;color:#22C55E'>" + mHT.toFixed(0) + " HT</div><div style='font-size:10px;color:#71717A'>" + m.toFixed(0) + " TTC</div></div>" +
+            "</div>";
+          liste.appendChild(carte);
+        });
+
+        // Total contrats + ponctuels
+        var carteTotalC = document.createElement("div");
+        carteTotalC.style.cssText = "background:rgba(91,141,239,.12);border:1px solid rgba(91,141,239,.25);border-radius:18px;padding:16px;margin-top:12px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center";
+        carteTotalC.innerHTML =
+          "<div><div style='font-size:12px;font-weight:700;color:#5B8DEF;text-transform:uppercase;letter-spacing:.05em'>Total contrats + ponctuels</div><div style='font-size:11px;color:#71717A;margin-top:2px'>TTC " + (totalContratsTTC + totalPonctuelsTTC).toLocaleString('fr-FR',{maximumFractionDigits:0}) + " EUR/an</div></div>" +
+          "<div style='font-size:20px;font-weight:800;color:#5B8DEF'>" + (totalContratsHT + totalPonctuelsHT).toLocaleString('fr-FR',{maximumFractionDigits:0}) + " EUR<span style='font-size:12px;font-weight:600;color:#71717A'> HT</span></div>";
+        liste.appendChild(carteTotalC);
+
+      }).catch(function(e){
+        liste.innerHTML = "<div style='text-align:center;color:#EF4444;padding:30px;font-size:14px'>Erreur: " + e.message + "</div>";
+      });
+    }
+
 
     afficherContenu("");
   }).catch(function(e){ alert("Erreur: "+e.message); });
@@ -3588,6 +3734,7 @@ function ouvrirPanneauTresorerie() {
 function fermerPanneauTresorerie() {
   var pn = document.getElementById("panneau-tresor");
   if (pn) pn.remove();
+  afficherBottomNav("accueil");
 }
 
 function chargerTresorerie() {
