@@ -144,7 +144,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 .acc-stat{flex:1;background:rgba(255,255,255,.06);border-radius:12px;padding:12px;text-align:center}
 .acc-stat-val{font-size:22px;font-weight:700;color:var(--or);font-variant-numeric:tabular-nums}
 .acc-stat-lbl{font-size:10px;color:#8E8E93;margin-top:2px;text-transform:uppercase;letter-spacing:.08em}.acc-stat-lbl-row{display:flex;align-items:center;gap:8px;margin-top:2px}.acc-stat-mois{font-size:13px;color:var(--or);font-weight:600;text-transform:none;letter-spacing:0}.acc-stat-ca{font-size:26px!important;font-weight:300!important}.acc-stat-main{flex:2!important}.acc-stat-lbl-row{display:flex;align-items:center;gap:8px;margin-top:2px}.acc-stat-mois{font-size:13px;color:var(--or);font-weight:600;text-transform:none;letter-spacing:0}.acc-stat-ca{font-size:26px!important;font-weight:300!important}.acc-stat-main{flex:2!important}
-.acc-body{width:100%;padding:16px 16px calc(env(safe-area-inset-bottom,34px)+100px)}
+.acc-body{width:100%;padding:16px 16px calc(env(safe-area-inset-bottom,34px)+160px)}
 .acc-section{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8E8E93;margin:16px 0 8px 2px}
 .acc-section:first-child{margin-top:0}
 .acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
@@ -594,6 +594,12 @@ body {
 }
 /* Les listes internes aussi */
 #memo-liste { padding-bottom: 110px; }
+
+/* Espace bas pour la liste historique (barre nav) */
+#panneau-stats [style*="flex:1"][style*="overflow"] { padding-bottom: 110px !important; }
+
+/* Espace bas accueil pour la barre nav (sur le conteneur scrollable) */
+#ecran-accueil { padding-bottom: 130px !important; box-sizing: border-box; }
 </style>
 </head>
 <body>
@@ -659,10 +665,6 @@ body {
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
     <span>Accueil</span>
   </button>
-  <button class="nav-item" data-nav="devis" onclick="navGoTo('devis')">
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>
-    <span>Devis</span>
-  </button>
   <button class="nav-item" data-nav="tresorerie" onclick="navGoTo('tresorerie')">
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M3 7l2-3h14l2 3M16 13h.01"/></svg>
     <span>Tresor.</span>
@@ -671,9 +673,9 @@ body {
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
     <span>Planning</span>
   </button>
-  <button class="nav-item" data-nav="reglages" onclick="navGoTo('reglages')">
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-    <span>Reglages</span>
+  <button class="nav-item" data-nav="historique" onclick="navGoTo('historique')">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+    <span>Historique</span>
   </button>
 </nav>
 
@@ -1022,10 +1024,9 @@ function animerNombre(el, valeurFinale, suffixe, duree) {
 }
 function navGoTo(dest) {
   if (dest === "accueil") { retourAccueil(); return; }
-  if (dest === "devis") { lancerCalculateur(); masquerBottomNav(); return; }
   if (dest === "tresorerie") { if (typeof ouvrirPanneauTresorerie === "function") { ouvrirPanneauTresorerie(); afficherBottomNav("tresorerie"); } return; }
   if (dest === "planning") { if (typeof ouvrirPlanning === "function") { ouvrirPlanning(); afficherBottomNav("planning"); } return; }
-  if (dest === "reglages") { if (typeof ouvrirReglages === "function") { ouvrirReglages(); afficherBottomNav("reglages"); } return; }
+  if (dest === "historique") { if (typeof afficherStats === "function") { afficherStats(); afficherBottomNav("historique"); } return; }
 }
 
 function deconnecter() {
@@ -1607,7 +1608,7 @@ function afficherStats() {
     var btnF = document.createElement("button");
     btnF.style.cssText = "background:rgba(255,255,255,.25);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
     btnF.textContent = "Fermer";
-    btnF.onclick = function() { panneau.remove(); };
+    btnF.onclick = function() { panneau.remove(); afficherBottomNav("accueil"); };
     barre.appendChild(btnF);
 
     // Recherche
@@ -1636,7 +1637,7 @@ function afficherStats() {
     var ongFactures = document.createElement("button");
     ongFactures.id = "ong-histo-factures";
     ongFactures.style.cssText = "flex:1;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#A1A1AA;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
-    ongFactures.textContent = "Factures";
+    ongFactures.textContent = "Devis Valide";
     var ongContrats = document.createElement("button");
     ongContrats.id = "ong-histo-contrats";
     ongContrats.style.cssText = "flex:1;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#A1A1AA;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
