@@ -1120,6 +1120,7 @@ function construireAccueil() {
   afficherBottomNav("accueil");
   }
 
+
 // Calcul du chiffre d'affaires pour l'accueil (tresorerie + contrats)
 function majCAAccueil() {
   if (!db) return;
@@ -3579,6 +3580,7 @@ function afficherBandeauRAZ() {
 var memoTypeCourant="tache"; var memoFiltreCourant="tout"; var memoPolling=null;
 
 function ouvrirPanneauMemo() {
+  masquerBottomNav();
   var ancien=document.getElementById("panneau-memo"); if(ancien) ancien.remove();
   var pn=document.createElement("div"); pn.id="panneau-memo";
   pn.style.cssText="position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
@@ -3614,6 +3616,7 @@ function ouvrirPanneauMemo() {
 function fermerPanneauMemo() {
   if(memoPolling){ clearInterval(memoPolling); memoPolling=null; }
   var pn=document.getElementById("panneau-memo"); if(pn) pn.remove();
+  afficherBottomNav("accueil");
 }
 function setMemoFiltre(f) {
   memoFiltreCourant=f;
