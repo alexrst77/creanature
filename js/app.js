@@ -4672,12 +4672,12 @@ var PLANNING_DEFAUT = [
 ];
 
 var PREST_COULEURS = {
-  TONTE:     "var(--succes)",
+  TONTE:     "#16A34A",
   FAUCHAGE:  "#FF9500",
   FEUILLES:  "#FF6B35",
-  TAILLE:    "var(--bleu)",
+  TAILLE:    "#0071E3",
   DESHERBAGE:"#C77DFF",
-  ELAGAGE:   "var(--erreur)"
+  ELAGAGE:   "#DC2626"
 };
 
 function getLundiSemaine(annee, semaine) {
@@ -4915,13 +4915,13 @@ function ouvrirPlanning() {
       var row = document.createElement("div");
       row.style.cssText = "display:flex;gap:2px;margin-bottom:4px;align-items:center";
       var lbl = document.createElement("div");
-      lbl.style.cssText = "width:80px;flex-shrink:0;font-size:10px;font-weight:600;color:" + (PREST_COULEURS[prest]||"var(--txt-3)");
+      lbl.style.cssText = "width:80px;flex-shrink:0;font-size:10px;font-weight:600;color:" + (PREST_COULEURS[prest]||"#86868B");
       lbl.textContent = prest;
       row.appendChild(lbl);
       for (var s2=1; s2<=52; s2++) {
         var dot = document.createElement("div");
         var actif = semaines.indexOf(s2) >= 0;
-        dot.style.cssText = "width:16px;height:16px;flex-shrink:0;border-radius:3px;cursor:pointer;background:" + (actif ? (PREST_COULEURS[prest]||"var(--or-2)") : "rgba(255,255,255,.05)") + ";transition:transform .1s";
+        dot.style.cssText = "width:16px;height:16px;flex-shrink:0;border-radius:3px;cursor:pointer;background:" + (actif ? (PREST_COULEURS[prest]||"#D4AF37") : "#EFEFF2") + ";transition:transform .1s";
         dot.title = "S" + s2;
         (function(prest2, sem, dotEl, plan2) {
           dotEl.onclick = function() {
