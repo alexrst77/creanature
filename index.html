@@ -600,6 +600,231 @@ body {
 
 /* Espace bas accueil pour la barre nav (sur le conteneur scrollable) */
 #ecran-accueil { padding-bottom: 130px !important; box-sizing: border-box; }
+
+/* ===========================================================
+   THEME CLAIR EPURE - style Apple / Notion (couche finale)
+   =========================================================== */
+:root {
+  --c-bg: #F5F5F7;
+  --c-carte: #FFFFFF;
+  --c-carte2: #FBFBFD;
+  --c-txt: #1D1D1F;
+  --c-txt2: #6E6E73;
+  --c-txt3: #86868B;
+  --c-bord: rgba(0,0,0,.08);
+  --c-violet: #7C3AED;
+  --c-violet-soft: #F3EEFF;
+  --c-or: #B8860B;
+  --c-bleu: #0071E3;
+  --c-succes: #16A34A;
+  --c-erreur: #DC2626;
+}
+
+/* Fond global clair, sans halos sombres */
+html, body {
+  background: #F5F5F7 !important;
+  color: #1D1D1F !important;
+}
+body {
+  background: #F5F5F7 !important;
+}
+#app { background: transparent !important; }
+#contenu, #ecran-accueil { background: #F5F5F7 !important; }
+
+/* Barre de statut + navbar claires */
+#barre-statut { background: rgba(245,245,247,.9) !important; color: #1D1D1F !important; backdrop-filter: blur(20px); }
+#navbar {
+  background: rgba(255,255,255,.85) !important;
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(0,0,0,.06) !important;
+}
+#titre-page { color: #86868B !important; }
+
+/* ===== ACCUEIL ===== */
+.acc-header {
+  background: #F5F5F7 !important;
+  border-bottom: none !important;
+}
+.acc-body { background: #F5F5F7 !important; }
+.acc-bienvenue { color: #86868B !important; }
+.acc-nom {
+  background: none !important;
+  -webkit-text-fill-color: #1D1D1F !important;
+  color: #1D1D1F !important;
+  font-weight: 700 !important;
+}
+.acc-crea { color: #86868B !important; }
+.acc-nature { color: #1D1D1F !important; }
+.acc-section { color: #86868B !important; font-size: 12px !important; font-weight: 600 !important; letter-spacing: .04em; }
+
+/* KPI cards claires */
+.acc-stat {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(0,0,0,.06) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.03) !important;
+}
+.acc-stat-main {
+  background: #FFFFFF !important;
+  border-color: rgba(124,58,237,.2) !important;
+}
+.acc-stat-val { color: #1D1D1F !important; }
+.acc-stat-ca { color: #7C3AED !important; }
+.acc-stat-lbl { color: #86868B !important; }
+.acc-stat-mois { color: #B8860B !important; }
+
+/* Cartes d'action claires */
+.acc-btn {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(0,0,0,.06) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.03) !important;
+}
+.acc-btn::after { display: none !important; }
+.acc-lbl { color: #1D1D1F !important; }
+.acc-desc { color: #86868B !important; }
+
+/* Carte doree -> carte violette accent (Nouveau devis) */
+.acc-btn-gold {
+  background: linear-gradient(135deg, #7C3AED, #9333EA) !important;
+  border-color: transparent !important;
+  box-shadow: 0 8px 24px rgba(124,58,237,.25) !important;
+}
+.acc-btn-gold .acc-lbl { color: #fff !important; }
+.acc-btn-gold .acc-desc { color: rgba(255,255,255,.85) !important; }
+.acc-btn-gold .acc-ico { background: rgba(255,255,255,.2) !important; }
+.acc-btn-gold .acc-ico svg { stroke: #fff !important; color: #fff !important; }
+
+/* Icones des cartes : fond doux colore */
+.acc-ico {
+  background: #F3EEFF !important;
+  box-shadow: none !important;
+}
+.acc-ico svg { stroke: #7C3AED !important; color: #7C3AED !important; }
+.acc-grid .acc-btn:nth-child(2) .acc-ico { background: #EFF6FF !important; }
+.acc-grid .acc-btn:nth-child(2) .acc-ico svg { stroke: #0071E3 !important; }
+.acc-grid .acc-btn:nth-child(3) .acc-ico { background: #F3EEFF !important; }
+.acc-grid .acc-btn:nth-child(4) .acc-ico { background: #FEF3C7 !important; }
+.acc-grid .acc-btn:nth-child(4) .acc-ico svg { stroke: #B8860B !important; }
+.acc-grid .acc-btn:nth-child(5) .acc-ico { background: #ECFDF5 !important; }
+.acc-grid .acc-btn:nth-child(5) .acc-ico svg { stroke: #16A34A !important; }
+
+/* Boutons haut de l'accueil (refresh, reglages, profil) */
+.acc-user-bar button { background: rgba(0,0,0,.04) !important; color: #6E6E73 !important; }
+
+/* ===== BARRE DE NAVIGATION FLOTTANTE ===== */
+#bottom-nav {
+  background: rgba(255,255,255,.9) !important;
+  backdrop-filter: blur(28px) saturate(180%) !important;
+  border: 1px solid rgba(0,0,0,.06) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,.12) !important;
+}
+.nav-item { color: #86868B !important; }
+.nav-item.actif { color: #7C3AED !important; }
+.nav-item.actif svg { filter: none !important; }
+.nav-item.actif::before { display: none !important; }
+.nav-item.actif::after {
+  background: #7C3AED !important;
+  box-shadow: none !important;
+}
+
+/* ===== CALCULATEUR / FORMULAIRES ===== */
+.carte, .bloc-totaux, .bloc-desig {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(0,0,0,.06) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04) !important;
+}
+.titre-section, .titre-bloc, .label-form, .champ-l { color: #86868B !important; }
+.champ-val, .total-valeur { color: #1D1D1F !important; }
+.input-texte, .champ-tap, textarea.input-texte {
+  background: #F5F5F7 !important;
+  border: 1px solid rgba(0,0,0,.1) !important;
+  color: #1D1D1F !important;
+  border-radius: 12px !important;
+}
+.input-texte::placeholder { color: #B0B0B5 !important; }
+.input-texte:focus, textarea.input-texte:focus {
+  border-color: #7C3AED !important;
+  box-shadow: 0 0 0 3px rgba(124,58,237,.1) !important;
+  background: #fff !important;
+}
+
+/* Boutons prestations */
+.btn-prest {
+  background: #F5F5F7 !important;
+  border: 1px solid rgba(0,0,0,.08) !important;
+  color: #1D1D1F !important;
+  border-radius: 14px !important;
+}
+.btn-prest.actif {
+  background: #F3EEFF !important;
+  border-color: #7C3AED !important;
+  color: #7C3AED !important;
+  box-shadow: none !important;
+}
+
+/* Intervenants */
+.btn-interv {
+  background: #F5F5F7 !important;
+  border: 1px solid rgba(0,0,0,.08) !important;
+  color: #1D1D1F !important;
+}
+.btn-interv.actif {
+  background: #7C3AED !important;
+  border-color: #7C3AED !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+/* Boutons or -> violet plein */
+.btn-or {
+  background: #7C3AED !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(124,58,237,.25) !important;
+  border-radius: 14px !important;
+}
+.btn-gris, .btn-tirete {
+  background: #F5F5F7 !important;
+  border: 1px solid rgba(0,0,0,.1) !important;
+  color: #6E6E73 !important;
+  border-radius: 14px !important;
+}
+
+/* Onglets */
+.onglet { color: #86868B !important; }
+.onglet.actif { color: #7C3AED !important; border-bottom-color: #7C3AED !important; }
+
+/* Totaux TTC -> violet doux */
+.ligne-total.ttc {
+  background: #F3EEFF !important;
+}
+.ligne-total.ttc .total-label, .ligne-total.ttc .total-valeur { color: #7C3AED !important; }
+
+/* ===== NOTES / MEMO ===== */
+.note-item {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(0,0,0,.06) !important;
+}
+.note-txt { color: #1D1D1F !important; }
+.note-meta { color: #86868B !important; }
+.memo-filtre-btn { background: #F5F5F7 !important; border: 1px solid rgba(0,0,0,.08) !important; color: #6E6E73 !important; }
+.memo-filtre-btn.actif { background: #F3EEFF !important; border-color: #7C3AED !important; color: #7C3AED !important; }
+.memo-type-btn { color: #6E6E73 !important; }
+#onglets { background: rgba(255,255,255,.85) !important; }
+
+/* Touches clavier */
+.touche { background: #FFFFFF !important; color: #1D1D1F !important; border: 1px solid rgba(0,0,0,.08) !important; }
+
+/* Cartes planning verticales */
+.planning-vue-verticale > div { background: #FFFFFF !important; border: 1px solid rgba(0,0,0,.06) !important; }
+
+/* Scrollbar discrete */
+::-webkit-scrollbar { width: 0; height: 0; }
+
+/* Separateurs */
+.sep-lumineux { background: rgba(0,0,0,.08) !important; }
+
 </style>
 </head>
 <body>
@@ -790,7 +1015,7 @@ body {
   </div>
   <div class="carte">
     <label class="label-form">Nom du client</label>
-    <input class="input-texte" id="c-nom" type="text" placeholder="Jean Dupont"/>
+    <div style="position:relative"><input class="input-texte" id="c-nom" type="text" placeholder="Jean Dupont" autocomplete="off"/><div id="c-nom-suggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:12px;margin-top:4px;max-height:220px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.12)"></div></div>
     <label class="label-form">Adresse</label>
     <input class="input-texte" id="c-adresse" type="text" placeholder="12 rue des Fleurs, Paris"/>
     <label class="label-form">Email client (factures)</label>
@@ -971,6 +1196,7 @@ function lancerCalculateur() {
   allerVers("calc");
   majCompteurDevis();
   masquerBottomNav();
+  initAutocompleteClient();
 }
 
 // Met a jour le compteur de devis dans la banniere et le numero
@@ -980,19 +1206,47 @@ function majCompteurDevis() {
     var total = snap.size || 0;
     var cptBan = trouverEl("cpt-devis-banniere");
     if (cptBan) cptBan.textContent = total + " devis";
+    // Calculer le prochain numero a partir du plus grand numero de l'annee en cours
+    var yyyy = String(new Date().getFullYear());
+    var maxNum = 0;
+    snap.forEach(function(doc) {
+      var d = doc.data();
+      var n = String(d.num || "");
+      // Format attendu : AAAA-XXX ; on prend le suffixe numerique de l'annee courante
+      var m = n.match(/(\d{4})-(\d+)/);
+      if (m && m[1] === yyyy) {
+        var suffixe = parseInt(m[2], 10);
+        if (suffixe > maxNum) maxNum = suffixe;
+      } else {
+        // Ancien format sans annee : on tente juste le nombre
+        var seul = parseInt(n.replace(/[^0-9]/g, ""), 10);
+        if (!isNaN(seul) && seul > maxNum) maxNum = seul;
+      }
+    });
     var dNum = trouverEl("d-num");
-    if (dNum && !dNum.value) {
-      var yyyy = String(new Date().getFullYear());
-      dNum.value = yyyy + "-" + String(total + 1).padStart(3,"0");
+    if (dNum) {
+      dNum.value = yyyy + "-" + String(maxNum + 1).padStart(3,"0");
     }
   }).catch(function(){});
 }
 
 function retourAccueil() {
+  // Fermer tous les panneaux et overlays ouverts (sinon ils cachent l'accueil)
+  fermerTousLesPanneaux();
   document.getElementById("app").style.display = "none";
   var ea = document.getElementById("ecran-accueil");
   if (ea) { ea.classList.remove("cache"); construireAccueil(); }
   afficherBottomNav("accueil");
+}
+
+// Ferme tous les panneaux/overlays superposes
+function fermerTousLesPanneaux() {
+  var ids = ["panneau-tresor","panneau-planning","panneau-stats","panneau-clients","panneau-memo","panneau-bi","panneau-campagne","panneau-ia","panneau-mois","panneau-semaine","overlay-devis","overlay-voir-devis","planning-ia-result"];
+  ids.forEach(function(id){ var el = document.getElementById(id); if (el) el.remove(); });
+  // Filet de securite : tout element dont l'id commence par panneau- ou overlay-
+  var tous = document.querySelectorAll("[id^='panneau-'],[id^='overlay-']");
+  tous.forEach(function(el){ el.remove(); });
+  if (typeof memoPolling !== "undefined" && memoPolling) { clearInterval(memoPolling); memoPolling = null; }
 }
 
 // Barre de navigation flottante
@@ -1030,6 +1284,8 @@ function animerNombre(el, valeurFinale, suffixe, duree) {
 }
 function navGoTo(dest) {
   if (dest === "accueil") { retourAccueil(); return; }
+  // Fermer les panneaux ouverts avant d'ouvrir le nouveau (evite l'empilement)
+  fermerTousLesPanneaux();
   if (dest === "tresorerie") { if (typeof ouvrirPanneauTresorerie === "function") { ouvrirPanneauTresorerie(); afficherBottomNav("tresorerie"); } return; }
   if (dest === "planning") { if (typeof ouvrirPlanning === "function") { ouvrirPlanning(); afficherBottomNav("planning"); } return; }
   if (dest === "historique") { if (typeof afficherStats === "function") { afficherStats(); afficherBottomNav("historique"); } return; }
@@ -1182,12 +1438,12 @@ function majCAAccueil() {
 
 function ouvrirReglages() {
   var panneau = document.createElement("div");
-  panneau.style.cssText = "position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif;overflow-y:auto";
+  panneau.style.cssText = "position:fixed;inset:0;z-index:999999;background:#F5F5F7;display:flex;flex-direction:column;font-family:-apple-system,sans-serif;overflow-y:auto";
   var barre = document.createElement("div");
-  barre.style.cssText = "background:#2C2C2E;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px)+8px)";
+  barre.style.cssText = "background:linear-gradient(135deg,#18181F,#111116);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px)+8px)";
   barre.innerHTML = "<span style='font-size:17px;font-weight:700;color:#fff'>Reglages</span>";
   var bf = document.createElement("button");
-  bf.style.cssText = "background:#3A3A3C;border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  bf.style.cssText = "background:rgba(0,0,0,.12);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
   bf.textContent = "Fermer";
   bf.onclick = function() { panneau.remove(); };
   barre.appendChild(bf);
@@ -1200,12 +1456,12 @@ function ouvrirReglages() {
   secSoc.textContent = "Identite de la societe";
   corps.appendChild(secSoc);
   var carteSoc = document.createElement("div");
-  carteSoc.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:18px";
+  carteSoc.style.cssText = "background:#FFFFFF;border-radius:14px;padding:16px;margin-bottom:18px";
   // Apercu logo
   var apercuWrap = document.createElement("div");
   apercuWrap.style.cssText = "display:flex;align-items:center;gap:14px;margin-bottom:14px";
   var apercuLogo = document.createElement("div");
-  apercuLogo.style.cssText = "width:60px;height:60px;border-radius:14px;background:#1C1C1E;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:1px solid #3A3A3C";
+  apercuLogo.style.cssText = "width:60px;height:60px;border-radius:14px;background:#F5F5F7;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:1px solid rgba(0,0,0,.1)";
   if (SOCIETE_LOGO) {
     apercuLogo.innerHTML = "<img src='" + SOCIETE_LOGO + "' style='width:100%;height:100%;object-fit:contain'/>";
   } else {
@@ -1250,7 +1506,7 @@ function ouvrirReglages() {
   inpNomSoc.type = "text";
   inpNomSoc.value = SOCIETE_NOM;
   inpNomSoc.placeholder = "Crea Nature";
-  inpNomSoc.style.cssText = "width:100%;padding:11px 13px;border:1px solid #3A3A3C;border-radius:11px;font-size:15px;color:#fff;background:#1C1C1E;outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none;box-sizing:border-box;margin-bottom:12px";
+  inpNomSoc.style.cssText = "width:100%;padding:11px 13px;border:1px solid rgba(0,0,0,.1);border-radius:11px;font-size:15px;color:#fff;background:#F5F5F7;outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none;box-sizing:border-box;margin-bottom:12px";
   carteSoc.appendChild(inpNomSoc);
   // Bouton enregistrer
   var btnSvSoc = document.createElement("button");
@@ -1287,7 +1543,7 @@ function ouvrirReglages() {
   secBkp.textContent = "Sauvegarde des donnees";
   corps.appendChild(secBkp);
   var carteBkp = document.createElement("div");
-  carteBkp.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:18px";
+  carteBkp.style.cssText = "background:#FFFFFF;border-radius:14px;padding:16px;margin-bottom:18px";
   var bkpTxt = document.createElement("div");
   bkpTxt.style.cssText = "font-size:13px;color:#8E8E93;line-height:1.5;margin-bottom:14px";
   bkpTxt.textContent = "Exporte tous tes clients, devis, tresorerie, memos et plannings dans un fichier de sauvegarde. Garde-le en lieu sur.";
@@ -1312,11 +1568,11 @@ function ouvrirReglages() {
   corps.appendChild(sec1);
 
   var cartePin = document.createElement("div");
-  cartePin.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:16px";
+  cartePin.style.cssText = "background:#FFFFFF;border-radius:14px;padding:16px;margin-bottom:16px";
   cartePin.innerHTML =
-    "<input id='rg-pin-a' type='password' inputmode='numeric' maxlength='4' placeholder='PIN actuel' style='width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:8px;outline:none;-webkit-appearance:none;display:block'/>" +
-    "<input id='rg-pin-n' type='password' inputmode='numeric' maxlength='4' placeholder='Nouveau PIN' style='width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:8px;outline:none;-webkit-appearance:none;display:block'/>" +
-    "<input id='rg-pin-c' type='password' inputmode='numeric' maxlength='4' placeholder='Confirmer PIN' style='width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:10px;outline:none;-webkit-appearance:none;display:block'/>" +
+    "<input id='rg-pin-a' type='password' inputmode='numeric' maxlength='4' placeholder='PIN actuel' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#fff;font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:8px;outline:none;-webkit-appearance:none;display:block'/>" +
+    "<input id='rg-pin-n' type='password' inputmode='numeric' maxlength='4' placeholder='Nouveau PIN' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#fff;font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:8px;outline:none;-webkit-appearance:none;display:block'/>" +
+    "<input id='rg-pin-c' type='password' inputmode='numeric' maxlength='4' placeholder='Confirmer PIN' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#fff;font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:10px;outline:none;-webkit-appearance:none;display:block'/>" +
     "<button id='rg-btn-pin' style='width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,#D4AF37,#A8861F);border:none;font-size:14px;font-weight:600;color:#fff;cursor:pointer;font-family:-apple-system,sans-serif'>Changer le PIN</button>" +
     "<div id='rg-msg' style='text-align:center;font-size:12px;margin-top:8px;min-height:16px'></div>";
   corps.appendChild(cartePin);
@@ -1345,10 +1601,10 @@ function ouvrirReglages() {
   chargerUtilisateurs(function(users) {
     users.forEach(function(u) {
       var cu = document.createElement("div");
-      cu.style.cssText = "background:#2C2C2E;border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px";
+      cu.style.cssText = "background:#FFFFFF;border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px";
       cu.innerHTML =
         "<div style='width:40px;height:40px;border-radius:20px;background:linear-gradient(135deg,#D4AF37,#A8861F);display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:700;flex-shrink:0'>" + echapper(u.initiale) + "</div>" +
-        "<div><div style='font-size:15px;font-weight:600;color:#fff'>" + echapper(u.nom) + "</div>" +
+        "<div><div style='font-size:15px;font-weight:600;color:#1D1D1F'>" + echapper(u.nom) + "</div>" +
         "<div style='font-size:12px;color:#8E8E93'>" + echapper(u.role) + "</div></div>";
       corps.appendChild(cu);
     });
@@ -1360,7 +1616,7 @@ function ouvrirReglages() {
   secAPI.textContent = "Assistant IA";
   corps.appendChild(secAPI);
   var carteAPI = document.createElement("div");
-  carteAPI.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:16px";
+  carteAPI.style.cssText = "background:#FFFFFF;border-radius:14px;padding:16px;margin-bottom:16px";
   var apiVal = localStorage.getItem("creanature_api_key") || "";
   var apiInfoEl = document.createElement("div");
   apiInfoEl.style.cssText = "font-size:12px;margin-bottom:8px;color:" + (apiVal ? "#34C759" : "#FF3B30");
@@ -1372,7 +1628,7 @@ function ouvrirReglages() {
   inpAPIEl.type = "password";
   inpAPIEl.placeholder = "sk-ant-api03-...";
   inpAPIEl.value = apiVal;
-  inpAPIEl.style.cssText = "width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:8px;display:block";
+  inpAPIEl.style.cssText = "width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:#F5F5F7;color:#1D1D1F;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:8px;display:block";
   var btnSvAPI = document.createElement("button");
   btnSvAPI.style.cssText = "width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,#8B5CF6,#A855F7);border:none;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:6px;display:block";
   btnSvAPI.textContent = "Sauvegarder la cle";
@@ -1410,12 +1666,12 @@ function ouvrirReglages() {
   secTarif.textContent = "Tarif horaire";
   corps.appendChild(secTarif);
   var carteTarif = document.createElement("div");
-  carteTarif.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:16px";
+  carteTarif.style.cssText = "background:#FFFFFF;border-radius:14px;padding:16px;margin-bottom:16px";
   var tarifActuel = parseInt(localStorage.getItem("creanature_tarif") || "72");
   carteTarif.innerHTML =
     "<div style='font-size:13px;color:#8E8E93;margin-bottom:10px'>Tarif actuel : <span style='color:#C8923E;font-weight:700'>" + tarifActuel + " EUR HT/h</span></div>" +
     "<div style='display:flex;gap:8px;align-items:center'>" +
-      "<input id='rg-tarif' type='number' value='" + tarifActuel + "' min='1' max='999' style='flex:1;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:16px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none'/>" +
+      "<input id='rg-tarif' type='number' value='" + tarifActuel + "' min='1' max='999' style='flex:1;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#fff;font-size:16px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none'/>" +
       "<span style='color:#8E8E93;font-size:13px'>EUR HT / heure</span>" +
     "</div>" +
     "<button id='rg-btn-tarif' style='width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,#D4AF37,#A8861F);border:none;font-size:14px;font-weight:600;color:#fff;cursor:pointer;font-family:-apple-system,sans-serif;margin-top:10px'>Sauvegarder le tarif</button>" +
@@ -1437,14 +1693,14 @@ function ouvrirReglages() {
   secEmail.textContent = "Informations societe";
   corps.appendChild(secEmail);
   var carteEmail = document.createElement("div");
-  carteEmail.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:16px";
+  carteEmail.style.cssText = "background:#FFFFFF;border-radius:14px;padding:16px;margin-bottom:16px";
   var emailSoc = localStorage.getItem("creanature_email") || "creanature@ymail.com";
   var telSoc = localStorage.getItem("creanature_tel") || "06 19 30 40 93";
   carteEmail.innerHTML =
     "<label style='font-size:12px;color:#8E8E93;display:block;margin-bottom:4px'>Email</label>" +
-    "<input id='rg-email' type='email' value='" + emailSoc + "' style='width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:10px;display:block'/>" +
+    "<input id='rg-email' type='email' value='" + emailSoc + "' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:10px;display:block'/>" +
     "<label style='font-size:12px;color:#8E8E93;display:block;margin-bottom:4px'>Telephone</label>" +
-    "<input id='rg-tel' type='tel' value='" + telSoc + "' style='width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:10px;display:block'/>" +
+    "<input id='rg-tel' type='tel' value='" + telSoc + "' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:10px;display:block'/>" +
     "<button id='rg-btn-email' style='width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,#D4AF37,#A8861F);border:none;font-size:14px;font-weight:600;color:#fff;cursor:pointer;font-family:-apple-system,sans-serif'>Sauvegarder</button>" +
     "<div id='rg-msg-email' style='text-align:center;font-size:12px;margin-top:8px;min-height:16px'></div>";
   corps.appendChild(carteEmail);
@@ -1464,12 +1720,12 @@ function ouvrirReglages() {
   secTVA.textContent = "TVA";
   corps.appendChild(secTVA);
   var carteTVA = document.createElement("div");
-  carteTVA.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px";
+  carteTVA.style.cssText = "background:#FFFFFF;border-radius:14px;padding:16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px";
   var tvaActuelle = localStorage.getItem("creanature_tva") || "20";
   carteTVA.innerHTML =
     "<span style='font-size:14px;color:#fff'>Taux de TVA</span>" +
     "<div style='display:flex;align-items:center;gap:8px'>" +
-      "<input id='rg-tva' type='number' value='" + tvaActuelle + "' min='0' max='100' style='width:70px;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:9px;background:#3A3A3C;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;text-align:center'/>" +
+      "<input id='rg-tva' type='number' value='" + tvaActuelle + "' min='0' max='100' style='width:70px;padding:8px 10px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;text-align:center'/>" +
       "<span style='color:#8E8E93;font-size:14px'>%</span>" +
       "<button id='rg-btn-tva' style='padding:8px 14px;border-radius:9px;background:linear-gradient(135deg,#D4AF37,#A8861F);border:none;font-size:13px;font-weight:600;color:#fff;cursor:pointer;font-family:-apple-system,sans-serif'>OK</button>" +
     "</div>";
@@ -1489,7 +1745,7 @@ function ouvrirReglages() {
   secMode.textContent = "Apparence";
   corps.appendChild(secMode);
   var carteMode = document.createElement("div");
-  carteMode.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between";
+  carteMode.style.cssText = "background:#FFFFFF;border-radius:14px;padding:16px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between";
   carteMode.innerHTML =
     "<span style='font-size:14px;color:#fff'>Mode sombre</span>" +
     "<button onclick='toggleDark()' style='background:linear-gradient(135deg,#8B5CF6,#A855F7);border:none;color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Basculer</button>";
@@ -1501,7 +1757,7 @@ function ouvrirReglages() {
   secPlan2.textContent = "Planning";
   corps.appendChild(secPlan2);
   var cartePlan2 = document.createElement("div");
-  cartePlan2.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:8px";
+  cartePlan2.style.cssText = "background:#FFFFFF;border-radius:14px;padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:8px";
   var nbClients = (JSON.parse(localStorage.getItem('creanature_planning')||'[]').length || PLANNING_DEFAUT.length);
   var infoPlan = document.createElement("div");
   infoPlan.style.cssText = "font-size:13px;color:#8E8E93";
@@ -1523,7 +1779,7 @@ function ouvrirReglages() {
   secRacc.textContent = "Raccourcis";
   corps.appendChild(secRacc);
   var carteRacc = document.createElement("div");
-  carteRacc.style.cssText = "background:#2C2C2E;border-radius:14px;padding:16px;margin-bottom:24px;display:flex;flex-direction:column;gap:8px";
+  carteRacc.style.cssText = "background:#FFFFFF;border-radius:14px;padding:16px;margin-bottom:24px;display:flex;flex-direction:column;gap:8px";
   var btns3 = [
     {label:"Historique", fn:function(){ panneau.remove(); afficherStats(); }},
     {label:"Tresorerie", fn:function(){ panneau.remove(); ouvrirPanneauTresorerie(); }},
@@ -1906,7 +2162,7 @@ function afficherStats() {
           var pct = Math.round((s.val / totalRepart) * 100);
           barStack += "<div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:8px'>" +
             "<div style='display:flex;align-items:center;gap:8px'><span style='width:10px;height:10px;border-radius:3px;background:" + s.coul + "'></span><span style='font-size:13px;color:#E4E4E7'>" + s.nom + "</span></div>" +
-            "<div style='text-align:right'><span style='font-size:13px;font-weight:700;color:#fff'>" + Math.round(s.val).toLocaleString('fr-FR') + " EUR</span><span style='font-size:11px;color:#71717A;margin-left:6px'>" + pct + "%</span></div>" +
+            "<div style='text-align:right'><span style='font-size:13px;font-weight:700;color:#1D1D1F'>" + Math.round(s.val).toLocaleString('fr-FR') + " EUR</span><span style='font-size:11px;color:#71717A;margin-left:6px'>" + pct + "%</span></div>" +
           "</div>";
         });
         carteG2.innerHTML = barStack;
@@ -1974,7 +2230,7 @@ function afficherStats() {
             "<div style='display:flex;align-items:center;justify-content:space-between'>" +
               "<div style='display:flex;align-items:center;gap:10px'>" +
                 "<div style='width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,#D4AF37,#A8861F);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#18181F'>" + nom.charAt(0) + "</div>" +
-                "<div><div style='font-size:15px;font-weight:700;color:#fff'>" + nom + "</div><div style='font-size:11px;color:#71717A'>" + t.nb + " encaissement" + (t.nb>1?"s":"") + " \u00B7 EI sans TVA</div></div>" +
+                "<div><div style='font-size:15px;font-weight:700;color:#1D1D1F'>" + nom + "</div><div style='font-size:11px;color:#71717A'>" + t.nb + " encaissement" + (t.nb>1?"s":"") + " \u00B7 EI sans TVA</div></div>" +
               "</div>" +
               "<div style='text-align:right'><div style='font-size:11px;color:#71717A'>Net encaisse</div><div style='font-size:18px;font-weight:700;color:#22C55E'>" + t.net.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + " EUR</div></div>" +
             "</div>";
@@ -2018,7 +2274,7 @@ function afficherStats() {
           var badge = estTrim ? "<span style='font-size:9px;font-weight:700;color:#A855F7;background:rgba(168,85,247,.15);padding:1px 6px;border-radius:6px;margin-left:6px'>TRIM</span>" : "";
           carte.innerHTML =
             "<div style='display:flex;justify-content:space-between;align-items:flex-start'>" +
-              "<div style='flex:1;min-width:0'><div style='font-size:14px;font-weight:600;color:#fff'>" + echapper(ct.client||"") + badge + "</div>" +
+              "<div style='flex:1;min-width:0'><div style='font-size:14px;font-weight:600;color:#1D1D1F'>" + echapper(ct.client||"") + badge + "</div>" +
               "<div style='font-size:11px;color:#71717A;margin-top:2px'>" + mensuel.toFixed(2) + " EUR TTC/mois</div></div>" +
               "<div style='text-align:right'><div style='font-size:15px;font-weight:700;color:#22C55E'>" + annuelHT.toFixed(0) + " HT</div><div style='font-size:10px;color:#71717A'>" + annuelTTC.toFixed(0) + " TTC/an</div></div>" +
             "</div>";
@@ -2035,7 +2291,7 @@ function afficherStats() {
           carte.style.cssText = "background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:13px 15px;margin-bottom:8px";
           carte.innerHTML =
             "<div style='display:flex;justify-content:space-between;align-items:flex-start'>" +
-              "<div style='flex:1;min-width:0'><div style='font-size:14px;font-weight:600;color:#fff'>" + echapper(ct.libelle||"Divers") + "</div>" +
+              "<div style='flex:1;min-width:0'><div style='font-size:14px;font-weight:600;color:#1D1D1F'>" + echapper(ct.libelle||"Divers") + "</div>" +
               "<div style='font-size:11px;color:#71717A;margin-top:2px'>Ponctuel \u00B7 " + echapper(ct.periode||"") + "</div></div>" +
               "<div style='text-align:right'><div style='font-size:15px;font-weight:700;color:#22C55E'>" + mHT.toFixed(0) + " HT</div><div style='font-size:10px;color:#71717A'>" + m.toFixed(0) + " TTC</div></div>" +
             "</div>";
@@ -3313,9 +3569,71 @@ function sauverClientActuel() {
 function afficherToast(msg) {
   var t = document.createElement("div");
   t.textContent = msg;
-  t.style.cssText = "position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#1C1C1E;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;z-index:9999;font-family:-apple-system,sans-serif;white-space:nowrap";
+  t.style.cssText = "position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#F5F5F7;color:#1D1D1F;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;z-index:9999;font-family:-apple-system,sans-serif;white-space:nowrap";
   document.body.appendChild(t);
   setTimeout(function() { t.remove(); }, 2000);
+}
+
+
+
+// === AUTOCOMPLETION CLIENT sur le champ nom du devis ===
+function initAutocompleteClient() {
+  var champ = document.getElementById("c-nom");
+  var boite = document.getElementById("c-nom-suggestions");
+  if (!champ || !boite) return;
+  // Precharger les clients si le cache est vide
+  if ((!cacheClients || cacheClients.length === 0) && typeof chargerClientsDepuisFirebase === "function") {
+    chargerClientsDepuisFirebase(function(){});
+  }
+  // Eviter d'attacher plusieurs fois
+  if (champ._autocompleteInit) return;
+  champ._autocompleteInit = true;
+
+  champ.addEventListener("input", function() {
+    var q = champ.value.trim().toLowerCase();
+    if (!q || !cacheClients || cacheClients.length === 0) { boite.style.display = "none"; return; }
+    var resultats = cacheClients.filter(function(cl) {
+      return (cl.nom || "").toLowerCase().indexOf(q) >= 0;
+    }).slice(0, 8);
+    if (resultats.length === 0) { boite.style.display = "none"; return; }
+    boite.innerHTML = "";
+    resultats.forEach(function(cl) {
+      var ligne = document.createElement("div");
+      ligne.style.cssText = "padding:11px 14px;cursor:pointer;border-bottom:1px solid rgba(0,0,0,.05);display:flex;align-items:center;gap:10px";
+      ligne.innerHTML = "<div style='width:30px;height:30px;border-radius:9px;background:#F3EEFF;color:#7C3AED;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0'>" + (cl.nom||"?").charAt(0).toUpperCase() + "</div>" +
+        "<div style='min-width:0'><div style='font-size:14px;font-weight:600;color:#1D1D1F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(cl.nom||"") + "</div>" +
+        "<div style='font-size:11px;color:#86868B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(cl.adresse||cl.email||"") + "</div></div>";
+      ligne.onmousedown = function(e) {
+        e.preventDefault();
+        remplirDevisAvecClient(cl);
+        boite.style.display = "none";
+      };
+      boite.appendChild(ligne);
+    });
+    boite.style.display = "block";
+  });
+  // Masquer au clic ailleurs
+  champ.addEventListener("blur", function() {
+    setTimeout(function(){ boite.style.display = "none"; }, 150);
+  });
+}
+
+// Remplir le formulaire de devis avec un client existant
+function remplirDevisAvecClient(client) {
+  if (!client) return;
+  var setV = function(id, val) { var el = document.getElementById(id); if (el) el.value = val || ""; };
+  setV("c-nom", client.nom);
+  setV("c-adresse", client.adresse);
+  setV("c-email", client.email);
+  setV("c-email2", client.email2);
+  setV("c-tel", client.tel);
+  if (typeof afficherToast === "function") afficherToast("Client ajoute au devis");
+}
+
+// Ouvrir le panneau clients en mode selection (pour remplir un devis)
+function ouvrirClientsPourDevis() {
+  window._modeSelectionDevis = true;
+  ouvrirPanneauClients();
 }
 
 function ouvrirPanneauClients() {
@@ -3342,7 +3660,7 @@ function _afficherPanneauClients(clients) {
 
   var panneau = document.createElement("div");
   panneau.id = "panneau-clients";
-  panneau.style.cssText = "position:fixed;inset:0;background:#1C1C1E;z-index:999999;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+  panneau.style.cssText = "position:fixed;inset:0;background:#F5F5F7;z-index:999999;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
 
   // En-tete
   var tete = document.createElement("div");
@@ -3355,7 +3673,7 @@ function _afficherPanneauClients(clients) {
   var btnFermer = document.createElement("button");
   btnFermer.style.cssText = "background:rgba(255,255,255,.15);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
   btnFermer.textContent = "Fermer";
-  btnFermer.onclick = function() { panneau.remove(); };
+  btnFermer.onclick = function() { panneau.remove(); window._modeSelectionDevis = false; };
   tete.appendChild(btnFermer);
   panneau.appendChild(tete);
 
@@ -3371,7 +3689,7 @@ function _afficherPanneauClients(clients) {
     corps.innerHTML = "";
     // Barre recherche + bouton nouveau
     var rechWrap = document.createElement("div");
-    rechWrap.style.cssText = "padding:12px 14px;background:#1C1C1E;border-bottom:.5px solid rgba(255,255,255,.08);flex-shrink:0;position:sticky;top:0;z-index:2;display:flex;gap:8px";
+    rechWrap.style.cssText = "padding:12px 14px;background:#F5F5F7;border-bottom:.5px solid rgba(255,255,255,.08);flex-shrink:0;position:sticky;top:0;z-index:2;display:flex;gap:8px";
     var rechInp = document.createElement("input");
     rechInp.type = "text";
     rechInp.placeholder = "Rechercher un client...";
@@ -3408,7 +3726,7 @@ function _afficherPanneauClients(clients) {
       }
       filtered.forEach(function(c) {
         var item = document.createElement("div");
-        item.style.cssText = "background:#2C2C2E;border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer";
+        item.style.cssText = "background:#FFFFFF;border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer";
         // Avatar initiale
         var av = document.createElement("div");
         av.style.cssText = "width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#D4AF37,#A8861F);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;color:#fff;flex-shrink:0";
@@ -3418,7 +3736,7 @@ function _afficherPanneauClients(clients) {
         var infos = document.createElement("div");
         infos.style.cssText = "flex:1;min-width:0";
         infos.innerHTML =
-          "<div style='font-size:15px;font-weight:600;color:#fff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(c.nom||"") + "</div>" +
+          "<div style='font-size:15px;font-weight:600;color:#1D1D1F;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(c.nom||"") + "</div>" +
           (c.email ? "<div style='font-size:12px;color:#8E8E93;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(c.email) + "</div>" : "") +
           (c.tel ? "<div style='font-size:12px;color:#8E8E93'>" + echapper(c.tel) + "</div>" : "");
         item.appendChild(infos);
@@ -3429,7 +3747,15 @@ function _afficherPanneauClients(clients) {
         item.appendChild(chev);
         // Clic = edition
         (function(client) {
-          item.onclick = function() { vueEdition(client); };
+          item.onclick = function() {
+          if (window._modeSelectionDevis) {
+            remplirDevisAvecClient(client);
+            panneau.remove();
+            window._modeSelectionDevis = false;
+          } else {
+            vueEdition(client);
+          }
+        };
         })(c);
         liste.appendChild(item);
       });
@@ -3583,27 +3909,27 @@ function ouvrirPanneauMemo() {
   masquerBottomNav();
   var ancien=document.getElementById("panneau-memo"); if(ancien) ancien.remove();
   var pn=document.createElement("div"); pn.id="panneau-memo";
-  pn.style.cssText="position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+  pn.style.cssText="position:fixed;inset:0;z-index:999999;background:#F5F5F7;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
   pn.innerHTML=
     "<div style='background:#2A1A3A;padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px) + 6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>"+
       "<span style='font-size:17px;font-weight:700;color:#fff'>Memo partage</span>"+
       "<button onclick='fermerPanneauMemo()' style='background:rgba(255,255,255,.1);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>"+
     "</div>"+
-    "<div style='display:flex;gap:6px;padding:10px 14px;background:#1C1C1E;border-bottom:.5px solid #2C2C2E;flex-shrink:0;overflow-x:auto'>"+
+    "<div style='display:flex;gap:6px;padding:10px 14px;background:#F5F5F7;border-bottom:.5px solid #2C2C2E;flex-shrink:0;overflow-x:auto'>"+
       "<button class='memo-filtre-btn actif' id='mf-tout' onclick='setMemoFiltre(\"tout\")'>Tout</button>"+
       "<button class='memo-filtre-btn' id='mf-tache' onclick='setMemoFiltre(\"tache\")'>Taches</button>"+
       "<button class='memo-filtre-btn' id='mf-urgent' onclick='setMemoFiltre(\"urgent\")'>Urgent</button>"+
       "<button class='memo-filtre-btn' id='mf-note' onclick='setMemoFiltre(\"note\")'>Notes</button>"+
     "</div>"+
     "<div id='memo-liste' style='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px 14px'></div>"+
-    "<div style='flex-shrink:0;background:#2C2C2E;border-top:.5px solid #3A3A3C;padding:10px 14px;padding-bottom:calc(env(safe-area-inset-bottom,34px) + 8px)'>"+
+    "<div style='flex-shrink:0;background:#FFFFFF;border-top:.5px solid rgba(0,0,0,.12);padding:10px 14px;padding-bottom:calc(env(safe-area-inset-bottom,34px) + 8px)'>"+
       "<div style='display:flex;gap:6px;margin-bottom:8px'>"+
         "<button class='memo-type-btn actif' id='mt-tache' onclick='setMemoType(\"tache\")'>Tache</button>"+
         "<button class='memo-type-btn' id='mt-note' onclick='setMemoType(\"note\")'>Note</button>"+
         "<button class='memo-type-btn urgent' id='mt-urgent' onclick='setMemoType(\"urgent\")'>Urgent</button>"+
       "</div>"+
       "<div style='display:flex;gap:8px;align-items:flex-end'>"+
-        "<textarea id='memo-input' rows='1' placeholder='Ecrire une note...' style='flex:1;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:10px;font-size:14px;color:#fff;background:#3A3A3C;outline:none;resize:none;min-height:40px;max-height:90px;font-family:-apple-system,sans-serif;-webkit-appearance:none' oninput='this.style.height=\"auto\";this.style.height=Math.min(this.scrollHeight,90)+\"px\"'></textarea>"+
+        "<textarea id='memo-input' rows='1' placeholder='Ecrire une note...' style='flex:1;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:10px;font-size:14px;color:#fff;background:rgba(0,0,0,.12);outline:none;resize:none;min-height:40px;max-height:90px;font-family:-apple-system,sans-serif;-webkit-appearance:none' oninput='this.style.height=\"auto\";this.style.height=Math.min(this.scrollHeight,90)+\"px\"'></textarea>"+
         "<button onclick='envoyerMemo()' style='width:42px;height:42px;border-radius:21px;background:linear-gradient(135deg,#D4AF37,#A8861F);border:none;color:#fff;font-size:20px;cursor:pointer;flex-shrink:0'>&#x27A4;</button>"+
       "</div>"+
     "</div>";
@@ -3679,7 +4005,7 @@ function ouvrirPanneauBI() {
   biPrestsSelec=[]; biClientSelec=null;
   var ancien=document.getElementById("panneau-bi"); if(ancien) ancien.remove();
   var pn=document.createElement("div"); pn.id="panneau-bi";
-  pn.style.cssText="position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif;overflow-y:auto";
+  pn.style.cssText="position:fixed;inset:0;z-index:999999;background:#F5F5F7;display:flex;flex-direction:column;font-family:-apple-system,sans-serif;overflow-y:auto";
   var grille=BI_PRESTS.map(function(p){
     var pl=p.id==="evac"?" plein":"";
     return "<button class='btn-prest"+pl+"' id='bip-"+p.id+"' onclick='toggleBIbtn(\""+p.id+"\")'>"+echapper(p.label)+"</button>";
@@ -3912,7 +4238,7 @@ function ouvrirPanneauTresorerie() {
   if (ancien) ancien.remove();
   var pn = document.createElement("div");
   pn.id = "panneau-tresor";
-  pn.style.cssText = "position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+  pn.style.cssText = "position:fixed;inset:0;z-index:999999;background:#F5F5F7;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
   // Header
   pn.innerHTML =
     "<div style='background:linear-gradient(135deg,#18181F,#111116);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>" +
@@ -4012,23 +4338,23 @@ function afficherTresorerie(data, contrats) {
     var totalEnc2 = tousEnc.reduce(function(s, e) { return s + (e.montant || 0); }, 0);
 
     var section = document.createElement("div");
-    section.style.cssText = "background:#2C2C2E;border-radius:16px;padding:16px;margin-bottom:16px";
+    section.style.cssText = "background:#FFFFFF;border-radius:16px;padding:16px;margin-bottom:16px";
 
     section.innerHTML =
       "<div style='display:flex;align-items:center;gap:10px;margin-bottom:12px'>" +
         "<div style='width:36px;height:36px;border-radius:18px;background:linear-gradient(135deg,#D4AF37,#A8861F);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:700'>" + usr.initiale + "</div>" +
-        "<span style='font-size:16px;font-weight:700;color:#fff'>" + usr.nom + "</span>" +
+        "<span style='font-size:16px;font-weight:700;color:#1D1D1F'>" + usr.nom + "</span>" +
       "</div>" +
       "<div style='display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px'>" +
-        "<div style='background:#1C1C1E;border-radius:10px;padding:10px;text-align:center'>" +
+        "<div style='background:#F5F5F7;border-radius:10px;padding:10px;text-align:center'>" +
           "<div style='font-size:14px;font-weight:700;color:#64B5F6'>" + totalEnc2.toFixed(2) + " EUR</div>" +
           "<div style='font-size:9px;color:#8E8E93;margin-top:2px;text-transform:uppercase;letter-spacing:.05em'>Total facture</div>" +
         "</div>" +
-        "<div style='background:#1C1C1E;border-radius:10px;padding:10px;text-align:center'>" +
+        "<div style='background:#F5F5F7;border-radius:10px;padding:10px;text-align:center'>" +
           "<div style='font-size:14px;font-weight:700;color:#4CD964'>" + totalEnc.toFixed(2) + " EUR</div>" +
           "<div style='font-size:9px;color:#8E8E93;margin-top:2px;text-transform:uppercase;letter-spacing:.05em'>Encaisse valide</div>" +
         "</div>" +
-        "<div style='background:#1C1C1E;border-radius:10px;padding:10px;text-align:center'>" +
+        "<div style='background:#F5F5F7;border-radius:10px;padding:10px;text-align:center'>" +
           "<div style='font-size:18px;font-weight:700;color:#FF6B35'>" + avances.toFixed(2) + " EUR</div>" +
           "<div style='font-size:10px;color:#8E8E93;margin-top:2px;text-transform:uppercase;letter-spacing:.05em'>Avances</div>" +
         "</div>" +
@@ -4058,11 +4384,11 @@ function afficherTresorerie(data, contrats) {
 
     encaissements.forEach(function(enc, idx) {
       var row = document.createElement("div");
-      row.style.cssText = "display:flex;align-items:center;gap:8px;background:#1C1C1E;border-radius:8px;padding:8px 10px;margin-bottom:5px";
+      row.style.cssText = "display:flex;align-items:center;gap:8px;background:#F5F5F7;border-radius:8px;padding:8px 10px;margin-bottom:5px";
       // Case de selection pour archivage
       var selBox = document.createElement("button");
       var estSelec = (window._encSelec && window._encSelec[uid] && window._encSelec[uid].indexOf(idx) >= 0);
-      selBox.style.cssText = "width:20px;height:20px;border-radius:5px;border:2px solid " + (estSelec ? "#64B5F6" : "#3A3A3C") + ";background:" + (estSelec ? "#64B5F6" : "none") + ";cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff";
+      selBox.style.cssText = "width:20px;height:20px;border-radius:5px;border:2px solid " + (estSelec ? "#64B5F6" : "rgba(0,0,0,.12)") + ";background:" + (estSelec ? "#64B5F6" : "none") + ";cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff";
       selBox.innerHTML = estSelec ? "&#x2713;" : "";
       (function(userId, i) {
         selBox.onclick = function() {
@@ -4076,7 +4402,7 @@ function afficherTresorerie(data, contrats) {
       })(uid, idx);
       row.appendChild(selBox);
       var cb = document.createElement("button");
-      cb.style.cssText = "width:22px;height:22px;border-radius:11px;border:2px solid " + (enc.valide ? "#4CD964" : "#3A3A3C") + ";background:" + (enc.valide ? "#4CD964" : "none") + ";cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff";
+      cb.style.cssText = "width:22px;height:22px;border-radius:11px;border:2px solid " + (enc.valide ? "#4CD964" : "rgba(0,0,0,.12)") + ";background:" + (enc.valide ? "#4CD964" : "none") + ";cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff";
       cb.innerHTML = enc.valide ? "&#x2713;" : "";
       (function(userId, i, v) {
         cb.onclick = function() {
@@ -4087,7 +4413,7 @@ function afficherTresorerie(data, contrats) {
       })(uid, idx, enc.valide);
       var info = document.createElement("div");
       info.style.cssText = "flex:1;min-width:0";
-      info.innerHTML = "<div style='font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(enc.client || "") + "</div>" +
+      info.innerHTML = "<div style='font-size:13px;font-weight:600;color:#1D1D1F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(enc.client || "") + "</div>" +
         "<div style='font-size:11px;color:#8E8E93'>" + enc.date + "</div>";
       var mont = document.createElement("div");
       mont.style.cssText = "font-size:14px;font-weight:700;color:" + (enc.valide ? "#4CD964" : "#AEAEB2") + ";flex-shrink:0";
@@ -4112,10 +4438,10 @@ function afficherTresorerie(data, contrats) {
     formEnc.style.cssText = "display:flex;gap:6px;margin-top:6px";
     var inpClient = document.createElement("input");
     inpClient.type = "text"; inpClient.placeholder = "Client";
-    inpClient.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    inpClient.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;background:#F5F5F7;color:#1D1D1F;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
     var inpMont = document.createElement("input");
     inpMont.type = "number"; inpMont.placeholder = "EUR";
-    inpMont.style.cssText = "width:80px;padding:8px 8px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    inpMont.style.cssText = "width:80px;padding:8px 8px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;background:#F5F5F7;color:#1D1D1F;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
     var btnAdd = document.createElement("button");
     btnAdd.style.cssText = "background:linear-gradient(135deg,#D4AF37,#A8861F);border:none;color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
     btnAdd.textContent = "+ Ajouter";
@@ -4177,7 +4503,7 @@ function afficherTresorerie(data, contrats) {
       barArch.appendChild(btnArchiver);
       // Bouton tout selectionner / deselectionner
       var btnToutSel = document.createElement("button");
-      btnToutSel.style.cssText = "background:rgba(255,255,255,.06);border:1px solid #3A3A3C;color:#8E8E93;padding:9px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
+      btnToutSel.style.cssText = "background:rgba(255,255,255,.06);border:1px solid rgba(0,0,0,.1);color:#8E8E93;padding:9px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
       btnToutSel.textContent = (nbSelec === encaissements.length && nbSelec > 0) ? "Aucun" : "Tout";
       (function(userId, total) {
         btnToutSel.onclick = function() {
@@ -4221,10 +4547,10 @@ function afficherTresorerie(data, contrats) {
     ligne1.style.cssText = "display:flex;gap:6px";
     var inpAv = document.createElement("input");
     inpAv.type = "number"; inpAv.placeholder = "Montant EUR (+/-)";
-    inpAv.style.cssText = "width:130px;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    inpAv.style.cssText = "width:130px;padding:8px 10px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;background:#F5F5F7;color:#1D1D1F;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
     var inpLibelle = document.createElement("input");
     inpLibelle.type = "text"; inpLibelle.placeholder = "Motif (ex: achat carburant)";
-    inpLibelle.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    inpLibelle.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;background:#F5F5F7;color:#1D1D1F;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
     ligne1.appendChild(inpAv); ligne1.appendChild(inpLibelle);
     var btnAv = document.createElement("button");
     btnAv.style.cssText = "background:rgba(255,107,53,.85);border:none;color:#fff;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
@@ -4269,7 +4595,7 @@ function afficherTresorerie(data, contrats) {
   // ===== RUBRIQUE CONTRATS RECURRENTS =====
   if (!contrats) contrats = [];
   var sectionC = document.createElement("div");
-  sectionC.style.cssText = "background:#2C2C2E;border-radius:16px;padding:16px;margin-bottom:16px";
+  sectionC.style.cssText = "background:#FFFFFF;border-radius:16px;padding:16px;margin-bottom:16px";
   var totalMensuelContrats = 0, totalMensuelContratsHT = 0;
   contrats.forEach(function(ct) {
     if (ct.type !== "ponctuel") {
@@ -4292,7 +4618,7 @@ function afficherTresorerie(data, contrats) {
   sectionC.innerHTML =
     "<div style='display:flex;align-items:center;gap:10px;margin-bottom:14px'>" +
       "<div style='width:36px;height:36px;border-radius:18px;background:linear-gradient(135deg,#5B8DEF,#3A6FD8);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff'>\u21BB</div>" +
-      "<span style='font-size:16px;font-weight:700;color:#fff'>Contrats recurrents</span>" +
+      "<span style='font-size:16px;font-weight:700;color:#1D1D1F'>Contrats recurrents</span>" +
     "</div>";
 
   var listeC = document.createElement("div");
@@ -4311,7 +4637,7 @@ function afficherTresorerie(data, contrats) {
 
   contrats.filter(function(ct){ return ct.type !== "ponctuel"; }).forEach(function(ct) {
     var row = document.createElement("div");
-    row.style.cssText = "display:flex;align-items:center;gap:8px;background:#1C1C1E;border-radius:8px;padding:10px 12px;margin-bottom:5px";
+    row.style.cssText = "display:flex;align-items:center;gap:8px;background:#F5F5F7;border-radius:8px;padding:10px 12px;margin-bottom:5px";
     var info = document.createElement("div");
     info.style.cssText = "flex:1;min-width:0";
     var mensuel = ct.montantMensuel || 0;
@@ -4326,7 +4652,7 @@ function afficherTresorerie(data, contrats) {
     }
     var ligneHT = mensuelHT.toFixed(2) + " EUR HT/mois \u00B7 " + (mensuelHT * 12).toFixed(2) + " HT/an (TVA " + Math.round(tvaCt*100) + "%)";
     var badge = estTrim ? "<span style='font-size:9px;font-weight:700;color:#A855F7;background:rgba(168,85,247,.15);padding:1px 6px;border-radius:6px;margin-left:6px'>TRIM</span>" : "";
-    info.innerHTML = "<div style='font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(ct.client || "") + badge + "</div>" +
+    info.innerHTML = "<div style='font-size:14px;font-weight:600;color:#1D1D1F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(ct.client || "") + badge + "</div>" +
       "<div style='font-size:11px;color:#8E8E93;margin-top:2px'>" + ligneMontant + "</div>" +
       "<div style='font-size:11px;color:#22C55E;margin-top:1px;font-weight:600'>" + ligneHT + "</div>";
     var bDel = document.createElement("button");
@@ -4349,17 +4675,17 @@ function afficherTresorerie(data, contrats) {
   formC.style.cssText = "display:flex;gap:6px;margin-bottom:6px";
   var inpClientC = document.createElement("input");
   inpClientC.type = "text"; inpClientC.placeholder = "Nom du client";
-  inpClientC.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+  inpClientC.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;background:#F5F5F7;color:#1D1D1F;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
   var inpMontC = document.createElement("input");
   inpMontC.type = "number"; inpMontC.placeholder = "Montant";
-  inpMontC.style.cssText = "width:85px;padding:8px 8px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+  inpMontC.style.cssText = "width:85px;padding:8px 8px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;background:#F5F5F7;color:#1D1D1F;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
   formC.appendChild(inpClientC); formC.appendChild(inpMontC);
   formWrap.appendChild(formC);
   // Ligne 2 : choix periodicite + bouton
   var formC2 = document.createElement("div");
   formC2.style.cssText = "display:flex;gap:6px";
   var selPeriode = document.createElement("select");
-  selPeriode.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+  selPeriode.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;background:#F5F5F7;color:#1D1D1F;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
   selPeriode.innerHTML = "<option value='mensuel'>Montant mensuel</option><option value='trimestriel'>Montant trimestriel</option>";
   formC2.appendChild(selPeriode);
   var btnAddC = document.createElement("button");
@@ -4387,12 +4713,12 @@ function afficherTresorerie(data, contrats) {
 
   contrats.filter(function(ct){ return ct.type === "ponctuel"; }).forEach(function(ct) {
     var row = document.createElement("div");
-    row.style.cssText = "display:flex;align-items:center;gap:8px;background:#1C1C1E;border-radius:8px;padding:10px 12px;margin-bottom:5px";
+    row.style.cssText = "display:flex;align-items:center;gap:8px;background:#F5F5F7;border-radius:8px;padding:10px 12px;margin-bottom:5px";
     var info = document.createElement("div");
     info.style.cssText = "flex:1;min-width:0";
     var tvaP = tauxTVA(ct.libelle);
     var montantPHT = montantHT(ct.montant||0, tvaP);
-    info.innerHTML = "<div style='font-size:14px;font-weight:600;color:#fff'>" + echapper(ct.libelle || "Divers") + "</div>" +
+    info.innerHTML = "<div style='font-size:14px;font-weight:600;color:#1D1D1F'>" + echapper(ct.libelle || "Divers") + "</div>" +
       "<div style='font-size:11px;color:#8E8E93;margin-top:2px'>" + (ct.montant||0).toFixed(2) + " EUR TTC \u00B7 " + echapper(ct.periode || "") + "</div>" +
       "<div style='font-size:11px;color:#22C55E;margin-top:1px;font-weight:600'>" + montantPHT.toFixed(2) + " EUR HT (TVA " + Math.round(tvaP*100) + "%)</div>";
     var bDel = document.createElement("button");
@@ -4412,10 +4738,10 @@ function afficherTresorerie(data, contrats) {
   formP.style.cssText = "display:flex;gap:6px;margin-top:6px;margin-bottom:6px";
   var inpLibP = document.createElement("input");
   inpLibP.type = "text"; inpLibP.placeholder = "Libelle (ex: prime)";
-  inpLibP.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+  inpLibP.style.cssText = "flex:1;padding:8px 10px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;background:#F5F5F7;color:#1D1D1F;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
   var inpMontP = document.createElement("input");
   inpMontP.type = "number"; inpMontP.placeholder = "EUR";
-  inpMontP.style.cssText = "width:80px;padding:8px 8px;border:1.5px solid #3A3A3C;border-radius:8px;background:#1C1C1E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+  inpMontP.style.cssText = "width:80px;padding:8px 8px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;background:#F5F5F7;color:#1D1D1F;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
   var btnAddP = document.createElement("button");
   btnAddP.style.cssText = "background:rgba(91,141,239,.85);border:none;color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
   btnAddP.textContent = "+ Ajouter";
@@ -4435,7 +4761,7 @@ function afficherTresorerie(data, contrats) {
   sectionC.appendChild(listeC);
 
   var totalRub = document.createElement("div");
-  totalRub.style.cssText = "margin-top:12px;padding-top:12px;border-top:1px solid #3A3A3C";
+  totalRub.style.cssText = "margin-top:12px;padding-top:12px;border-top:1px solid rgba(0,0,0,.1)";
   totalRub.innerHTML =
     "<div style='display:flex;justify-content:space-between;margin-bottom:4px'><span style='font-size:12px;color:#8E8E93'>Contrats (annuel)</span><span style='font-size:12px;color:#A1A1AA'>" + totalAnnuelContrats.toFixed(2) + " TTC</span></div>" +
     "<div style='display:flex;justify-content:space-between;margin-bottom:4px'><span style='font-size:12px;color:#8E8E93'>Contrats HT (annuel)</span><span style='font-size:13px;font-weight:600;color:#22C55E'>" + totalAnnuelContratsHT.toFixed(2) + " HT</span></div>" +
@@ -4453,7 +4779,7 @@ function ouvrirHistoriqueAvances(nom, histo, userId, data) {
   pop.id = "popup-histo-avances";
   pop.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.8);display:flex;align-items:flex-end;justify-content:center;font-family:-apple-system,sans-serif";
   var box = document.createElement("div");
-  box.style.cssText = "background:#2C2C2E;border-radius:20px 20px 0 0;width:100%;max-width:430px;max-height:80vh;display:flex;flex-direction:column;padding-bottom:calc(env(safe-area-inset-bottom,34px)+10px)";
+  box.style.cssText = "background:#FFFFFF;border-radius:20px 20px 0 0;width:100%;max-width:430px;max-height:80vh;display:flex;flex-direction:column;padding-bottom:calc(env(safe-area-inset-bottom,34px)+10px)";
   var hdr = document.createElement("div");
   hdr.style.cssText = "display:flex;align-items:center;justify-content:space-between;padding:18px 18px 14px;flex-shrink:0";
   hdr.innerHTML = "<div><div style='font-size:17px;font-weight:700;color:#fff'>Historique des avances</div><div style='font-size:12px;color:#8E8E93;margin-top:2px'>" + echapper(nom) + "</div></div>";
@@ -4471,14 +4797,14 @@ function ouvrirHistoriqueAvances(nom, histo, userId, data) {
     var a = histo[i];
     total += (a.montant || 0);
     var row = document.createElement("div");
-    row.style.cssText = "display:flex;align-items:center;gap:10px;background:#1C1C1E;border-radius:10px;padding:12px;margin-bottom:6px";
+    row.style.cssText = "display:flex;align-items:center;gap:10px;background:#F5F5F7;border-radius:10px;padding:12px;margin-bottom:6px";
     var pos = (a.montant || 0) >= 0;
     var ic = document.createElement("div");
     ic.style.cssText = "width:32px;height:32px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;background:" + (pos ? "rgba(76,217,100,.15)" : "rgba(255,59,48,.15)") + ";color:" + (pos ? "#4CD964" : "#FF3B30");
     ic.textContent = pos ? "+" : "-";
     var inf = document.createElement("div");
     inf.style.cssText = "flex:1;min-width:0";
-    inf.innerHTML = "<div style='font-size:14px;font-weight:600;color:#fff'>" + echapper(a.libelle || "Mouvement") + "</div><div style='font-size:11px;color:#8E8E93;margin-top:2px'>" + echapper(a.date || "-") + "</div>";
+    inf.innerHTML = "<div style='font-size:14px;font-weight:600;color:#1D1D1F'>" + echapper(a.libelle || "Mouvement") + "</div><div style='font-size:11px;color:#8E8E93;margin-top:2px'>" + echapper(a.date || "-") + "</div>";
     var mt = document.createElement("div");
     mt.style.cssText = "font-size:15px;font-weight:700;flex-shrink:0;color:" + (pos ? "#4CD964" : "#FF3B30");
     mt.textContent = (pos ? "+" : "") + (a.montant || 0).toFixed(2) + " EUR";
@@ -4516,7 +4842,7 @@ function ouvrirArchivesEncaissements(nom, archives, userId, data) {
   pop.id = "popup-archives-enc";
   pop.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.8);display:flex;align-items:flex-end;justify-content:center;font-family:-apple-system,sans-serif";
   var box = document.createElement("div");
-  box.style.cssText = "background:#2C2C2E;border-radius:20px 20px 0 0;width:100%;max-width:430px;max-height:82vh;display:flex;flex-direction:column;padding-bottom:calc(env(safe-area-inset-bottom,34px)+10px)";
+  box.style.cssText = "background:#FFFFFF;border-radius:20px 20px 0 0;width:100%;max-width:430px;max-height:82vh;display:flex;flex-direction:column;padding-bottom:calc(env(safe-area-inset-bottom,34px)+10px)";
   var hdr = document.createElement("div");
   hdr.style.cssText = "display:flex;align-items:center;justify-content:space-between;padding:18px 18px 14px;flex-shrink:0";
   hdr.innerHTML = "<div><div style='font-size:17px;font-weight:700;color:#fff'>Encaissements archives</div><div style='font-size:12px;color:#8E8E93;margin-top:2px'>" + echapper(nom) + "</div></div>";
@@ -4533,14 +4859,14 @@ function ouvrirArchivesEncaissements(nom, archives, userId, data) {
     var encs = archives[annee] || [];
     var totalAnnee = encs.reduce(function(s,e){ return s+(e.montant||0); }, 0);
     var anneeHdr = document.createElement("button");
-    anneeHdr.style.cssText = "width:100%;display:flex;align-items:center;justify-content:space-between;background:#1C1C1E;border:none;border-radius:10px;padding:13px 14px;margin-bottom:6px;cursor:pointer;font-family:-apple-system,sans-serif";
-    anneeHdr.innerHTML = "<span style='font-size:15px;font-weight:700;color:#fff'>" + echapper(annee) + " <span style='font-size:11px;color:#8E8E93;font-weight:400'>(" + encs.length + ")</span></span><span style='font-size:14px;font-weight:700;color:#64B5F6'>" + totalAnnee.toFixed(2) + " EUR</span>";
+    anneeHdr.style.cssText = "width:100%;display:flex;align-items:center;justify-content:space-between;background:#F5F5F7;border:none;border-radius:10px;padding:13px 14px;margin-bottom:6px;cursor:pointer;font-family:-apple-system,sans-serif";
+    anneeHdr.innerHTML = "<span style='font-size:15px;font-weight:700;color:#1D1D1F'>" + echapper(annee) + " <span style='font-size:11px;color:#8E8E93;font-weight:400'>(" + encs.length + ")</span></span><span style='font-size:14px;font-weight:700;color:#64B5F6'>" + totalAnnee.toFixed(2) + " EUR</span>";
     var detail = document.createElement("div");
     detail.style.cssText = "display:none;margin-bottom:8px";
     encs.forEach(function(e, encIdx) {
       var r = document.createElement("div");
       r.style.cssText = "display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.03);border-radius:8px;padding:8px 10px;margin-bottom:4px";
-      var infoHtml = "<div style='flex:1;min-width:0'><div style='font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(e.client||"") + "</div><div style='font-size:11px;color:#8E8E93'>" + echapper(e.date||"") + "</div></div>" +
+      var infoHtml = "<div style='flex:1;min-width:0'><div style='font-size:13px;font-weight:600;color:#1D1D1F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(e.client||"") + "</div><div style='font-size:11px;color:#8E8E93'>" + echapper(e.date||"") + "</div></div>" +
         "<div style='font-size:14px;font-weight:700;color:" + (e.valide?"#4CD964":"#AEAEB2") + "'>" + (e.montant||0).toFixed(2) + " EUR</div>";
       var infoDiv = document.createElement("div");
       infoDiv.style.cssText = "display:flex;align-items:center;gap:8px;flex:1;min-width:0";
@@ -4702,7 +5028,7 @@ function genererRecapMensuel() {
 
     // Afficher dans un overlay avec bouton imprimer
     var overlay = document.createElement("div");
-    overlay.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#09090B;display:flex;flex-direction:column";
+    overlay.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#F5F5F7;display:flex;flex-direction:column";
     var barre = document.createElement("div");
     barre.style.cssText = "display:flex;align-items:center;gap:10px;padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px) + 8px);background:linear-gradient(135deg,#18181F,#111116)";
     var btnF = document.createElement("button");
@@ -4877,7 +5203,7 @@ function ajouterDevisATresorerie(d) {
   var popup = document.createElement("div");
   popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;font-family:-apple-system,sans-serif";
   var box = document.createElement("div");
-  box.style.cssText = "background:#2C2C2E;border-radius:18px;padding:24px 20px;width:300px;max-width:90vw";
+  box.style.cssText = "background:#FFFFFF;border-radius:18px;padding:24px 20px;width:300px;max-width:90vw";
   var titre = document.createElement("div");
   titre.style.cssText = "font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;text-align:center";
   titre.textContent = "Ajouter a la tresorerie";
@@ -4939,7 +5265,7 @@ function ouvrirAssistantIA() {
   if (ancien) ancien.remove();
   var pn = document.createElement("div");
   pn.id = "panneau-ia";
-  pn.style.cssText = "position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+  pn.style.cssText = "position:fixed;inset:0;z-index:999999;background:#F5F5F7;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
   var hdr = document.createElement("div");
   hdr.style.cssText = "background:linear-gradient(135deg,#8B5CF6,#A855F7);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0";
   hdr.innerHTML = "<div><div style='font-size:17px;font-weight:700;color:#fff'>\u2728 Assistant devis</div><div style='font-size:11px;color:rgba(255,255,255,.7);margin-top:2px'>Decris le chantier, je remplis le devis</div></div><button onclick='document.getElementById(\"panneau-ia\").remove()' style='background:rgba(255,255,255,.15);border:none;color:#fff;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>";
@@ -4948,14 +5274,14 @@ function ouvrirAssistantIA() {
   msgs.style.cssText = "flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 14px;display:flex;flex-direction:column;gap:12px";
   msgs.appendChild(creerMsgIA("Bonjour ! Decris-moi le chantier, je remplis ton devis automatiquement.\n\nExemples :\n\u2022 Taille haie 80m, 2 hommes, 4h, evac dechets\n\u2022 Tonte chez Dupont, 3h solo\n\u2022 Elagage 2 arbres + abattage 1 pin, 3 intervenants demi-journee"));
   var footer = document.createElement("div");
-  footer.style.cssText = "flex-shrink:0;background:#2C2C2E;border-top:.5px solid #3A3A3C;padding:10px 14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+8px)";
+  footer.style.cssText = "flex-shrink:0;background:#FFFFFF;border-top:.5px solid rgba(0,0,0,.12);padding:10px 14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+8px)";
   var row = document.createElement("div");
   row.style.cssText = "display:flex;gap:8px;align-items:flex-end";
   var ta = document.createElement("textarea");
   ta.id = "ia-input";
   ta.placeholder = "Decris le chantier...";
   ta.rows = 2;
-  ta.style.cssText = "flex:1;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:12px;background:#1C1C1E;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;resize:none;max-height:100px;-webkit-appearance:none";
+  ta.style.cssText = "flex:1;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:12px;background:#F5F5F7;color:#1D1D1F;font-size:15px;font-family:-apple-system,sans-serif;outline:none;resize:none;max-height:100px;-webkit-appearance:none";
   ta.oninput = function(){ this.style.height="auto"; this.style.height=Math.min(this.scrollHeight,100)+"px"; };
   ta.onkeydown = function(e){ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); envoyerMessageIA(); } };
   var btnS = document.createElement("button");
@@ -4972,7 +5298,7 @@ function retirerDevisDeTresorerie(d) {
   var popup = document.createElement("div");
   popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;font-family:-apple-system,sans-serif";
   var box = document.createElement("div");
-  box.style.cssText = "background:#2C2C2E;border-radius:18px;padding:24px 20px;width:300px;max-width:90vw";
+  box.style.cssText = "background:#FFFFFF;border-radius:18px;padding:24px 20px;width:300px;max-width:90vw";
   var titre = document.createElement("div");
   titre.style.cssText = "font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;text-align:center";
   titre.textContent = "Annuler l'attribution";
@@ -5029,7 +5355,7 @@ function retirerDevisDeTresorerie(d) {
 
 function creerMsgIA(texte) {
   var div = document.createElement("div");
-  div.style.cssText = "background:#2C2C2E;border-radius:16px;border-bottom-left-radius:4px;padding:12px 14px;max-width:85%;align-self:flex-start;white-space:pre-wrap;font-size:14px;color:#fff;line-height:1.5";
+  div.style.cssText = "background:#FFFFFF;border-radius:16px;border-bottom-left-radius:4px;padding:12px 14px;max-width:85%;align-self:flex-start;white-space:pre-wrap;font-size:14px;color:#fff;line-height:1.5";
   div.textContent = texte;
   return div;
 }
@@ -5050,7 +5376,7 @@ function creerMsgLoading() {
   }
   var div = document.createElement("div");
   div.id = "ia-loading";
-  div.style.cssText = "background:#2C2C2E;border-radius:16px;border-bottom-left-radius:4px;padding:14px;align-self:flex-start";
+  div.style.cssText = "background:#FFFFFF;border-radius:16px;border-bottom-left-radius:4px;padding:14px;align-self:flex-start";
   div.innerHTML = "<div style='display:flex;gap:5px;align-items:center'><div style='width:7px;height:7px;border-radius:50%;background:#9B59D0;animation:iapulse 1s infinite 0s'></div><div style='width:7px;height:7px;border-radius:50%;background:#9B59D0;animation:iapulse 1s infinite .2s'></div><div style='width:7px;height:7px;border-radius:50%;background:#9B59D0;animation:iapulse 1s infinite .4s'></div></div>";
   return div;
 }
@@ -5159,7 +5485,7 @@ function chargerHistoriqueBI() {
       var info = document.createElement("div");
       info.style.cssText = "flex:1;min-width:0";
       var prestLabels = (d.prests||[]).map(function(p){ return BI_PRESTS.find(function(x){return x.id===p;}) ? BI_PRESTS.find(function(x){return x.id===p;}).label : p; }).join(", ");
-      info.innerHTML = "<div style='font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>"+(d.client||"Sans client")+"</div><div style='font-size:11px;color:#8E8E93;margin-top:1px'>"+d.date+(d.auteur?" \u00B7 "+d.auteur:"")+"</div><div style='font-size:10px;color:#636366;margin-top:1px'>"+prestLabels+"</div>";
+      info.innerHTML = "<div style='font-size:13px;font-weight:600;color:#1D1D1F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>"+(d.client||"Sans client")+"</div><div style='font-size:11px;color:#8E8E93;margin-top:1px'>"+d.date+(d.auteur?" \u00B7 "+d.auteur:"")+"</div><div style='font-size:10px;color:#636366;margin-top:1px'>"+prestLabels+"</div>";
       var bX = document.createElement("button");
       bX.style.cssText = "background:rgba(255,59,48,.15);border:none;color:#FF3B30;width:26px;height:26px;border-radius:13px;font-size:15px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center";
       bX.textContent = "\u00D7";
@@ -5184,7 +5510,7 @@ function chargerHistoriquePrevention() {
       var info = document.createElement("div");
       info.style.cssText = "flex:1;min-width:0";
       var prestLabels = (d.prests||[]).join(", ");
-      info.innerHTML = "<div style='font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>"+(d.client||"Sans client")+"</div><div style='font-size:11px;color:#8E8E93;margin-top:1px'>"+(d.date||"")+(d.auteur?" \u00B7 "+d.auteur:"")+"</div><div style='font-size:10px;color:#636366;margin-top:1px'>"+prestLabels+"</div>";
+      info.innerHTML = "<div style='font-size:13px;font-weight:600;color:#1D1D1F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>"+(d.client||"Sans client")+"</div><div style='font-size:11px;color:#8E8E93;margin-top:1px'>"+(d.date||"")+(d.auteur?" \u00B7 "+d.auteur:"")+"</div><div style='font-size:10px;color:#636366;margin-top:1px'>"+prestLabels+"</div>";
       var bX = document.createElement("button");
       bX.style.cssText = "background:rgba(255,59,48,.15);border:none;color:#FF3B30;width:26px;height:26px;border-radius:13px;font-size:15px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center";
       bX.textContent = "\u00D7";
@@ -5467,7 +5793,7 @@ function ouvrirPlanning() {
   if (ancien) ancien.remove();
   var pn = document.createElement("div");
   pn.id = "panneau-planning";
-  pn.style.cssText = "position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+  pn.style.cssText = "position:fixed;inset:0;z-index:999999;background:#F5F5F7;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
 
   var hdr = document.createElement("div");
   hdr.style.cssText = "background:linear-gradient(135deg,#18181F,#111116);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0";
@@ -5501,7 +5827,7 @@ function ouvrirPlanning() {
     descInp.type = "text";
     descInp.placeholder = "Designation / notes (optionnel)";
     descInp.value = plan.designation || "";
-    descInp.style.cssText = "flex:1;padding:9px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#2C2C2E;color:#fff;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    descInp.style.cssText = "flex:1;padding:9px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:#FFFFFF;color:#1D1D1F;font-size:13px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
     descInp.oninput = function() {
       plan.designation = this.value;
       localStorage.setItem("creanature_planning", JSON.stringify(plannings));
@@ -5580,10 +5906,10 @@ function ouvrirPlanning() {
         if (sems.length > 0) interventionsMois.push({ prest: prest, sems: sems });
       });
       var carteMois = document.createElement("div");
-      carteMois.style.cssText = "background:#2C2C2E;border-radius:12px;padding:12px 14px";
+      carteMois.style.cssText = "background:#FFFFFF;border-radius:12px;padding:12px 14px";
       var entete = document.createElement("div");
       entete.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:" + (interventionsMois.length ? "10px" : "0");
-      entete.innerHTML = "<span style='font-size:14px;font-weight:700;color:#fff'>" + moisNoms[moi] + "</span>" +
+      entete.innerHTML = "<span style='font-size:14px;font-weight:700;color:#1D1D1F'>" + moisNoms[moi] + "</span>" +
         "<span style='font-size:10px;color:#636366'>S" + semDebut + "-S" + semFin + "</span>";
       carteMois.appendChild(entete);
       if (interventionsMois.length === 0) {
@@ -5599,7 +5925,7 @@ function ouvrirPlanning() {
           pastille.style.cssText = "width:10px;height:10px;border-radius:3px;flex-shrink:0;background:" + (PREST_COULEURS[item.prest] || "#C8923E");
           ligne.appendChild(pastille);
           var nom = document.createElement("div");
-          nom.style.cssText = "flex:1;font-size:13px;font-weight:600;color:#fff";
+          nom.style.cssText = "flex:1;font-size:13px;font-weight:600;color:#1D1D1F";
           nom.textContent = item.prest;
           ligne.appendChild(nom);
           var semLabels = document.createElement("div");
@@ -5616,7 +5942,7 @@ function ouvrirPlanning() {
     // Tableau 52 semaines
     var tableWrap = document.createElement("div");
     tableWrap.className = "planning-vue-grille";
-    tableWrap.style.cssText = "overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px;background:#2C2C2E;padding:12px";
+    tableWrap.style.cssText = "overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px;background:#FFFFFF;padding:12px";
 
     var semNumRow = document.createElement("div");
     semNumRow.style.cssText = "display:flex;gap:2px;margin-bottom:6px;align-items:center";
@@ -5627,7 +5953,7 @@ function ouvrirPlanning() {
     // Groupes de 4 semaines (13 groupes = 52)
     for (var s=1; s<=52; s++) {
       var cell = document.createElement("div");
-      cell.style.cssText = "width:16px;flex-shrink:0;text-align:center;font-size:7px;color:" + (s%4===0?"#8E8E93":"#3A3A3C");
+      cell.style.cssText = "width:16px;flex-shrink:0;text-align:center;font-size:7px;color:" + (s%4===0?"#8E8E93":"rgba(0,0,0,.12)");
       cell.textContent = s%4===0 ? String(s) : "";
       semNumRow.appendChild(cell);
     }
@@ -5746,7 +6072,7 @@ function afficherSemaineEnCours(plannings, parentPn) {
   if (ancien) ancien.remove();
   var pn = document.createElement("div");
   pn.id = "panneau-semaine";
-  pn.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+  pn.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#F5F5F7;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
 
   var hdr = document.createElement("div");
   hdr.style.cssText = "background:linear-gradient(135deg,#D4AF37,#A8861F);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0";
@@ -5788,7 +6114,7 @@ function afficherSemaineEnCours(plannings, parentPn) {
 
     Object.keys(parClient).forEach(function(client) {
       var card = document.createElement("div");
-      card.style.cssText = "background:#2C2C2E;border-radius:14px;padding:14px;margin-bottom:10px";
+      card.style.cssText = "background:#FFFFFF;border-radius:14px;padding:14px;margin-bottom:10px";
       var titreClient = document.createElement("div");
       titreClient.style.cssText = "font-size:15px;font-weight:700;color:#fff;margin-bottom:10px";
       var desig = parClient[client][0].designation;
@@ -5874,7 +6200,7 @@ function ouvrirEditPlanning(clientNom, plannings, callback) {
   var popup = document.createElement("div");
   popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.8);display:flex;align-items:flex-end;justify-content:center;font-family:-apple-system,sans-serif";
   var box = document.createElement("div");
-  box.style.cssText = "background:#2C2C2E;border-radius:20px 20px 0 0;padding:20px 16px;width:100%;max-width:430px;max-height:80vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)";
+  box.style.cssText = "background:#FFFFFF;border-radius:20px 20px 0 0;padding:20px 16px;width:100%;max-width:430px;max-height:80vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)";
   box.innerHTML = "<div style='font-size:17px;font-weight:700;color:#fff;margin-bottom:4px'>" + echapper(clientNom) + "</div>" +
     "<div style='font-size:12px;color:#8E8E93;margin-bottom:16px'>Entrez les numeros de semaines separes par des virgules</div>";
   var PRESTS = ["TONTE","FAUCHAGE","FEUILLES","TAILLE","DESHERBAGE","ELAGAGE"];
@@ -5889,7 +6215,7 @@ function ouvrirEditPlanning(clientNom, plannings, callback) {
     var inp = document.createElement("input");
     inp.type = "text"; inp.value = sems;
     inp.placeholder = "ex: 14,16,18,20";
-    inp.style.cssText = "width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#1C1C1E;color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
+    inp.style.cssText = "width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:#F5F5F7;color:#1D1D1F;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none";
     inputs[p] = inp;
     row.appendChild(lbl); row.appendChild(inp);
     box.appendChild(row);
@@ -5925,7 +6251,7 @@ function ouvrirNouveauClientPlanning(plannings, callback) {
   var popup = document.createElement("div");
   popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.85);display:flex;align-items:flex-end;justify-content:center;font-family:-apple-system,sans-serif";
   var box = document.createElement("div");
-  box.style.cssText = "background:#2C2C2E;border-radius:20px 20px 0 0;padding:20px 16px;width:100%;max-width:430px;max-height:85vh;display:flex;flex-direction:column;padding-bottom:calc(env(safe-area-inset-bottom,34px)+16px)";
+  box.style.cssText = "background:#FFFFFF;border-radius:20px 20px 0 0;padding:20px 16px;width:100%;max-width:430px;max-height:85vh;display:flex;flex-direction:column;padding-bottom:calc(env(safe-area-inset-bottom,34px)+16px)";
 
   // Header
   var hdr = document.createElement("div");
@@ -5959,7 +6285,7 @@ function ouvrirNouveauClientPlanning(plannings, callback) {
   var pManuel = document.createElement("div");
   var inp = document.createElement("input");
   inp.type = "text"; inp.placeholder = "Nom du client (ex: DUPONT SAS)";
-  inp.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid #3A3A3C;border-radius:10px;background:#1C1C1E;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:12px;display:block;box-sizing:border-box";
+  inp.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid rgba(0,0,0,.12);border-radius:10px;background:#F5F5F7;color:#1D1D1F;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:12px;display:block;box-sizing:border-box";
   var btnCr = document.createElement("button");
   btnCr.style.cssText = "width:100%;height:48px;border-radius:12px;background:linear-gradient(135deg,#D4AF37,#A8861F);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif";
   btnCr.textContent = "Creer le planning";
@@ -5985,7 +6311,7 @@ function ouvrirNouveauClientPlanning(plannings, callback) {
   lblNom.textContent = "Nom du client";
   var inpNom = document.createElement("input");
   inpNom.type = "text"; inpNom.placeholder = "Ex: NOUVEAU CLIENT SAS";
-  inpNom.style.cssText = "width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#1C1C1E;color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:12px;display:block;box-sizing:border-box";
+  inpNom.style.cssText = "width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:#F5F5F7;color:#1D1D1F;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:12px;display:block;box-sizing:border-box";
 
   var lblDesc = document.createElement("div");
   lblDesc.style.cssText = "font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px";
@@ -5993,7 +6319,7 @@ function ouvrirNouveauClientPlanning(plannings, callback) {
   var taDesc = document.createElement("textarea");
   taDesc.placeholder = "Ex: 10 tontes, 2 fauchages, 1 taille de haie, 3 desherbage...";
   taDesc.rows = 3;
-  taDesc.style.cssText = "width:100%;padding:10px 12px;border:1.5px solid #3A3A3C;border-radius:9px;background:#1C1C1E;color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;resize:none;-webkit-appearance:none;margin-bottom:14px;display:block;box-sizing:border-box;line-height:1.4";
+  taDesc.style.cssText = "width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:#F5F5F7;color:#1D1D1F;font-size:14px;font-family:-apple-system,sans-serif;outline:none;resize:none;-webkit-appearance:none;margin-bottom:14px;display:block;box-sizing:border-box;line-height:1.4";
 
   var hint = document.createElement("div");
   hint.style.cssText = "background:rgba(110,64,201,.15);border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:12px;color:rgba(155,89,208,.9);line-height:1.5";
@@ -6050,7 +6376,7 @@ function ouvrirNouveauClientPlanning(plannings, callback) {
 
         // Aper\u00E7u
         var prevDiv = document.createElement("div");
-        prevDiv.style.cssText = "background:#1C1C1E;border-radius:12px;padding:14px;margin-bottom:12px";
+        prevDiv.style.cssText = "background:#F5F5F7;border-radius:12px;padding:14px;margin-bottom:12px";
         var prevTitre = document.createElement("div");
         prevTitre.style.cssText = "font-size:12px;font-weight:700;color:#9B59D0;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px";
         prevTitre.textContent = "Planning genere pour " + nom;
@@ -6168,7 +6494,7 @@ function ouvrirCampagneMail() {
 
   var pn = document.createElement("div");
   pn.id = "panneau-campagne";
-  pn.style.cssText = "position:fixed;inset:0;z-index:999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+  pn.style.cssText = "position:fixed;inset:0;z-index:999999;background:#F5F5F7;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
 
   // Header
   var hdr = document.createElement("div");
@@ -6192,7 +6518,7 @@ function ouvrirCampagneMail() {
 
   CAMPAGNES_MODELES.forEach(function(m) {
     var card = document.createElement("button");
-    card.style.cssText = "width:100%;background:#2C2C2E;border:none;border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:-apple-system,sans-serif;text-align:left";
+    card.style.cssText = "width:100%;background:#FFFFFF;border:none;border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:-apple-system,sans-serif;text-align:left";
     var ico = document.createElement("div");
     ico.style.cssText = "width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#18181F,#111116);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0";
     ico.textContent = m.emoji;
@@ -6217,7 +6543,7 @@ function ouvrirCampagneMail() {
 
   // \u2500\u2500 Campagne libre \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
   var cardLibre = document.createElement("button");
-  cardLibre.style.cssText = "width:100%;background:#2C2C2E;border:none;border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:-apple-system,sans-serif;text-align:left;margin-bottom:20px";
+  cardLibre.style.cssText = "width:100%;background:#FFFFFF;border:none;border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:-apple-system,sans-serif;text-align:left;margin-bottom:20px";
   cardLibre.innerHTML = "<div style='width:44px;height:44px;border-radius:12px;background:rgba(200,146,62,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0'><svg width='22' height='22' viewBox='0 0 24 24' fill='none'><path d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7' stroke='#C8923E' stroke-width='2' stroke-linecap='round'/><path d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z' stroke='#C8923E' stroke-width='2' stroke-linecap='round'/></svg></div><div><div style='font-size:15px;font-weight:600;color:#fff;margin-bottom:3px'>Message libre</div><div style='font-size:12px;color:#8E8E93'>Ecrire ton propre message</div></div>";
   cardLibre.onclick = function(){ ouvrirEditeurCampagne({id:"libre",titre:"Message libre",emoji:"\u270F\uFE0F",sujet:"",corps:""}, pn); };
   body.appendChild(cardLibre);
@@ -6228,7 +6554,7 @@ function ouvrirCampagneMail() {
 
 function ouvrirIACampagne(parentPn) {
   var popup = document.createElement("div");
-  popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+  popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#F5F5F7;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
 
   var hdr = document.createElement("div");
   hdr.style.cssText = "background:linear-gradient(135deg,#8B5CF6,#A855F7);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0";
@@ -6244,7 +6570,7 @@ function ouvrirIACampagne(parentPn) {
 
   // Instructions
   var hint = document.createElement("div");
-  hint.style.cssText = "background:#2C2C2E;border-radius:12px;padding:14px;margin-bottom:14px;font-size:13px;color:#8E8E93;line-height:1.6";
+  hint.style.cssText = "background:#FFFFFF;border-radius:12px;padding:14px;margin-bottom:14px;font-size:13px;color:#8E8E93;line-height:1.6";
   hint.textContent = "Exemples :\n- Offre sp\u00E9ciale taille de haie pour l'automne avec 10% de remise\n- Rappel aux clients pour le nettoyage hivernal\n- Pr\u00E9sentation de notre nouveau service d'\u00E9lagage";
   body.appendChild(hint);
 
@@ -6257,7 +6583,7 @@ function ouvrirIACampagne(parentPn) {
   var ta = document.createElement("textarea");
   ta.placeholder = "Ex: Je veux envoyer un mail pour proposer une remise de 15% sur la tonte de printemps...";
   ta.rows = 4;
-  ta.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid #3A3A3C;border-radius:12px;background:#2C2C2E;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;resize:none;-webkit-appearance:none;display:block;box-sizing:border-box;margin-bottom:14px";
+  ta.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid rgba(0,0,0,.12);border-radius:12px;background:#FFFFFF;color:#1D1D1F;font-size:15px;font-family:-apple-system,sans-serif;outline:none;resize:none;-webkit-appearance:none;display:block;box-sizing:border-box;margin-bottom:14px";
   body.appendChild(ta);
 
   // R\u00E9sultat IA
@@ -6298,8 +6624,8 @@ function ouvrirIACampagne(parentPn) {
         var modeleIA = { id:"ia_"+Date.now(), titre:"Campagne IA", emoji:"\u2728", sujet:parsed.sujet, corps:parsed.corps };
         resultDiv.innerHTML = "";
         var preview = document.createElement("div");
-        preview.style.cssText = "background:#2C2C2E;border-radius:12px;padding:14px;margin-bottom:12px";
-        preview.innerHTML = "<div style='font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px'>Apercu gener\u00E9</div><div style='font-size:13px;font-weight:600;color:#C8923E;margin-bottom:6px'>" + echapper(parsed.sujet) + "</div><div style='font-size:13px;color:#fff;white-space:pre-wrap;line-height:1.5'>" + echapper(parsed.corps.substring(0,300)) + (parsed.corps.length > 300 ? "..." : "") + "</div>";
+        preview.style.cssText = "background:#FFFFFF;border-radius:12px;padding:14px;margin-bottom:12px";
+        preview.innerHTML = "<div style='font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px'>Apercu gener\u00E9</div><div style='font-size:13px;font-weight:600;color:#C8923E;margin-bottom:6px'>" + echapper(parsed.sujet) + "</div><div style='font-size:13px;color:#1D1D1F;white-space:pre-wrap;line-height:1.5'>" + echapper(parsed.corps.substring(0,300)) + (parsed.corps.length > 300 ? "..." : "") + "</div>";
         resultDiv.appendChild(preview);
         var btnUtiliser = document.createElement("button");
         btnUtiliser.style.cssText = "width:100%;height:50px;border-radius:14px;background:linear-gradient(135deg,#D4AF37,#A8861F);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif";
@@ -6320,7 +6646,7 @@ function ouvrirIACampagne(parentPn) {
 
   // Padding sous le bouton
   var padBtn = document.createElement("div");
-  padBtn.style.cssText = "height:calc(env(safe-area-inset-bottom,34px)+16px);background:#1C1C1E;flex-shrink:0";
+  padBtn.style.cssText = "height:calc(env(safe-area-inset-bottom,34px)+16px);background:#F5F5F7;flex-shrink:0";
   pn.appendChild(padBtn);
 
   var pn = popup;
@@ -6329,7 +6655,7 @@ function ouvrirIACampagne(parentPn) {
 
 function ouvrirEditeurCampagne(modele, parentPn) {
   var popup = document.createElement("div");
-  popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#1C1C1E;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
+  popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#F5F5F7;display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
 
   var hdr = document.createElement("div");
   hdr.style.cssText = "background:linear-gradient(135deg,#18181F,#111116);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0";
@@ -6351,7 +6677,7 @@ function ouvrirEditeurCampagne(modele, parentPn) {
   inpSujet.type = "text";
   inpSujet.value = modele.sujet;
   inpSujet.placeholder = "Sujet de votre campagne";
-  inpSujet.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid #3A3A3C;border-radius:10px;background:#2C2C2E;color:#fff;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;display:block;box-sizing:border-box;margin-bottom:14px";
+  inpSujet.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid rgba(0,0,0,.12);border-radius:10px;background:#FFFFFF;color:#1D1D1F;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;display:block;box-sizing:border-box;margin-bottom:14px";
 
   // Corps
   var lblCorps = document.createElement("div");
@@ -6360,14 +6686,14 @@ function ouvrirEditeurCampagne(modele, parentPn) {
   var taCorps = document.createElement("textarea");
   taCorps.value = modele.corps;
   taCorps.rows = 12;
-  taCorps.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid #3A3A3C;border-radius:10px;background:#2C2C2E;color:#fff;font-size:14px;font-family:-apple-system,sans-serif;outline:none;resize:none;-webkit-appearance:none;display:block;box-sizing:border-box;margin-bottom:14px;line-height:1.5";
+  taCorps.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid rgba(0,0,0,.12);border-radius:10px;background:#FFFFFF;color:#1D1D1F;font-size:14px;font-family:-apple-system,sans-serif;outline:none;resize:none;-webkit-appearance:none;display:block;box-sizing:border-box;margin-bottom:14px;line-height:1.5";
 
   // Destinataires
   var lblDest = document.createElement("div");
   lblDest.style.cssText = "font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px";
   lblDest.textContent = "Destinataires";
   var destInfo = document.createElement("div");
-  destInfo.style.cssText = "background:#2C2C2E;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#8E8E93";
+  destInfo.style.cssText = "background:#FFFFFF;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#8E8E93";
   destInfo.textContent = "Chargement des clients...";
 
   // Charger les clients depuis Firebase
@@ -6391,7 +6717,7 @@ function ouvrirEditeurCampagne(modele, parentPn) {
 
   // Bouton envoyer
   var footer = document.createElement("div");
-  footer.style.cssText = "flex-shrink:0;padding:14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+10px);background:#1C1C1E;border-top:.5px solid #2C2C2E";
+  footer.style.cssText = "flex-shrink:0;padding:14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+10px);background:#F5F5F7;border-top:.5px solid #2C2C2E";
   var btnEnvoyer = document.createElement("button");
   btnEnvoyer.style.cssText = "width:100%;height:52px;border-radius:14px;background:linear-gradient(135deg,#18181F,#111116);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px";
   btnEnvoyer.innerHTML = "<svg width='18' height='18' viewBox='0 0 24 24' fill='none'><path d='M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg> Envoyer la campagne";
@@ -6482,7 +6808,8 @@ function init() {
 
   // Clients
   var btnMesClients = trouverEl("btn-mes-clients");
-  if (btnMesClients) btnMesClients.onclick = ouvrirPanneauClients;
+  if (btnMesClients) btnMesClients.onclick = ouvrirClientsPourDevis;
+  if (typeof initAutocompleteClient === "function") initAutocompleteClient();
   var btnSauverClient = trouverEl("btn-sauver-client");
   if (btnSauverClient) btnSauverClient.onclick = sauverClientActuel;
 
