@@ -831,10 +831,9 @@ body {
 /* KPI : 4 rectangles pleine largeur, une seule rangee en haut */
 .acc-stat-row {
   display:flex !important;
-  gap:6px !important;
-  margin:0 -16px !important;        /* annule le padding lateral du header -> bord a bord */
-  padding:0 8px !important;
-  margin-top:4px !important;
+  gap:8px !important;
+  margin:4px 0 0 0 !important;       /* meme gouttiere (16px) que les cartes d'actions en dessous */
+  padding:0 !important;
 }
 .acc-stat-row + .acc-stat-row { display:none !important; } /* securite : plus qu'une rangee */
 .acc-stat {
@@ -842,15 +841,15 @@ body {
   background:var(--carte) !important;
   border:1px solid var(--bord) !important;
   border-radius:12px !important;
-  padding:11px 4px !important;
+  padding:13px 6px !important;
   box-shadow:var(--ombre) !important;
   min-width:0 !important;
   animation:none !important;
   text-align:center !important;
 }
 .acc-stat-main { flex:1 1 0 !important; }
-.acc-stat-val { font-size:15px !important; font-weight:800 !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; letter-spacing:-.03em !important; }
-.acc-stat-ca { font-size:15px !important; font-weight:800 !important; }
+.acc-stat-val { font-size:16px !important; font-weight:800 !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; letter-spacing:-.03em !important; }
+.acc-stat-ca { font-size:16px !important; font-weight:800 !important; }
 .acc-stat-lbl { font-size:8.5px !important; margin-top:3px !important; letter-spacing:.03em !important; line-height:1.15 !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; }
 .acc-stat-lbl-row { gap:4px !important; margin-top:3px !important; flex-wrap:wrap !important; justify-content:center !important; }
 .acc-stat-mois { font-size:9px !important; }
