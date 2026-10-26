@@ -17,7 +17,7 @@
 html,body{height:100%;overflow:hidden;background:var(--fond);font-family:-apple-system,"SF Pro Display",Inter,sans-serif;-webkit-font-smoothing:antialiased}
 #app{display:flex;flex-direction:column;height:100%;max-width:430px;margin:0 auto}
 #barre-statut{height:calc(var(--haut) + 0px);min-height:44px;background:var(--blanc);display:flex;align-items:flex-end;justify-content:space-between;padding:0 18px 6px;flex-shrink:0}
-#navbar{background:var(--blanc);border-bottom:.5px solid rgba(0,0,0,.12);padding:8px 10px 10px;display:flex;align-items:center;gap:6px;flex-shrink:0}
+#navbar{background:var(--blanc);border-bottom:.5px solid rgba(0,0,0,.12);padding:8px 10px 10px;padding-top:calc(var(--haut) + 8px);display:flex;align-items:center;gap:6px;flex-shrink:0}
 #titre-page{margin-left:auto;font-size:9px;font-weight:600;color:var(--gris);letter-spacing:.08em;text-transform:uppercase}
 #onglets{display:flex;background:var(--blanc);border-bottom:.5px solid rgba(0,0,0,.1);flex-shrink:0}
 .onglet{flex:1;padding:10px 0;font-size:13px;font-weight:500;color:var(--gris);text-align:center;cursor:pointer;border:none;background:none;border-bottom:2.5px solid transparent;font-family:-apple-system,sans-serif}

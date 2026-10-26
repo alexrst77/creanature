@@ -1354,7 +1354,7 @@ function majHorloge() {
   var d = new Date();
   var h = ("0" + d.getHours()).slice(-2);
   var m = ("0" + d.getMinutes()).slice(-2);
-  document.getElementById("horloge").textContent = h + ":" + m;
+  var elH = document.getElementById("horloge"); if (elH) elH.textContent = h + ":" + m;
 }
 majHorloge();
 setInterval(majHorloge, 15000);
@@ -2169,16 +2169,38 @@ function envoyerDevisParMail() {
     try { iframe.contentWindow.document.title = nomFichier.replace(".pdf",""); } catch(e){}
     iframe.contentWindow.print();
   }
-  // 2. Toast instructif
-  afficherToast("Etape 1 : Sauvegardez le PDF. Etape 2 : Joignez-le dans Gmail");
-  // 3. Ouvrir Gmail apres delai
-  setTimeout(function() {
-    window.location.href =
-      "mailto:" + encodeURIComponent(email) +
+  // 2. Popup d'instruction claire avec bouton pour ouvrir le mail quand pret
+  var lienMail = "mailto:" + encodeURIComponent(email) +
       "?cc=" + encodeURIComponent("creanature@ymail.com") +
       "&subject=" + sujet +
       "&body=" + corps;
-  }, 2500);
+  afficherPopupEnvoiMail(lienMail, nomFichier);
+}
+
+// Popup claire pour guider l'envoi du devis par mail
+function afficherPopupEnvoiMail(lienMail, nomFichier) {
+  var ancien = document.getElementById("popup-envoi-mail");
+  if (ancien) ancien.remove();
+  var ov = document.createElement("div");
+  ov.id = "popup-envoi-mail";
+  ov.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:24px;font-family:-apple-system,sans-serif";
+  ov.innerHTML =
+    "<div style=\'background:var(--carte);border-radius:22px;padding:24px;max-width:340px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)\'>" +
+      "<div style=\'font-size:18px;font-weight:700;color:var(--txt);margin-bottom:6px\'>Envoyer le devis</div>" +
+      "<div style=\'font-size:13px;color:var(--txt-2);line-height:1.5;margin-bottom:18px\'>Suivez ces 2 etapes :</div>" +
+      "<div style=\'display:flex;gap:12px;margin-bottom:14px\'>" +
+        "<div style=\'width:26px;height:26px;border-radius:13px;background:var(--violet-doux);color:var(--violet);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0\'>1</div>" +
+        "<div style=\'font-size:13px;color:var(--txt);line-height:1.45\'>Le PDF du devis vient de s\'ouvrir. Touchez <b>Partager</b> puis <b>Enregistrer dans Fichiers</b>.</div>" +
+      "</div>" +
+      "<div style=\'display:flex;gap:12px;margin-bottom:20px\'>" +
+        "<div style=\'width:26px;height:26px;border-radius:13px;background:var(--violet-doux);color:var(--violet);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0\'>2</div>" +
+        "<div style=\'font-size:13px;color:var(--txt);line-height:1.45\'>Ouvrez le mail (bouton ci-dessous), puis touchez le <b>trombone</b> et joignez le PDF enregistre.</div>" +
+      "</div>" +
+      "<a href=\'" + lienMail + "\' style=\'display:block;text-align:center;background:linear-gradient(135deg,var(--violet),var(--violet-2));color:#fff;padding:14px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;margin-bottom:8px\'>Ouvrir le mail</a>" +
+      "<button onclick=\'document.getElementById(\"popup-envoi-mail\").remove()\' style=\'width:100%;background:none;border:none;color:var(--txt-3);font-size:14px;padding:8px;cursor:pointer;font-family:-apple-system,sans-serif\'>Fermer</button>" +
+    "</div>";
+  document.body.appendChild(ov);
+  ov.onclick = function(e){ if(e.target===ov) ov.remove(); };
 }
 
 function visualiserDevis() {
