@@ -127,7 +127,7 @@ body.dark #pave{background:#000;border-color:#3A3A3C}
 .ecran-plein.cache{display:none!important}
 /* ACCUEIL */
 #ecran-accueil{padding:0;justify-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.acc-header{width:100%;background:linear-gradient(160deg,#1C1C1E 60%,#2C1A0A);padding:30px 20px 24px;padding-top:calc(env(safe-area-inset-top,44px)+16px);flex-shrink:0}
+.acc-header{width:100%;background:transparent;padding:10px 16px 8px;padding-top:calc(env(safe-area-inset-top,44px)+10px);flex-shrink:0}
 .acc-bienvenue{font-size:13px;color:var(--txt-3);margin-bottom:4px}
 .acc-nom{font-size:26px;font-weight:700;color:var(--blanc)}
 .acc-logo-row{display:flex;align-items:center;gap:10px;margin-bottom:20px}
@@ -819,3 +819,11 @@ body {
 /* Separateurs */
 .sep-lumineux { background: rgba(0,0,0,.08) !important; }
 
+
+/* Barre du haut compacte de l'accueil */
+.acc-topbar { display:flex; align-items:center; justify-content:space-between; width:100%; }
+.acc-topbar-logo { height:34px; object-fit:contain; }
+.acc-topbar-right { display:flex; align-items:center; gap:8px; }
+.acc-topbar-btn { width:34px; height:34px; border-radius:17px; background:var(--carte); border:1px solid var(--bord); color:var(--txt-2); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; }
+.acc-topbar-btn:active { background:var(--survol); }
+.acc-topbar .acc-avatar { width:34px; height:34px; border-radius:17px; font-size:15px; }
