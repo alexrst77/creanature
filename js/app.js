@@ -47,7 +47,7 @@ function afficherChoixUsers() {
         "<div class='user-avatar'>" + echapper(u.initiale) + "</div>" +
         "<div><div class='user-nom'>" + echapper(u.nom) + "</div>" +
         "<div class='user-role'>" + echapper(u.role) + "</div></div>" +
-        "<div style='margin-left:auto;color:var(--txt-2);font-size:20px'>&#x203A;</div>";
+        "<div style='margin-left:auto;color:#6E6E73;font-size:20px'>&#x203A;</div>";
       (function(user) { card.onclick = function() { selectionnerUser(user); }; })(u);
       liste.appendChild(card);
     });
@@ -242,13 +242,13 @@ function construireAccueil() {
       "<div class='acc-user-bar'>" +
         "<div><div class='acc-bienvenue'>Bonjour,</div><div class='acc-nom'>" + echapper(user.nom) + "</div></div>" +
         "<div style='display:flex;gap:8px;align-items:center'>" +
-          "<button onclick='location.reload()' style='background:rgba(255,255,255,.08);border:none;width:32px;height:32px;border-radius:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--txt-3)'><svg width='16' height='16' viewBox='0 0 24 24' fill='none'><path d='M23 4v6h-6' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/><path d='M1 20v-6h6' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg></button>" +
-          "<button onclick='ouvrirReglages()' style='background:rgba(200,146,62,.15);border:none;width:36px;height:36px;border-radius:18px;cursor:pointer;display:flex;align-items:center;justify-content:center'>" + "<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"12\" cy=\"12\" r=\"3\" fill=\"var(--or-2)\"/><path d=\"M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z\" fill=\"var(--or-2)\" opacity=\".7\"/></svg>" + "</button>" +
+          "<button onclick='location.reload()' style='background:rgba(255,255,255,.08);border:none;width:32px;height:32px;border-radius:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#86868B'><svg width='16' height='16' viewBox='0 0 24 24' fill='none'><path d='M23 4v6h-6' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/><path d='M1 20v-6h6' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg></button>" +
+          "<button onclick='ouvrirReglages()' style='background:rgba(200,146,62,.15);border:none;width:36px;height:36px;border-radius:18px;cursor:pointer;display:flex;align-items:center;justify-content:center'>" + "<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"12\" cy=\"12\" r=\"3\" fill=\"#D4AF37\"/><path d=\"M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z\" fill=\"#D4AF37\" opacity=\".7\"/></svg>" + "</button>" +
           "<div class='acc-avatar' onclick='deconnecter()' title='Deconnexion'>" + echapper(user.initiale) + "</div>" +
         "</div>" +
       "</div>" +
       "<div class='acc-logo-row'>" +
-        "<svg width='32' height='40' viewBox='0 0 60 76' fill='none'><defs><linearGradient id='alg' x1='0' y1='0' x2='60' y2='76' gradientUnits='userSpaceOnUse'><stop offset='0%' stop-color='var(--or-2)'/><stop offset='100%' stop-color='var(--or)'/></linearGradient></defs><rect x='2' y='2' width='56' height='72' rx='28' stroke='url(#alg)' stroke-width='2.5'/><line x1='30' y1='66' x2='30' y2='44' stroke='url(#alg)' stroke-width='2.8' stroke-linecap='round'/><line x1='30' y1='44' x2='30' y2='16' stroke='url(#alg)' stroke-width='2' stroke-linecap='round'/><path d='M30 44 C25 36 15 31 8 20' stroke='url(#alg)' stroke-width='2' stroke-linecap='round' fill='none'/><path d='M30 44 C35 36 45 31 52 20' stroke='url(#alg)' stroke-width='2' stroke-linecap='round' fill='none'/><path d='M30 20 C28 16 24 14 20 10' stroke='url(#alg)' stroke-width='1.2' stroke-linecap='round' fill='none'/><path d='M30 20 C32 16 36 14 40 10' stroke='url(#alg)' stroke-width='1.2' stroke-linecap='round' fill='none'/></svg>" +
+        "<svg width='32' height='40' viewBox='0 0 60 76' fill='none'><defs><linearGradient id='alg' x1='0' y1='0' x2='60' y2='76' gradientUnits='userSpaceOnUse'><stop offset='0%' stop-color='#D4AF37'/><stop offset='100%' stop-color='#B8860B'/></linearGradient></defs><rect x='2' y='2' width='56' height='72' rx='28' stroke='url(#alg)' stroke-width='2.5'/><line x1='30' y1='66' x2='30' y2='44' stroke='url(#alg)' stroke-width='2.8' stroke-linecap='round'/><line x1='30' y1='44' x2='30' y2='16' stroke='url(#alg)' stroke-width='2' stroke-linecap='round'/><path d='M30 44 C25 36 15 31 8 20' stroke='url(#alg)' stroke-width='2' stroke-linecap='round' fill='none'/><path d='M30 44 C35 36 45 31 52 20' stroke='url(#alg)' stroke-width='2' stroke-linecap='round' fill='none'/><path d='M30 20 C28 16 24 14 20 10' stroke='url(#alg)' stroke-width='1.2' stroke-linecap='round' fill='none'/><path d='M30 20 C32 16 36 14 40 10' stroke='url(#alg)' stroke-width='1.2' stroke-linecap='round' fill='none'/></svg>" +
         "<div class='acc-logo-txt'><span class='acc-crea'>Crea</span><span class='acc-nature'>NATURE</span></div>" +
       "</div>" +
       "<div class='acc-stat-row'>" +
@@ -263,7 +263,7 @@ function construireAccueil() {
       "</div>" +
       "<div class='acc-stat-row' style='margin-top:10px'>" +
         "<div class='acc-stat'><div class='acc-stat-val acc-stat-ca' id='acc-ca-mois'>-</div><div class='acc-stat-lbl'>CA HT " + moisNom + "</div></div>" +
-        "<div class='acc-stat'><div class='acc-stat-val' id='acc-ca-annee' style='color:var(--bleu)'>-</div><div class='acc-stat-lbl'>CA HT " + new Date().getFullYear() + "</div></div>" +
+        "<div class='acc-stat'><div class='acc-stat-val' id='acc-ca-annee' style='color:#0071E3'>-</div><div class='acc-stat-lbl'>CA HT " + new Date().getFullYear() + "</div></div>" +
       "</div>" +
     "</div>" +
     "<div class='acc-body'>" +
@@ -272,13 +272,13 @@ function construireAccueil() {
         "<button class='acc-btn acc-btn-gold' onclick='lancerCalculateur()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\" fill=\"white\" opacity=\".9\"/><path d=\"M14 2v6h6\" fill=\"none\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"13\" x2=\"16\" y2=\"13\" stroke=\"rgba(0,0,0,.3)\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"17\" x2=\"13\" y2=\"17\" stroke=\"rgba(0,0,0,.3)\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></span><span class='acc-lbl'>Nouveau devis</span><span class='acc-desc'>Calculer et generer</span></button>" +
         "<button class='acc-btn acc-btn-dark' onclick='ouvrirPanneauClients()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"9\" cy=\"7\" r=\"4\" fill=\"white\"/><path d=\"M2 21v-1a7 7 0 0 1 7-7 7 7 0 0 1 7 7v1\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><circle cx=\"18\" cy=\"8\" r=\"3\" fill=\"white\" opacity=\".7\"/><path d=\"M22 21v-1a5 5 0 0 0-4-4.9\" stroke=\"white\" stroke-width=\"1.8\" stroke-linecap=\"round\" opacity=\".7\"/></svg></span><span class='acc-lbl'>Mes clients</span><span class='acc-desc'>Base de donnees</span></button>" +
         "<button class='acc-btn acc-btn-green' onclick='afficherStats()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"14\" width=\"4\" height=\"7\" rx=\"1.5\" fill=\"white\" opacity=\".6\"/><rect x=\"10\" y=\"9\" width=\"4\" height=\"12\" rx=\"1.5\" fill=\"white\" opacity=\".8\"/><rect x=\"17\" y=\"5\" width=\"4\" height=\"16\" rx=\"1.5\" fill=\"white\"/></svg></span><span class='acc-lbl'>Historique</span><span class='acc-desc'>Devis et CA</span></button>" +
-        "<button class=\'acc-btn\' style=\'background:linear-gradient(135deg,#18181F,#111116);color:var(--bleu)\' onclick=\'ouvrirPlanning()\'><span class=\'acc-ico\'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"3\" fill=\"white\" opacity=\".15\"/><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"3\" stroke=\"white\" stroke-width=\"1.8\"/><line x1=\"3\" y1=\"9\" x2=\"21\" y2=\"9\" stroke=\"white\" stroke-width=\"1.5\"/><line x1=\"8\" y1=\"2\" x2=\"8\" y2=\"6\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><line x1=\"16\" y1=\"2\" x2=\"16\" y2=\"6\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"7\" y=\"13\" width=\"3\" height=\"3\" rx=\"1\" fill=\"white\" opacity=\".8\"/><rect x=\"14\" y=\"13\" width=\"3\" height=\"3\" rx=\"1\" fill=\"white\"/></svg></span><span class=\'acc-lbl\'>Planning</span><span class=\'acc-desc\'>52 semaines</span></button>" +
+        "<button class=\'acc-btn\' style=\'background:linear-gradient(135deg,#18181F,#111116);color:#0071E3\' onclick=\'ouvrirPlanning()\'><span class=\'acc-ico\'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"3\" fill=\"white\" opacity=\".15\"/><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"3\" stroke=\"white\" stroke-width=\"1.8\"/><line x1=\"3\" y1=\"9\" x2=\"21\" y2=\"9\" stroke=\"white\" stroke-width=\"1.5\"/><line x1=\"8\" y1=\"2\" x2=\"8\" y2=\"6\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><line x1=\"16\" y1=\"2\" x2=\"16\" y2=\"6\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"7\" y=\"13\" width=\"3\" height=\"3\" rx=\"1\" fill=\"white\" opacity=\".8\"/><rect x=\"14\" y=\"13\" width=\"3\" height=\"3\" rx=\"1\" fill=\"white\"/></svg></span><span class=\'acc-lbl\'>Planning</span><span class=\'acc-desc\'>52 semaines</span></button>" +
         
         "<button class='acc-btn acc-btn-purple' onclick='ouvrirPanneauMemo()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\" fill=\"white\" opacity=\".15\"/><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\" stroke=\"white\" stroke-width=\"1.8\"/><line x1=\"8\" y1=\"8\" x2=\"16\" y2=\"8\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"12\" x2=\"16\" y2=\"12\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"16\" x2=\"12\" y2=\"16\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></span><span class='acc-lbl'>Memo partage</span><span class='acc-desc'>Notes et taches</span></button>" +
         "<button class='acc-btn acc-btn-terrain' onclick='ouvrirPanneauBI()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Bon d'intervention</span><span class='acc-desc'>Generer et envoyer</span></button>" +
       
-        "<button class='acc-btn' style='background:linear-gradient(135deg,#18181F,#111116);color:var(--bleu)' onclick='ouvrirCampagneMail()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M22 2L11 13\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M22 2l-7 20-4-9-9-4 20-7z\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Campagne mail</span><span class='acc-desc'>Demarcher vos clients</span></button>" +
-        "<button class='acc-btn' style='background:linear-gradient(135deg,#18181F,#111116);color:var(--succes)' onclick='ouvrirPanneauTresorerie()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Tresorerie</span><span class='acc-desc'>Encaissements et avances</span></button>" +
+        "<button class='acc-btn' style='background:linear-gradient(135deg,#18181F,#111116);color:#0071E3' onclick='ouvrirCampagneMail()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M22 2L11 13\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M22 2l-7 20-4-9-9-4 20-7z\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Campagne mail</span><span class='acc-desc'>Demarcher vos clients</span></button>" +
+        "<button class='acc-btn' style='background:linear-gradient(135deg,#18181F,#111116);color:#16A34A' onclick='ouvrirPanneauTresorerie()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Tresorerie</span><span class='acc-desc'>Encaissements et avances</span></button>" +
       "</div>" +
       "<div class='acc-devis-list' id='acc-derniers-devis'></div>" +
     "</div>";
@@ -499,10 +499,10 @@ function ouvrirReglages() {
   var cartePin = document.createElement("div");
   cartePin.style.cssText = "background:var(--blanc);border-radius:14px;padding:16px;margin-bottom:16px";
   cartePin.innerHTML =
-    "<input id='rg-pin-a' type='password' inputmode='numeric' maxlength='4' placeholder='PIN actuel' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:var(--blanc);font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:8px;outline:none;-webkit-appearance:none;display:block'/>" +
-    "<input id='rg-pin-n' type='password' inputmode='numeric' maxlength='4' placeholder='Nouveau PIN' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:var(--blanc);font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:8px;outline:none;-webkit-appearance:none;display:block'/>" +
-    "<input id='rg-pin-c' type='password' inputmode='numeric' maxlength='4' placeholder='Confirmer PIN' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:var(--blanc);font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:10px;outline:none;-webkit-appearance:none;display:block'/>" +
-    "<button id='rg-btn-pin' style='width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,var(--or-2),var(--or));border:none;font-size:14px;font-weight:600;color:var(--blanc);cursor:pointer;font-family:-apple-system,sans-serif'>Changer le PIN</button>" +
+    "<input id='rg-pin-a' type='password' inputmode='numeric' maxlength='4' placeholder='PIN actuel' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#FFFFFF;font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:8px;outline:none;-webkit-appearance:none;display:block'/>" +
+    "<input id='rg-pin-n' type='password' inputmode='numeric' maxlength='4' placeholder='Nouveau PIN' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#FFFFFF;font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:8px;outline:none;-webkit-appearance:none;display:block'/>" +
+    "<input id='rg-pin-c' type='password' inputmode='numeric' maxlength='4' placeholder='Confirmer PIN' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#FFFFFF;font-size:16px;font-family:-apple-system,sans-serif;margin-bottom:10px;outline:none;-webkit-appearance:none;display:block'/>" +
+    "<button id='rg-btn-pin' style='width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,#D4AF37,#B8860B);border:none;font-size:14px;font-weight:600;color:#FFFFFF;cursor:pointer;font-family:-apple-system,sans-serif'>Changer le PIN</button>" +
     "<div id='rg-msg' style='text-align:center;font-size:12px;margin-top:8px;min-height:16px'></div>";
   corps.appendChild(cartePin);
 
@@ -532,9 +532,9 @@ function ouvrirReglages() {
       var cu = document.createElement("div");
       cu.style.cssText = "background:var(--blanc);border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px";
       cu.innerHTML =
-        "<div style='width:40px;height:40px;border-radius:20px;background:linear-gradient(135deg,var(--or-2),var(--or));display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--blanc);font-weight:700;flex-shrink:0'>" + echapper(u.initiale) + "</div>" +
-        "<div><div style='font-size:15px;font-weight:600;color:var(--txt)'>" + echapper(u.nom) + "</div>" +
-        "<div style='font-size:12px;color:var(--txt-3)'>" + echapper(u.role) + "</div></div>";
+        "<div style='width:40px;height:40px;border-radius:20px;background:linear-gradient(135deg,#D4AF37,#B8860B);display:flex;align-items:center;justify-content:center;font-size:18px;color:#FFFFFF;font-weight:700;flex-shrink:0'>" + echapper(u.initiale) + "</div>" +
+        "<div><div style='font-size:15px;font-weight:600;color:#1D1D1F'>" + echapper(u.nom) + "</div>" +
+        "<div style='font-size:12px;color:#86868B'>" + echapper(u.role) + "</div></div>";
       corps.appendChild(cu);
     });
   });
@@ -598,12 +598,12 @@ function ouvrirReglages() {
   carteTarif.style.cssText = "background:var(--blanc);border-radius:14px;padding:16px;margin-bottom:16px";
   var tarifActuel = parseInt(localStorage.getItem("creanature_tarif") || "72");
   carteTarif.innerHTML =
-    "<div style='font-size:13px;color:var(--txt-3);margin-bottom:10px'>Tarif actuel : <span style='color:var(--or-2);font-weight:700'>" + tarifActuel + " EUR HT/h</span></div>" +
+    "<div style='font-size:13px;color:#86868B;margin-bottom:10px'>Tarif actuel : <span style='color:#D4AF37;font-weight:700'>" + tarifActuel + " EUR HT/h</span></div>" +
     "<div style='display:flex;gap:8px;align-items:center'>" +
-      "<input id='rg-tarif' type='number' value='" + tarifActuel + "' min='1' max='999' style='flex:1;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:var(--blanc);font-size:16px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none'/>" +
-      "<span style='color:var(--txt-3);font-size:13px'>EUR HT / heure</span>" +
+      "<input id='rg-tarif' type='number' value='" + tarifActuel + "' min='1' max='999' style='flex:1;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#FFFFFF;font-size:16px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none'/>" +
+      "<span style='color:#86868B;font-size:13px'>EUR HT / heure</span>" +
     "</div>" +
-    "<button id='rg-btn-tarif' style='width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,var(--or-2),var(--or));border:none;font-size:14px;font-weight:600;color:var(--blanc);cursor:pointer;font-family:-apple-system,sans-serif;margin-top:10px'>Sauvegarder le tarif</button>" +
+    "<button id='rg-btn-tarif' style='width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,#D4AF37,#B8860B);border:none;font-size:14px;font-weight:600;color:#FFFFFF;cursor:pointer;font-family:-apple-system,sans-serif;margin-top:10px'>Sauvegarder le tarif</button>" +
     "<div id='rg-msg-tarif' style='text-align:center;font-size:12px;margin-top:8px;min-height:16px'></div>";
   corps.appendChild(carteTarif);
   carteTarif.querySelector("#rg-btn-tarif").onclick = function() {
@@ -626,11 +626,11 @@ function ouvrirReglages() {
   var emailSoc = localStorage.getItem("creanature_email") || "creanature@ymail.com";
   var telSoc = localStorage.getItem("creanature_tel") || "06 19 30 40 93";
   carteEmail.innerHTML =
-    "<label style='font-size:12px;color:var(--txt-3);display:block;margin-bottom:4px'>Email</label>" +
-    "<input id='rg-email' type='email' value='" + emailSoc + "' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:var(--blanc);font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:10px;display:block'/>" +
-    "<label style='font-size:12px;color:var(--txt-3);display:block;margin-bottom:4px'>Telephone</label>" +
-    "<input id='rg-tel' type='tel' value='" + telSoc + "' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:var(--blanc);font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:10px;display:block'/>" +
-    "<button id='rg-btn-email' style='width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,var(--or-2),var(--or));border:none;font-size:14px;font-weight:600;color:var(--blanc);cursor:pointer;font-family:-apple-system,sans-serif'>Sauvegarder</button>" +
+    "<label style='font-size:12px;color:#86868B;display:block;margin-bottom:4px'>Email</label>" +
+    "<input id='rg-email' type='email' value='" + emailSoc + "' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#FFFFFF;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:10px;display:block'/>" +
+    "<label style='font-size:12px;color:#86868B;display:block;margin-bottom:4px'>Telephone</label>" +
+    "<input id='rg-tel' type='tel' value='" + telSoc + "' style='width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#FFFFFF;font-size:14px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:10px;display:block'/>" +
+    "<button id='rg-btn-email' style='width:100%;height:44px;border-radius:11px;background:linear-gradient(135deg,#D4AF37,#B8860B);border:none;font-size:14px;font-weight:600;color:#FFFFFF;cursor:pointer;font-family:-apple-system,sans-serif'>Sauvegarder</button>" +
     "<div id='rg-msg-email' style='text-align:center;font-size:12px;margin-top:8px;min-height:16px'></div>";
   corps.appendChild(carteEmail);
   carteEmail.querySelector("#rg-btn-email").onclick = function() {
@@ -652,11 +652,11 @@ function ouvrirReglages() {
   carteTVA.style.cssText = "background:var(--blanc);border-radius:14px;padding:16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px";
   var tvaActuelle = localStorage.getItem("creanature_tva") || "20";
   carteTVA.innerHTML =
-    "<span style='font-size:14px;color:var(--blanc)'>Taux de TVA</span>" +
+    "<span style='font-size:14px;color:#FFFFFF'>Taux de TVA</span>" +
     "<div style='display:flex;align-items:center;gap:8px'>" +
-      "<input id='rg-tva' type='number' value='" + tvaActuelle + "' min='0' max='100' style='width:70px;padding:8px 10px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:var(--blanc);font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;text-align:center'/>" +
-      "<span style='color:var(--txt-3);font-size:14px'>%</span>" +
-      "<button id='rg-btn-tva' style='padding:8px 14px;border-radius:9px;background:linear-gradient(135deg,var(--or-2),var(--or));border:none;font-size:13px;font-weight:600;color:var(--blanc);cursor:pointer;font-family:-apple-system,sans-serif'>OK</button>" +
+      "<input id='rg-tva' type='number' value='" + tvaActuelle + "' min='0' max='100' style='width:70px;padding:8px 10px;border:1.5px solid rgba(0,0,0,.12);border-radius:9px;background:rgba(0,0,0,.12);color:#FFFFFF;font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;text-align:center'/>" +
+      "<span style='color:#86868B;font-size:14px'>%</span>" +
+      "<button id='rg-btn-tva' style='padding:8px 14px;border-radius:9px;background:linear-gradient(135deg,#D4AF37,#B8860B);border:none;font-size:13px;font-weight:600;color:#FFFFFF;cursor:pointer;font-family:-apple-system,sans-serif'>OK</button>" +
     "</div>";
   corps.appendChild(carteTVA);
   carteTVA.querySelector("#rg-btn-tva").onclick = function() {
@@ -676,8 +676,8 @@ function ouvrirReglages() {
   var carteMode = document.createElement("div");
   carteMode.style.cssText = "background:var(--blanc);border-radius:14px;padding:16px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between";
   carteMode.innerHTML =
-    "<span style='font-size:14px;color:var(--blanc)'>Mode sombre</span>" +
-    "<button onclick='toggleDark()' style='background:linear-gradient(135deg,var(--violet),var(--violet-2));border:none;color:var(--blanc);padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Basculer</button>";
+    "<span style='font-size:14px;color:#FFFFFF'>Mode sombre</span>" +
+    "<button onclick='toggleDark()' style='background:linear-gradient(135deg,#7C3AED,#9333EA);border:none;color:#FFFFFF;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Basculer</button>";
   corps.appendChild(carteMode);
 
   // Planning
@@ -1059,8 +1059,8 @@ function afficherStats() {
         barresHTML += "</div>";
         var totalAnnuel = caParMois.reduce(function(a,b){return a+b;},0);
         barresHTML += "<div style='display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)'>" +
-          "<span style='font-size:11px;color:var(--txt-3)'>Total " + anneeGraph + "</span>" +
-          "<span style='font-size:16px;font-weight:700;color:var(--or-2)'>" + Math.round(totalAnnuel).toLocaleString('fr-FR') + " EUR</span></div>";
+          "<span style='font-size:11px;color:#86868B'>Total " + anneeGraph + "</span>" +
+          "<span style='font-size:16px;font-weight:700;color:#D4AF37'>" + Math.round(totalAnnuel).toLocaleString('fr-FR') + " EUR</span></div>";
         carteG1.innerHTML = barresHTML;
         liste.appendChild(carteG1);
 
@@ -1091,7 +1091,7 @@ function afficherStats() {
           var pct = Math.round((s.val / totalRepart) * 100);
           barStack += "<div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:8px'>" +
             "<div style='display:flex;align-items:center;gap:8px'><span style='width:10px;height:10px;border-radius:3px;background:" + s.coul + "'></span><span style='font-size:13px;color:#E4E4E7'>" + s.nom + "</span></div>" +
-            "<div style='text-align:right'><span style='font-size:13px;font-weight:700;color:var(--txt)'>" + Math.round(s.val).toLocaleString('fr-FR') + " EUR</span><span style='font-size:11px;color:var(--txt-3);margin-left:6px'>" + pct + "%</span></div>" +
+            "<div style='text-align:right'><span style='font-size:13px;font-weight:700;color:#1D1D1F'>" + Math.round(s.val).toLocaleString('fr-FR') + " EUR</span><span style='font-size:11px;color:#86868B;margin-left:6px'>" + pct + "%</span></div>" +
           "</div>";
         });
         carteG2.innerHTML = barStack;
@@ -1158,10 +1158,10 @@ function afficherStats() {
           carte.innerHTML =
             "<div style='display:flex;align-items:center;justify-content:space-between'>" +
               "<div style='display:flex;align-items:center;gap:10px'>" +
-                "<div style='width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--or-2),var(--or));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#18181F'>" + nom.charAt(0) + "</div>" +
-                "<div><div style='font-size:15px;font-weight:700;color:var(--txt)'>" + nom + "</div><div style='font-size:11px;color:var(--txt-3)'>" + t.nb + " encaissement" + (t.nb>1?"s":"") + " \u00B7 EI sans TVA</div></div>" +
+                "<div style='width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,#D4AF37,#B8860B);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#18181F'>" + nom.charAt(0) + "</div>" +
+                "<div><div style='font-size:15px;font-weight:700;color:#1D1D1F'>" + nom + "</div><div style='font-size:11px;color:#86868B'>" + t.nb + " encaissement" + (t.nb>1?"s":"") + " \u00B7 EI sans TVA</div></div>" +
               "</div>" +
-              "<div style='text-align:right'><div style='font-size:11px;color:var(--txt-3)'>Net encaisse</div><div style='font-size:18px;font-weight:700;color:var(--succes)'>" + t.net.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + " EUR</div></div>" +
+              "<div style='text-align:right'><div style='font-size:11px;color:#86868B'>Net encaisse</div><div style='font-size:18px;font-weight:700;color:#16A34A'>" + t.net.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + " EUR</div></div>" +
             "</div>";
           liste.appendChild(carte);
         });
@@ -1170,8 +1170,8 @@ function afficherStats() {
         var carteTotal = document.createElement("div");
         carteTotal.style.cssText = "background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);border-radius:18px;padding:16px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center";
         carteTotal.innerHTML =
-          "<div><div style='font-size:12px;font-weight:700;color:var(--violet-2);text-transform:uppercase;letter-spacing:.05em'>Total encaisse (2 gerants)</div><div style='font-size:11px;color:var(--txt-3);margin-top:2px'>Net, sans TVA (2 EI)</div></div>" +
-          "<div style='font-size:22px;font-weight:800;color:var(--violet-2)'>" + grandTotalNet.toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:0}) + " EUR</div>";
+          "<div><div style='font-size:12px;font-weight:700;color:#9333EA;text-transform:uppercase;letter-spacing:.05em'>Total encaisse (2 gerants)</div><div style='font-size:11px;color:#86868B;margin-top:2px'>Net, sans TVA (2 EI)</div></div>" +
+          "<div style='font-size:22px;font-weight:800;color:#9333EA'>" + grandTotalNet.toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:0}) + " EUR</div>";
         liste.appendChild(carteTotal);
 
         // ===== SECTION CONTRATS RECURRENTS =====
@@ -1203,9 +1203,9 @@ function afficherStats() {
           var badge = estTrim ? "<span style='font-size:9px;font-weight:700;color:var(--violet-2);background:rgba(168,85,247,.15);padding:1px 6px;border-radius:6px;margin-left:6px'>TRIM</span>" : "";
           carte.innerHTML =
             "<div style='display:flex;justify-content:space-between;align-items:flex-start'>" +
-              "<div style='flex:1;min-width:0'><div style='font-size:14px;font-weight:600;color:var(--txt)'>" + echapper(ct.client||"") + badge + "</div>" +
-              "<div style='font-size:11px;color:var(--txt-3);margin-top:2px'>" + mensuel.toFixed(2) + " EUR TTC/mois</div></div>" +
-              "<div style='text-align:right'><div style='font-size:15px;font-weight:700;color:var(--succes)'>" + annuelHT.toFixed(0) + " HT</div><div style='font-size:10px;color:var(--txt-3)'>" + annuelTTC.toFixed(0) + " TTC/an</div></div>" +
+              "<div style='flex:1;min-width:0'><div style='font-size:14px;font-weight:600;color:#1D1D1F'>" + echapper(ct.client||"") + badge + "</div>" +
+              "<div style='font-size:11px;color:#86868B;margin-top:2px'>" + mensuel.toFixed(2) + " EUR TTC/mois</div></div>" +
+              "<div style='text-align:right'><div style='font-size:15px;font-weight:700;color:#16A34A'>" + annuelHT.toFixed(0) + " HT</div><div style='font-size:10px;color:#86868B'>" + annuelTTC.toFixed(0) + " TTC/an</div></div>" +
             "</div>";
           liste.appendChild(carte);
         });
@@ -1220,9 +1220,9 @@ function afficherStats() {
           carte.style.cssText = "background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:13px 15px;margin-bottom:8px";
           carte.innerHTML =
             "<div style='display:flex;justify-content:space-between;align-items:flex-start'>" +
-              "<div style='flex:1;min-width:0'><div style='font-size:14px;font-weight:600;color:var(--txt)'>" + echapper(ct.libelle||"Divers") + "</div>" +
-              "<div style='font-size:11px;color:var(--txt-3);margin-top:2px'>Ponctuel \u00B7 " + echapper(ct.periode||"") + "</div></div>" +
-              "<div style='text-align:right'><div style='font-size:15px;font-weight:700;color:var(--succes)'>" + mHT.toFixed(0) + " HT</div><div style='font-size:10px;color:var(--txt-3)'>" + m.toFixed(0) + " TTC</div></div>" +
+              "<div style='flex:1;min-width:0'><div style='font-size:14px;font-weight:600;color:#1D1D1F'>" + echapper(ct.libelle||"Divers") + "</div>" +
+              "<div style='font-size:11px;color:#86868B;margin-top:2px'>Ponctuel \u00B7 " + echapper(ct.periode||"") + "</div></div>" +
+              "<div style='text-align:right'><div style='font-size:15px;font-weight:700;color:#16A34A'>" + mHT.toFixed(0) + " HT</div><div style='font-size:10px;color:#86868B'>" + m.toFixed(0) + " TTC</div></div>" +
             "</div>";
           liste.appendChild(carte);
         });
@@ -1231,8 +1231,8 @@ function afficherStats() {
         var carteTotalC = document.createElement("div");
         carteTotalC.style.cssText = "background:rgba(91,141,239,.12);border:1px solid rgba(91,141,239,.25);border-radius:18px;padding:16px;margin-top:12px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center";
         carteTotalC.innerHTML =
-          "<div><div style='font-size:12px;font-weight:700;color:var(--bleu);text-transform:uppercase;letter-spacing:.05em'>Total contrats + ponctuels</div><div style='font-size:11px;color:var(--txt-3);margin-top:2px'>TTC " + (totalContratsTTC + totalPonctuelsTTC).toLocaleString('fr-FR',{maximumFractionDigits:0}) + " EUR/an</div></div>" +
-          "<div style='font-size:20px;font-weight:800;color:var(--bleu)'>" + (totalContratsHT + totalPonctuelsHT).toLocaleString('fr-FR',{maximumFractionDigits:0}) + " EUR<span style='font-size:12px;font-weight:600;color:var(--txt-3)'> HT</span></div>";
+          "<div><div style='font-size:12px;font-weight:700;color:#0071E3;text-transform:uppercase;letter-spacing:.05em'>Total contrats + ponctuels</div><div style='font-size:11px;color:#86868B;margin-top:2px'>TTC " + (totalContratsTTC + totalPonctuelsTTC).toLocaleString('fr-FR',{maximumFractionDigits:0}) + " EUR/an</div></div>" +
+          "<div style='font-size:20px;font-weight:800;color:#0071E3'>" + (totalContratsHT + totalPonctuelsHT).toLocaleString('fr-FR',{maximumFractionDigits:0}) + " EUR<span style='font-size:12px;font-weight:600;color:#86868B'> HT</span></div>";
         liste.appendChild(carteTotalC);
 
       }).catch(function(e){
@@ -2041,13 +2041,13 @@ function construireDevis() {
   }
   if (groupesPhotos.length > 0) {
     photosHTML = "<div style='margin-top:20px;border-top:1px solid var(--bord);padding-top:12px'>";
-    photosHTML += "<div style='font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--or);margin-bottom:8px'>Photos</div>";
+    photosHTML += "<div style='font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#B8860B;margin-bottom:8px'>Photos</div>";
     for (var g = 0; g < groupesPhotos.length; g++) {
       photosHTML += "<div style='margin-bottom:10px'>";
-      if (groupesPhotos[g].titre) photosHTML += "<div style='font-size:9px;color:var(--txt-3);margin-bottom:4px'>" + echapper(groupesPhotos[g].titre) + "</div>";
+      if (groupesPhotos[g].titre) photosHTML += "<div style='font-size:9px;color:#86868B;margin-bottom:4px'>" + echapper(groupesPhotos[g].titre) + "</div>";
       photosHTML += "<div style='display:flex;flex-wrap:wrap;gap:5px'>";
       for (var p = 0; p < groupesPhotos[g].arr.length; p++) {
-        photosHTML += '<img src="' + groupesPhotos[g].arr[p] + '" style="width:150px;height:120px;object-fit:cover;border-radius:5px;border:1px solid var(--bord)"/>';
+        photosHTML += '<img src="' + groupesPhotos[g].arr[p] + '" style="width:150px;height:120px;object-fit:cover;border-radius:5px;border:1px solid rgba(0,0,0,.08)"/>';
       }
       photosHTML += "</div></div>";
     }
@@ -2066,44 +2066,44 @@ function construireDevis() {
 
 
   html += "<div style='display:flex;justify-content:space-between;align-items:flex-start'>" + logoSVG;
-  html += "<div style='text-align:right'><div style='font-size:24px;font-weight:700;color:var(--or)'>DEVIS</div>";
-  html += "<div style='font-size:11px;color:var(--txt-3);margin-top:2px'>N&deg; " + echapper(num) + "</div>";
-  html += "<div style='font-size:11px;color:var(--txt-3)'>Date : " + echapper(date) + "</div></div></div>";
-  html += "<div style='height:2px;background:linear-gradient(90deg,var(--or-2),var(--or));margin:12px 0'></div>";
+  html += "<div style='text-align:right'><div style='font-size:24px;font-weight:700;color:#B8860B'>DEVIS</div>";
+  html += "<div style='font-size:11px;color:#86868B;margin-top:2px'>N&deg; " + echapper(num) + "</div>";
+  html += "<div style='font-size:11px;color:#86868B'>Date : " + echapper(date) + "</div></div></div>";
+  html += "<div style='height:2px;background:linear-gradient(90deg,#D4AF37,#B8860B);margin:12px 0'></div>";
 
   html += "<div style='display:flex;justify-content:space-between;gap:16px;margin-bottom:16px'>";
   html += "<div><div style='font-size:13px;font-weight:700;margin-bottom:3px'>CREA NATURE</div>";
-  html += "<div style='font-size:10px;color:var(--txt-2);line-height:1.8'>48, Rue Alfred et Edme Sommier<br/>77950 MAINCY FRANCE<br/>creanature@ymail.com</div></div>";
+  html += "<div style='font-size:10px;color:#6E6E73;line-height:1.8'>48, Rue Alfred et Edme Sommier<br/>77950 MAINCY FRANCE<br/>creanature@ymail.com</div></div>";
   html += "<div style='background:#FAF8F5;border-radius:8px;padding:12px 14px;min-width:185px'>";
-  html += "<div style='font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-3);margin-bottom:5px'>Client</div>";
+  html += "<div style='font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#86868B;margin-bottom:5px'>Client</div>";
   if (nom) html += "<div style='font-size:13px;font-weight:700;margin-bottom:2px'>" + echapper(nom) + "</div>";
-  if (adresse) html += "<div style='font-size:11px;color:var(--txt-2)'>" + echapper(adresse) + "</div>";
-  if (email) html += "<div style='font-size:11px;color:var(--txt-2)'>" + echapper(email) + "</div>";
-  if (tel) html += "<div style='font-size:11px;color:var(--txt-2)'>" + echapper(tel) + "</div>";
+  if (adresse) html += "<div style='font-size:11px;color:#6E6E73'>" + echapper(adresse) + "</div>";
+  if (email) html += "<div style='font-size:11px;color:#6E6E73'>" + echapper(email) + "</div>";
+  if (tel) html += "<div style='font-size:11px;color:#6E6E73'>" + echapper(tel) + "</div>";
   html += "</div></div>";
 
 
 
   html += "<table style='width:100%;border-collapse:collapse;margin-bottom:16px'>";
-  html += "<thead><tr style='background:var(--or-2)'><th style='padding:8px 12px;text-align:left;color:var(--blanc);font-size:11px;font-weight:600'>Designation</th><th style='padding:8px 12px;text-align:right;color:var(--blanc);font-size:11px;font-weight:600'>Montant HT</th></tr></thead>";
+  html += "<thead><tr style='background:#D4AF37'><th style='padding:8px 12px;text-align:left;color:#FFFFFF;font-size:11px;font-weight:600'>Designation</th><th style='padding:8px 12px;text-align:right;color:#FFFFFF;font-size:11px;font-weight:600'>Montant HT</th></tr></thead>";
   html += "<tbody>" + lignesHTML + "</tbody></table>";
 
   html += "<div style='display:flex;justify-content:flex-end;margin-bottom:18px'>";
-  html += "<div style='width:220px;border:1px solid var(--bord);border-radius:8px;overflow:hidden'>";
-  html += "<div style='display:flex;justify-content:space-between;padding:8px 14px;border-bottom:.5px solid var(--bord);font-size:13px'><span style='color:var(--txt-2)'>Total HT</span><span style='font-weight:600'>" + t.ht.toFixed(2) + " EUR</span></div>";
-  html += "<div style='display:flex;justify-content:space-between;padding:8px 14px;border-bottom:.5px solid var(--bord);font-size:13px'><span style='color:var(--txt-2)'>TVA (20%)</span><span style='font-weight:600'>" + t.tva.toFixed(2) + " EUR</span></div>";
-  html += "<div style='display:flex;justify-content:space-between;padding:10px 14px;background:var(--or-2)'><span style='color:var(--blanc);font-weight:700;font-size:14px'>Total TTC</span><span style='color:var(--blanc);font-weight:700;font-size:14px'>" + t.ttc.toFixed(2) + " EUR</span></div>";
+  html += "<div style='width:220px;border:1px solid rgba(0,0,0,.08);border-radius:8px;overflow:hidden'>";
+  html += "<div style='display:flex;justify-content:space-between;padding:8px 14px;border-bottom:.5px solid rgba(0,0,0,.08);font-size:13px'><span style='color:#6E6E73'>Total HT</span><span style='font-weight:600'>" + t.ht.toFixed(2) + " EUR</span></div>";
+  html += "<div style='display:flex;justify-content:space-between;padding:8px 14px;border-bottom:.5px solid rgba(0,0,0,.08);font-size:13px'><span style='color:#6E6E73'>TVA (20%)</span><span style='font-weight:600'>" + t.tva.toFixed(2) + " EUR</span></div>";
+  html += "<div style='display:flex;justify-content:space-between;padding:10px 14px;background:#D4AF37'><span style='color:#FFFFFF;font-weight:700;font-size:14px'>Total TTC</span><span style='color:#FFFFFF;font-weight:700;font-size:14px'>" + t.ttc.toFixed(2) + " EUR</span></div>";
   html += "</div></div>";
 
   html += photosHTML;
 
-  html += "<div style='border-top:1px solid #ddd;padding-top:10px;margin-top:16px;text-align:center;font-size:8.5px;color:var(--txt-3);line-height:1.8'>";
+  html += "<div style='border-top:1px solid #ddd;padding-top:10px;margin-top:16px;text-align:center;font-size:8.5px;color:#86868B;line-height:1.8'>";
   html += "CREA NATURE &bull; 48, Rue Alfred et Edme Sommier, 77950 MAINCY FRANCE<br/>";
   html += "IBAN : FR7630087338610002058080347 &bull; Code NAF (APE) : 8810A<br/>";
   html += "SAS au capital social de 500 EUR &bull; Siret : 98194358200016 &bull; N&deg; TVA : FR25981943582";
   html += "</div>";
 
-  html += "<div style='border-top:1px solid var(--bord);padding-top:8px;margin-top:8px'>";
+  html += "<div style='border-top:1px solid rgba(0,0,0,.08);padding-top:8px;margin-top:8px'>";
   html += "<div style='font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#aaa;margin-bottom:4px'>Conditions Generales</div>";
   html += "<div style='font-size:7.5px;color:#bbb;line-height:1.7;text-align:justify'>";
   html += "Le present devis est valable 30 jours. ";
@@ -2185,19 +2185,19 @@ function afficherPopupEnvoiMail(lienMail, nomFichier) {
   ov.id = "popup-envoi-mail";
   ov.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:24px;font-family:-apple-system,sans-serif";
   ov.innerHTML =
-    "<div style=\'background:var(--carte);border-radius:22px;padding:24px;max-width:340px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)\'>" +
-      "<div style=\'font-size:18px;font-weight:700;color:var(--txt);margin-bottom:6px\'>Envoyer le devis</div>" +
-      "<div style=\'font-size:13px;color:var(--txt-2);line-height:1.5;margin-bottom:18px\'>Suivez ces 2 etapes :</div>" +
+    "<div style=\'background:#FFFFFF;border-radius:22px;padding:24px;max-width:340px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)\'>" +
+      "<div style=\'font-size:18px;font-weight:700;color:#1D1D1F;margin-bottom:6px\'>Envoyer le devis</div>" +
+      "<div style=\'font-size:13px;color:#6E6E73;line-height:1.5;margin-bottom:18px\'>Suivez ces 2 etapes :</div>" +
       "<div style=\'display:flex;gap:12px;margin-bottom:14px\'>" +
-        "<div style=\'width:26px;height:26px;border-radius:13px;background:var(--violet-doux);color:var(--violet);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0\'>1</div>" +
-        "<div style=\'font-size:13px;color:var(--txt);line-height:1.45\'>Le PDF du devis vient de s\'ouvrir. Touchez <b>Partager</b> puis <b>Enregistrer dans Fichiers</b>.</div>" +
+        "<div style=\'width:26px;height:26px;border-radius:13px;background:#F3EEFF;color:#7C3AED;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0\'>1</div>" +
+        "<div style=\'font-size:13px;color:#1D1D1F;line-height:1.45\'>Le PDF du devis vient de s\'ouvrir. Touchez <b>Partager</b> puis <b>Enregistrer dans Fichiers</b>.</div>" +
       "</div>" +
       "<div style=\'display:flex;gap:12px;margin-bottom:20px\'>" +
-        "<div style=\'width:26px;height:26px;border-radius:13px;background:var(--violet-doux);color:var(--violet);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0\'>2</div>" +
-        "<div style=\'font-size:13px;color:var(--txt);line-height:1.45\'>Ouvrez le mail (bouton ci-dessous), puis touchez le <b>trombone</b> et joignez le PDF enregistre.</div>" +
+        "<div style=\'width:26px;height:26px;border-radius:13px;background:#F3EEFF;color:#7C3AED;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0\'>2</div>" +
+        "<div style=\'font-size:13px;color:#1D1D1F;line-height:1.45\'>Ouvrez le mail (bouton ci-dessous), puis touchez le <b>trombone</b> et joignez le PDF enregistre.</div>" +
       "</div>" +
-      "<a href=\'" + lienMail + "\' style=\'display:block;text-align:center;background:linear-gradient(135deg,var(--violet),var(--violet-2));color:#fff;padding:14px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;margin-bottom:8px\'>Ouvrir le mail</a>" +
-      "<button onclick=\'document.getElementById(\"popup-envoi-mail\").remove()\' style=\'width:100%;background:none;border:none;color:var(--txt-3);font-size:14px;padding:8px;cursor:pointer;font-family:-apple-system,sans-serif\'>Fermer</button>" +
+      "<a href=\'" + lienMail + "\' style=\'display:block;text-align:center;background:linear-gradient(135deg,#7C3AED,#9333EA);color:#fff;padding:14px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;margin-bottom:8px\'>Ouvrir le mail</a>" +
+      "<button onclick=\'document.getElementById(\"popup-envoi-mail\").remove()\' style=\'width:100%;background:none;border:none;color:#86868B;font-size:14px;padding:8px;cursor:pointer;font-family:-apple-system,sans-serif\'>Fermer</button>" +
     "</div>";
   document.body.appendChild(ov);
   ov.onclick = function(e){ if(e.target===ov) ov.remove(); };
@@ -2227,14 +2227,14 @@ function visualiserDevis() {
 
   var overlay = document.createElement("div");
   overlay.id = "overlay-devis";
-  overlay.style.cssText = "position:fixed;inset:0;z-index:999999;background:var(--blanc);display:flex;flex-direction:column";
+  overlay.style.cssText = "position:fixed;inset:0;z-index:999999;background:#FFFFFF;display:flex;flex-direction:column";
 
   // Barre du haut avec Fermer + Imprimer
   var barre = document.createElement("div");
-  barre.style.cssText = "background:var(--or-2);color:var(--blanc);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px) + 6px);gap:10px";
+  barre.style.cssText = "background:#D4AF37;color:#FFFFFF;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px) + 6px);gap:10px";
 
   var btnFermer = document.createElement("button");
-  btnFermer.style.cssText = "background:rgba(255,255,255,.25);border:none;color:var(--blanc);padding:7px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap";
+  btnFermer.style.cssText = "background:rgba(255,255,255,.25);border:none;color:#FFFFFF;padding:7px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap";
   btnFermer.textContent = "Fermer";
   btnFermer.onclick = function() { overlay.remove(); };
 
@@ -2243,7 +2243,7 @@ function visualiserDevis() {
   titre.textContent = "Apercu du devis";
 
   var btnImprimer = document.createElement("button");
-  btnImprimer.style.cssText = "background:var(--blanc);border:none;color:var(--or);padding:7px 14px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap";
+  btnImprimer.style.cssText = "background:#FFFFFF;border:none;color:#B8860B;padding:7px 14px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap";
   btnImprimer.textContent = "Sauvegarder PDF";
   btnImprimer.onclick = function() {
     var iframe = document.getElementById("iframe-devis");
@@ -2253,7 +2253,7 @@ function visualiserDevis() {
   };
 
   var btnMail = document.createElement("button");
-  btnMail.style.cssText = "background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.6);color:var(--blanc);padding:7px 14px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap";
+  btnMail.style.cssText = "background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.6);color:#FFFFFF;padding:7px 14px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap";
   btnMail.innerHTML = "&#x2709;&#xFE0F; Envoyer";
   btnMail.onclick = function() { envoyerDevisParMail(); };
 
@@ -2552,8 +2552,8 @@ function initAutocompleteClient() {
       var ligne = document.createElement("div");
       ligne.style.cssText = "padding:11px 14px;cursor:pointer;border-bottom:1px solid rgba(0,0,0,.05);display:flex;align-items:center;gap:10px";
       ligne.innerHTML = "<div style='width:30px;height:30px;border-radius:9px;background:var(--violet-doux);color:var(--violet);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0'>" + (cl.nom||"?").charAt(0).toUpperCase() + "</div>" +
-        "<div style='min-width:0'><div style='font-size:14px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(cl.nom||"") + "</div>" +
-        "<div style='font-size:11px;color:var(--txt-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(cl.adresse||cl.email||"") + "</div></div>";
+        "<div style='min-width:0'><div style='font-size:14px;font-weight:600;color:#1D1D1F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(cl.nom||"") + "</div>" +
+        "<div style='font-size:11px;color:#86868B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(cl.adresse||cl.email||"") + "</div></div>";
       ligne.onmousedown = function(e) {
         e.preventDefault();
         remplirDevisAvecClient(cl);
@@ -2687,7 +2687,7 @@ function _afficherPanneauClients(clients) {
         var infos = document.createElement("div");
         infos.style.cssText = "flex:1;min-width:0";
         infos.innerHTML =
-          "<div style='font-size:15px;font-weight:600;color:var(--txt);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(c.nom||"") + "</div>" +
+          "<div style='font-size:15px;font-weight:600;color:#1D1D1F;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(c.nom||"") + "</div>" +
           (c.email ? "<div style='font-size:12px;color:var(--txt-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(c.email) + "</div>" : "") +
           (c.tel ? "<div style='font-size:12px;color:var(--txt-3)'>" + echapper(c.tel) + "</div>" : "");
         item.appendChild(infos);
@@ -2863,25 +2863,25 @@ function ouvrirPanneauMemo() {
   pn.style.cssText="position:fixed;inset:0;z-index:999999;background:var(--fond);display:flex;flex-direction:column;font-family:-apple-system,sans-serif";
   pn.innerHTML=
     "<div style='background:#2A1A3A;padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px) + 6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>"+
-      "<span style='font-size:17px;font-weight:700;color:var(--blanc)'>Memo partage</span>"+
-      "<button onclick='fermerPanneauMemo()' style='background:rgba(255,255,255,.1);border:none;color:var(--blanc);padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>"+
+      "<span style='font-size:17px;font-weight:700;color:#FFFFFF'>Memo partage</span>"+
+      "<button onclick='fermerPanneauMemo()' style='background:rgba(255,255,255,.1);border:none;color:#FFFFFF;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>"+
     "</div>"+
-    "<div style='display:flex;gap:6px;padding:10px 14px;background:var(--fond);border-bottom:.5px solid #2C2C2E;flex-shrink:0;overflow-x:auto'>"+
+    "<div style='display:flex;gap:6px;padding:10px 14px;background:#F5F5F7;border-bottom:.5px solid #2C2C2E;flex-shrink:0;overflow-x:auto'>"+
       "<button class='memo-filtre-btn actif' id='mf-tout' onclick='setMemoFiltre(\"tout\")'>Tout</button>"+
       "<button class='memo-filtre-btn' id='mf-tache' onclick='setMemoFiltre(\"tache\")'>Taches</button>"+
       "<button class='memo-filtre-btn' id='mf-urgent' onclick='setMemoFiltre(\"urgent\")'>Urgent</button>"+
       "<button class='memo-filtre-btn' id='mf-note' onclick='setMemoFiltre(\"note\")'>Notes</button>"+
     "</div>"+
     "<div id='memo-liste' style='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px 14px'></div>"+
-    "<div style='flex-shrink:0;background:var(--blanc);border-top:.5px solid rgba(0,0,0,.12);padding:10px 14px;padding-bottom:calc(env(safe-area-inset-bottom,34px) + 8px)'>"+
+    "<div style='flex-shrink:0;background:#FFFFFF;border-top:.5px solid rgba(0,0,0,.12);padding:10px 14px;padding-bottom:calc(env(safe-area-inset-bottom,34px) + 8px)'>"+
       "<div style='display:flex;gap:6px;margin-bottom:8px'>"+
         "<button class='memo-type-btn actif' id='mt-tache' onclick='setMemoType(\"tache\")'>Tache</button>"+
         "<button class='memo-type-btn' id='mt-note' onclick='setMemoType(\"note\")'>Note</button>"+
         "<button class='memo-type-btn urgent' id='mt-urgent' onclick='setMemoType(\"urgent\")'>Urgent</button>"+
       "</div>"+
       "<div style='display:flex;gap:8px;align-items:flex-end'>"+
-        "<textarea id='memo-input' rows='1' placeholder='Ecrire une note...' style='flex:1;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:10px;font-size:14px;color:var(--blanc);background:rgba(0,0,0,.12);outline:none;resize:none;min-height:40px;max-height:90px;font-family:-apple-system,sans-serif;-webkit-appearance:none' oninput='this.style.height=\"auto\";this.style.height=Math.min(this.scrollHeight,90)+\"px\"'></textarea>"+
-        "<button onclick='envoyerMemo()' style='width:42px;height:42px;border-radius:21px;background:linear-gradient(135deg,var(--or-2),var(--or));border:none;color:var(--blanc);font-size:20px;cursor:pointer;flex-shrink:0'>&#x27A4;</button>"+
+        "<textarea id='memo-input' rows='1' placeholder='Ecrire une note...' style='flex:1;padding:10px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:10px;font-size:14px;color:#FFFFFF;background:rgba(0,0,0,.12);outline:none;resize:none;min-height:40px;max-height:90px;font-family:-apple-system,sans-serif;-webkit-appearance:none' oninput='this.style.height=\"auto\";this.style.height=Math.min(this.scrollHeight,90)+\"px\"'></textarea>"+
+        "<button onclick='envoyerMemo()' style='width:42px;height:42px;border-radius:21px;background:linear-gradient(135deg,#D4AF37,#B8860B);border:none;color:#FFFFFF;font-size:20px;cursor:pointer;flex-shrink:0'>&#x27A4;</button>"+
       "</div>"+
     "</div>";
   document.body.appendChild(pn);
@@ -2963,11 +2963,11 @@ function ouvrirPanneauBI() {
   }).join("");
   pn.innerHTML=
     "<div style='background:#0D3D1A;padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px) + 6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>"+
-      "<span style='font-size:17px;font-weight:700;color:var(--blanc)'>Terrain</span>"+
-      "<button onclick='fermerPanneauBI()' style='background:rgba(255,255,255,.1);border:none;color:var(--blanc);padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>"+
+      "<span style='font-size:17px;font-weight:700;color:#FFFFFF'>Terrain</span>"+
+      "<button onclick='fermerPanneauBI()' style='background:rgba(255,255,255,.1);border:none;color:#FFFFFF;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>"+
     "</div>"+
     "<div style='display:flex;background:#0A2E14;border-bottom:.5px solid rgba(255,255,255,.1);flex-shrink:0'>"+
-      "<button id='bi-ong-bi' onclick='ouvrirOngletBI()' style='flex:1;padding:12px;background:none;border:none;color:var(--blanc);font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;border-bottom:2px solid var(--blanc)'>Bon d\'intervention</button>"+
+      "<button id='bi-ong-bi' onclick='ouvrirOngletBI()' style='flex:1;padding:12px;background:none;border:none;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;border-bottom:2px solid #FFFFFF'>Bon d\'intervention</button>"+
       "<button id='bi-ong-prev' onclick='ouvrirOngletPrevention()' style='flex:1;padding:12px;background:none;border:none;color:rgba(255,255,255,.5);font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;border-bottom:2px solid transparent'>Prevention</button>"+
     "</div>"+
     "<div style='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch'>"+
@@ -2983,16 +2983,16 @@ function ouvrirPanneauBI() {
         "<input class='input-texte' id='bi-client-search' type='text' placeholder='Rechercher un client...' oninput='rechercherClientBI(this.value)'/>"+
         "<div id='bi-client-liste' style='margin-top:6px'></div>"+
         "<div id='bi-client-selectionne' style='display:none;margin-top:8px;padding:8px 12px;background:rgba(200,146,62,.1);border-radius:8px'>"+
-          "<span style='font-size:13px;font-weight:600;color:var(--or)' id='bi-client-nom-aff'></span>"+
+          "<span style='font-size:13px;font-weight:600;color:#B8860B' id='bi-client-nom-aff'></span>"+
         "</div>"+
       "</div>"+
       "<button class='btn-or' onclick='envoyerBI()'>Envoyer le bon d'intervention</button>"+
       "<button class='btn-gris' onclick='reinitialiserBI()' style='margin-top:8px'>Reinitialiser</button>"+
-      "<div style='margin-top:16px'><div style='font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-3);margin-bottom:8px'>Derniers envois</div><div id='bi-historique-liste'></div></div>"+
+      "<div style='margin-top:16px'><div style='font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#86868B;margin-bottom:8px'>Derniers envois</div><div id='bi-historique-liste'></div></div>"+
       "</div>"+
       "<div id='bi-contenu-prev' style='display:none;padding:14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)'>"+
         "<div class='titre-section'>Date d\'intervention</div>"+
-        "<div class='carte' style='padding:11px;margin-bottom:12px'><div style='display:flex;gap:8px'><div style='flex:1'><div style='font-size:11px;color:var(--txt-3);margin-bottom:4px'>Du</div><input type='date' id='prev-date-debut' style='width:100%;padding:8px 10px;border:1.5px solid var(--gris2);border-radius:9px;font-size:14px;color:var(--noir);background:var(--gris3);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none'></div><div style='flex:1'><div style='font-size:11px;color:var(--txt-3);margin-bottom:4px'>Au</div><input type='date' id='prev-date-fin' style='width:100%;padding:8px 10px;border:1.5px solid var(--gris2);border-radius:9px;font-size:14px;color:var(--noir);background:var(--gris3);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none'></div></div></div>"+
+        "<div class='carte' style='padding:11px;margin-bottom:12px'><div style='display:flex;gap:8px'><div style='flex:1'><div style='font-size:11px;color:#86868B;margin-bottom:4px'>Du</div><input type='date' id='prev-date-debut' style='width:100%;padding:8px 10px;border:1.5px solid var(--gris2);border-radius:9px;font-size:14px;color:var(--noir);background:var(--gris3);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none'></div><div style='flex:1'><div style='font-size:11px;color:#86868B;margin-bottom:4px'>Au</div><input type='date' id='prev-date-fin' style='width:100%;padding:8px 10px;border:1.5px solid var(--gris2);border-radius:9px;font-size:14px;color:var(--noir);background:var(--gris3);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none'></div></div></div>"+
         "<div class='titre-section'>Type d\'intervention</div>"+
         "<div class='grille2' style='margin-bottom:12px'>"+
           "<button class='btn-prest' id='prev-prest-tonte' data-label='Tonte' onclick='this.classList.toggle(\"actif\")'>Tonte</button>"+
@@ -3004,10 +3004,10 @@ function ouvrirPanneauBI() {
         "<div class='carte' style='padding:11px;margin-bottom:12px'>"+
           "<input class='input-texte' id='prev-client-search' type='text' placeholder='Rechercher un client...' oninput='rechercherClientPrev(this.value)'/>"+
           "<div id='prev-client-liste' style='margin-top:6px'></div>"+
-          "<div id='prev-client-selectionne' style='display:none;margin-top:8px;padding:8px 12px;background:rgba(200,146,62,.1);border-radius:8px;font-size:13px;font-weight:600;color:var(--or)'></div>"+
+          "<div id='prev-client-selectionne' style='display:none;margin-top:8px;padding:8px 12px;background:rgba(200,146,62,.1);border-radius:8px;font-size:13px;font-weight:600;color:#B8860B'></div>"+
         "</div>"+
         "<button class='btn-or' onclick='envoyerPrevention()'>Envoyer l\'avis de passage</button>"+
-        "<div style='margin-top:16px'><div style='font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-3);margin-bottom:8px'>Derniers envois</div><div id='prev-historique-liste'></div></div>"+
+        "<div style='margin-top:16px'><div style='font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#86868B;margin-bottom:8px'>Derniers envois</div><div id='prev-historique-liste'></div></div>"+
       "</div>"+
     "</div>"
     "</div>";
@@ -3193,11 +3193,11 @@ function ouvrirPanneauTresorerie() {
   // Header
   pn.innerHTML =
     "<div style='background:linear-gradient(135deg,#18181F,#111116);padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px)+6px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0'>" +
-      "<span style='font-size:17px;font-weight:700;color:var(--blanc)'>Tresorerie</span>" +
-      "<button onclick='fermerPanneauTresorerie()' style='background:rgba(255,255,255,.1);border:none;color:var(--blanc);padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>" +
+      "<span style='font-size:17px;font-weight:700;color:#FFFFFF'>Tresorerie</span>" +
+      "<button onclick='fermerPanneauTresorerie()' style='background:rgba(255,255,255,.1);border:none;color:#FFFFFF;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif'>Fermer</button>" +
     "</div>" +
     "<div id='tresor-body' style='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)'>" +
-      "<div style='text-align:center;color:var(--txt-3);padding:30px;font-size:14px'>Chargement...</div>" +
+      "<div style='text-align:center;color:#86868B;padding:30px;font-size:14px'>Chargement...</div>" +
     "</div>";
   document.body.appendChild(pn);
   chargerTresorerie();
@@ -3293,21 +3293,21 @@ function afficherTresorerie(data, contrats) {
 
     section.innerHTML =
       "<div style='display:flex;align-items:center;gap:10px;margin-bottom:12px'>" +
-        "<div style='width:36px;height:36px;border-radius:18px;background:linear-gradient(135deg,var(--or-2),var(--or));display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--blanc);font-weight:700'>" + usr.initiale + "</div>" +
-        "<span style='font-size:16px;font-weight:700;color:var(--txt)'>" + usr.nom + "</span>" +
+        "<div style='width:36px;height:36px;border-radius:18px;background:linear-gradient(135deg,#D4AF37,#B8860B);display:flex;align-items:center;justify-content:center;font-size:16px;color:#FFFFFF;font-weight:700'>" + usr.initiale + "</div>" +
+        "<span style='font-size:16px;font-weight:700;color:#1D1D1F'>" + usr.nom + "</span>" +
       "</div>" +
       "<div style='display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px'>" +
-        "<div style='background:var(--fond);border-radius:10px;padding:10px;text-align:center'>" +
-          "<div style='font-size:14px;font-weight:700;color:var(--bleu)'>" + totalEnc2.toFixed(2) + " EUR</div>" +
-          "<div style='font-size:9px;color:var(--txt-3);margin-top:2px;text-transform:uppercase;letter-spacing:.05em'>Total facture</div>" +
+        "<div style='background:#F5F5F7;border-radius:10px;padding:10px;text-align:center'>" +
+          "<div style='font-size:14px;font-weight:700;color:#0071E3'>" + totalEnc2.toFixed(2) + " EUR</div>" +
+          "<div style='font-size:9px;color:#86868B;margin-top:2px;text-transform:uppercase;letter-spacing:.05em'>Total facture</div>" +
         "</div>" +
-        "<div style='background:var(--fond);border-radius:10px;padding:10px;text-align:center'>" +
-          "<div style='font-size:14px;font-weight:700;color:var(--succes)'>" + totalEnc.toFixed(2) + " EUR</div>" +
-          "<div style='font-size:9px;color:var(--txt-3);margin-top:2px;text-transform:uppercase;letter-spacing:.05em'>Encaisse valide</div>" +
+        "<div style='background:#F5F5F7;border-radius:10px;padding:10px;text-align:center'>" +
+          "<div style='font-size:14px;font-weight:700;color:#16A34A'>" + totalEnc.toFixed(2) + " EUR</div>" +
+          "<div style='font-size:9px;color:#86868B;margin-top:2px;text-transform:uppercase;letter-spacing:.05em'>Encaisse valide</div>" +
         "</div>" +
-        "<div style='background:var(--fond);border-radius:10px;padding:10px;text-align:center'>" +
+        "<div style='background:#F5F5F7;border-radius:10px;padding:10px;text-align:center'>" +
           "<div style='font-size:18px;font-weight:700;color:#FF6B35'>" + avances.toFixed(2) + " EUR</div>" +
-          "<div style='font-size:10px;color:var(--txt-3);margin-top:2px;text-transform:uppercase;letter-spacing:.05em'>Avances</div>" +
+          "<div style='font-size:10px;color:#86868B;margin-top:2px;text-transform:uppercase;letter-spacing:.05em'>Avances</div>" +
         "</div>" +
       "</div>";
 
@@ -3365,7 +3365,7 @@ function afficherTresorerie(data, contrats) {
       var info = document.createElement("div");
       info.style.cssText = "flex:1;min-width:0";
       info.innerHTML = "<div style='font-size:13px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(enc.client || "") + "</div>" +
-        "<div style='font-size:11px;color:var(--txt-3)'>" + enc.date + "</div>";
+        "<div style='font-size:11px;color:#86868B'>" + enc.date + "</div>";
       var mont = document.createElement("div");
       mont.style.cssText = "font-size:14px;font-weight:700;color:" + (enc.valide ? "var(--succes)" : "#AEAEB2") + ";flex-shrink:0";
       mont.textContent = (enc.montant || 0).toFixed(2) + " EUR";
@@ -3568,8 +3568,8 @@ function afficherTresorerie(data, contrats) {
 
   sectionC.innerHTML =
     "<div style='display:flex;align-items:center;gap:10px;margin-bottom:14px'>" +
-      "<div style='width:36px;height:36px;border-radius:18px;background:linear-gradient(135deg,var(--bleu),#3A6FD8);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--blanc)'>\u21BB</div>" +
-      "<span style='font-size:16px;font-weight:700;color:var(--txt)'>Contrats recurrents</span>" +
+      "<div style='width:36px;height:36px;border-radius:18px;background:linear-gradient(135deg,#0071E3,#3A6FD8);display:flex;align-items:center;justify-content:center;font-size:16px;color:#FFFFFF'>\u21BB</div>" +
+      "<span style='font-size:16px;font-weight:700;color:#1D1D1F'>Contrats recurrents</span>" +
     "</div>";
 
   var listeC = document.createElement("div");
@@ -3604,8 +3604,8 @@ function afficherTresorerie(data, contrats) {
     var ligneHT = mensuelHT.toFixed(2) + " EUR HT/mois \u00B7 " + (mensuelHT * 12).toFixed(2) + " HT/an (TVA " + Math.round(tvaCt*100) + "%)";
     var badge = estTrim ? "<span style='font-size:9px;font-weight:700;color:var(--violet-2);background:rgba(168,85,247,.15);padding:1px 6px;border-radius:6px;margin-left:6px'>TRIM</span>" : "";
     info.innerHTML = "<div style='font-size:14px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(ct.client || "") + badge + "</div>" +
-      "<div style='font-size:11px;color:var(--txt-3);margin-top:2px'>" + ligneMontant + "</div>" +
-      "<div style='font-size:11px;color:var(--succes);margin-top:1px;font-weight:600'>" + ligneHT + "</div>";
+      "<div style='font-size:11px;color:#86868B;margin-top:2px'>" + ligneMontant + "</div>" +
+      "<div style='font-size:11px;color:#16A34A;margin-top:1px;font-weight:600'>" + ligneHT + "</div>";
     var bDel = document.createElement("button");
     bDel.style.cssText = "background:rgba(255,59,48,.15);border:none;color:var(--erreur);width:26px;height:26px;border-radius:13px;font-size:14px;cursor:pointer;flex-shrink:0";
     bDel.innerHTML = "&#x00D7;";
@@ -3670,8 +3670,8 @@ function afficherTresorerie(data, contrats) {
     var tvaP = tauxTVA(ct.libelle);
     var montantPHT = montantHT(ct.montant||0, tvaP);
     info.innerHTML = "<div style='font-size:14px;font-weight:600;color:var(--txt)'>" + echapper(ct.libelle || "Divers") + "</div>" +
-      "<div style='font-size:11px;color:var(--txt-3);margin-top:2px'>" + (ct.montant||0).toFixed(2) + " EUR TTC \u00B7 " + echapper(ct.periode || "") + "</div>" +
-      "<div style='font-size:11px;color:var(--succes);margin-top:1px;font-weight:600'>" + montantPHT.toFixed(2) + " EUR HT (TVA " + Math.round(tvaP*100) + "%)</div>";
+      "<div style='font-size:11px;color:#86868B;margin-top:2px'>" + (ct.montant||0).toFixed(2) + " EUR TTC \u00B7 " + echapper(ct.periode || "") + "</div>" +
+      "<div style='font-size:11px;color:#16A34A;margin-top:1px;font-weight:600'>" + montantPHT.toFixed(2) + " EUR HT (TVA " + Math.round(tvaP*100) + "%)</div>";
     var bDel = document.createElement("button");
     bDel.style.cssText = "background:rgba(255,59,48,.15);border:none;color:var(--erreur);width:26px;height:26px;border-radius:13px;font-size:14px;cursor:pointer;flex-shrink:0";
     bDel.innerHTML = "&#x00D7;";
@@ -3714,11 +3714,11 @@ function afficherTresorerie(data, contrats) {
   var totalRub = document.createElement("div");
   totalRub.style.cssText = "margin-top:12px;padding-top:12px;border-top:1px solid rgba(0,0,0,.1)";
   totalRub.innerHTML =
-    "<div style='display:flex;justify-content:space-between;margin-bottom:4px'><span style='font-size:12px;color:var(--txt-3)'>Contrats (annuel)</span><span style='font-size:12px;color:var(--txt-3)'>" + totalAnnuelContrats.toFixed(2) + " TTC</span></div>" +
-    "<div style='display:flex;justify-content:space-between;margin-bottom:4px'><span style='font-size:12px;color:var(--txt-3)'>Contrats HT (annuel)</span><span style='font-size:13px;font-weight:600;color:var(--succes)'>" + totalAnnuelContratsHT.toFixed(2) + " HT</span></div>" +
-    "<div style='display:flex;justify-content:space-between;margin-bottom:4px'><span style='font-size:12px;color:var(--txt-3)'>Ponctuels</span><span style='font-size:12px;color:var(--txt-3)'>" + totalPonctuels.toFixed(2) + " TTC</span></div>" +
-    "<div style='display:flex;justify-content:space-between;margin-bottom:8px'><span style='font-size:12px;color:var(--txt-3)'>Ponctuels HT</span><span style='font-size:13px;font-weight:600;color:var(--succes)'>" + totalPonctuelsHT.toFixed(2) + " HT</span></div>" +
-    "<div style='display:flex;justify-content:space-between;align-items:center;background:rgba(139,92,246,.12);border-radius:10px;padding:12px'><span style='font-size:12px;font-weight:700;color:var(--violet-2);text-transform:uppercase;letter-spacing:.04em'>Total recurrents HT</span><span style='font-size:18px;font-weight:700;color:var(--violet-2)'>" + (totalAnnuelContratsHT + totalPonctuelsHT).toFixed(2) + " EUR</span></div>";
+    "<div style='display:flex;justify-content:space-between;margin-bottom:4px'><span style='font-size:12px;color:#86868B'>Contrats (annuel)</span><span style='font-size:12px;color:#86868B'>" + totalAnnuelContrats.toFixed(2) + " TTC</span></div>" +
+    "<div style='display:flex;justify-content:space-between;margin-bottom:4px'><span style='font-size:12px;color:#86868B'>Contrats HT (annuel)</span><span style='font-size:13px;font-weight:600;color:#16A34A'>" + totalAnnuelContratsHT.toFixed(2) + " HT</span></div>" +
+    "<div style='display:flex;justify-content:space-between;margin-bottom:4px'><span style='font-size:12px;color:#86868B'>Ponctuels</span><span style='font-size:12px;color:#86868B'>" + totalPonctuels.toFixed(2) + " TTC</span></div>" +
+    "<div style='display:flex;justify-content:space-between;margin-bottom:8px'><span style='font-size:12px;color:#86868B'>Ponctuels HT</span><span style='font-size:13px;font-weight:600;color:#16A34A'>" + totalPonctuelsHT.toFixed(2) + " HT</span></div>" +
+    "<div style='display:flex;justify-content:space-between;align-items:center;background:rgba(139,92,246,.12);border-radius:10px;padding:12px'><span style='font-size:12px;font-weight:700;color:#9333EA;text-transform:uppercase;letter-spacing:.04em'>Total recurrents HT</span><span style='font-size:18px;font-weight:700;color:#9333EA'>" + (totalAnnuelContratsHT + totalPonctuelsHT).toFixed(2) + " EUR</span></div>";
   sectionC.appendChild(totalRub);
   body.appendChild(sectionC);
 
@@ -3818,7 +3818,7 @@ function ouvrirArchivesEncaissements(nom, archives, userId, data) {
       var r = document.createElement("div");
       r.style.cssText = "display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.03);border-radius:8px;padding:8px 10px;margin-bottom:4px";
       var infoHtml = "<div style='flex:1;min-width:0'><div style='font-size:13px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>" + echapper(e.client||"") + "</div><div style='font-size:11px;color:var(--txt-3)'>" + echapper(e.date||"") + "</div></div>" +
-        "<div style='font-size:14px;font-weight:700;color:" + (e.valide?"var(--succes)":"#AEAEB2") + "'>" + (e.montant||0).toFixed(2) + " EUR</div>";
+        "<div style='font-size:14px;font-weight:700;color:" + (e.valide?"#16A34A":"#AEAEB2") + "'>" + (e.montant||0).toFixed(2) + " EUR</div>";
       var infoDiv = document.createElement("div");
       infoDiv.style.cssText = "display:flex;align-items:center;gap:8px;flex:1;min-width:0";
       infoDiv.innerHTML = infoHtml;
@@ -3942,26 +3942,26 @@ function genererRecapMensuel() {
     // En-tete
     h += "<div style='display:flex;justify-content:space-between;align-items:flex-start'>";
     h += "<div><div style='font-size:22px;font-weight:800;color:#111116'>" + echapper(SOCIETE_NOM.toUpperCase()) + "</div>";
-    h += "<div style='font-size:10px;color:var(--violet);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:2px'>Recap mensuel</div></div>";
-    h += "<div style='text-align:right'><div style='font-size:24px;font-weight:800;background:linear-gradient(120deg,var(--or-2),var(--violet));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--or-2)'>" + moisNom + "</div>";
-    h += "<div style='font-size:12px;color:var(--txt-3);margin-top:2px'>" + anneeCourante + "</div></div></div>";
-    h += "<div style='height:3px;background:linear-gradient(90deg,var(--or-2),var(--violet-2) 60%,var(--violet));border-radius:2px;margin:14px 0 20px'></div>";
+    h += "<div style='font-size:10px;color:#7C3AED;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:2px'>Recap mensuel</div></div>";
+    h += "<div style='text-align:right'><div style='font-size:24px;font-weight:800;background:linear-gradient(120deg,#D4AF37,#7C3AED);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#D4AF37'>" + moisNom + "</div>";
+    h += "<div style='font-size:12px;color:#86868B;margin-top:2px'>" + anneeCourante + "</div></div></div>";
+    h += "<div style='height:3px;background:linear-gradient(90deg,#D4AF37,#9333EA 60%,#7C3AED);border-radius:2px;margin:14px 0 20px'></div>";
 
     // Bloc CA total
-    h += "<div style='background:linear-gradient(120deg,var(--or-2),var(--violet));border-radius:12px;padding:20px;color:var(--blanc);margin-bottom:20px'>";
+    h += "<div style='background:linear-gradient(120deg,#D4AF37,#7C3AED);border-radius:12px;padding:20px;color:#FFFFFF;margin-bottom:20px'>";
     h += "<div style='font-size:12px;text-transform:uppercase;letter-spacing:1px;opacity:.9'>Chiffre d'affaires du mois</div>";
     h += "<div style='font-size:32px;font-weight:800;margin-top:4px'>" + Math.round(caMoisTotal).toLocaleString('fr-FR') + " EUR</div></div>";
 
     // Detail par source
-    h += "<div style='font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--txt-3);margin-bottom:10px'>Detail par source</div>";
+    h += "<div style='font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#86868B;margin-bottom:10px'>Detail par source</div>";
     h += "<table style='width:100%;border-collapse:collapse;margin-bottom:20px'>";
     var lignes = [
-      ["Alexandre (EI)", encMoisAlex, "var(--or-2)"],
+      ["Alexandre (EI)", encMoisAlex, "#D4AF37"],
       ["Guillaume (EI)", encMoisGuil, "#F59E0B"],
-      ["Contrats Crea Nature (HT/mois)", contratsMensuelHT, "var(--violet)"]
+      ["Contrats Crea Nature (HT/mois)", contratsMensuelHT, "#7C3AED"]
     ];
     lignes.forEach(function(l){
-      h += "<tr style='border-bottom:1px solid var(--bord)'>";
+      h += "<tr style='border-bottom:1px solid rgba(0,0,0,.08)'>";
       h += "<td style='padding:10px 4px'><span style='display:inline-block;width:10px;height:10px;border-radius:3px;background:" + l[2] + ";margin-right:8px'></span>" + l[0] + "</td>";
       h += "<td style='padding:10px 4px;text-align:right;font-weight:700'>" + l[1].toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + " EUR</td></tr>";
     });
@@ -3969,9 +3969,9 @@ function genererRecapMensuel() {
 
     // Indicateurs
     h += "<div style='display:flex;gap:12px;margin-bottom:20px'>";
-    h += "<div style='flex:1;border:1px solid var(--bord);border-radius:12px;padding:14px;text-align:center'><div style='font-size:26px;font-weight:800;color:var(--or-2)'>" + nbDevisValides + "</div><div style='font-size:11px;color:var(--txt-3);margin-top:2px'>Devis valides</div></div>";
-    h += "<div style='flex:1;border:1px solid var(--bord);border-radius:12px;padding:14px;text-align:center'><div style='font-size:26px;font-weight:800;color:var(--violet)'>" + nbContrats + "</div><div style='font-size:11px;color:var(--txt-3);margin-top:2px'>Contrats actifs</div></div>";
-    h += "<div style='flex:1;border:1px solid var(--bord);border-radius:12px;padding:14px;text-align:center'><div style='font-size:20px;font-weight:800;color:#111116'>" + Math.round(devisValidesMois).toLocaleString('fr-FR') + "</div><div style='font-size:11px;color:var(--txt-3);margin-top:2px'>EUR devis valides</div></div>";
+    h += "<div style='flex:1;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:14px;text-align:center'><div style='font-size:26px;font-weight:800;color:#D4AF37'>" + nbDevisValides + "</div><div style='font-size:11px;color:#86868B;margin-top:2px'>Devis valides</div></div>";
+    h += "<div style='flex:1;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:14px;text-align:center'><div style='font-size:26px;font-weight:800;color:#7C3AED'>" + nbContrats + "</div><div style='font-size:11px;color:#86868B;margin-top:2px'>Contrats actifs</div></div>";
+    h += "<div style='flex:1;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:14px;text-align:center'><div style='font-size:20px;font-weight:800;color:#111116'>" + Math.round(devisValidesMois).toLocaleString('fr-FR') + "</div><div style='font-size:11px;color:#86868B;margin-top:2px'>EUR devis valides</div></div>";
     h += "</div>";
 
     h += "<div style='border-top:1px solid #ddd;padding-top:12px;text-align:center;font-size:10px;color:#aaa'>Genere le " + now.toLocaleDateString('fr-FR') + " - " + echapper(SOCIETE_NOM) + "</div>";
@@ -3979,24 +3979,24 @@ function genererRecapMensuel() {
 
     // Afficher dans un overlay avec bouton imprimer
     var overlay = document.createElement("div");
-    overlay.style.cssText = "position:fixed;inset:0;z-index:9999999;background:var(--fond);display:flex;flex-direction:column";
+    overlay.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#F5F5F7;display:flex;flex-direction:column";
     var barre = document.createElement("div");
     barre.style.cssText = "display:flex;align-items:center;gap:10px;padding:14px 16px;padding-top:calc(env(safe-area-inset-top,44px) + 8px);background:linear-gradient(135deg,#18181F,#111116)";
     var btnF = document.createElement("button");
-    btnF.style.cssText = "background:rgba(255,255,255,.1);border:none;color:var(--blanc);padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+    btnF.style.cssText = "background:rgba(255,255,255,.1);border:none;color:#FFFFFF;padding:6px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
     btnF.textContent = "Fermer";
     btnF.onclick = function(){ overlay.remove(); };
     var titre = document.createElement("div");
-    titre.style.cssText = "flex:1;color:var(--blanc);font-size:15px;font-weight:700";
+    titre.style.cssText = "flex:1;color:#FFFFFF;font-size:15px;font-weight:700";
     titre.textContent = "Recap " + moisNom;
     var btnPrint = document.createElement("button");
-    btnPrint.style.cssText = "background:linear-gradient(135deg,var(--or-2),var(--or));border:none;color:#18181F;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap";
+    btnPrint.style.cssText = "background:linear-gradient(135deg,#D4AF37,#B8860B);border:none;color:#18181F;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap";
     btnPrint.textContent = "PDF / Envoyer";
     btnPrint.onclick = function(){ var fr = document.getElementById("iframe-recap"); if (fr && fr.contentWindow) fr.contentWindow.print(); };
     barre.appendChild(btnF); barre.appendChild(titre); barre.appendChild(btnPrint);
     var iframe = document.createElement("iframe");
     iframe.id = "iframe-recap";
-    iframe.style.cssText = "flex:1;border:none;width:100%;background:var(--blanc)";
+    iframe.style.cssText = "flex:1;border:none;width:100%;background:#FFFFFF";
     iframe.srcdoc = h;
     overlay.appendChild(barre); overlay.appendChild(iframe);
     document.body.appendChild(overlay);
@@ -4021,37 +4021,37 @@ function voirDevisPDF(d) {
   if (snap.autre && snap.autreTexte) labelPrest.push(snap.autreTexte);
   var label = labelPrest.length > 0 ? labelPrest.join(", ") : "Prestation";
   if (snap.designation) label = label + " - " + snap.designation;
-  var lignesHTML = "<tr style='background:var(--blanc)'><td style='padding:8px 12px;font-size:12px'>" + echapper(label) + "</td><td style='padding:8px 12px;text-align:right;font-weight:600;font-size:12px;white-space:nowrap'>" + ht.toFixed(2) + " EUR</td></tr>";
+  var lignesHTML = "<tr style='background:#FFFFFF'><td style='padding:8px 12px;font-size:12px'>" + echapper(label) + "</td><td style='padding:8px 12px;text-align:right;font-weight:600;font-size:12px;white-space:nowrap'>" + ht.toFixed(2) + " EUR</td></tr>";
   var html = "<!DOCTYPE html><html><head><meta charset='UTF-8'>";
   html += "<title>Devis " + echapper(num) + "<\/title>";
   html += "<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,Helvetica,sans-serif;color:#1C1C1E;font-size:13px;padding:28px 30px}@page{size:A4;margin:10mm 10mm 0 10mm}@media print{body{padding:0}html{-webkit-print-color-adjust:exact;print-color-adjust:exact}}<\/style><\/head><body>";
   html += "<div style='display:flex;justify-content:space-between;align-items:flex-start'>";
   html += "<div><div style='font-size:22px;font-weight:800;letter-spacing:-.5px;color:#111116'>" + echapper(SOCIETE_NOM.toUpperCase()) + "</div>";
-  html += "<div style='font-size:10px;color:var(--violet);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:2px'>Paysagiste</div></div>";
-  html += "<div style='text-align:right'><div style='font-size:28px;font-weight:800;letter-spacing:1px;background:linear-gradient(120deg,var(--or-2),var(--violet));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--or-2)'>DEVIS</div>";
-  html += "<div style='font-size:11px;color:var(--txt-3);margin-top:4px'>N&deg; " + echapper(num) + "</div>";
-  html += "<div style='font-size:11px;color:var(--txt-3)'>Date : " + echapper(date) + "</div></div></div>";
-  html += "<div style='height:3px;background:linear-gradient(90deg,var(--or-2) 0%,var(--violet-2) 60%,var(--violet) 100%);border-radius:2px;margin:12px 0'></div>";
+  html += "<div style='font-size:10px;color:#7C3AED;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:2px'>Paysagiste</div></div>";
+  html += "<div style='text-align:right'><div style='font-size:28px;font-weight:800;letter-spacing:1px;background:linear-gradient(120deg,#D4AF37,#7C3AED);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#D4AF37'>DEVIS</div>";
+  html += "<div style='font-size:11px;color:#86868B;margin-top:4px'>N&deg; " + echapper(num) + "</div>";
+  html += "<div style='font-size:11px;color:#86868B'>Date : " + echapper(date) + "</div></div></div>";
+  html += "<div style='height:3px;background:linear-gradient(90deg,#D4AF37 0%,#9333EA 60%,#7C3AED 100%);border-radius:2px;margin:12px 0'></div>";
   html += "<div style='display:flex;justify-content:space-between;gap:16px;margin-bottom:16px'>";
   html += "<div><div style='font-size:13px;font-weight:700;margin-bottom:3px'>CREA NATURE</div>";
-  html += "<div style='font-size:10px;color:var(--txt-2);line-height:1.8'>48, Rue Alfred et Edme Sommier<br/>77950 MAINCY FRANCE<br/>creanature@ymail.com</div></div>";
+  html += "<div style='font-size:10px;color:#6E6E73;line-height:1.8'>48, Rue Alfred et Edme Sommier<br/>77950 MAINCY FRANCE<br/>creanature@ymail.com</div></div>";
   html += "<div style='background:#FAF8F5;border-radius:8px;padding:12px 14px;min-width:185px'>";
-  html += "<div style='font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-3);margin-bottom:5px'>Client</div>";
+  html += "<div style='font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#86868B;margin-bottom:5px'>Client</div>";
   if (nom) html += "<div style='font-size:13px;font-weight:700;margin-bottom:2px'>" + echapper(nom) + "</div>";
-  if (adresse) html += "<div style='font-size:11px;color:var(--txt-2)'>" + echapper(adresse) + "</div>";
-  if (email) html += "<div style='font-size:11px;color:var(--txt-2)'>" + echapper(email) + "</div>";
-  if (tel) html += "<div style='font-size:11px;color:var(--txt-2)'>" + echapper(tel) + "</div>";
+  if (adresse) html += "<div style='font-size:11px;color:#6E6E73'>" + echapper(adresse) + "</div>";
+  if (email) html += "<div style='font-size:11px;color:#6E6E73'>" + echapper(email) + "</div>";
+  if (tel) html += "<div style='font-size:11px;color:#6E6E73'>" + echapper(tel) + "</div>";
   html += "</div></div>";
   html += "<table style='width:100%;border-collapse:collapse;margin-bottom:16px'>";
-  html += "<thead><tr style='background:var(--or-2)'><th style='padding:8px 12px;text-align:left;color:var(--blanc);font-size:11px;font-weight:600'>Designation</th><th style='padding:8px 12px;text-align:right;color:var(--blanc);font-size:11px;font-weight:600'>Montant HT</th></tr></thead>";
+  html += "<thead><tr style='background:#D4AF37'><th style='padding:8px 12px;text-align:left;color:#FFFFFF;font-size:11px;font-weight:600'>Designation</th><th style='padding:8px 12px;text-align:right;color:#FFFFFF;font-size:11px;font-weight:600'>Montant HT</th></tr></thead>";
   html += "<tbody>" + lignesHTML + "</tbody></table>";
   html += "<div style='display:flex;justify-content:flex-end;margin-bottom:18px'>";
-  html += "<div style='width:220px;border:1px solid var(--bord);border-radius:8px;overflow:hidden'>";
-  html += "<div style='display:flex;justify-content:space-between;padding:8px 14px;border-bottom:.5px solid var(--bord);font-size:13px'><span style='color:var(--txt-2)'>Total HT</span><span style='font-weight:600'>" + ht.toFixed(2) + " EUR</span></div>";
-  html += "<div style='display:flex;justify-content:space-between;padding:8px 14px;border-bottom:.5px solid var(--bord);font-size:13px'><span style='color:var(--txt-2)'>TVA (20%)</span><span style='font-weight:600'>" + tva.toFixed(2) + " EUR</span></div>";
-  html += "<div style='display:flex;justify-content:space-between;padding:12px 14px;background:linear-gradient(120deg,var(--or-2),var(--violet))'><span style='color:var(--blanc);font-weight:700;font-size:15px'>Total TTC</span><span style='color:var(--blanc);font-weight:800;font-size:15px'>" + ttc.toFixed(2) + " EUR</span></div>";
+  html += "<div style='width:220px;border:1px solid rgba(0,0,0,.08);border-radius:8px;overflow:hidden'>";
+  html += "<div style='display:flex;justify-content:space-between;padding:8px 14px;border-bottom:.5px solid rgba(0,0,0,.08);font-size:13px'><span style='color:#6E6E73'>Total HT</span><span style='font-weight:600'>" + ht.toFixed(2) + " EUR</span></div>";
+  html += "<div style='display:flex;justify-content:space-between;padding:8px 14px;border-bottom:.5px solid rgba(0,0,0,.08);font-size:13px'><span style='color:#6E6E73'>TVA (20%)</span><span style='font-weight:600'>" + tva.toFixed(2) + " EUR</span></div>";
+  html += "<div style='display:flex;justify-content:space-between;padding:12px 14px;background:linear-gradient(120deg,#D4AF37,#7C3AED)'><span style='color:#FFFFFF;font-weight:700;font-size:15px'>Total TTC</span><span style='color:#FFFFFF;font-weight:800;font-size:15px'>" + ttc.toFixed(2) + " EUR</span></div>";
   html += "</div></div>";
-  html += "<div style='border-top:1px solid #ddd;padding-top:10px;margin-top:16px;text-align:center;font-size:8.5px;color:var(--txt-3);line-height:1.8'>";
+  html += "<div style='border-top:1px solid #ddd;padding-top:10px;margin-top:16px;text-align:center;font-size:8.5px;color:#86868B;line-height:1.8'>";
   html += "CREA NATURE &bull; 48, Rue Alfred et Edme Sommier, 77950 MAINCY FRANCE<br/>";
   html += "IBAN : FR7630087338610002058080347 &bull; Code NAF (APE) : 8810A<br/>";
   html += "SAS au capital social de 500 EUR &bull; Siret : 98194358200016 &bull; N&deg; TVA : FR25981943582";
@@ -4060,18 +4060,18 @@ function voirDevisPDF(d) {
   if (ancien) ancien.remove();
   var overlay = document.createElement("div");
   overlay.id = "overlay-voir-devis";
-  overlay.style.cssText = "position:fixed;inset:0;z-index:9999999;background:var(--blanc);display:flex;flex-direction:column";
+  overlay.style.cssText = "position:fixed;inset:0;z-index:9999999;background:#FFFFFF;display:flex;flex-direction:column";
   var barre = document.createElement("div");
-  barre.style.cssText = "background:var(--or-2);color:var(--blanc);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px) + 6px);gap:10px";
+  barre.style.cssText = "background:#D4AF37;color:#FFFFFF;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;padding-top:calc(env(safe-area-inset-top,44px) + 6px);gap:10px";
   var btnF = document.createElement("button");
-  btnF.style.cssText = "background:rgba(255,255,255,.25);border:none;color:var(--blanc);padding:7px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
+  btnF.style.cssText = "background:rgba(255,255,255,.25);border:none;color:#FFFFFF;padding:7px 14px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif";
   btnF.textContent = "Fermer";
   btnF.onclick = function() { overlay.remove(); };
   var titre = document.createElement("span");
   titre.style.cssText = "font-size:15px;font-weight:700;flex:1;text-align:center";
   titre.textContent = "Devis N" + num;
   var btnPDF = document.createElement("button");
-  btnPDF.style.cssText = "background:var(--blanc);border:none;color:var(--or);padding:7px 14px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap";
+  btnPDF.style.cssText = "background:#FFFFFF;border:none;color:#B8860B;padding:7px 14px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;white-space:nowrap";
   btnPDF.textContent = "Sauvegarder PDF";
   btnPDF.onclick = function() { var fr = document.getElementById("iframe-voir-devis"); if (fr && fr.contentWindow) fr.contentWindow.print(); };
   barre.appendChild(btnF); barre.appendChild(titre); barre.appendChild(btnPDF);
@@ -4861,7 +4861,7 @@ function ouvrirPlanning() {
       var entete = document.createElement("div");
       entete.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:" + (interventionsMois.length ? "10px" : "0");
       entete.innerHTML = "<span style='font-size:14px;font-weight:700;color:var(--txt)'>" + moisNoms[moi] + "</span>" +
-        "<span style='font-size:10px;color:var(--txt-2)'>S" + semDebut + "-S" + semFin + "</span>";
+        "<span style='font-size:10px;color:#6E6E73'>S" + semDebut + "-S" + semFin + "</span>";
       carteMois.appendChild(entete);
       if (interventionsMois.length === 0) {
         var vide = document.createElement("div");
@@ -5153,7 +5153,7 @@ function ouvrirEditPlanning(clientNom, plannings, callback) {
   var box = document.createElement("div");
   box.style.cssText = "background:var(--blanc);border-radius:20px 20px 0 0;padding:20px 16px;width:100%;max-width:430px;max-height:80vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)";
   box.innerHTML = "<div style='font-size:17px;font-weight:700;color:var(--blanc);margin-bottom:4px'>" + echapper(clientNom) + "</div>" +
-    "<div style='font-size:12px;color:var(--txt-3);margin-bottom:16px'>Entrez les numeros de semaines separes par des virgules</div>";
+    "<div style='font-size:12px;color:#86868B;margin-bottom:16px'>Entrez les numeros de semaines separes par des virgules</div>";
   var PRESTS = ["TONTE","FAUCHAGE","FEUILLES","TAILLE","DESHERBAGE","ELAGAGE"];
   var inputs = {};
   PRESTS.forEach(function(p) {
