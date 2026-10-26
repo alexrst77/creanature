@@ -195,7 +195,7 @@ function masquerBottomNav() {
 }
 
 // Animation de comptage des chiffres KPI
-function animerNombre(el, valeurFinale, suffixe, duree) {
+function animerNombre(el, valeurFinale, suffixe, duree, compact) {
   if (!el) return;
   suffixe = suffixe || "";
   duree = duree || 900;
@@ -206,7 +206,11 @@ function animerNombre(el, valeurFinale, suffixe, duree) {
     // easing out cubic
     var eased = 1 - Math.pow(1 - p, 3);
     var val = Math.round(valDebut + (valeurFinale - valDebut) * eased);
-    el.textContent = val.toLocaleString("fr-FR") + suffixe;
+    if (compact && typeof formatEuroCompact === "function") {
+      el.textContent = formatEuroCompact(val);
+    } else {
+      el.textContent = val.toLocaleString("fr-FR") + suffixe;
+    }
     if (p < 1) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
@@ -229,6 +233,54 @@ function deconnecter() {
 }
 
 function connexionFaceID() {}
+
+// Format euro compact pour les KPI de l'accueil (evite les chiffres coupes)
+function formatEuroCompact(n) {
+  n = Math.round(n || 0);
+  if (Math.abs(n) >= 100000) {
+    var k = n / 1000;
+    return (Math.round(k * 10) / 10).toLocaleString("fr-FR") + " k€";
+  }
+  return n.toLocaleString("fr-FR") + " €";
+}
+
+// Condense des entretiens prevus cette semaine, affiche sur l'accueil
+function construireEntretiensSemaine() {
+  var zone = document.getElementById("acc-entretiens-semaine");
+  if (!zone) return;
+  var semaine = getSemaineCourante();
+  var plannings = JSON.parse(localStorage.getItem("creanature_planning") || "null") || (typeof PLANNING_DEFAUT !== "undefined" ? PLANNING_DEFAUT : []);
+  var parClient = {};
+  plannings.forEach(function(plan) {
+    Object.keys(plan.interventions || {}).forEach(function(prest) {
+      if ((plan.interventions[prest] || []).indexOf(semaine) >= 0) {
+        if (!parClient[plan.client]) parClient[plan.client] = [];
+        parClient[plan.client].push(prest);
+      }
+    });
+  });
+  var clients = Object.keys(parClient);
+  var html = "<div class='acc-sem-head'>" +
+      "<span class='acc-sem-titre'>Cette semaine &middot; S" + semaine + "</span>" +
+      "<span class='acc-sem-nb'>" + clients.length + " entretien" + (clients.length > 1 ? "s" : "") + "</span>" +
+    "</div>";
+  if (!clients.length) {
+    html += "<div class='acc-sem-vide'>Aucun entretien prevu cette semaine</div>";
+  } else {
+    html += "<div class='acc-sem-liste'>";
+    clients.forEach(function(cl) {
+      var chips = parClient[cl].map(function(p) {
+        return "<span class='acc-sem-chip' style='background:" + (PREST_COULEURS[p] || "#86868B") + "'>" + echapper(p) + "</span>";
+      }).join("");
+      html += "<div class='acc-sem-ligne' onclick='ouvrirPlanning()'>" +
+          "<span class='acc-sem-client'>" + echapper(cl) + "</span>" +
+          "<span class='acc-sem-chips'>" + chips + "</span>" +
+        "</div>";
+    });
+    html += "</div>";
+  }
+  zone.innerHTML = html;
+}
 
 function construireAccueil() {
   var ea = document.getElementById("ecran-accueil");
@@ -269,6 +321,7 @@ function construireAccueil() {
         "<button class='acc-btn' style='background:linear-gradient(135deg,#18181F,#111116);color:#0071E3' onclick='ouvrirCampagneMail()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M22 2L11 13\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M22 2l-7 20-4-9-9-4 20-7z\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Campagne mail</span><span class='acc-desc'>Demarcher vos clients</span></button>" +
         "<button class='acc-btn' style='background:linear-gradient(135deg,#18181F,#111116);color:#16A34A' onclick='ouvrirPanneauTresorerie()'><span class='acc-ico'><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" fill=\"white\" opacity=\".15\"/><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\" stroke=\"white\" stroke-width=\"1.8\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"4\" rx=\"1.5\" fill=\"white\"/><path d=\"M9 12.5l2 2 4-4\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class='acc-lbl'>Tresorerie</span><span class='acc-desc'>Encaissements et avances</span></button>" +
       "</div>" +
+      "<div class='acc-entretiens' id='acc-entretiens-semaine'></div>" +
       "<div class='acc-devis-list' id='acc-derniers-devis'></div>" +
     "</div>";
 
@@ -287,10 +340,11 @@ function construireAccueil() {
     var elD = document.getElementById("acc-nb-devis");
     if (elD) elD.textContent = nb;
     var elCA = document.getElementById("acc-ca");
-    if (elCA) elCA.textContent = total.toLocaleString("fr-FR",{minimumFractionDigits:2}) + " \u20AC";
+    if (elCA) elCA.textContent = formatEuroCompact(total);
   }).catch(function(){});
 
   majCAAccueil();
+  construireEntretiensSemaine();
   afficherBottomNav("accueil");
   }
 
@@ -342,13 +396,13 @@ function majCAAccueil() {
       var totalAnnee = caAnnee + (mensuelTotalHT * 12) + ponctuelAnneeHT;
       var elM = document.getElementById("acc-ca-mois");
       var elA = document.getElementById("acc-ca-annee");
-      if (elM) animerNombre(elM, Math.round(totalMois), " \u20AC");
-      if (elA) animerNombre(elA, Math.round(totalAnnee), " \u20AC");
+      if (elM) animerNombre(elM, Math.round(totalMois), " \u20AC", 900, true);
+      if (elA) animerNombre(elA, Math.round(totalAnnee), " \u20AC", 900, true);
     }).catch(function() {
       var elM = document.getElementById("acc-ca-mois");
       var elA = document.getElementById("acc-ca-annee");
-      if (elM) elM.textContent = Math.round(caMois).toLocaleString("fr-FR") + " \u20AC";
-      if (elA) elA.textContent = Math.round(caAnnee).toLocaleString("fr-FR") + " \u20AC";
+      if (elM) elM.textContent = formatEuroCompact(caMois);
+      if (elA) elA.textContent = formatEuroCompact(caAnnee);
     });
   }).catch(function(){});
 }

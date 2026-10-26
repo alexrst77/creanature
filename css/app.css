@@ -842,18 +842,31 @@ body {
   background:var(--carte) !important;
   border:1px solid var(--bord) !important;
   border-radius:12px !important;
-  padding:12px 6px !important;
+  padding:11px 4px !important;
   box-shadow:var(--ombre) !important;
   min-width:0 !important;
   animation:none !important;
   text-align:center !important;
 }
 .acc-stat-main { flex:1 1 0 !important; }
-.acc-stat-val { font-size:18px !important; font-weight:800 !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; letter-spacing:-.02em !important; }
-.acc-stat-ca { font-size:18px !important; font-weight:800 !important; }
-.acc-stat-lbl { font-size:9px !important; margin-top:3px !important; letter-spacing:.04em !important; line-height:1.15 !important; }
+.acc-stat-val { font-size:15px !important; font-weight:800 !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; letter-spacing:-.03em !important; }
+.acc-stat-ca { font-size:15px !important; font-weight:800 !important; }
+.acc-stat-lbl { font-size:8.5px !important; margin-top:3px !important; letter-spacing:.03em !important; line-height:1.15 !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; }
 .acc-stat-lbl-row { gap:4px !important; margin-top:3px !important; flex-wrap:wrap !important; justify-content:center !important; }
 .acc-stat-mois { font-size:9px !important; }
+
+/* Condense des entretiens de la semaine (accueil) */
+.acc-entretiens { margin:4px 0 2px; background:var(--carte); border:1px solid var(--bord); border-radius:16px; box-shadow:var(--ombre); padding:12px 14px; }
+.acc-sem-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; }
+.acc-sem-titre { font-size:13px; font-weight:800; color:var(--txt); letter-spacing:-.01em; }
+.acc-sem-nb { font-size:11px; font-weight:600; color:var(--or-2); }
+.acc-sem-vide { font-size:12px; color:var(--txt-3); font-style:italic; padding:4px 0; }
+.acc-sem-liste { display:flex; flex-direction:column; gap:7px; }
+.acc-sem-ligne { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 10px; background:var(--carte-2); border:1px solid var(--bord); border-radius:11px; cursor:pointer; }
+.acc-sem-ligne:active { background:var(--survol); }
+.acc-sem-client { font-size:13px; font-weight:600; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1; min-width:0; }
+.acc-sem-chips { display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end; flex-shrink:0; }
+.acc-sem-chip { font-size:9px; font-weight:700; color:#fff; padding:3px 8px; border-radius:10px; letter-spacing:.02em; text-transform:uppercase; }
 
 /* Cartes d'action compactes (tout tient sans scroller) */
 .acc-grid { gap:8px !important; margin-bottom:4px !important; }
