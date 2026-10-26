@@ -250,7 +250,7 @@ function construireAccueil() {
       "</div>" +
       "<div class='acc-stat-row'>" +
         "<div class='acc-stat'><div class='acc-stat-val' id='acc-nb-devis'>-</div><div class='acc-stat-lbl'>Devis</div></div>" +
-        "<div class='acc-stat acc-stat-main'>" +
+        "<div class='acc-stat'>" +
           "<div class='acc-stat-val acc-stat-ca' id='acc-ca'>-</div>" +
           "<div class='acc-stat-lbl-row'>" +
             "<span class='acc-stat-lbl'>Previsionnel</span>" +
