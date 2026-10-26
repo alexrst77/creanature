@@ -250,15 +250,7 @@ function construireAccueil() {
       "</div>" +
       "<div class='acc-stat-row'>" +
         "<div class='acc-stat'><div class='acc-stat-val' id='acc-nb-devis'>-</div><div class='acc-stat-lbl'>Devis</div></div>" +
-        "<div class='acc-stat'>" +
-          "<div class='acc-stat-val acc-stat-ca' id='acc-ca'>-</div>" +
-          "<div class='acc-stat-lbl-row'>" +
-            "<span class='acc-stat-lbl'>Previsionnel</span>" +
-            "<span class='acc-stat-mois'>" + moisNom + "</span>" +
-          "</div>" +
-        "</div>" +
-      "</div>" +
-      "<div class='acc-stat-row' style='margin-top:10px'>" +
+        "<div class='acc-stat'><div class='acc-stat-val acc-stat-ca' id='acc-ca'>-</div><div class='acc-stat-lbl'>Previsionnel</div></div>" +
         "<div class='acc-stat'><div class='acc-stat-val acc-stat-ca' id='acc-ca-mois'>-</div><div class='acc-stat-lbl'>CA HT " + moisNom + "</div></div>" +
         "<div class='acc-stat'><div class='acc-stat-val' id='acc-ca-annee' style='color:#0071E3'>-</div><div class='acc-stat-lbl'>CA HT " + new Date().getFullYear() + "</div></div>" +
       "</div>" +
@@ -432,7 +424,7 @@ function ouvrirReglages() {
   inpNomSoc.type = "text";
   inpNomSoc.value = SOCIETE_NOM;
   inpNomSoc.placeholder = "Crea Nature";
-  inpNomSoc.style.cssText = "width:100%;padding:11px 13px;border:1px solid rgba(0,0,0,.1);border-radius:11px;font-size:15px;color:var(--blanc);background:var(--fond);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none;box-sizing:border-box;margin-bottom:12px";
+  inpNomSoc.style.cssText = "width:100%;padding:11px 13px;border:1px solid rgba(0,0,0,.1);border-radius:11px;font-size:15px;color:var(--txt);background:var(--fond);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none;box-sizing:border-box;margin-bottom:12px";
   carteSoc.appendChild(inpNomSoc);
   // Bouton enregistrer
   var btnSvSoc = document.createElement("button");
@@ -2641,7 +2633,7 @@ function _afficherPanneauClients(clients) {
     var rechInp = document.createElement("input");
     rechInp.type = "text";
     rechInp.placeholder = "Rechercher un client...";
-    rechInp.style.cssText = "flex:1;padding:10px 12px;border:1px solid rgba(255,255,255,.12);border-radius:10px;font-size:15px;color:var(--blanc);background:rgba(255,255,255,.06);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none";
+    rechInp.style.cssText = "flex:1;padding:10px 12px;border:1px solid rgba(0,0,0,.12);border-radius:10px;font-size:15px;color:var(--txt);background:var(--fond);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none";
     rechWrap.appendChild(rechInp);
     var btnNouveau = document.createElement("button");
     btnNouveau.style.cssText = "background:linear-gradient(135deg,var(--or-2),var(--or));border:none;color:var(--blanc);padding:0 16px;border-radius:10px;font-size:20px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;flex-shrink:0";
@@ -2731,7 +2723,7 @@ function _afficherPanneauClients(clients) {
       inp.type = type || "text";
       inp.value = val || "";
       inp.placeholder = placeholder || "";
-      inp.style.cssText = "width:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.12);border-radius:11px;font-size:15px;color:var(--blanc);background:rgba(255,255,255,.06);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none;box-sizing:border-box";
+      inp.style.cssText = "width:100%;padding:12px 14px;border:1px solid rgba(0,0,0,.12);border-radius:11px;font-size:15px;color:var(--txt);background:var(--fond);outline:none;font-family:-apple-system,sans-serif;-webkit-appearance:none;box-sizing:border-box";
       wrap.appendChild(inp);
       form.appendChild(wrap);
       return inp;
@@ -4153,7 +4145,7 @@ function ajouterDevisATresorerie(d) {
   var box = document.createElement("div");
   box.style.cssText = "background:var(--blanc);border-radius:18px;padding:24px 20px;width:300px;max-width:90vw";
   var titre = document.createElement("div");
-  titre.style.cssText = "font-size:17px;font-weight:700;color:var(--blanc);margin-bottom:4px;text-align:center";
+  titre.style.cssText = "font-size:17px;font-weight:700;color:var(--txt);margin-bottom:4px;text-align:center";
   titre.textContent = "Ajouter a la tresorerie";
   var sous = document.createElement("div");
   sous.style.cssText = "font-size:13px;color:var(--txt-3);margin-bottom:20px;text-align:center";
@@ -4248,11 +4240,11 @@ function retirerDevisDeTresorerie(d) {
   var box = document.createElement("div");
   box.style.cssText = "background:var(--blanc);border-radius:18px;padding:24px 20px;width:300px;max-width:90vw";
   var titre = document.createElement("div");
-  titre.style.cssText = "font-size:17px;font-weight:700;color:var(--blanc);margin-bottom:4px;text-align:center";
+  titre.style.cssText = "font-size:17px;font-weight:700;color:var(--txt);margin-bottom:4px;text-align:center";
   titre.textContent = "Annuler l'attribution";
   var sous = document.createElement("div");
   sous.style.cssText = "font-size:13px;color:var(--txt-3);margin-bottom:20px;text-align:center;line-height:1.4";
-  sous.innerHTML = echapper(d.client || "") + " \u00B7 " + (d.totalTTC || 0).toFixed(2) + " EUR<br>Actuellement attribue a <b style='color:var(--blanc)'>" + echapper(d.allocatedTo || "") + "</b>";
+  sous.innerHTML = echapper(d.client || "") + " \u00B7 " + (d.totalTTC || 0).toFixed(2) + " EUR<br>Actuellement attribue a <b style='color:var(--txt)'>" + echapper(d.allocatedTo || "") + "</b>";
   var btnConf = document.createElement("button");
   btnConf.style.cssText = "width:100%;height:50px;border-radius:14px;background:rgba(255,59,48,.85);border:none;color:var(--blanc);font-size:15px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:10px";
   btnConf.textContent = "Retirer de la tresorerie";
@@ -4303,7 +4295,7 @@ function retirerDevisDeTresorerie(d) {
 
 function creerMsgIA(texte) {
   var div = document.createElement("div");
-  div.style.cssText = "background:var(--blanc);border-radius:16px;border-bottom-left-radius:4px;padding:12px 14px;max-width:85%;align-self:flex-start;white-space:pre-wrap;font-size:14px;color:var(--blanc);line-height:1.5";
+  div.style.cssText = "background:var(--carte-2);border:1px solid var(--bord);border-radius:16px;border-bottom-left-radius:4px;padding:12px 14px;max-width:85%;align-self:flex-start;white-space:pre-wrap;font-size:14px;color:var(--txt);line-height:1.5";
   div.textContent = texte;
   return div;
 }
@@ -5064,7 +5056,7 @@ function afficherSemaineEnCours(plannings, parentPn) {
       var card = document.createElement("div");
       card.style.cssText = "background:var(--blanc);border-radius:14px;padding:14px;margin-bottom:10px";
       var titreClient = document.createElement("div");
-      titreClient.style.cssText = "font-size:15px;font-weight:700;color:var(--blanc);margin-bottom:10px";
+      titreClient.style.cssText = "font-size:15px;font-weight:700;color:var(--txt);margin-bottom:10px";
       var desig = parClient[client][0].designation;
       titreClient.innerHTML = echapper(client) + (desig ? "<span style='font-size:11px;font-weight:400;color:var(--txt-3);margin-left:8px'>" + echapper(desig) + "</span>" : "");
       card.appendChild(titreClient);
@@ -5149,7 +5141,7 @@ function ouvrirEditPlanning(clientNom, plannings, callback) {
   popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.8);display:flex;align-items:flex-end;justify-content:center;font-family:-apple-system,sans-serif";
   var box = document.createElement("div");
   box.style.cssText = "background:var(--blanc);border-radius:20px 20px 0 0;padding:20px 16px;width:100%;max-width:430px;max-height:80vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(env(safe-area-inset-bottom,34px)+20px)";
-  box.innerHTML = "<div style='font-size:17px;font-weight:700;color:var(--blanc);margin-bottom:4px'>" + echapper(clientNom) + "</div>" +
+  box.innerHTML = "<div style='font-size:17px;font-weight:700;color:var(--txt);margin-bottom:4px'>" + echapper(clientNom) + "</div>" +
     "<div style='font-size:12px;color:#86868B;margin-bottom:16px'>Entrez les numeros de semaines separes par des virgules</div>";
   var PRESTS = ["TONTE","FAUCHAGE","FEUILLES","TAILLE","DESHERBAGE","ELAGAGE"];
   var inputs = {};
@@ -5204,7 +5196,7 @@ function ouvrirNouveauClientPlanning(plannings, callback) {
   // Header
   var hdr = document.createElement("div");
   hdr.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-shrink:0";
-  hdr.innerHTML = "<div style='font-size:17px;font-weight:700;color:var(--blanc)'>Nouveau client planning</div>";
+  hdr.innerHTML = "<div style='font-size:17px;font-weight:700;color:var(--txt)'>Nouveau client planning</div>";
   var btnX = document.createElement("button");
   btnX.style.cssText = "background:rgba(255,255,255,.08);border:none;color:var(--txt-3);width:28px;height:28px;border-radius:14px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center";
   btnX.textContent = "\u00D7";

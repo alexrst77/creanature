@@ -828,23 +828,31 @@ body {
 .acc-topbar-btn:active { background:var(--survol); }
 .acc-topbar .acc-avatar { width:34px; height:34px; border-radius:17px; font-size:15px; }
 
-/* KPI compacts : 4 cartes fines de meme taille */
-.acc-stat-row { gap:8px !important; }
+/* KPI : 4 rectangles pleine largeur, une seule rangee en haut */
+.acc-stat-row {
+  display:flex !important;
+  gap:6px !important;
+  margin:0 -16px !important;        /* annule le padding lateral du header -> bord a bord */
+  padding:0 8px !important;
+  margin-top:4px !important;
+}
+.acc-stat-row + .acc-stat-row { display:none !important; } /* securite : plus qu'une rangee */
 .acc-stat {
-  flex:1 !important;
+  flex:1 1 0 !important;
   background:var(--carte) !important;
   border:1px solid var(--bord) !important;
-  border-radius:14px !important;
-  padding:10px 8px !important;
+  border-radius:12px !important;
+  padding:12px 6px !important;
   box-shadow:var(--ombre) !important;
   min-width:0 !important;
   animation:none !important;
+  text-align:center !important;
 }
-.acc-stat-main { flex:1 !important; }
-.acc-stat-val { font-size:17px !important; font-weight:700 !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; letter-spacing:-.01em !important; }
-.acc-stat-ca { font-size:17px !important; font-weight:700 !important; }
-.acc-stat-lbl { font-size:8.5px !important; margin-top:1px !important; letter-spacing:.05em !important; }
-.acc-stat-lbl-row { gap:4px !important; margin-top:1px !important; flex-wrap:wrap !important; justify-content:center !important; }
+.acc-stat-main { flex:1 1 0 !important; }
+.acc-stat-val { font-size:18px !important; font-weight:800 !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; letter-spacing:-.02em !important; }
+.acc-stat-ca { font-size:18px !important; font-weight:800 !important; }
+.acc-stat-lbl { font-size:9px !important; margin-top:3px !important; letter-spacing:.04em !important; line-height:1.15 !important; }
+.acc-stat-lbl-row { gap:4px !important; margin-top:3px !important; flex-wrap:wrap !important; justify-content:center !important; }
 .acc-stat-mois { font-size:9px !important; }
 
 /* Cartes d'action compactes (tout tient sans scroller) */
