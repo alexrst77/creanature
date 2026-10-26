@@ -1,0 +1,64 @@
+/* ============================================================
+   DESIGN SYSTEM - Crea Nature
+   Toutes les couleurs, espacements et rayons de l'app.
+   Changer une valeur ici la change partout.
+   ============================================================ */
+:root {
+  /* --- Fonds --- */
+  --fond:        #F5F5F7;   /* fond general de l'app */
+  --carte:       #FFFFFF;   /* cartes, champs actifs */
+  --carte-2:     #FBFBFD;   /* cartes secondaires */
+  --survol:      #EFEFF2;   /* survol / zone cliquable */
+
+  /* --- Textes --- */
+  --txt:         #1D1D1F;   /* texte principal (presque noir) */
+  --txt-2:       #6E6E73;   /* texte secondaire */
+  --txt-3:       #86868B;   /* labels, legendes */
+  --txt-clair:   #FFFFFF;   /* texte sur fond colore/sombre */
+  --blanc:       #FFFFFF;   /* blanc pur neutre (fond OU texte sur couleur) */
+
+  /* --- Accent principal : violet --- */
+  --violet:      #7C3AED;
+  --violet-2:    #9333EA;
+  --violet-doux: #F3EEFF;   /* fond pastel violet */
+
+  /* --- Accent secondaire : or --- */
+  --or:          #B8860B;
+  --or-2:        #D4AF37;
+  --or-doux:     #FEF3C7;   /* fond pastel or */
+
+  /* --- Couleurs fonctionnelles --- */
+  --bleu:        #0071E3;
+  --bleu-doux:   #EFF6FF;
+  --succes:      #16A34A;
+  --succes-doux: #ECFDF5;
+  --erreur:      #DC2626;
+  --erreur-doux: #FEF2F2;
+
+  /* --- Bordures --- */
+  --bord:        rgba(0,0,0,.08);
+  --bord-fort:   rgba(0,0,0,.12);
+
+  /* --- En-tetes de panneaux (restent sombres, contraste) --- */
+  --entete:      linear-gradient(135deg,#18181F,#111116);
+  --entete-txt:  #FFFFFF;
+
+  /* --- Rayons --- */
+  --r-s:   10px;
+  --r-m:   14px;
+  --r-l:   18px;
+  --r-xl:  22px;
+
+  /* --- Espacements --- */
+  --esp-s: 8px;
+  --esp-m: 14px;
+  --esp-l: 20px;
+
+  /* --- Ombres --- */
+  --ombre:     0 1px 3px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.03);
+  --ombre-fort: 0 8px 32px rgba(0,0,0,.12);
+
+  /* --- Zone sure iOS --- */
+  --haut: env(safe-area-inset-top,44px);
+  --bas:  env(safe-area-inset-bottom,34px);
+}
