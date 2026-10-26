@@ -1356,7 +1356,7 @@ function majHorloge() {
   var elH = document.getElementById("horloge"); if (elH) elH.textContent = h + ":" + m;
 }
 majHorloge();
-setInterval(majHorloge, 15000);
+setInterval(majHorloge, 60000);
 
 // === UTILITAIRES ===
 function euros(n) {
@@ -2887,7 +2887,7 @@ function ouvrirPanneauMemo() {
   memoFiltreCourant="tout"; memoTypeCourant="note";
   chargerMemos();
   if(memoPolling) clearInterval(memoPolling);
-  memoPolling=setInterval(chargerMemos,8000);
+  memoPolling=setInterval(chargerMemos,20000);
 }
 function fermerPanneauMemo() {
   if(memoPolling){ clearInterval(memoPolling); memoPolling=null; }
@@ -5867,24 +5867,26 @@ function init() {
   // 2. Service Worker inline : cache l'app pour chargement hors-ligne
   if ("serviceWorker" in navigator) {
     var swCode = [
-      "var CACHE = 'creanature-v1';",
+      "var CACHE = 'creanature-v2';",
       "self.addEventListener('install', function(e){ self.skipWaiting(); });",
-      "self.addEventListener('activate', function(e){ e.waitUntil(self.clients.claim()); });",
+      "self.addEventListener('activate', function(e){ e.waitUntil(caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ if(k!==CACHE) return caches.delete(k); })); }).then(function(){ return self.clients.claim(); })); });",
       "self.addEventListener('fetch', function(e){",
       "  var req = e.request;",
       "  if (req.method !== 'GET') return;",
       "  var url = new URL(req.url);",
       "  // Ne pas intercepter Firebase/Firestore (gere sa propre persistance)",
       "  if (url.hostname.indexOf('firestore') >= 0 || url.hostname.indexOf('googleapis') >= 0 || url.hostname.indexOf('firebaseio') >= 0 || url.hostname.indexOf('gstatic') >= 0) return;",
+      "  // CACHE D'ABORD (stale-while-revalidate) : affichage instantane, maj en arriere-plan",
       "  e.respondWith(",
-      "    fetch(req).then(function(res){",
-      "      if (res && res.status === 200 && (url.origin === location.origin || url.hostname.indexOf('gstatic')<0)) {",
-      "        var copy = res.clone();",
-      "        caches.open(CACHE).then(function(cache){ try { cache.put(req, copy); } catch(err){} });",
-      "      }",
-      "      return res;",
-      "    }).catch(function(){",
-      "      return caches.match(req).then(function(cached){ return cached || caches.match('./'); });",
+      "    caches.match(req).then(function(cached){",
+      "      var reseau = fetch(req).then(function(res){",
+      "        if (res && res.status === 200 && url.origin === location.origin) {",
+      "          var copy = res.clone();",
+      "          caches.open(CACHE).then(function(cache){ try { cache.put(req, copy); } catch(err){} });",
+      "        }",
+      "        return res;",
+      "      }).catch(function(){ return cached; });",
+      "      return cached || reseau;",
       "    })",
       "  );",
       "});"
