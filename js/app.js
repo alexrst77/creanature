@@ -4854,6 +4854,13 @@ function ouvrirPlanning() {
     actRow.appendChild(btnSync); actRow.appendChild(btnDel);
     corps.appendChild(actRow);
 
+    // Copier ce planning vers un autre client
+    var btnCopier = document.createElement("button");
+    btnCopier.style.cssText = "width:100%;height:42px;border-radius:12px;background:rgba(200,146,62,.15);border:none;color:var(--or-2);font-size:13px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:6px";
+    btnCopier.innerHTML = "<svg width='15' height='15' viewBox='0 0 24 24' fill='none'><rect x='9' y='9' width='11' height='11' rx='2' stroke='currentColor' stroke-width='2'/><path d='M5 15V5a2 2 0 0 1 2-2h10' stroke='currentColor' stroke-width='2' stroke-linecap='round'/></svg> Copier ce planning vers un autre client";
+    (function(planSrc){ btnCopier.onclick = function(){ copierPlanningVers(planSrc, plannings, function(){ afficherClient(planSrc); }); }; })(plan);
+    corps.appendChild(btnCopier);
+
     // Legende prestations cliquables pour ajouter/retirer
     var legende = document.createElement("div");
     legende.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px";
@@ -5241,6 +5248,85 @@ function ouvrirEditPlanning(clientNom, plannings, callback) {
   document.body.appendChild(popup);
 }
 
+// Copier le planning d'un client source vers un autre (existant ou nouveau)
+function copierPlanningVers(planSrc, plannings, callback) {
+  var popup = document.createElement("div");
+  popup.style.cssText = "position:fixed;inset:0;z-index:99999999;background:rgba(0,0,0,.85);display:flex;align-items:flex-end;justify-content:center;font-family:-apple-system,sans-serif";
+  var box = document.createElement("div");
+  box.style.cssText = "background:var(--blanc);border-radius:20px 20px 0 0;padding:20px 16px;width:100%;max-width:430px;max-height:85vh;display:flex;flex-direction:column;padding-bottom:calc(env(safe-area-inset-bottom,34px)+16px)";
+
+  var nbSem = Object.keys(planSrc.interventions||{}).reduce(function(s,k){ return s + (planSrc.interventions[k]||[]).length; }, 0);
+  var hdr = document.createElement("div");
+  hdr.style.cssText = "margin-bottom:16px;flex-shrink:0";
+  hdr.innerHTML = "<div style='font-size:17px;font-weight:700;color:var(--txt)'>Copier le planning</div>" +
+    "<div style='font-size:12px;color:var(--txt-3);margin-top:3px'>Depuis <b style='color:var(--or-2)'>" + echapper(planSrc.client) + "</b> &middot; " + nbSem + " passage" + (nbSem>1?"s":"") + "</div>";
+  box.appendChild(hdr);
+
+  var corps = document.createElement("div");
+  corps.style.cssText = "overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1";
+  box.appendChild(corps);
+
+  // Nouveau client
+  var lbl1 = document.createElement("div");
+  lbl1.style.cssText = "font-size:11px;font-weight:700;color:var(--txt-3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em";
+  lbl1.textContent = "Vers un nouveau client";
+  var inpNew = document.createElement("input");
+  inpNew.type = "text"; inpNew.placeholder = "Nom du nouveau client";
+  inpNew.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid rgba(0,0,0,.12);border-radius:10px;background:var(--fond);color:var(--txt);font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:8px;box-sizing:border-box";
+  var btnNew = document.createElement("button");
+  btnNew.style.cssText = "width:100%;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--or-2),var(--or));border:none;color:var(--blanc);font-size:14px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:18px";
+  btnNew.textContent = "Creer et coller";
+  btnNew.onclick = function() {
+    var nom = inpNew.value.trim().toUpperCase();
+    if (!nom) { afficherToast("Entre un nom"); return; }
+    if (plannings.find(function(p){ return p.client===nom; })) { afficherToast("Client deja existant - utilise la liste en dessous"); return; }
+    plannings.push({ client: nom, interventions: JSON.parse(JSON.stringify(planSrc.interventions||{})), designation: "" });
+    localStorage.setItem("creanature_planning", JSON.stringify(plannings));
+    popup.remove();
+    afficherToast("Planning copie vers " + nom);
+    if (callback) callback();
+  };
+  corps.appendChild(lbl1); corps.appendChild(inpNew); corps.appendChild(btnNew);
+
+  // Client existant
+  var autres = plannings.filter(function(p){ return p.client !== planSrc.client; })
+    .sort(function(a,b){ return (a.client||"").localeCompare(b.client||""); });
+  if (autres.length) {
+    var lbl2 = document.createElement("div");
+    lbl2.style.cssText = "font-size:11px;font-weight:700;color:var(--txt-3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em";
+    lbl2.textContent = "Ou coller sur un client existant";
+    corps.appendChild(lbl2);
+    autres.forEach(function(p) {
+      var row = document.createElement("button");
+      row.style.cssText = "width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;border-radius:11px;border:1px solid var(--bord);background:var(--carte-2);color:var(--txt);font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:8px;text-align:left";
+      var cur = Object.keys(p.interventions||{}).reduce(function(s,k){ return s + (p.interventions[k]||[]).length; }, 0);
+      row.innerHTML = "<span>" + echapper(p.client) + "</span><span style='font-size:11px;color:var(--txt-3);font-weight:400'>" + (cur ? cur + " passages" : "vide") + " →</span>";
+      row.onclick = function() {
+        var msg = cur
+          ? echapper(p.client) + " a deja " + cur + " passages.\n\nOK = remplacer par le planning de " + planSrc.client + "\nAnnuler = ne rien faire"
+          : "Coller le planning de " + planSrc.client + " sur " + p.client + " ?";
+        if (!confirm(msg)) return;
+        p.interventions = JSON.parse(JSON.stringify(planSrc.interventions||{}));
+        localStorage.setItem("creanature_planning", JSON.stringify(plannings));
+        popup.remove();
+        afficherToast("Planning copie vers " + p.client);
+        if (callback) callback();
+      };
+      corps.appendChild(row);
+    });
+  }
+
+  var btnAnn = document.createElement("button");
+  btnAnn.style.cssText = "width:100%;height:44px;border-radius:12px;background:var(--survol);border:none;color:var(--txt-2);font-size:14px;cursor:pointer;font-family:-apple-system,sans-serif;margin-top:4px";
+  btnAnn.textContent = "Annuler";
+  btnAnn.onclick = function(){ popup.remove(); };
+  corps.appendChild(btnAnn);
+
+  box.appendChild(corps);
+  popup.appendChild(box);
+  document.body.appendChild(popup);
+}
+
 function ouvrirNouveauClientPlanning(plannings, callback) {
   var popup = document.createElement("div");
   popup.style.cssText = "position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.85);display:flex;align-items:flex-end;justify-content:center;font-family:-apple-system,sans-serif";
@@ -5280,6 +5366,24 @@ function ouvrirNouveauClientPlanning(plannings, callback) {
   var inp = document.createElement("input");
   inp.type = "text"; inp.placeholder = "Nom du client (ex: DUPONT SAS)";
   inp.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid rgba(0,0,0,.12);border-radius:10px;background:var(--fond);color:var(--txt);font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:12px;display:block;box-sizing:border-box";
+
+  // Copier le planning d'un client existant
+  var lblCopie = document.createElement("div");
+  lblCopie.style.cssText = "font-size:11px;font-weight:700;color:var(--txt-3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em";
+  lblCopie.textContent = "Copier les semaines depuis (optionnel)";
+  var selCopie = document.createElement("select");
+  selCopie.style.cssText = "width:100%;padding:12px 14px;border:1.5px solid rgba(0,0,0,.12);border-radius:10px;background:var(--fond);color:var(--txt);font-size:15px;font-family:-apple-system,sans-serif;outline:none;-webkit-appearance:none;margin-bottom:12px;display:block;box-sizing:border-box";
+  var optVide = document.createElement("option");
+  optVide.value = ""; optVide.textContent = "Planning vierge";
+  selCopie.appendChild(optVide);
+  plannings.slice().sort(function(a,b){ return (a.client||"").localeCompare(b.client||""); }).forEach(function(p) {
+    var nbSem = Object.keys(p.interventions||{}).reduce(function(s,k){ return s + (p.interventions[k]||[]).length; }, 0);
+    var o = document.createElement("option");
+    o.value = p.client;
+    o.textContent = p.client + (nbSem ? " (" + nbSem + " passages)" : "");
+    selCopie.appendChild(o);
+  });
+
   var btnCr = document.createElement("button");
   btnCr.style.cssText = "width:100%;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--or-2),var(--or));border:none;color:var(--blanc);font-size:15px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif";
   btnCr.textContent = "Creer le planning";
@@ -5287,13 +5391,22 @@ function ouvrirNouveauClientPlanning(plannings, callback) {
     var nom = inp.value.trim().toUpperCase();
     if (!nom) { afficherToast("Entre un nom"); return; }
     if (plannings.find(function(p){ return p.client===nom; })) { afficherToast("Client deja existant"); return; }
-    plannings.push({ client: nom, interventions: {}, designation: "" });
+    var interventions = {};
+    var src = selCopie.value;
+    if (src) {
+      var planSrc = plannings.find(function(p){ return p.client===src; });
+      if (planSrc) interventions = JSON.parse(JSON.stringify(planSrc.interventions || {}));
+    }
+    plannings.push({ client: nom, interventions: interventions, designation: "" });
     localStorage.setItem("creanature_planning", JSON.stringify(plannings));
     popup.remove();
-    afficherToast(nom + " ajoute !");
+    afficherToast(src ? (nom + " cree depuis " + src) : (nom + " ajoute !"));
     if (callback) callback();
   };
-  pManuel.appendChild(inp); pManuel.appendChild(btnCr);
+  pManuel.appendChild(inp);
+  pManuel.appendChild(lblCopie);
+  pManuel.appendChild(selCopie);
+  pManuel.appendChild(btnCr);
   corps.appendChild(pManuel);
 
   // \u2500\u2500 Panneau IA \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
