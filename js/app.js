@@ -3085,8 +3085,18 @@ function rechercherClientBI(val){
     });
   }).catch(function(){});
 }
+// Anti double-envoi : bloque les clics repetes sur un meme envoi mail
+var _dernierEnvoiMail = {};
+function peutEnvoyerMail(cle){
+  var now = Date.now();
+  if (_dernierEnvoiMail[cle] && (now - _dernierEnvoiMail[cle]) < 4000) return false;
+  _dernierEnvoiMail[cle] = now;
+  return true;
+}
+
 function envoyerBI(){
   if(biPrestsSelec.length===0){ afficherToast("Selectionne au moins une prestation"); return; }
+  if(!peutEnvoyerMail("bi")){ return; }
   var note=(document.getElementById("bi-note")||{}).value||"";
   var nomCl=biClientSelec?biClientSelec.nom:""; var emailCl=biClientSelec?(biClientSelec.email2||biClientSelec.email||""):"";
   var d=new Date();
@@ -4590,6 +4600,7 @@ function envoyerPrevention() {
     if (b && b.classList.contains("actif")) prestsSelec.push(b.getAttribute("data-label"));
   });
   if (!prestsSelec.length) { afficherToast("Selectionne au moins une intervention"); return; }
+  if (!peutEnvoyerMail("prev")) { return; }
 
   var nomCl = prevClientSelec ? prevClientSelec.nom : "";
   var emailCl = prevClientSelec ? (prevClientSelec.email2 || prevClientSelec.email || "") : "";
@@ -6024,7 +6035,7 @@ function init() {
   // 2. Service Worker inline : cache l'app pour chargement hors-ligne
   if ("serviceWorker" in navigator) {
     var swCode = [
-      "var CACHE = 'creanature-v2';",
+      "var CACHE = 'creanature-v3';",
       "self.addEventListener('install', function(e){ self.skipWaiting(); });",
       "self.addEventListener('activate', function(e){ e.waitUntil(caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ if(k!==CACHE) return caches.delete(k); })); }).then(function(){ return self.clients.claim(); })); });",
       "self.addEventListener('fetch', function(e){",
